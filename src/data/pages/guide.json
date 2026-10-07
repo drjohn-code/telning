@@ -1,0 +1,92 @@
+{
+  "_draft": true,
+  "_note": "All text on /guide is a draft for a person to check (STRINGS_DRAFT). /guide is a QR page: no shop links, no prices, none of the words gift, reward, prize, win, free (claims-lint checks).",
+  "kicker": "Telning Publishing House · For grown-ups",
+  "h1": "How to read a Telning book together",
+  "lead": "Ten minutes, a few crayons, and one question at a time.",
+  "intro": "You read a Telning book by looking, not by reading words. Your child tells the story, you ask one question per page, your child chooses the ending, and then you take the story into real life. This page shows you how.",
+  "byline": "By the Telning team of cognitive and behavioural scientists",
+  "updated": "Last updated",
+
+  "before": {
+    "h2": "What do you need before you start?",
+    "items": [
+      { "icon": "calendar", "c": "sky-light", "h": "10 to 15 minutes", "t": "Short and often works better than long and rare." },
+      { "icon": "crayon-red", "c": "blush", "h": "Crayons or pencils", "t": "Markers can come through the paper. See the tip below." },
+      { "icon": "chair", "c": "gold-light", "h": "Sit side by side", "t": "You both see the page. Your child sees you listening." },
+      { "icon": "book", "c": "moss", "h": "Let your child hold the book", "t": "The child turns the pages and sets the pace." }
+    ]
+  },
+
+  "steps": {
+    "h2": "What are the four TADA steps?",
+    "lead": "The short version. The why, and the science behind it, is on the TADA page.",
+    "link": "Read the TADA way",
+    "list": [
+      { "letter": "T", "name": "Talk", "who": "Your child", "t": "Says what they see. You wait, then add one or two words." },
+      { "letter": "A", "name": "Ask", "who": "You", "t": "One easy question. Then one about feelings or why." },
+      { "letter": "D", "name": "Decide", "who": "Your child", "t": "Picks one of the two endings and says why. No wrong answer.", "key": true },
+      { "letter": "A", "name": "Act", "who": "Together", "t": "\"What would you do?\" Try it in real life. Then draw the ending and send it to Pim." }
+    ],
+    "pages": ["Talk", "Ask", "Decide", "Act"]
+  },
+
+  "questions": {
+    "h2": "Questions to ask when reading with your child",
+    "lead": "Start easy. Move to feelings and why. End with your child's own life.",
+    "tiers": [
+      { "h": "Easy first: who, what, where", "qs": ["Who is there?", "What is she holding?", "Where are they?"] },
+      { "h": "Then feelings and why", "qs": ["How does he feel?", "Why do you think so?", "What could happen next?"] },
+      { "h": "Then your child's life", "qs": ["When did you feel like that?", "What would you do?"] }
+    ],
+    "tip": "After a question, count to five in your head. Most children answer in that time."
+  },
+
+  "ages": {
+    "h2": "How does it change with age?",
+    "list": [
+      { "label": "0–3", "name": "Toddler", "c": "blush", "t": "Point and name things together. You do more of the talking. One picture, one word, and lots of repeating." },
+      { "label": "3–5", "name": "Preschool", "c": "sky", "t": "Your child tells more of the story. Ask one feeling question per page. Let your child choose the ending and colour it." },
+      { "label": "5–7", "name": "Early school", "c": "gold-light", "t": "Your child tells the whole story and explains the choice. Ask why and what if. The drawing page is theirs." }
+    ]
+  },
+
+  "dos": {
+    "h2": "What helps, and what gets in the way?",
+    "doH": "Do",
+    "do": ["Read the same book again. Children learn from repeats.", "A few short sessions a week beat one long one.", "Wait after a question. Silence is thinking.", "Repeat your child's words and add one."],
+    "dontH": "Do not",
+    "dont": ["Do not quiz. One question per page is enough.", "Do not correct the colouring.", "Do not rush to the \"right\" ending. There is none.", "Do not explain the picture first. Let your child look."]
+  },
+
+  "marker": { "h": "A tip about pens", "t": "Crayons and pencils work best. If you use markers, put a sheet of paper behind the page." },
+
+  "pdf": {
+    "h2": "The TADA guide, in your inbox",
+    "lineReady": "A short PDF with the four steps, the questions and the tips by age. Leave your email and we send it to you.",
+    "lineSoon": "A short PDF with the four steps, the questions and the tips by age. Leave your email and we send it when it is ready.",
+    "button": "Send me the guide",
+    "consent": "We use your email only to send the guide and Telning news.",
+    "thanks": "Thank you! The guide is on its way.",
+    "thanksSoon": "Thank you! We will send the guide when it is ready.",
+    "download": "Download the guide (PDF)"
+  },
+
+  "faq": {
+    "h2": "Questions parents ask",
+    "items": [
+      { "q": "Which age is this for?", "a": "Telning books are made for children from 0 to 7. Each book shows its age range on the cover. At 0 to 3 you do most of the talking; at 5 to 7 your child tells the whole story." },
+      { "q": "Do I need to read any words?", "a": "No. The books have no words. You look at the pictures together and talk. It works in any language you speak at home." },
+      { "q": "My child only scribbles. Is that OK?", "a": "Yes. Scribbling is how young children draw. The picture stays clear under a scribble, and the talk is what matters." },
+      { "q": "What if my child picks the \"wrong\" ending?", "a": "There is no wrong ending. Ask why they chose it, and what the other ending would change. That talk is the point." },
+      { "q": "Which pens work best?", "a": "Crayons and colouring (coloring) pencils work best. If you use markers, put a sheet of paper behind the page so the ink does not come through." }
+    ]
+  },
+
+  "next": {
+    "h2": "When the drawing is done",
+    "text": "Take a photo of the drawing page and send it to Pim. A story card and ideas for your next talk come back by email.",
+    "button": "Send Pim your ending",
+    "link": "Why TADA works"
+  }
+}

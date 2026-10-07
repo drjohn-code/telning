@@ -1,8 +1,33 @@
 ---
-import Pim from "./Pim.astro";
+/* EmailBlock: the sign-up card with Pim's portrait, a heading, one line, the email field, the button and the
+   consent line with the privacy link. A paper plane floats at its corner. Posts JSON { form: <tag>, email, book, lang }
+   to site data `formEndpoint`; a honeypot field stops spam bots; no cookies.
+   Defaults are "Letters from Pim" (tag "news"). /guide uses tag "guide", /teachers tag "teacher". */
+import site from '../data/site-data.json';
+import strings from '../data/strings.en.json';
+import Pim from './Pim.astro';
+import Obj from './Obj.astro';
+
+interface Props { id?: string; tag?: 'news' | 'guide' | 'teacher'; h2?: string; line?: string; button?: string; consent?: string; thanks?: string; class?: string }
+const {
+  id = 'news', tag = 'news',
+  h2 = strings['email.h2'], line = strings['email.line'], button = strings['email.button'],
+  consent = strings['email.consent'], thanks = strings['email.thanks'], class: cls = '',
+} = Astro.props;
 ---
-<div class="tn-section"><div class="tn-wrap"><section class="tn-email tn-reveal" id="news" aria-labelledby="news-h"><div class="tn-email__obj tn-hide-sm" aria-hidden="true"><svg style="--w:130px;" viewBox="0 0 120 80" class="tn-obj tn-float" aria-hidden="true" focusable="false">
-<path d="M6 40 114 8 48 54z" fill="var(--cream)"/>
-<path d="M48 54 114 8 62 74z" fill="var(--paper-deep)"/>
-<path d="M48 54l14 20-4-14z" fill="var(--rose)"/>
-<path d="M6 40 114 8" stroke="var(--gold)" stroke-width="2" opacity=".7"/></svg></div><div class="tn-email__head"><div class="tn-email__pim"><div class="tn-pim__disc"><Pim pose="portrait" /></div></div><div><h2 class="tn-h2" id="news-h">Letters from Pim</h2><p class="tn-p">Leave your email. Pim writes only when a new book is out.</p></div></div><form class="tn-email__form" novalidate action="#" method="post"><input type="hidden" name="book" value=""><span class="tn-email__chip"><span class="tn-email__chip-text"></span><button type="button" aria-label="Remove"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2l10 10M12 2 2 12"/></svg></button></span><div class="tn-email__row"><div class="tn-field"><label class="tn-label" for="news-email">Your email</label><input class="tn-input" id="news-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-invalid="false" aria-describedby="news-email-err" value=""><p class="tn-error" id="news-email-err" aria-live="polite"><svg viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="9"/><path d="M9 4.5v5.2M9 13.2v.1"/></svg><span class="tn-error-text"></span></p></div><button class="tn-btn" type="submit">Sign up</button></div><div class="tn-hp" aria-hidden="true"><label for="news-web">Website</label><input id="news-web" name="website" type="text" tabindex="-1" autocomplete="off"></div><p class="tn-small">We use your email only for Telning news. <a href="/privacy">Read the privacy notice.</a></p></form><p class="tn-email__thanks" tabindex="-1" role="status">Thank you! Pim will write soon.</p></section></div></div>
+<div class={`tn-section ${cls}`}><div class="tn-wrap"><section class="tn-email tn-reveal" id={id} aria-labelledby={`${id}-h`}>
+  <div class="tn-email__obj tn-hide-sm" aria-hidden="true"><Obj name="plane" w="110px" class="tn-float" /></div>
+  <div class="tn-email__head"><div class="tn-email__pim"><div class="tn-pim__disc"><Pim pose="portrait" /></div></div><div><h2 class="tn-h2" id={`${id}-h`} tabindex="-1">{h2}</h2><p class="tn-p">{line}</p></div></div>
+  <form class="tn-email__form" novalidate action={site.formEndpoint || '#'} method="post">
+    <input type="hidden" name="form" value={tag}>
+    <input type="hidden" name="book" value="">
+    <span class="tn-email__chip"><span class="tn-email__chip-text"></span><button type="button" aria-label={strings['email.removeBook']}><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2l10 10M12 2L2 12"/></svg></button></span>
+    <div class="tn-email__row">
+      <div class="tn-field"><label class="tn-label" for={`${id}-email`}>{strings['email.label']}</label><input class="tn-input" id={`${id}-email`} name="email" type="email" autocomplete="email" inputmode="email" required aria-invalid="false" aria-describedby={`${id}-email-err`} value=""><p class="tn-error" id={`${id}-email-err`} aria-live="polite"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M10 5.5v5.5M10 14.2v.3"/></svg><span class="tn-error-text"></span></p></div>
+      <button class="tn-btn" type="submit">{button}</button>
+    </div>
+    <div class="tn-hp" aria-hidden="true"><label for={`${id}-web`}>Website</label><input id={`${id}-web`} name="website" type="text" tabindex="-1" autocomplete="off"></div>
+    <p class="tn-small">{consent} <a href="/privacy">{strings['email.consentLink']}</a></p>
+  </form>
+  <p class="tn-email__thanks" tabindex="-1" role="status">{thanks}</p>
+</section></div></div>

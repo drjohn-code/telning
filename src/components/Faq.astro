@@ -1,0 +1,11 @@
+---
+/* Faq: questions and answers as <details>, so the text stays in the HTML. The page adds the FAQPage JSON-LD
+   (see faqJsonLd below, exported for the page). */
+interface Props { items: { q: string; a: string }[]; class?: string }
+const { items, class: cls = '' } = Astro.props;
+---
+<div class={`tn-faq ${cls}`}>
+  {items.map((it) => (
+    <details class="tn-details"><summary>{it.q}</summary><div class="tn-prose"><p class="tn-p">{it.a}</p></div></details>
+  ))}
+</div>

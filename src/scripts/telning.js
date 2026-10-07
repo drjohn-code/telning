@@ -151,7 +151,7 @@ import stringsEn from '../data/strings.en.json';
         var endpoint = (T.data && T.data.formEndpoint) || '';
         if (!endpoint) { setTimeout(done, 500); return; }   /* design preview: no endpoint chosen yet */
         fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ form: 'news', email: v, book: bookInput ? bookInput.value : '', lang: document.documentElement.lang || 'en' }) })
+          body: JSON.stringify({ form: (form.querySelector('input[name="form"]') || {}).value || 'news', email: v, book: bookInput ? bookInput.value : '', lang: document.documentElement.lang || 'en' }) })
           .then(function (r) { r.ok ? done() : fail(); }, fail);
       });
     });

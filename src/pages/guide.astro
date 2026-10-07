@@ -1,0 +1,120 @@
+---
+/* /guide — For grown-ups: how to read a Telning book together. Printed in the books as a QR code: the address
+   never changes; no shop links, no prices, none of the words gift, reward, prize, win, free.
+   Copy: src/data/pages/guide.json (draft). Signature scroll story: the open book whose pages turn. */
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHero from '../components/PageHero.astro';
+import Obj from '../components/Obj.astro';
+import EmailBlock from '../components/EmailBlock.astro';
+import Faq from '../components/Faq.astro';
+import site from '../data/site-data.json';
+import seo from '../data/seo.json';
+import t from '../data/pages/guide.json';
+
+const PAGE = '/guide';
+const entry = seo.pages[PAGE];
+const HOST = seo.host;
+const url = `${HOST}${PAGE}`;
+const ORG_ID = `${HOST}/#organization`;
+const fmt = (d: string) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+const PAGE_OBJ = ['bubble', 'bubble-q', 'signpost', 'crayon-gold'];
+const jsonld = [
+  {
+    '@type': 'Article', '@id': `${url}#article`, headline: t.h1, description: entry.description, inLanguage: 'en',
+    author: { '@id': ORG_ID }, publisher: { '@id': ORG_ID }, datePublished: entry.published, dateModified: entry.lastmod,
+    mainEntityOfPage: { '@id': `${url}#webpage` }, image: `${HOST}${entry.og || '/og-image.png'}`,
+  },
+  {
+    '@type': 'FAQPage', '@id': `${url}#faq`,
+    mainEntity: t.faq.items.map((it) => ({ '@type': 'Question', name: it.q, acceptedAnswer: { '@type': 'Answer', text: it.a } })),
+  },
+];
+---
+<Base page={PAGE} jsonld={jsonld}>
+  <Header />
+  <main id="main" tabindex="-1">
+    <PageHero page={PAGE} kicker={t.kicker} h1={t.h1} lead={t.lead} colour="gold-light">
+      <Fragment slot="after">
+        <p class="tn-p">{t.intro}</p>
+        <p class="tn-byline">{t.byline} · <span class="tn-updated">{t.updated} <time datetime={entry.lastmod}>{fmt(entry.lastmod)}</time></span></p>
+      </Fragment>
+      <div class="tn-layer" style="--d:6;top:10%;left:0;width:100%"><div class="tn-drift" style="--drift:80s;width:20%"><Obj name="cloud" w="100%" /></div></div>
+      <div class="tn-layer" style="--d:10;top:52%;bottom:-10%;left:0;width:100%"><svg class="tn-hill" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true"><path d="M0 300V60C60 36 120 30 200 40s130 20 200-4v264z" fill="var(--paper-deep)"/></svg></div>
+      <div class="tn-layer" style="--d:18;bottom:12%;left:10%;width:17%"><Obj name="chair" w="100%" /></div>
+      <div class="tn-layer" style="--d:18;bottom:12%;right:10%;width:17%"><Obj name="chair" w="100%" swap={{ red: 'sea', 'red-light': 'sky', 'red-deep': 'sea-deep' }} /></div>
+      <div class="tn-layer" style="--d:26;bottom:8%;left:30%;width:40%"><Obj name="book" w="100%" /></div>
+      <div class="tn-layer tn-hide-sm" style="--d:34;bottom:6%;left:22%;width:7%;--r:-20deg"><div class="tn-tilted"><Obj name="crayon-red" w="100%" /></div></div>
+      <div class="tn-layer tn-hide-sm" style="--d:34;bottom:5%;right:24%;width:7%;--r:18deg"><div class="tn-tilted"><Obj name="crayon-sea" w="100%" /></div></div>
+      <div class="tn-layer tn-hide-sm" style="--d:30;top:10%;right:12%;width:12%"><div class="tn-float"><Obj name="heart" w="100%" /></div></div>
+    </PageHero>
+
+    <section class="tn-section" id="before" aria-labelledby="before-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-head tn-reveal"><h2 class="tn-h2" id="before-h" tabindex="-1">{t.before.h2}</h2></div>
+      <ul class="tn-cards tn-cards--4">
+        {t.before.items.map((it) => (<li class="tn-card tn-reveal"><span class="tn-card__ic" style={`--c:var(--${it.c})`} aria-hidden="true"><Obj name={it.icon} w="100%" flat /></span><h3 class="tn-h3">{it.h}</h3><p class="tn-p">{it.t}</p></li>))}
+      </ul>
+    </div></section>
+
+    <section class="tn-section" id="steps" aria-labelledby="steps-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-head tn-reveal"><h2 class="tn-h2" id="steps-h" tabindex="-1">{t.steps.h2}</h2><p class="tn-lead">{t.steps.lead}</p></div>
+      <div class="tn-bookstory tn-view">
+        <div class="tn-bookstory__stage" aria-hidden="true">
+          <div class="tn-book3d">
+            <div class="tn-book3d__cover"></div>
+            <div class="tn-book3d__page tn-book3d__page--left"></div>
+            <div class="tn-book3d__page tn-book3d__page--right"></div>
+            {PAGE_OBJ.map((o, i) => (
+              <div class="tn-book3d__leaf" style={`--i:${i};--start:${0.18 + i * 0.16}`}><div class="tn-book3d__front"><Obj name={o} w="58%" flat /><span class="tn-book3d__cap">{t.steps.pages[i]}</span></div><div class="tn-book3d__back"></div></div>
+            ))}
+            <div class="tn-book3d__spine"></div>
+          </div>
+        </div>
+        <ol class="tn-shortsteps">
+          {t.steps.list.map((s) => (
+            <li class={`tn-shortstep tn-reveal${s.key ? ' tn-shortstep--key' : ''}`}><span class="tn-step__letter" aria-hidden="true">{s.letter}</span><div><h3 class="tn-h3">{s.name} <span class="tn-step__who">{s.who}</span></h3><p class="tn-p">{s.t}</p></div></li>
+          ))}
+          <li class="tn-shortsteps__link"><a class="tn-link tn-link--solo" href="/tada">{t.steps.link}</a></li>
+        </ol>
+      </div>
+    </div></section>
+
+    <section class="tn-section" id="questions" aria-labelledby="questions-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-head tn-reveal"><h2 class="tn-h2" id="questions-h" tabindex="-1">{t.questions.h2}</h2><p class="tn-lead">{t.questions.lead}</p></div>
+      <ol class="tn-cards tn-cards--3 tn-steps3">
+        {t.questions.tiers.map((tier) => (<li class="tn-card tn-reveal"><h3 class="tn-h3">{tier.h}</h3><ul class="tn-step__say">{tier.qs.map((q) => <li>“{q}”</li>)}</ul></li>))}
+      </ol>
+      <p class="tn-p tn-reveal" style="margin-top:var(--s5)"><strong>{t.questions.tip}</strong></p>
+    </div></section>
+
+    <section class="tn-section" id="ages" aria-labelledby="ages-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-head tn-reveal"><h2 class="tn-h2" id="ages-h" tabindex="-1">{t.ages.h2}</h2></div>
+      <ul class="tn-cards tn-cards--3">
+        {t.ages.list.map((a) => (<li class="tn-card tn-reveal"><p class="tn-agechip__n" style={`--c:var(--${a.c})`}>{a.label}</p><h3 class="tn-h3">{a.name}</h3><p class="tn-p">{a.t}</p></li>))}
+      </ul>
+    </div></section>
+
+    <section class="tn-section" id="dos" aria-labelledby="dos-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-head tn-reveal"><h2 class="tn-h2" id="dos-h" tabindex="-1">{t.dos.h2}</h2></div>
+      <div class="tn-cards tn-dodont">
+        <div class="tn-card tn-card--tinted tn-reveal" style="--c:var(--sky-light)"><h3 class="tn-h3">{t.dos.doH}</h3><ul class="tn-dodont__list">{t.dos.do.map((x) => <li>{x}</li>)}</ul></div>
+        <div class="tn-card tn-card--tinted tn-reveal" style="--c:var(--blush)"><h3 class="tn-h3">{t.dos.dontH}</h3><ul class="tn-dodont__list">{t.dos.dont.map((x) => <li>{x}</li>)}</ul></div>
+      </div>
+      <div class="tn-note tn-reveal" style="margin-top:var(--s5)"><h3 class="tn-h3">{t.marker.h}</h3><p class="tn-p">{t.marker.t}</p></div>
+    </div></section>
+
+    <EmailBlock id="guide-pdf" tag="guide" h2={t.pdf.h2} line={site.guidePdf ? t.pdf.lineReady : t.pdf.lineSoon} button={t.pdf.button} consent={t.pdf.consent} thanks={site.guidePdf ? t.pdf.thanks : t.pdf.thanksSoon} class="tn-section--tight" />
+
+    <section class="tn-section" id="faq" aria-labelledby="faq-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-head tn-reveal"><h2 class="tn-h2" id="faq-h" tabindex="-1">{t.faq.h2}</h2></div>
+      <Faq items={t.faq.items} />
+    </div></section>
+
+    <section class="tn-section" id="next" aria-labelledby="next-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-next tn-reveal"><h2 class="tn-h2" id="next-h" tabindex="-1">{t.next.h2}</h2><p class="tn-lead">{t.next.text}</p>
+        <div class="tn-actions"><a class="tn-btn" href="/send">{t.next.button}</a><a class="tn-link tn-link--solo" href="/tada">{t.next.link}</a></div></div>
+    </div></section>
+  </main>
+  <Footer />
+</Base>

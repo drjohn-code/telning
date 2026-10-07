@@ -34,7 +34,8 @@ const ALLOW = { '/teachers': ['sel', 'speech therapists?'] };
 // Banned everywhere except where ALLOW says: "SEL" (say "feelings and life skills").
 const BANNED_UNLESS_ALLOWED = ['sel'];
 // Page-specific bans: about Pim, nothing may say hand-drawn unless pim.handDrawn is true.
-const PAGE_BANS = site.pim?.handDrawn ? {} : { '/pim': ['hand[- ]drawn', 'drawn by hand', 'illustrated by'] };
+const QR_WORDS = ['gifts?', 'rewards?', 'prizes?', 'win', 'free'];   // brand rule 7: the QR pages are clean
+const PAGE_BANS = { '/guide': QR_WORDS, '/send': QR_WORDS, ...(site.pim?.handDrawn ? {} : { '/pim': ['hand[- ]drawn', 'drawn by hand', 'illustrated by'] }) };
 
 function* htmlFiles(dir) {
   for (const f of readdirSync(dir)) {
@@ -44,7 +45,8 @@ function* htmlFiles(dir) {
   }
 }
 function textOf(html) {
-  return html
+  const metas = [...html.matchAll(/<meta (?:name|property)="(?:description|og:description|og:title|twitter:description|twitter:title|og:image:alt)" content="([^"]*)"/g)].map((m) => m[1]).join(' ');
+  return (metas + ' ' + html)
     .replace(/<style[\s\S]*?<\/style>/gi, ' ')
     .replace(/<svg[\s\S]*?<\/svg>/gi, ' ')
     .replace(/<script(?![^>]*ld\+json)[\s\S]*?<\/script>/gi, ' ')
