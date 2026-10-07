@@ -112,7 +112,7 @@ import stringsEn from '../data/strings.en.json';
   /* Reveal on scroll (never leaves content hidden: everything shows after 2.5 s) */
   T.initReveal = function (root) {
     var items = (root || document).querySelectorAll('.tn-reveal');
-    function showAll() { Array.prototype.forEach.call(items, function (el) { el.classList.add('is-in'); }); }
+    function showAll() { Array.prototype.forEach.call(items, function (el) { el.classList.add('is-now'); el.classList.add('is-in'); }); }   /* the safety net reveals instantly: nothing is ever half-visible */
     if (calm || !('IntersectionObserver' in window)) { showAll(); return; }
     var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }); }, { rootMargin: '0px 0px -8% 0px' });
     Array.prototype.forEach.call(items, function (el) { io.observe(el); });
