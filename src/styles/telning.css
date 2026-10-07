@@ -110,9 +110,6 @@ img, svg { display: block; max-width: 100%; }
 .tn-header__in { display: flex; align-items: center; gap: var(--s2); flex-wrap: wrap; padding-block: var(--s3); }
 .tn-home { display: inline-flex; align-items: center; min-height: 48px; margin-right: auto; color: var(--ink); border-radius: 8px; }
 .tn-home .tn-lockup { height: 44px; width: auto; }
-.tn-lang { order: 1; list-style: none; margin: 0; padding: 0; display: flex; }
-.tn-lang a { display: inline-grid; place-items: center; min-width: 48px; min-height: 48px; color: var(--ink); font-weight: 600; font-size: 14px; letter-spacing: 0.1em; text-decoration: none; border-radius: var(--radius-pill); }
-.tn-lang a[aria-current="true"] { text-decoration: underline; text-decoration-color: var(--red); text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
 .tn-menu-btn { order: 2; display: inline-flex; align-items: center; gap: var(--s2); min-height: 48px; padding: 0 var(--s4); background: var(--ink); color: var(--cream); border: 0; border-radius: var(--radius-pill); font: inherit; font-weight: 600; font-size: 16px; cursor: pointer; }
 .tn-menu-btn svg { width: 18px; height: 12px; } .tn-menu-btn path { stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
 .tn-nav { order: 3; flex-basis: 100%; display: none; }
@@ -127,7 +124,6 @@ img, svg { display: block; max-width: 100%; }
   .tn-nav, .tn-nav.is-open { display: block; order: 1; flex-basis: auto; }
   .tn-nav ul { display: flex; gap: var(--s6); border: 0; padding: 0; }
   .tn-nav a { font-family: var(--font-text); font-size: 17px; min-height: 48px; padding-inline: 4px; justify-content: center; }
-  .tn-lang { order: 2; }
 }
 
 /* ---------- hero: text + the paper stage ---------- */
