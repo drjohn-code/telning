@@ -1,6 +1,7 @@
 ---
 import strings from "../data/strings.en.json";
 import BookCover from "./BookCover.astro";
+import PimNote from "./PimNote.astro";
 ---
 <section class="tn-wrap tn-hero" data-depth-area aria-labelledby="hero-h">
   <div class="tn-hero__text">
@@ -91,6 +92,6 @@ import BookCover from "./BookCover.astro";
 <path d="M22 52c0-18 76-18 76 0 0 16-22 32-38 36-16-4-38-20-38-36z" fill="var(--red)"/>
 <path d="M60 88c-9-3-24-12-26-26 11 1 20 5 26 10 6-5 15-9 26-10-2 14-17 23-26 26z" fill="var(--cream)"/><g class="o-eyes"><circle cx="46" cy="56" r="4" fill="var(--ink)"/><circle cx="44.6" cy="54.6" r="1.4" fill="var(--cream)"/><circle cx="74" cy="56" r="4" fill="var(--ink)"/><circle cx="72.6" cy="54.6" r="1.4" fill="var(--cream)"/></g><ellipse cx="60" cy="80" rx="5.5" ry="3.8" fill="var(--ink)"/></svg></div></div>
 </div>
-<figure class="tn-pim  tn-hero__pim"><div class="tn-pim__art"><div class="tn-slot tn-slot--round" data-file="pim-hello.png" aria-hidden="true"></div></div><figcaption class="tn-pim__bubble"><span class="tn-sr">Pim: </span>Hi, I’m Pim! In every story, you choose what happens next.</figcaption></figure>
+<PimNote class="tn-hero__pim" line={strings["pim.hello"]} />
 </div>
 </section>

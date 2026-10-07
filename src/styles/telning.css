@@ -252,6 +252,15 @@ img, svg { display: block; max-width: 100%; }
 .tn-pim { display: grid; grid-template-columns: 60px 1fr; gap: var(--s3); align-items: end; margin: 0; max-width: 380px; }
 .tn-pim--sm { grid-template-columns: 56px 1fr; max-width: 320px; }
 .tn-slot--round { aspect-ratio: 1; border-radius: 50%; background: var(--cream); box-shadow: var(--shadow-2); }
+.tn-pim__disc { aspect-ratio: 1; border-radius: 50%; background: var(--sky-light); box-shadow: var(--shadow-2); overflow: hidden; }
+.tn-pim__disc .tn-pimart { width: 100%; height: 100%; }
+/* Pim art (Pim.astro): the paper SVG or the cut-out image. One idle motion only: the stars twinkle. */
+.tn-pimart { display: block; width: var(--w, 100%); height: auto; }
+.tn-pimart--img img { display: block; width: 100%; height: auto; }
+.tn-pimart--noshadow .pim-shadow { display: none; }
+.pim-star { transform-box: fill-box; transform-origin: center; animation: tn-pim-twinkle 3.6s ease-in-out infinite alternate; }
+.pim-star:nth-of-type(2) { animation-delay: -1.2s; } .pim-star:nth-of-type(3) { animation-delay: -2.4s; }
+@keyframes tn-pim-twinkle { from { opacity: .82; transform: scale(.94); } to { opacity: 1; transform: scale(1.06); } }
 .tn-pim__bubble { position: relative; background: var(--cream); border-radius: 22px 22px 22px 6px; padding: var(--s3) var(--s4) var(--s3); box-shadow: var(--shadow-2); }
 .tn-pim__bubble { font-family: var(--font-display); font-weight: 400; font-size: 17px; line-height: 1.3; }
 @media (min-width: 600px) { .tn-pim { grid-template-columns: 76px 1fr; } .tn-pim__bubble { font-size: 19px; } }
