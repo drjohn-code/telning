@@ -31,7 +31,7 @@
     "/send": {
       "name": "Send Pim your ending",
       "title": "Send Pim your child's ending, get a story card | Telning",
-      "description": "Take a photo of your child's drawing, fill in a short form, and Pim sends back a story card with ideas for your next talk. First name and age only, never a photo.",
+      "description": "Take a photo of your child's drawing and fill in a short form. Pim sends back a story card with ideas for your next talk. First name and age only, no photos.",
       "type": "WebPage",
       "published": "2026-10-08",
       "lastmod": "2026-10-08"
@@ -47,7 +47,7 @@
     "/pim": {
       "name": "Meet Pim",
       "title": "Meet Pim, the Telning character who asks: what would you do?",
-      "description": "Pim is a small hedgehog with three stars on its head. Pim loves to listen, to wonder and to choose, and writes the letters and story cards that come from Telning.",
+      "description": "Pim is a small hedgehog with three stars on its head. Pim listens, wonders and chooses, and writes the letters and story cards that come from Telning.",
       "type": "WebPage",
       "published": "2026-10-08",
       "lastmod": "2026-10-08"
@@ -63,7 +63,7 @@
     "/privacy": {
       "name": "Privacy notice",
       "title": "Privacy notice | Telning",
-      "description": "How Telning Publishing House handles data on this website, on the email list and in the emails you send us. Plain words, no cookies, no trackers, and how to reach us.",
+      "description": "How Telning Publishing House handles data on this website, on the email list and in the emails you send us. Plain words, no cookies, no trackers.",
       "type": "WebPage",
       "published": "2026-10-08",
       "lastmod": "2026-10-08"
@@ -79,7 +79,7 @@
     "/terms": {
       "name": "Terms",
       "title": "Terms | Telning",
-      "description": "The terms for using telning.com and the Telning story-card service, from WelloWork AB, the company behind Telning Publishing House. Short sections, plain English.",
+      "description": "The terms for using telning.com and the Telning story-card service, from WelloWork AB, the company behind Telning Publishing House. Short and in plain English.",
       "type": "WebPage",
       "published": "2026-10-08",
       "lastmod": "2026-10-08"

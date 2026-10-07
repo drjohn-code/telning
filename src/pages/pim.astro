@@ -1,0 +1,87 @@
+---
+/* /pim — Meet Pim: who Pim is (the Pim art in the hero, no fallback), how Pim is made (only when pim.handDrawn),
+   Pim's letters and story cards (sample card), the leaf scroll story, next step. Copy: src/data/pages/pim.json (draft). */
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHero from '../components/PageHero.astro';
+import Obj from '../components/Obj.astro';
+import Pim from '../components/Pim.astro';
+import PimNote from '../components/PimNote.astro';
+import StoryCard from '../components/StoryCard.astro';
+import site from '../data/site-data.json';
+import t from '../data/pages/pim.json';
+
+const PAGE = '/pim';
+const handDrawn = !!site.pim?.handDrawn && !!site.illustratorName;
+---
+<Base page={PAGE}>
+  <Header />
+  <main id="main" tabindex="-1">
+    <PageHero page={PAGE} kicker={t.kicker} h1={t.h1} lead={t.lead} colour="sky-light">
+      <Fragment slot="after"><p class="tn-p">{t.intro}</p></Fragment>
+      <div class="tn-layer" style="--d:4;top:8%;left:8%;width:9%"><Obj name="star" w="100%" class="tn-twinkle" /></div>
+      <div class="tn-layer" style="--d:6;top:20%;right:10%;width:7%"><Obj name="star" w="100%" class="tn-twinkle late" /></div>
+      <div class="tn-layer" style="--d:5;top:6%;right:28%;width:5%"><Obj name="star" w="100%" class="tn-twinkle slow" /></div>
+      <div class="tn-layer" style="--d:8;top:10%;left:0;width:100%"><div class="tn-drift" style="--drift:80s;width:20%"><Obj name="cloud" w="100%" /></div></div>
+      <div class="tn-layer" style="--d:12;top:52%;bottom:-10%;left:0;width:100%"><svg class="tn-hill" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true"><path d="M0 300V56C60 32 130 26 200 38s130 18 200-6v268z" fill="var(--moss)"/></svg></div>
+      <div class="tn-layer" style="--d:22;top:72%;bottom:-10%;left:0;width:100%"><svg class="tn-hill" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true"><path d="M0 300V50C50 30 110 22 170 34s110 20 160 6 60-20 70-18v228z" fill="var(--forest-light)"/></svg></div>
+      <div class="tn-layer tn-hide-sm" style="--d:20;bottom:16%;left:10%;width:12%"><Obj name="tulip" w="100%" class="tn-sway" swap={{ red: 'moss', 'red-light': 'gold-light', 'red-deep': 'forest-light' }} /></div>
+      <div class="tn-layer" style="--d:30;bottom:6%;left:34%;width:32%"><Pim pose="full" shadow alt={t.pimAlt} /></div>
+      <div class="tn-layer tn-hide-sm" style="--d:26;bottom:12%;right:10%;width:11%"><div class="tn-float"><Obj name="heart" w="100%" /></div></div>
+    </PageHero>
+
+    <section class="tn-section" id="who" aria-labelledby="who-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-head tn-reveal"><h2 class="tn-h2" id="who-h" tabindex="-1">{t.who.h2}</h2><PimNote line={t.who.pimLine} size="sm" /></div>
+      <ul class="tn-cards tn-cards--3">
+        {t.who.cards.map((c) => (<li class="tn-card tn-reveal"><span class="tn-card__ic" style={`--c:var(--${c.c})`} aria-hidden="true"><Obj name={c.icon} w="100%" flat /></span><h3 class="tn-h3">{c.h}</h3><p class="tn-p">{c.t}</p></li>))}
+      </ul>
+    </div></section>
+
+    {handDrawn && (
+      <section class="tn-section" id="made" aria-labelledby="made-h" style="padding-top:0"><div class="tn-wrap">
+        <div class="tn-head tn-reveal"><h2 class="tn-h2" id="made-h" tabindex="-1">{t.made.h2}</h2><p class="tn-lead">{t.made.credit.replace('{name}', site.illustratorName)}</p></div>
+        <ol class="tn-cards tn-cards--3 tn-steps3">{t.made.steps.map((s) => <li class="tn-card tn-reveal"><h3 class="tn-h3">{s}</h3></li>)}</ol>
+      </div></section>
+    )}
+
+    <section class="tn-section" id="letters" aria-labelledby="letters-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-send">
+        <div class="tn-reveal" style="display:grid;gap:16px">
+          <h2 class="tn-h2" id="letters-h" tabindex="-1">{t.letters.h2}</h2>
+          <p class="tn-lead">{t.letters.p1}</p>
+          <p class="tn-p">{t.letters.p2}</p>
+          <div class="tn-actions"><a class="tn-btn" href="/send">{t.letters.button}</a><a class="tn-link tn-link--solo" href="/#news">{t.letters.link}</a></div>
+        </div>
+        <div class="tn-send__art tn-scene" data-depth-area>
+          <StoryCard name={t.letters.cardName} age={t.letters.cardAge} lines={t.letters.cardLines as [string, string]} colour="red" sample label={t.letters.cardLabel} class="tn-tilt" />
+          <div class="tn-layer" style="--d:30;top:-10%;left:-16%;width:28%" aria-hidden="true"><div class="tn-float slow"><Obj name="balloon" w="100%" /></div></div>
+        </div>
+      </div>
+    </div></section>
+
+    <section class="tn-section" id="colour" aria-labelledby="colour-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-leafstory tn-view">
+        <div class="tn-leafstory__text tn-reveal"><h2 class="tn-h2" id="colour-h" tabindex="-1">{t.colour.h2}</h2><p class="tn-lead">{t.colour.text}</p></div>
+        <div class="tn-leafstory__art" aria-hidden="true">
+          <svg viewBox="0 0 320 400" aria-hidden="true">
+            <defs><clipPath id="leafclip"><path d="M160 20C250 70 300 180 280 290c-14 60-70 92-120 90C70 376 30 310 34 220 40 120 90 40 160 20z"/></clipPath></defs>
+            <path d="M160 20C250 70 300 180 280 290c-14 60-70 92-120 90C70 376 30 310 34 220 40 120 90 40 160 20z" fill="var(--white)" stroke="var(--ink)" stroke-width="5" stroke-linejoin="round"/>
+            <g clip-path="url(#leafclip)" class="leaf-scribble" fill="none" stroke="var(--moss)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+              <path pathLength="1" d="M40 100l210 60-220 40 240 50-250 30 250 50-240 40 220 50-200 40 170 50" opacity=".85"/>
+              <path pathLength="1" d="M60 70l200 40-190 70 210 70-210 60 200 60-180 50" stroke="var(--forest-light)" stroke-width="12" opacity=".75"/>
+            </g>
+            <path d="M160 30c-10 110-10 220 0 350" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round" opacity=".7"/>
+            <path d="M160 120c40 10 70 30 90 60M160 200c-40 10-70 30-90 60M160 180c40 10 70 30 90 60M160 260c-40 10-70 30-90 60" fill="none" stroke="var(--ink)" stroke-width="3.5" stroke-linecap="round" opacity=".55"/>
+          </svg>
+        </div>
+      </div>
+    </div></section>
+
+    <section class="tn-section" id="next" aria-labelledby="next-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-next tn-reveal"><h2 class="tn-h2" id="next-h" tabindex="-1">{t.next.h2}</h2><p class="tn-lead">{t.next.text}</p>
+        <div class="tn-actions"><a class="tn-btn" href="/tada">{t.next.button}</a><a class="tn-link tn-link--solo" href="/guide">{t.next.link}</a></div></div>
+    </div></section>
+  </main>
+  <Footer />
+</Base>

@@ -1,0 +1,29 @@
+---
+/* StoryCard: the story card as it goes to parents (print design section 12, in the website tokens and fonts):
+   1080 × 1350 proportions; paper background; the child's drawing in a white frame with an ink line and round corners,
+   top two thirds; "A TADA ending by {Name}, {age}" in the display font; two lines from Pim with Pim's small portrait;
+   footer with the logo lockup left and @telning.pub #TADAstory right; a strip in the book's or series' colour.
+   First name and age only. Never a photo of a child. `sample` adds the visible "Sample" label. */
+import site from '../data/site-data.json';
+import strings from '../data/strings.en.json';
+import Pim from './Pim.astro';
+import KidDrawing from './KidDrawing.astro';
+
+interface Props { name: string; age: number | string; lines: [string, string]; colour?: string; sample?: boolean; class?: string; label?: string }
+const { name, age, lines, colour = 'red', sample = false, class: cls = '', label } = Astro.props;
+const title = strings['card.title'].replace('{name}', name).replace('{age}', String(age));
+---
+<div class={`tn-storycard ${cls}`} style={`--book:var(--${colour})`} role={label ? 'img' : undefined} aria-label={label} aria-hidden={label ? undefined : 'true'}>
+  {sample && <span class="tn-pill tn-pill--soft tn-storycard__sample">{strings['card.sample']}</span>}
+  <div class="tn-storycard__frame"><slot><KidDrawing /></slot></div>
+  <p class="tn-storycard__title">{title}</p>
+  <div class="tn-storycard__pim">
+    <div class="tn-pim__disc"><Pim pose="portrait" motion="none" /></div>
+    <p class="tn-storycard__lines"><span>{lines[0]}</span><span>{lines[1]}</span></p>
+  </div>
+  <div class="tn-storycard__foot">
+    <svg class="tn-lockup" viewBox="0 0 471.2 130" aria-hidden="true" focusable="false"><path fill="var(--red)" d="M22 0H78A22 22 0 0 1 100 22V108A22 22 0 0 1 78 130H22A22 22 0 0 1 0 108V22A22 22 0 0 1 22 0Z"/><path fill="var(--cream)" d="M50 50C60 40 74 37 86 40L85 56C73 53 60 56 54.5 61V101.5A4.5 4.5 0 0 1 45.5 101.5V61C40 56 27 53 15 56L14 40C26 37 40 40 50 50Z"/><text x="128" y="64" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="84" fill="var(--ink)">Telning</text><text x="130" y="122" font-family="Instrument Sans, system-ui, sans-serif" font-weight="600" font-size="24" letter-spacing="7.2" fill="var(--ink)">PUBLISHING HOUSE</text></svg>
+    <p class="tn-storycard__tags"><span>{site.social.handle}</span><span>{site.social.hashtag}</span></p>
+  </div>
+  <span class="tn-storycard__strip"></span>
+</div>

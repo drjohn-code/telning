@@ -555,6 +555,31 @@ img, svg { display: block; max-width: 100%; }
   .tn-tl { gap: var(--s4); }
 }
 
+/* ---------- story card (print design section 12 in web tokens): 1080 × 1350 proportions ---------- */
+.tn-storycard { position: relative; display: grid; grid-template-rows: auto auto auto 1fr auto; gap: 3.2cqw; width: 100%; aspect-ratio: 1080 / 1350; padding: 5cqw 5cqw 0; background: var(--paper); color: var(--ink); border-radius: 3cqw; box-shadow: var(--shadow-3); overflow: hidden; container-type: inline-size; font-size: 3.2cqw; }
+.tn-storycard__sample { position: absolute; top: 3cqw; right: 3cqw; z-index: 2; }
+.tn-storycard__frame { position: relative; aspect-ratio: 1; background: var(--white); border: 0.9cqw solid var(--ink); border-radius: 4cqw; overflow: hidden; }
+.tn-storycard__frame .tn-kiddraw { position: absolute; inset: 4%; width: 92%; height: 92%; }
+.tn-storycard__frame img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.tn-storycard__title { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 5.2cqw; line-height: 1.1; }
+.tn-storycard__pim { display: grid; grid-template-columns: 11cqw 1fr; gap: 3cqw; align-items: center; }
+.tn-storycard__pim .tn-pim__disc { box-shadow: var(--shadow-1); }
+.tn-storycard__lines { margin: 0; display: grid; font-family: var(--font-display); font-weight: 400; font-size: 3.4cqw; line-height: 1.3; }
+.tn-storycard__foot { display: flex; align-items: center; justify-content: space-between; gap: 2cqw; padding-bottom: 4cqw; }
+.tn-storycard__foot .tn-lockup { height: 7cqw; width: auto; }
+.tn-storycard__tags { margin: 0; display: grid; justify-items: end; font-weight: 600; font-size: 2.6cqw; line-height: 1.3; }
+.tn-storycard__strip { display: block; height: 3cqw; margin: 0 -5cqw; background: var(--book, var(--red)); }
+.tn-send__art .tn-storycard { transform: rotate(2deg); }
+
+/* ---------- /pim: the leaf that fills with crayon as you scroll ---------- */
+.tn-leafstory { display: grid; gap: var(--s5); align-items: center; }
+.tn-leafstory__art { display: grid; place-items: center; padding: var(--s4); background: var(--cream); border-radius: var(--radius-l); box-shadow: var(--shadow-2); }
+.tn-leafstory__art svg { width: min(100%, 320px); height: auto; }
+.leaf-scribble path { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.tn-js .leaf-scribble path { stroke-dashoffset: calc(1 - clamp(0, (var(--p) - 0.15) * 1.6, 1)); transition: stroke-dashoffset 80ms linear; }
+.tn-js .leaf-scribble path:nth-child(2) { stroke-dashoffset: calc(1 - clamp(0, (var(--p) - 0.3) * 1.6, 1)); }
+@media (min-width: 1024px) { .tn-leafstory { grid-template-columns: 1fr 1fr; gap: var(--s8); } }
+
 /* ---------- scroll stories: .tn-view carries --p (0 → 1) from JS; without JS or under reduced motion the final state shows ---------- */
 .tn-view { --p: 1; }
 .tn-js .tn-view { --p: 0; }

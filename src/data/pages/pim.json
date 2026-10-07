@@ -1,0 +1,49 @@
+{
+  "_draft": true,
+  "_note": "All text on /pim is a draft for a person to check (STRINGS_DRAFT). The 'Who is Pim' copy replaces the brief's old line ('Pim is white, so your child gives Pim colour'), which does not match the Pim art: John confirms. Section 'How Pim is made by hand' shows only when site data pim.handDrawn is true. Nothing here says Pim is hand-drawn.",
+  "kicker": "Telning Publishing House · Meet Pim",
+  "h1": "Meet Pim",
+  "lead": "The Telning character who asks: what would you do?",
+  "intro": "Pim is a small hedgehog with three stars on its head. Pim loves to listen, to wonder, and to choose. In every Telning book, Pim is there to ask: what would you do?",
+  "pimAlt": "Pim, the Telning character: a small hedgehog with green spines and three gold stars on its head, winking.",
+
+  "who": {
+    "h2": "Who is Pim?",
+    "cards": [
+      { "icon": "bubble", "c": "sky-light", "h": "Pim listens", "t": "Pim never tells a child what to think. Pim waits for the child's own story." },
+      { "icon": "bulb", "c": "gold-light", "h": "Pim wonders", "t": "Why did she do that? What happens next? Pim's favourite word is why." },
+      { "icon": "signpost", "c": "blush", "h": "Pim chooses", "t": "At every fork, Pim asks: what would you choose? And there is never a wrong answer." }
+    ],
+    "pimLine": "Hi, I’m Pim! My favourite question is: what would you choose?"
+  },
+
+  "made": {
+    "h2": "How Pim is made by hand",
+    "steps": ["Pencil", "Ink", "Page"],
+    "credit": "Illustrated by {name}"
+  },
+
+  "letters": {
+    "h2": "Pim's letters and story cards",
+    "p1": "Pim writes two kinds of post. The letters: an email when a new Telning book is out, and nothing else.",
+    "p2": "And the story cards: when a child sends Pim their drawn ending, Pim sends back a card with the drawing, the child's first name and age, and two lines from Pim.",
+    "cardLines": ["You chose the ending where they share.", "I would choose that one too!"],
+    "cardName": "Noa",
+    "cardAge": 5,
+    "cardLabel": "Sample story card: a child's crayon drawing of a house, a sun and flowers, with the words A TADA ending by Noa, 5, and two lines from Pim.",
+    "button": "Send Pim your ending",
+    "link": "Letters from Pim: sign up"
+  },
+
+  "colour": {
+    "h2": "Your child adds the colour",
+    "text": "Every Telning page starts as a line drawing. The colour comes from your child. Scroll, and watch the leaf fill up."
+  },
+
+  "next": {
+    "h2": "Where to next?",
+    "text": "Read how a Telning book works, or send Pim a drawing and get a story card back.",
+    "button": "The TADA way",
+    "link": "For grown-ups: the guide"
+  }
+}
