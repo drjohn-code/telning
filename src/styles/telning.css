@@ -137,32 +137,41 @@ img, svg { display: block; max-width: 100%; }
 .tn-hill { display: block; width: 112%; max-width: none; margin-left: -6%; height: 100%; }
 .tn-hill path { filter: drop-shadow(0 -6px 10px rgb(22 20 15 / 0.12)); }
 .tn-books3 { position: relative; display: flex; align-items: flex-end; gap: 10px; }
-.tn-books3 .tn-cover { width: 78px; }
-.tn-books3 .tn-cover:nth-child(1) { transform: rotate(-5deg) translateY(6px); }
-.tn-books3 .tn-cover:nth-child(3) { transform: rotate(4deg) translateY(4px); }
+.tn-books3 .tn-book { width: 84px; }
+.tn-books3 > :nth-child(1) { transform: rotate(-5deg) translateY(6px); }
+.tn-books3 > :nth-child(3) { transform: rotate(4deg) translateY(4px); }
 .tn-plane-path { position: absolute; inset: 0; }
 .tn-plane { position: absolute; left: 0; top: 0; offset-path: path('M -40 230 C 80 120, 200 60, 320 140 S 520 260, 620 120'); offset-rotate: auto; animation: tn-fly 11s ease-in-out infinite; }
 @keyframes tn-fly { 0% { offset-distance: 0%; opacity: 0; } 8% { opacity: 1; } 92% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
 .tn-drive { animation: tn-drive 16s linear infinite; }
 @keyframes tn-drive { from { transform: translateX(-160px); } to { transform: translateX(640px); } }
 .tn-hide-sm { display: none; }
-@media (min-width: 600px) { .tn-stage { height: 460px; } .tn-books3 .tn-cover { width: 112px; } .tn-hide-sm { display: block; } }
+@media (min-width: 600px) { .tn-stage { height: 460px; } .tn-books3 .tn-book { width: 120px; } .tn-hide-sm { display: block; } }
 @media (min-width: 1024px) {
   .tn-hero { grid-template-columns: 1fr 1.05fr; gap: var(--s7); padding-block: var(--s7) var(--s9); }
   .tn-hero__text { gap: var(--s5); }
   .tn-stage { height: 560px; }
-  .tn-books3 .tn-cover { width: 128px; }
+  .tn-books3 .tn-book { width: 136px; }
 }
 
-/* ---------- book cover (built from the cover system; art from the illustrator) ---------- */
-.tn-cover { position: relative; aspect-ratio: 3 / 4; width: 100%; background: var(--cream); border-radius: 4px 10px 10px 4px; box-shadow: var(--shadow-2), inset 6px 0 0 rgb(22 20 15 / 0.08); overflow: hidden; display: flex; flex-direction: column; container-type: inline-size; }
-.tn-cover__band { height: 9cqw; background: var(--book, var(--red)); flex: none; }
-.tn-cover__k { margin: 5cqw 7cqw 0; font-weight: 600; font-size: max(7px, 5.2cqw); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
-.tn-cover__t { margin: 2cqw 7cqw 0; font-family: var(--font-display); font-weight: 600; color: var(--ink); line-height: 1; }
-.tn-cover__t span { display: block; } .tn-cover__l1 { font-size: 9cqw; } .tn-cover__l2 { font-size: 15cqw; letter-spacing: -0.01em; }
-.tn-cover__art { flex: 1; margin: 5cqw 7cqw 7cqw; border: 1px solid var(--ink); border-radius: 2px; position: relative; background: var(--white); }
-.tn-cover__colophon { position: absolute; right: 6cqw; top: 13cqw; width: 8cqw; height: auto; }
-.tn-cover > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* ---------- book cover (built from the cover system; the illustrator's cover replaces it via coverImage) ---------- */
+.tn-book { position: relative; width: 100%; container-type: inline-size; }
+.tn-cover { position: relative; aspect-ratio: 3 / 4; width: 100%; background: var(--book, var(--red)); color: var(--text, var(--cream)); border-radius: 4px 10px 10px 4px; overflow: hidden;
+  box-shadow: 2px 2px 0 var(--cream), 4px 4px 0 var(--paper-deep), 6px 6px 0 var(--cream), var(--shadow-2); }
+.tn-cover--img { display: block; object-fit: cover; }
+.tn-cover__spine { position: absolute; left: 0; top: 0; bottom: 0; width: 5cqw; background: rgb(22 20 15 / 0.18); border-right: 1px solid rgb(255 253 248 / 0.4); z-index: 3; }
+.tn-cover__plate { position: absolute; left: 11cqw; right: 7cqw; top: 5cqw; z-index: 2; padding: 4cqw 5cqw 4.5cqw; background: var(--cream); color: var(--ink); border-radius: 4cqw; box-shadow: var(--shadow-1); }
+.tn-cover__colophon { position: absolute; right: 5cqw; top: 5cqw; width: 9cqw; height: auto; }
+.tn-cover__k { display: block; font-weight: 600; font-size: max(6px, 4.2cqw); letter-spacing: 0.14em; text-transform: uppercase; }
+.tn-cover__t { margin: 1.5cqw 0 0; font-family: var(--font-display); font-weight: 600; line-height: 1; text-wrap: nowrap; }
+.tn-cover__t span { display: block; } .tn-cover__l1 { font-size: 8.5cqw; } .tn-cover__l2 { font-size: 14cqw; letter-spacing: -0.01em; }
+.tn-cover__scene { position: absolute; left: 0; right: 0; bottom: 0; height: 65%; z-index: 1; }
+.tn-cover__hill { position: absolute; left: -4%; width: 108%; max-width: none; bottom: 0; height: 58%; }
+.tn-cover__ground { position: absolute; left: 0; right: 0; bottom: 0; height: 10%; background: var(--ground); }
+.tn-cover__o { position: absolute; } .tn-cover__o .tn-obj { width: 100%; }
+.tn-twinkle { animation: tn-twinkle 3s ease-in-out infinite alternate; transform-origin: 50% 50%; }
+.tn-twinkle.late { animation-delay: -1.2s; } .tn-twinkle.slow { animation-duration: 4.5s; }
+@keyframes tn-twinkle { from { opacity: 0.55; transform: scale(0.85) rotate(-6deg); } to { opacity: 1; transform: scale(1.08) rotate(6deg); } }
 
 /* ---------- art slot ---------- */
 .tn-slot { position: relative; width: 100%; aspect-ratio: 1; background: var(--white); border: 1px solid var(--ink); border-radius: var(--radius-m); overflow: hidden; }
@@ -210,7 +219,7 @@ img, svg { display: block; max-width: 100%; }
 .tn-booklist { list-style: none; margin: 0; padding: 0 var(--s4) var(--s4); display: grid; grid-auto-flow: column; grid-auto-columns: 62%; gap: var(--s4); overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: calc(-1 * var(--s4)); scroll-padding-inline: var(--s4); }
 .tn-booklist > li { scroll-snap-align: start; min-width: 0; }
 .tn-bookcard { display: grid; gap: var(--s3); }
-.tn-bookcard .tn-cover { box-shadow: var(--shadow-3), inset 6px 0 0 rgb(22 20 15 / 0.08); }
+.tn-bookcard .tn-cover { box-shadow: 2px 2px 0 var(--cream), 4px 4px 0 var(--paper-deep), 6px 6px 0 var(--cream), var(--shadow-3); }
 .tn-bookcard__meta { display: flex; flex-wrap: wrap; gap: 6px; }
 .tn-bookcard .tn-link { display: inline-flex; align-items: center; min-height: 48px; }
 @media (min-width: 600px) { .tn-booklist { grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: repeat(3, minmax(0, 1fr)); overflow: visible; margin-inline: 0; padding-inline: 0; gap: var(--s5); } }

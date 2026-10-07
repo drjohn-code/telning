@@ -1,0 +1,82 @@
+---
+/* BookCover: a bright series cover built from the cover system until the illustrator's cover exists.
+   The whole cover takes the series colour; a scene from the Objects library fills the lower ~65%; the series
+   name sits big on a cream title plate with the colophon; a spine edge on the left and page edges on the right
+   and bottom make it read as a real book. Give `coverImage` (and `alt`) to show the real cover instead.
+   Not a link. No Pim, no series main character, no fake book pages. Reads at 120 px wide. */
+import site from '../data/site-data.json';
+import strings from '../data/strings.en.json';
+import Obj from './Obj.astro';
+
+interface Props { series: string; coverImage?: string; alt?: string; class?: string }
+const { series: key, coverImage, alt, class: cls = '' } = Astro.props;
+const s = site.series.find((x) => x.key === key);
+if (!s) throw new Error(`BookCover: there is no series "${key}" in site-data.json`);
+
+/* Scene per series: hill and ground tones (lit / shade of the cover colour), text colour (BRAND rule 5), alt words. */
+const SCENES: Record<string, { alt: string; text: string; hill: string; ground: string }> = {
+  'home-hearts': { alt: 'a house with a warm lit window, a cat, floating hearts, a small tree and the sun', text: 'cream', hill: 'red-light', ground: 'red-deep' },
+  'star-hoppers': { alt: 'a rocket and a penguin in space, with a ringed planet, the moon and stars', text: 'cream', hill: 'sea', ground: 'sea-deep' },
+  'on-the-move': { alt: 'a car on a road over a hill, a plane, a hot-air balloon and clouds', text: 'ink', hill: 'moss', ground: 'forest-light' },
+};
+const sc = SCENES[key] || { alt: s.theme.toLowerCase(), text: 'cream', hill: 'paper-deep', ground: 'ink-soft' };
+const words = s.name.split(' ');
+const l2 = words.pop();
+const l1 = words.join(' ');
+const label = `Cover of the ${s.name} series: ${sc.alt}`;
+---
+{coverImage ? (
+  <div class={`tn-book ${cls}`}><img class="tn-cover tn-cover--img" src={coverImage} alt={alt || label} loading="lazy" decoding="async" /></div>
+) : (
+  <div class={`tn-book ${cls}`} role="img" aria-label={label}>
+    <div class="tn-cover" style={`--book:var(--${s.colour});--hill:var(--${sc.hill});--ground:var(--${sc.ground});--text:var(--${sc.text})`} aria-hidden="true">
+      <span class="tn-cover__spine"></span>
+      <div class="tn-cover__plate">
+        <svg class="tn-cover__colophon" viewBox="0 0 100 130" aria-hidden="true" focusable="false"><path fill="var(--red)" d="M22 0H78A22 22 0 0 1 100 22V108A22 22 0 0 1 78 130H22A22 22 0 0 1 0 108V22A22 22 0 0 1 22 0Z"/><path fill="var(--cream)" d="M50 50C60 40 74 37 86 40L85 56C73 53 60 56 54.5 61V101.5A4.5 4.5 0 0 1 45.5 101.5V61C40 56 27 53 15 56L14 40C26 37 40 40 50 50Z"/></svg>
+        <span class="tn-cover__k">{strings['cover.kicker']}</span>
+        <p class="tn-cover__t"><span class="tn-cover__l1">{l1}</span><span class="tn-cover__l2">{l2}</span></p>
+      </div>
+      <div class="tn-cover__scene">
+        {key === 'home-hearts' && (
+          <>
+            <div class="tn-cover__o" style="top:0;right:4%;width:30%"><Obj name="sun" w="100%" class="tn-spin" /></div>
+            <div class="tn-cover__o" style="top:10%;left:6%;width:12%"><Obj name="heart" w="100%" class="tn-float" swap={{ red: 'gold-light', 'red-deep': 'gold' }} /></div>
+            <div class="tn-cover__o" style="top:28%;left:22%;width:9%"><Obj name="heart" w="100%" class="tn-float late" swap={{ red: 'gold-light', 'red-deep': 'gold' }} /></div>
+            <div class="tn-cover__o" style="top:2%;left:40%;width:8%"><Obj name="heart" w="100%" class="tn-float slow" swap={{ red: 'gold-light', 'red-deep': 'gold' }} /></div>
+            <svg class="tn-cover__hill" viewBox="0 0 300 120" preserveAspectRatio="none"><path d="M0 120V60C50 30 120 22 180 36s90 18 120 4v80z" fill="var(--hill)"/></svg>
+            <div class="tn-cover__o" style="bottom:12%;left:58%;width:22%"><Obj name="tree" w="100%" /></div>
+            <div class="tn-cover__o" style="bottom:9%;left:6%;width:54%"><Obj name="house" w="100%" swap={{ red: 'sea', 'red-deep': 'sea-deep', sky: 'gold-light', sea: 'sky' }} /></div>
+            <div class="tn-cover__o" style="bottom:7%;right:4%;width:33%"><Obj name="cat" w="100%" /></div>
+            <span class="tn-cover__ground"></span>
+          </>
+        )}
+        {key === 'star-hoppers' && (
+          <>
+            <div class="tn-cover__o" style="top:4%;left:6%;width:20%"><Obj name="moon" w="100%" class="tn-float slow" /></div>
+            <div class="tn-cover__o" style="top:0;left:34%;width:7%"><Obj name="star" w="100%" class="tn-twinkle" /></div>
+            <div class="tn-cover__o" style="top:22%;left:30%;width:5%"><Obj name="star" w="100%" class="tn-twinkle late" /></div>
+            <div class="tn-cover__o" style="top:38%;left:8%;width:6%"><Obj name="star" w="100%" class="tn-twinkle slow" /></div>
+            <div class="tn-cover__o" style="top:30%;right:8%;width:5%"><Obj name="star" w="100%" class="tn-twinkle" /></div>
+            <div class="tn-cover__o" style="top:0;right:2%;width:50%"><Obj name="planet" w="100%" class="tn-float" /></div>
+            <svg class="tn-cover__hill" viewBox="0 0 300 120" preserveAspectRatio="none"><path d="M0 120V70C60 40 130 36 190 48s80 10 110-4v76z" fill="var(--hill)"/><ellipse cx="90" cy="92" rx="22" ry="7" fill="var(--sky)" opacity=".35"/><ellipse cx="220" cy="100" rx="14" ry="5" fill="var(--sky)" opacity=".35"/></svg>
+            <div class="tn-cover__o" style="bottom:12%;left:8%;width:30%"><Obj name="rocket" w="100%" class="tn-float tn-flicker" /></div>
+            <div class="tn-cover__o" style="bottom:7%;right:8%;width:36%"><Obj name="penguin" w="100%" /></div>
+            <span class="tn-cover__ground"></span>
+          </>
+        )}
+        {key === 'on-the-move' && (
+          <>
+            <div class="tn-cover__o" style="top:4%;left:0;width:100%"><div class="tn-drift" style="--drift:70s;width:30%"><Obj name="cloud" w="100%" /></div></div>
+            <div class="tn-cover__o" style="top:26%;left:0;width:100%"><div class="tn-drift" style="--drift:95s;animation-delay:-50s;width:22%"><Obj name="cloud" w="100%" /></div></div>
+            <div class="tn-cover__o" style="top:0;left:5%;width:26%"><Obj name="balloon" w="100%" class="tn-sway" /></div>
+            <div class="tn-cover__o" style="top:12%;right:4%;width:36%"><Obj name="plane" w="100%" class="tn-float" /></div>
+            <svg class="tn-cover__hill" viewBox="0 0 300 120" preserveAspectRatio="none"><path d="M0 120V64C60 30 140 24 200 40s70 18 100 6v74z" fill="var(--hill)"/></svg>
+            <div class="tn-cover__o" style="bottom:4%;left:0;width:100%"><Obj name="road" w="100%" flat /></div>
+            <div class="tn-cover__o" style="bottom:8%;left:8%;width:56%"><Obj name="car" w="100%" class="tn-wheels" /></div>
+            <span class="tn-cover__ground"></span>
+          </>
+        )}
+      </div>
+    </div>
+  </div>
+)}

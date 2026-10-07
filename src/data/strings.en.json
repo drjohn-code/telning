@@ -22,6 +22,7 @@
   "ages.go": "See the books",
   "series.h2": "Our series",
   "series.coming": "Coming soon",
+  "cover.kicker": "Series",
   "book.age": "Ages {min}–{max}",
   "book.status.coming": "Coming soon",
   "book.status.out": "Out now",
