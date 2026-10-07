@@ -1,0 +1,27 @@
+---
+/* WorldCard: one series as a little paper world. The scene goes in the slot.
+   A card is a link to /series/<key> only when the series' `status` is "out" in site-data.json.
+   Otherwise it is a plain <div> with the dark "Coming soon" pill: not in the tab order, no pointer cursor,
+   no lift or tilt. Screen readers hear "Home & Hearts, Family & friends, Coming soon". */
+import site from '../data/site-data.json';
+import strings from '../data/strings.en.json';
+
+interface Props { key: string }
+const { key } = Astro.props;
+const s = site.series.find((x) => x.key === key);
+if (!s) throw new Error(`WorldCard: there is no series "${key}" in site-data.json`);
+const out = s.status === 'out';
+---
+<li class="tn-reveal">
+  {out ? (
+    <a class="tn-world tn-world--link tn-tilt" data-tilt="8" href={`/series/${key}`}>
+      <slot />
+      <span class="tn-world__body"><span class="tn-world__name">{s.name}</span><span class="tn-world__theme">{s.theme}</span></span>
+    </a>
+  ) : (
+    <div class="tn-world tn-world--soon">
+      <slot />
+      <span class="tn-world__body"><span class="tn-world__name">{s.name}</span><span class="tn-sr">, </span><span class="tn-world__theme">{s.theme}</span><span class="tn-sr">, </span><span class="tn-pill tn-pill--dark tn-world__pill">{strings['series.coming']}</span></span>
+    </div>
+  )}
+</li>
