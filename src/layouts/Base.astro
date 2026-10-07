@@ -1,0 +1,45 @@
+---
+import '../styles/tokens.css';
+import '../styles/telning.css';
+import site from '../data/site-data.json';
+
+interface Props { title?: string; description?: string; }
+const {
+  title = `${site.publisher} · ${site.taglineSite}`,
+  description = 'Picture books for children from 0 to 7 where your child makes the choices. Every story is built around decision intelligence.',
+} = Astro.props;
+const ogImage = new URL('/og-image.png', Astro.site ?? Astro.url).href;
+// Dev builds label empty art slots with the file they wait for; production never shows them.
+const dev = import.meta.env.DEV;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <meta name="theme-color" content="#f6f1e8">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preload" href="/fonts/Fraunces-600.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/InstrumentSans-400.woff2" as="font" type="font/woff2" crossorigin>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content={site.publisher}>
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:image" content={ogImage}>
+  <meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+  <div class="tn-page" data-dev={dev ? '' : undefined} lang="en">
+    <a class="tn-skip" href="#main">Skip to the main content</a>
+    <slot />
+  </div>
+  <script>
+    import '../scripts/telning.js';
+    window.Telning.init(document);
+  </script>
+</body>
+</html>

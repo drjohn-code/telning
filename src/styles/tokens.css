@@ -1,0 +1,52 @@
+/* Telning — generated from design/tokens.json (npm run tokens). Do not edit by hand. */
+
+@font-face { font-family: "Fraunces"; src: url("/fonts/Fraunces-600.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Fraunces"; src: url("/fonts/Fraunces-400.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Instrument Sans"; src: url("/fonts/InstrumentSans-400.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Instrument Sans"; src: url("/fonts/InstrumentSans-600.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+
+:root {
+  --paper: #f6f1e8;
+  --paper-deep: #e9dfcf;
+  --cream: #fffdf8;
+  --white: #ffffff;
+  --ink: #16140f;
+  --ink-soft: #4a453d;
+  --red: #ce4029;
+  --red-deep: #a9321d;
+  --red-light: #ea7a62;
+  --forest: #1e4a3b;
+  --forest-light: #3d6e58;
+  --moss: #86a672;
+  --gold: #e8b23a;
+  --gold-deep: #b8841a;
+  --gold-light: #f6d27e;
+  --blush: #f3c9b8;
+  --rose: #e59a82;
+  --sky: #b9d3ec;
+  --sky-light: #ddebf7;
+  --sea: #4f7fae;
+  --sea-deep: #2f5c88;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-text: "Instrument Sans", system-ui, sans-serif;
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 48px;
+  --s8: 64px;
+  --s9: 96px;
+  --radius-s: 8px;
+  --radius-m: 16px;
+  --radius-l: 28px;
+  --radius-pill: 999px;
+  --shadow-1: 0 1px 2px rgba(22,20,15,0.10), 0 4px 10px rgba(22,20,15,0.08);
+  --shadow-2: 0 2px 4px rgba(22,20,15,0.08), 0 14px 30px rgba(22,20,15,0.12);
+  --shadow-3: 0 4px 8px rgba(22,20,15,0.10), 0 28px 50px rgba(22,20,15,0.18);
+  --content-max: 1180px;
+  --text-max: 640px;
+  --move: 220ms;
+  --ease: cubic-bezier(0.2,0.7,0.3,1);
+}

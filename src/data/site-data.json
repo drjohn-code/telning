@@ -1,0 +1,178 @@
+{
+  "publisher": "Telning Publishing House",
+  "taglineSite": "Little stories, growing minds.",
+  "narrator": {
+    "name": "Pim",
+    "role": "The Telning character. Pim speaks for the brand: on the site, in emails and on story cards. Pim is not part of any series."
+  },
+  "social": {
+    "handle": "@telning.pub",
+    "hashtag": "#TADAstory",
+    "instagram": "https://www.instagram.com/telning.pub/",
+    "tiktok": "https://www.tiktok.com/@telning.pub"
+  },
+  "legal": {
+    "company": "WelloWork AB",
+    "copyrightYear": 2026
+  },
+  "illustratorName": "",
+  "teamCreditOn": true,
+  "contactEmail": "",
+  "formEndpoint": "",
+  "guidePdf": "",
+  "storyCardReplyTime": "24 hours",
+  "languages": {
+    "en": "ready",
+    "de": "draft",
+    "sv": "draft"
+  },
+  "ages": [
+    {
+      "key": "0-3",
+      "label": "0–3",
+      "name": "Baby and toddler"
+    },
+    {
+      "key": "3-5",
+      "label": "3–5",
+      "name": "Preschool"
+    },
+    {
+      "key": "5-7",
+      "label": "5–7",
+      "name": "Early school"
+    }
+  ],
+  "skills": {
+    "main": {
+      "key": "decision",
+      "name": "Decision intelligence"
+    },
+    "also": [
+      {
+        "key": "emotional",
+        "name": "Emotional intelligence"
+      },
+      {
+        "key": "social",
+        "name": "Social skills"
+      },
+      {
+        "key": "behavioural",
+        "name": "Behavioural skills"
+      }
+    ],
+    "rule": "Every book brings in all four skills. Decision intelligence leads."
+  },
+  "series": [
+    {
+      "key": "home-hearts",
+      "name": "Home & Hearts",
+      "theme": "Family & friends",
+      "emblem": "house",
+      "colour": "red",
+      "status": "planned",
+      "note": ""
+    },
+    {
+      "key": "paws-claws",
+      "name": "Paws & Claws",
+      "theme": "Animals",
+      "emblem": "paw",
+      "colour": "forest",
+      "status": "planned",
+      "note": ""
+    },
+    {
+      "key": "star-hoppers",
+      "name": "Star Hoppers",
+      "theme": "Space",
+      "emblem": "rocket",
+      "colour": "sea-deep",
+      "status": "planned",
+      "note": ""
+    },
+    {
+      "key": "little-gardeners",
+      "name": "Little Gardeners",
+      "theme": "Flowers & nature",
+      "emblem": "tulip",
+      "colour": "moss",
+      "status": "planned",
+      "note": ""
+    },
+    {
+      "key": "big-days",
+      "name": "Big Days",
+      "theme": "Celebrations",
+      "emblem": "gift",
+      "colour": "gold",
+      "status": "planned",
+      "note": "Halloween, Christmas, Easter, Thanksgiving, Midsummer"
+    },
+    {
+      "key": "toy-box",
+      "name": "The Toy Box",
+      "theme": "Toys",
+      "emblem": "blocks",
+      "colour": "sky",
+      "status": "planned",
+      "note": ""
+    },
+    {
+      "key": "little-kitchen",
+      "name": "Little Kitchen",
+      "theme": "Food & cooking",
+      "emblem": "cupcake",
+      "colour": "blush",
+      "status": "planned",
+      "note": ""
+    },
+    {
+      "key": "funny-pages",
+      "name": "Funny Pages",
+      "theme": "Cartoons",
+      "emblem": "bubble",
+      "colour": "ink",
+      "status": "planned",
+      "note": ""
+    },
+    {
+      "key": "round-the-year",
+      "name": "Round the Year",
+      "theme": "Months & seasons",
+      "emblem": "calendar",
+      "colour": "cream",
+      "status": "planned",
+      "note": ""
+    },
+    {
+      "key": "game-on",
+      "name": "Game On",
+      "theme": "Sports",
+      "emblem": "ball",
+      "colour": "red-deep",
+      "status": "planned",
+      "note": ""
+    },
+    {
+      "key": "everyday-heroes",
+      "name": "Everyday Heroes",
+      "theme": "Superheroes",
+      "emblem": "shield",
+      "colour": "rose",
+      "status": "planned",
+      "note": ""
+    },
+    {
+      "key": "on-the-move",
+      "name": "On the Move",
+      "theme": "Cars, planes & balloons",
+      "emblem": "car",
+      "colour": "gold-light",
+      "status": "planned",
+      "note": ""
+    }
+  ],
+  "books": []
+}
