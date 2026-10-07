@@ -1,0 +1,13 @@
+---
+/* PimNote: Pim's round portrait beside a speech bubble. Pim's voice: first person, warm, one sentence,
+   14 words or fewer, about choosing. Never a claim, never advice about a child's health.
+   <PimNote line={strings['pim.hello']} /> ; size="sm" for the small variant. */
+import Pim from './Pim.astro';
+
+interface Props { line: string; size?: 'sm' | ''; class?: string }
+const { line, size = '', class: cls = '' } = Astro.props;
+---
+<figure class={`tn-pim${size === 'sm' ? ' tn-pim--sm' : ''}${cls ? ' ' + cls : ''}`}>
+  <div class="tn-pim__art"><div class="tn-pim__disc"><Pim pose="portrait" /></div></div>
+  <figcaption class="tn-pim__bubble"><span class="tn-sr">Pim: </span>{line}</figcaption>
+</figure>

@@ -1,0 +1,40 @@
+---
+/* Pim, the Telning character. The art comes from art/source/pim-source.jpg (prepared by scripts/pim-cutout.py
+   and traced into the paper style by scripts/pim-svg.py). Code never invents a different Pim.
+   pose: "full" (sitting), "portrait" (head and shoulders, for PimNote and the story card), "peek" (404 page).
+   Which version shows is a site-data switch (`pim.art`: "svg" = the paper SVG, "image" = the cut-out raster).
+   Decorative by default next to Pim's name in text (aria-hidden); pass `alt` to make it a real image.
+   Motion: only the stars twinkle (class pim-star), and they stop under prefers-reduced-motion. */
+import site from '../data/site-data.json';
+import strings from '../data/strings.en.json';
+import tokens from '../../design/tokens.json';
+
+const files = import.meta.glob('/art/pim/*.svg', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+const HEX: Record<string, string> = Object.fromEntries(tokens.color.tokens.map((c) => [c.value.toUpperCase(), c.name]));
+
+interface Props { pose?: 'full' | 'portrait' | 'peek'; alt?: string; class?: string; w?: string; shadow?: boolean }
+const { pose = 'full', alt, class: cls = '', w, shadow = false } = Astro.props;
+const art = (site as { pim?: { art?: string } }).pim?.art === 'image' ? 'image' : 'svg';
+const a11y = alt ? `role="img" aria-label="${alt.replace(/"/g, '&quot;')}"` : 'aria-hidden="true"';
+
+let svg = '';
+if (art === 'svg') {
+  const entry = Object.entries(files).find(([p]) => p.endsWith(`/pim-${pose}.svg`));
+  if (!entry) throw new Error(`Pim: art/pim/pim-${pose}.svg is missing; run scripts/pim-svg.py`);
+  svg = entry[1]
+    .replace(/#[0-9a-fA-F]{6}\b/g, (m) => (HEX[m.toUpperCase()] ? `var(--${HEX[m.toUpperCase()]})` : m))
+    .replace(/^\s*<svg[^>]*>/, (open) => {
+      const vb = (open.match(/viewBox="[^"]*"/) || [''])[0];
+      return `<svg ${vb} class="tn-pimart tn-pimart--${pose}${shadow ? '' : ' tn-pimart--noshadow'}${cls ? ' ' + cls : ''}"${w ? ` style="--w:${w}"` : ''} ${a11y} focusable="false">`;
+    });
+}
+const img = pose === 'full' ? 'pim-telning-character' : 'pim-telning-portrait';
+---
+{art === 'svg' ? (
+  <Fragment set:html={svg} />
+) : (
+  <picture class={`tn-pimart tn-pimart--img tn-pimart--${pose}${cls ? ' ' + cls : ''}`} style={w ? `--w:${w}` : undefined}>
+    <source srcset={`/art/${img}.webp`} type="image/webp" />
+    <img src={`/art/${img}.png`} alt={alt || ''} aria-hidden={alt ? undefined : 'true'} width={pose === 'full' ? 403 : 338} height={pose === 'full' ? 496 : 307} loading="lazy" decoding="async" />
+  </picture>
+)}

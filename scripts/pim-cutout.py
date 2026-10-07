@@ -86,5 +86,10 @@ out = out.crop(box)
 print('crop', box, '→', out.size)
 out.save(OUT_DIR / 'pim-telning-character.png', optimize=True)
 out.save(OUT_DIR / 'pim-telning-character.webp', quality=90, method=6)
-for f in ('pim-telning-character.png', 'pim-telning-character.webp'):
+# 5. Portrait crop (head and shoulders) for the round avatar when the raster version is used.
+pw, ph = out.size
+por = out.crop((int(pw * 0.08), 0, int(pw * 0.92), int(ph * 0.62)))
+por.save(OUT_DIR / 'pim-telning-portrait.png', optimize=True)
+por.save(OUT_DIR / 'pim-telning-portrait.webp', quality=90, method=6)
+for f in ('pim-telning-character.png', 'pim-telning-character.webp', 'pim-telning-portrait.png', 'pim-telning-portrait.webp'):
     print(f, (OUT_DIR / f).stat().st_size // 1024, 'KB')
