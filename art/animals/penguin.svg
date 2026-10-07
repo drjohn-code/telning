@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 128" width="110" height="128">
+<ellipse cx="40" cy="122" rx="10" ry="4.5" fill="#E8B23A"/><ellipse cx="70" cy="122" rx="10" ry="4.5" fill="#E8B23A"/>
+<ellipse cx="55" cy="70" rx="34" ry="48" fill="#16140F"/>
+<ellipse cx="22" cy="78" rx="8" ry="20" transform="rotate(18 22 78)" fill="#4A453D"/><ellipse cx="88" cy="78" rx="8" ry="20" transform="rotate(-18 88 78)" fill="#4A453D"/>
+<ellipse cx="55" cy="82" rx="23" ry="34" fill="#FFFDF8"/>
+<path d="M55 30c14 0 22 8 22 18 0 6-6 10-12 8-4-1-7-3-10-3s-6 2-10 3c-6 2-12-2-12-8 0-10 8-18 22-18z" fill="#FFFDF8"/>
+<path d="M50 52h10l-5 8z" fill="#E8B23A"/><g class="o-eyes"><circle cx="47" cy="44" r="3.2" fill="#16140F"/><circle cx="45.9" cy="42.9" r="1.1" fill="#FFFDF8"/><circle cx="63" cy="44" r="3.2" fill="#16140F"/><circle cx="61.9" cy="42.9" r="1.1" fill="#FFFDF8"/></g><ellipse cx="40" cy="54" rx="5.5" ry="3.2" fill="#E59A82" opacity=".85"/><ellipse cx="70" cy="54" rx="5.5" ry="3.2" fill="#E59A82" opacity=".85"/></svg>

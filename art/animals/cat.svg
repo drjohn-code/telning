@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 124" width="120" height="124">
+<g class="o-tail"><path d="M82 108c24 0 28-26 14-32" stroke="#4A453D" stroke-width="9" fill="none" stroke-linecap="round"/></g>
+<ellipse cx="60" cy="100" rx="24" ry="21" fill="#4A453D"/><ellipse cx="60" cy="106" rx="12" ry="13" fill="#E9DFCF"/>
+<g class="o-ears"><path d="M34 46 37 14l20 20z" fill="#4A453D"/><path d="M86 46 83 14 63 34z" fill="#4A453D"/>
+<path d="M38 38l2-16 10 10z" fill="#E59A82"/><path d="M82 38l-2-16-10 10z" fill="#E59A82"/></g>
+<ellipse cx="60" cy="56" rx="29" ry="25" fill="#4A453D"/>
+<ellipse cx="60" cy="68" rx="12" ry="8" fill="#E9DFCF"/>
+<g class="o-eyes"><circle cx="47" cy="54" r="5.2" fill="#F6D27E"/><ellipse cx="47" cy="54" rx="1.8" ry="4" fill="#16140F"/>
+<circle cx="73" cy="54" r="5.2" fill="#F6D27E"/><ellipse cx="73" cy="54" rx="1.8" ry="4" fill="#16140F"/></g>
+<path d="M57 64h6l-3 4z" fill="#E59A82"/>
+<path d="M30 64l14 2M30 70l14-1M90 64l-14 2M90 70l-14-1" stroke="#E9DFCF" stroke-width="1.6" stroke-linecap="round"/></svg>

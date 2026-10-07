@@ -1,0 +1,26 @@
+---
+/* Obj: one paper object, animal or science-desk item from the design system's art library (art/objects,
+   art/animals, art/science), inlined with colour tokens so it recolours with the system.
+   <Obj name="house" w="40%" class="tn-float" /> → <svg class="tn-obj tn-float" style="--w:40%" aria-hidden>
+   Decoration by default (aria-hidden). Give `label` to make it a real image. Never Pim or a series character. */
+import tokens from '../../design/tokens.json';
+
+const files = import.meta.glob('/art/{objects,animals,science}/*.svg', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+const HEX: Record<string, string> = Object.fromEntries(tokens.color.tokens.map((c) => [c.value.toUpperCase(), c.name]));
+
+interface Props { name: string; w?: string; class?: string; style?: string; label?: string; flat?: boolean }
+const { name, w, class: cls = '', style = '', label, flat = false } = Astro.props;
+
+const entry = Object.entries(files).find(([p]) => p.endsWith(`/${name}.svg`));
+if (!entry) throw new Error(`Obj: there is no art file named "${name}" in art/objects, art/animals or art/science`);
+
+let svg = entry[1]
+  .replace(/#[0-9a-fA-F]{6}\b/g, (m) => (HEX[m.toUpperCase()] ? `var(--${HEX[m.toUpperCase()]})` : m))
+  .replace(/^\s*<svg[^>]*>/, (open) => {
+    const vb = (open.match(/viewBox="[^"]*"/) || [''])[0];
+    const a11y = label ? `role="img" aria-label="${label.replace(/"/g, '&quot;')}"` : 'aria-hidden="true"';
+    const st = `${w ? `--w:${w};` : ''}${style}`;
+    return `<svg ${vb} class="tn-obj${flat ? ' tn-obj--flat' : ''}${cls ? ' ' + cls : ''}"${st ? ` style="${st}"` : ''} ${a11y} focusable="false">`;
+  });
+---
+<Fragment set:html={svg} />

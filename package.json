@@ -6,10 +6,16 @@
   "scripts": {
     "tokens": "node scripts/build-tokens.mjs",
     "dev": "astro dev",
-    "build": "npm run tokens && astro build",
-    "preview": "astro preview"
+    "build": "npm run tokens && astro build && node scripts/claims-lint.mjs",
+    "preview": "astro preview",
+    "lint:claims": "node scripts/claims-lint.mjs",
+    "test": "npm run build && playwright test",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "astro": "^7.3.6"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.0"
   }
 }
