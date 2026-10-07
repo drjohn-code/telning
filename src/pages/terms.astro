@@ -1,0 +1,25 @@
+---
+/* /terms — Terms. Copy: src/data/pages/legal.json (draft, needs a legal check). */
+import LegalPage from '../components/LegalPage.astro';
+import site from '../data/site-data.json';
+import legal from '../data/pages/legal.json';
+
+const PAGE = '/terms';
+const t = legal.terms;
+const sc = (site as { storyCard?: { mode?: string; emailService?: string; host?: string; keepDays?: number } }).storyCard || {};
+const contact = site.contactEmail || site.founder.email;
+const ph = (s: string) => s
+  .replace(/\{orgNumber\}/g, site.legal.orgNumber || 'company number: to be added')
+  .replace(/\{address\}/g, site.legal.address || 'to be added')
+  .replace(/\{contact\}/g, `<a href="mailto:${contact}">${contact}</a>`)
+  .replace(/\{emailService\}/g, sc.emailService || 'our email service (to be named)')
+  .replace(/\{host\}/g, sc.host || 'Vercel')
+  .replace(/\{keepDays\}/g, String(sc.keepDays || 30))
+  .replace(/\{rights\}/g, legal.common.rights)
+  .replace(/\{aiLine\}/g, sc.mode === 'auto'
+    ? 'an AI helper (the Claude API by Anthropic) that reads the drawing and your answers once to draft the two lines and the tips; a person checks the draft; Anthropic does not use API data to train its models'
+    : 'nobody else: a person on our team reads the email, makes the card and writes the tips')
+  .replace(/\{contact\}/g, contact);
+const sections = t.sections.map((s) => ({ ...s, p: (s.p || []).map(ph), list: s.list ? s.list.map(ph) : undefined, after: (s.after || []).map(ph) }));
+---
+<LegalPage page={PAGE} h1={t.h1} lead={t.lead} sections={sections} tocLabel={legal.common.tocLabel} updatedLabel={legal.common.updatedLabel} draftLabel={legal.common.draftLabel} />

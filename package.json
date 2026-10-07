@@ -6,18 +6,23 @@
   "scripts": {
     "tokens": "node scripts/build-tokens.mjs",
     "dev": "astro dev",
-    "build": "npm run tokens && astro build && node scripts/sitemap.mjs && node scripts/claims-lint.mjs && node scripts/seo-check.mjs",
+    "build": "npm run tokens && astro build && node scripts/sitemap.mjs && node scripts/claims-lint.mjs && node scripts/seo-check.mjs && node scripts/legal-check.mjs",
     "preview": "astro preview",
     "lint:claims": "node scripts/claims-lint.mjs",
-    "test": "npm run build && playwright test",
+    "test": "npm run build && npm run test:privacy && playwright test",
     "test:e2e": "playwright test",
     "check": "node scripts/sitemap.mjs && node scripts/claims-lint.mjs && node scripts/seo-check.mjs",
-    "indexnow": "node scripts/indexnow.mjs"
+    "indexnow": "node scripts/indexnow.mjs",
+    "test:privacy": "node --test tests/privacy.test.mjs tests/story-card-function.test.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.132.0",
     "astro": "^7.3.6"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.0"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

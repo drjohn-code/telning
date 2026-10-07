@@ -1,0 +1,53 @@
+{
+  "_draft": true,
+  "_note": "Drafts of the three legal pages (STRINGS_DRAFT). Written from the brief section 10 and the real data flow in server/story-card.js. {placeholders} come from site data; no company number, address, officer or service is invented. A lawyer checks these before production (scripts/legal-check.mjs fails a production build while a placeholder is empty).",
+  "common": {
+    "tocLabel": "On this page",
+    "updatedLabel": "Last updated",
+    "draftLabel": "Draft: needs a legal check",
+    "rights": "Under the GDPR you can ask us what we hold about you, ask us to correct or delete it, object to how we use it, and withdraw consent at any time. Write to us at {contact}. You can also complain to the Swedish Authority for Privacy Protection (Integritetsskyddsmyndigheten, IMY)."
+  },
+
+  "privacy": {
+    "h1": "Privacy notice",
+    "lead": "How Telning Publishing House handles your data on this website, on the email list, and in the emails you send us. Plain words, no cookies, no trackers.",
+    "sections": [
+      { "id": "who", "h": "Who we are", "p": ["Telning Publishing House is a brand of WelloWork AB, a company in Sweden ({orgNumber}). Our address: {address}.", "If you have a question about your data, write to {contact}."] },
+      { "id": "covers", "h": "What this notice covers", "p": ["This notice covers the website telning.com, the email list, and emails you send us. The story-card form (\"Send Pim your ending\") has its own notice, written for parents: <a href=\"/childrens-privacy\">the children's privacy notice</a>."] },
+      { "id": "website", "h": "The website", "p": ["We use no cookies, no analytics scripts, no advertising and no tracking pixels. We do not build profiles of visitors.", "Our host, Vercel, delivers the pages. To do that it processes your IP address and may keep short-lived technical logs for security. We do not use those logs to identify you. See Vercel's own privacy notice for details."] },
+      { "id": "list", "h": "The email list", "p": ["When you sign up for \"Letters from Pim\", the TADA guide or the teacher pack, we keep: your email address, which list you chose, your language, and the book you asked about, if any.", "We use this only to send you what you asked for: a note when a new book is out, the guide, or the pack. The legal basis is your consent. Every email has a way to unsubscribe; when you do, we delete your address.", "The emails are sent by our email service, {emailService}, which processes your address on our behalf."] },
+      { "id": "emails", "h": "Emails you send us", "p": ["When you write to us (for example to our founder), we use your email address and your message only to reply. We never add you to the email list because you wrote to us.", "We keep the conversation as long as it is open, then delete it."] },
+      { "id": "rights", "h": "Your rights", "p": ["{rights}"] },
+      { "id": "children", "h": "Children", "p": ["This website is for grown-ups. We do not knowingly collect data from children. The story-card form asks a parent for a child's first name, age and drawing, with the parent's consent, and never for a photo of a child. How we handle that is in <a href=\"/childrens-privacy\">the children's privacy notice</a>."] },
+      { "id": "changes", "h": "Changes", "p": ["When we change this notice, we change the date at the top of this page."] }
+    ]
+  },
+
+  "childrens": {
+    "h1": "Children's privacy notice",
+    "lead": "For parents who send a drawing for a story card: what we collect, why, how long we keep it, who processes it, and your rights.",
+    "sections": [
+      { "id": "who", "h": "Who we are and who this is for", "p": ["Telning Publishing House is a brand of WelloWork AB, a company in Sweden ({orgNumber}). This notice is for the parent or guardian who uses the form at telning.com/send. The form is for grown-ups over 18; a child never uses it alone."] },
+      { "id": "collect", "h": "What we collect", "list": ["your email address, to send the story card", "your child's first name and age, to write on the card", "a photo of the drawing page (we ask for no people in the photo; if a photo shows a person, we do not use it and ask you for a new one)", "which book and which ending your child chose", "your optional answers about the talk you had (feelings in the story, why your child chose the ending, real life)", "your consents, and the time of sending", "your IP address, used only for a few minutes to stop spam, not stored with your form"] },
+      { "id": "why", "h": "Why, and on what basis", "p": ["We use the name, age and drawing to make the story card, and your answers to write ideas for your next talk. Nothing else.", "The legal basis is your consent, which you give on the form. Your answers can say something about your child's feelings, which the law protects specially, so we ask for explicit consent for them and never use them for anything else. We never use anything you send to test, judge or diagnose your child."] },
+      { "id": "keep", "h": "How long we keep it", "p": ["Your form goes in one email to our small team. A person makes the card and writes your tips. We delete that email after we reply, and within {keepDays} days in every case.", "Your answers are not saved in any database, file, log or statistics. They are read once, for your tips, and are gone.", "The drawing is deleted right after we send your card. If you ticked the box that lets us share the card on Instagram or TikTok, we keep only the finished story card image (first name, age and drawing), never your answers or your email. You can ask us to take it down at any time."] },
+      { "id": "who-processes", "h": "Who processes the data", "list": ["our website host, {host}, which receives the form, removes the photo's hidden data (camera, date, place) and sends it on", "our email service, {emailService}, which carries the email to our team and the card to you", "{aiLine}"] },
+      { "id": "never", "h": "What we never do", "list": ["ask for or keep a photo of a child", "judge, test or diagnose a child, or give advice about a child's health", "share your answers or your email with anyone", "add you to the email list unless you ask for that separately", "use cookies, trackers or advertising"] },
+      { "id": "rights", "h": "Your rights", "p": ["{rights}", "If you withdraw your consent after we shared a card, we delete the card from our social media."] },
+      { "id": "contact", "h": "Contact", "p": ["Write to {contact}. We answer every email."] }
+    ]
+  },
+
+  "terms": {
+    "h1": "Terms",
+    "lead": "The terms for using telning.com and the Telning story-card service. Short sections, plain English.",
+    "sections": [
+      { "id": "who", "h": "Who we are", "p": ["telning.com is run by WelloWork AB, a company in Sweden ({orgNumber}), address {address}. Telning Publishing House is a brand of WelloWork AB. In these terms \"we\" means WelloWork AB."] },
+      { "id": "site", "h": "Using the website", "p": ["The texts, pictures, Pim, the TADA name and the books on this site belong to us or to the people who made them. You may read the site and share links to it. You may not copy the pages of a Telning book or the site's art for other uses without our written permission.", "The site is information, not advice. Nothing on it is medical, psychological or educational advice about your child."] },
+      { "id": "cards", "h": "The story-card service", "list": ["The form is for a parent or guardian over 18.", "You own your child's drawing. By sending it you let us use the first name, age and drawing to make one story card and send it to you. If you tick the sharing box, you also let us show that card on Telning's Instagram and TikTok; you can withdraw this at any time.", "We do not accept photos that show a person. We may refuse a submission that breaks these terms.", "We aim to reply within the time shown on the form. This is a service we offer with care, not a promise of a reply at a fixed time.", "The ideas in the talk-next note are general ideas, not advice about your child's health or development."] },
+      { "id": "list", "h": "The email list", "p": ["You can unsubscribe at any time with the link in every email. We write only when there is something to tell: a new book, the guide or the pack you asked for."] },
+      { "id": "liability", "h": "Liability", "p": ["We work with care, but we cannot promise that the site is always available or free of mistakes. As far as Swedish law allows, we are not liable for loss that comes from using the site. Your rights as a consumer are not changed by these terms."] },
+      { "id": "law", "h": "Law and changes", "p": ["Swedish law applies to these terms. If we change them, we change the date at the top of this page. Questions: {contact}."] }
+    ]
+  }
+}

@@ -9,25 +9,7 @@ const ROOT = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const DIST = resolve(process.argv[2] || join(ROOT, 'dist'));
 const site = JSON.parse(readFileSync(join(ROOT, 'src/data/site-data.json'), 'utf8'));
 
-// Each entry is a regular expression source, matched case-insensitively on the page text.
-const BANNED = [
-  // results and science words
-  'proven', 'clinically tested', 'clinically proven', 'science[- ]backed', 'evidence[- ]based', 'research[- ]proven',
-  'boosts?', 'boosting', 'builds', 'improves?', 'improving', 'develops', 'developing your child',
-  'makes your child smarter', 'raises iq', 'boosts? vocabulary', 'builds language skills',
-  // health words
-  'calming', 'calms', 'reduces? anxiety', 'reduce[sd] anxiety', 'stops? tantrums', 'mindful(?:ness)? colou?ring',
-  'therapy', 'therapists?[- ]approved', 'therapist', 'social stor(?:y|ies)', 'for autism', 'autism', 'autistic', 'adhd',
-  'treats', 'cures', 'diagnosis',
-  // hype
-  'guaranteed?', 'first[- ]ever', 'first of its kind', 'the only book', 'the first book', 'number one', '#1',
-  'award[- ]winning', 'bestseller', 'best[- ]selling', 'the best book',
-  'doctor[- ]approved', 'doctor[- ]recommended', 'recommended by doctors', 'made by a doctor',
-  // numbers from studies
-  '\\bd\\s*=\\s*[0-9.]+', '\\bg\\s*=\\s*[0-9.]+', '\\bn\\s*=\\s*[0-9,]+', '\\d+\\s*%\\s*(?:of|more|better|fewer)',
-  // other brands
-  'twentythird', 'day-23', 'casel',
-];
+import { BANNED } from '../server/banned.js';
 
 // Words allowed only on some pages: page path prefix → regex sources allowed there.
 const ALLOW = { '/teachers': ['sel', 'speech therapists?'] };

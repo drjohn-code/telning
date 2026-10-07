@@ -1,0 +1,51 @@
+---
+/* LegalPage: a calm reading page for /privacy, /childrens-privacy and /terms: a small paper scene (a closed envelope
+   with a leaf seal), the H1, "Last updated", a table of contents, short sections. In staging (dev or a Vercel preview)
+   a "Draft: needs a legal check" line shows; never in production. */
+import Base from '../layouts/Base.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import Obj from './Obj.astro';
+import seo from '../data/seo.json';
+
+interface Section { id: string; h: string; p?: string[]; list?: string[]; after?: string[] }
+interface Props { page: string; h1: string; lead: string; sections: Section[]; tocLabel: string; updatedLabel: string; draftLabel: string }
+const { page, h1, lead, sections, tocLabel, updatedLabel, draftLabel } = Astro.props;
+const entry = seo.pages[page];
+const isStaging = import.meta.env.DEV || (!!import.meta.env.VERCEL_ENV && import.meta.env.VERCEL_ENV !== 'production');
+const fmt = (d: string) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+---
+<Base page={page}>
+  <Header />
+  <main id="main" tabindex="-1">
+    <div class="tn-wrap tn-legal">
+      <header class="tn-legal__head">
+        <div class="tn-legal__scene" aria-hidden="true">
+          <div class="tn-envelope"><span class="tn-envelope__flap"></span><span class="tn-envelope__seal"><Obj name="tulip" w="100%" flat swap={{ red: 'moss', 'red-light': 'gold-light', 'red-deep': 'forest-light' }} /></span></div>
+        </div>
+        <div class="tn-legal__text">
+          <Breadcrumbs page={page} />
+          <h1 class="tn-h1" id="page-h" tabindex="-1">{h1}</h1>
+          <p class="tn-lead">{lead}</p>
+          <p class="tn-updated">{updatedLabel} <time datetime={entry.lastmod}>{fmt(entry.lastmod)}</time></p>
+          {isStaging && <p class="tn-pill tn-pill--soft">{draftLabel}</p>}
+        </div>
+      </header>
+      <nav class="tn-toc" aria-label={tocLabel}><p class="tn-kicker">{tocLabel}</p><ol>{sections.map((s) => <li><a href={`#${s.id}`}>{s.h}</a></li>)}</ol></nav>
+      <div class="tn-legal__body">
+        {sections.map((s) => (
+          <section class="tn-legal__section" id={s.id} aria-labelledby={`${s.id}-h`}>
+            <h2 class="tn-h3" id={`${s.id}-h`} tabindex="-1">{s.h}</h2>
+            <div class="tn-prose">
+              {(s.p || []).map((p) => <p class="tn-p" set:html={p} />)}
+              {s.list && <ul>{s.list.map((li) => <li set:html={li} />)}</ul>}
+              {(s.after || []).map((p) => <p class="tn-p" set:html={p} />)}
+            </div>
+          </section>
+        ))}
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Base>

@@ -15,7 +15,9 @@
   },
   "legal": {
     "company": "WelloWork AB",
-    "copyrightYear": 2026
+    "copyrightYear": 2026,
+    "orgNumber": "",
+    "address": ""
   },
   "illustratorName": "",
   "teamCreditOn": true,
