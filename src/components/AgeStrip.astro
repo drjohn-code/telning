@@ -18,7 +18,7 @@ const outAges = new Set((site.books as { status?: string; age?: string }[]).filt
   const inner = (
     <>
       <span class="tn-agechip__n" aria-hidden="true">{a.label}</span>
-      <span class="tn-agechip__t"><span class="tn-agechip__l">{a.name}<span class="tn-sr">, ages {a.label}</span></span>{!out && <span class="tn-pill tn-pill--dark tn-agechip__pill"><span class="tn-sr">, </span>{strings['series.coming']}</span>}</span>
+      <span class="tn-agechip__t"><span class="tn-agechip__l">{a.name}<span class="tn-sr">, ages {a.label}</span></span>{!out && <span class="tn-pill tn-pill--soft tn-agechip__pill"><span class="tn-sr">, </span>{strings['series.coming']}</span>}</span>
       <span class="tn-agechip__obj" aria-hidden="true"><Obj name={art.animal} w="100%" /></span>
     </>
   );

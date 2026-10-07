@@ -87,7 +87,7 @@
     "/404": {
       "name": "Page not found",
       "title": "Page not found | Telning",
-      "description": "This path is not ready yet. Go to the Telning home page, read about the TADA way, or send Pim your child's ending and get a story card back.",
+      "description": "Telning is under development and this address is not live yet. Go to the home page, read about the TADA way, or send Pim your child's ending for a story card.",
       "type": "WebPage",
       "sitemap": false,
       "noindex": true,
