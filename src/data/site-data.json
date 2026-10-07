@@ -10,7 +10,8 @@
     "hashtag": "#TADAstory",
     "instagram": "https://www.instagram.com/telning.pub/",
     "tiktok": "https://www.tiktok.com/@telning.pub",
-    "linkedin": "https://www.linkedin.com/company/telning"
+    "linkedin": "https://www.linkedin.com/company/telning",
+    "amazonAuthor": ""
   },
   "legal": {
     "company": "WelloWork AB",
@@ -29,6 +30,11 @@
   "claims": {
     "firstApproved": false
   },
+  "verification": {
+    "google": "",
+    "bing": ""
+  },
+  "indexNowKey": "541552833c3be4c8d74da739691710e9",
   "languages": {
     "en": "ready"
   },

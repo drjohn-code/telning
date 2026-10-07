@@ -90,5 +90,10 @@
   "footer.instagram": "Instagram",
   "footer.tiktok": "TikTok",
   "footer.linkedin": "LinkedIn",
-  "footer.on": "Telning on {name}"
+  "footer.on": "Telning on {name}",
+  "nf.h1": "This path is not ready yet.",
+  "nf.text": "Pim looked behind the signpost. Nothing here, not yet. Try one of these ways instead.",
+  "nf.home": "Back to the home page",
+  "nf.tada": "Read the TADA way",
+  "nf.send": "Send Pim your ending"
 }

@@ -30,11 +30,11 @@ const BANNED = [
 ];
 
 // Words allowed only on some pages: page path prefix → regex sources allowed there.
-const ALLOW = { '/teachers/': ['sel'] };
+const ALLOW = { '/teachers': ['sel', 'speech therapists?'] };
 // Banned everywhere except where ALLOW says: "SEL" (say "feelings and life skills").
 const BANNED_UNLESS_ALLOWED = ['sel'];
 // Page-specific bans: about Pim, nothing may say hand-drawn unless pim.handDrawn is true.
-const PAGE_BANS = site.pim?.handDrawn ? {} : { '/pim/': ['hand[- ]drawn', 'drawn by hand', 'illustrated by'] };
+const PAGE_BANS = site.pim?.handDrawn ? {} : { '/pim': ['hand[- ]drawn', 'drawn by hand', 'illustrated by'] };
 
 function* htmlFiles(dir) {
   for (const f of readdirSync(dir)) {
@@ -54,14 +54,16 @@ function textOf(html) {
 }
 function pagePath(file) {
   const rel = '/' + relative(DIST, file).replace(/\\/g, '/');
-  return rel.replace(/index\.html$/, '').replace(/\.html$/, '/');
+  if (rel === '/index.html') return '/';
+  return rel.replace(/\/index\.html$/, '').replace(/\.html$/, '');
 }
 
 let hits = 0;
 for (const file of htmlFiles(DIST)) {
   const page = pagePath(file);
-  const text = textOf(readFileSync(file, 'utf8'));
   const allowed = Object.entries(ALLOW).filter(([p]) => page.startsWith(p)).flatMap(([, l]) => l);
+  let text = textOf(readFileSync(file, 'utf8'));
+  for (const src of allowed) text = text.replace(new RegExp(`(?<![\\w-])(?:${src})(?![\\w-])`, 'gi'), ' ');
   const list = [
     ...BANNED,
     ...BANNED_UNLESS_ALLOWED.filter((w) => !allowed.includes(w)),

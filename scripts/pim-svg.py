@@ -149,8 +149,8 @@ portrait = head_leaves() + body(with_limbs=False) + head() + face() + stars() + 
 (OUT / 'pim-portrait.svg').write_text(svg('20 22 200 200', portrait, 200, 200))
 
 # peek: Pim looks over an edge with two paws on it (the 404 signpost goes in front of the lower part)
-paws = (sand('<ellipse cx="74" cy="178" rx="18" ry="11" fill="FILL"/>') + sand('<ellipse cx="166" cy="178" rx="18" ry="11" fill="FILL"/>')
-        + ''.join(f'<circle cx="{x}" cy="183" r="2.6" fill="{C["blush"]}"/>' for x in (66, 74, 82, 158, 166, 174)))
+paws = ('<g class="pim-paws">' + sand('<ellipse cx="74" cy="178" rx="18" ry="11" fill="FILL"/>') + sand('<ellipse cx="166" cy="178" rx="18" ry="11" fill="FILL"/>')
+        + ''.join(f'<circle cx="{x}" cy="183" r="2.6" fill="{C["blush"]}"/>' for x in (66, 74, 82, 158, 166, 174)) + '</g>')
 peek = head_leaves() + head() + face() + stars() + head_sparkles() + paws
 (OUT / 'pim-peek.svg').write_text(svg('20 24 200 168', peek, 200, 168))
 for f in ('pim-full.svg', 'pim-portrait.svg', 'pim-peek.svg'):

@@ -390,6 +390,18 @@ img, svg { display: block; max-width: 100%; }
 }
 @media (min-width: 1024px) { .tn-footer__in { grid-template-columns: 1fr 2fr; } .tn-footer__in ul { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
+/* ---------- 404: Pim peeks from behind the signpost ---------- */
+.tn-404 { display: grid; gap: var(--s6); padding-block: var(--s6) var(--s8); align-items: center; }
+.tn-404__scene { position: relative; width: min(100%, 320px); aspect-ratio: 1; margin-inline: auto; }
+.tn-404__post { position: absolute; left: 14%; bottom: 0; width: 50%; z-index: 1; }
+.tn-404__pim { position: absolute; left: 36%; top: 8%; width: 62%; z-index: 0; }
+.tn-404__paws { z-index: 2; pointer-events: none; }
+.tn-404__paws .tn-pimart > :not(.pim-paws) { display: none; }
+.tn-404__text { display: grid; gap: var(--s4); }
+.tn-404__links { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3) var(--s6); }
+@media (min-width: 600px) { .tn-404 { padding-block: var(--s8) var(--s9); } .tn-404__scene { width: min(100%, 400px); } }
+@media (min-width: 1024px) { .tn-404 { grid-template-columns: 1fr 1.2fr; gap: var(--s8); } .tn-404__scene { width: 100%; max-width: 460px; } }
+
 /* ---------- motion off ---------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }

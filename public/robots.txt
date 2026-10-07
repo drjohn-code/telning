@@ -1,0 +1,30 @@
+# telning.com — Telning Publishing House
+# Everything public is allowed; the form endpoint is not a page.
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# Search and answer bots (names checked October 2026; re-check each company's docs once a year)
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: Applebot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+Allow: /
+Disallow: /api/
+
+# Training bots: allowed (owner's decision, see docs/seo-launch.md). Blocking Google-Extended would not remove
+# us from Google Search or AI Overviews.
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: CCBot
+Allow: /
+Disallow: /api/
+
+Sitemap: https://telning.com/sitemap.xml

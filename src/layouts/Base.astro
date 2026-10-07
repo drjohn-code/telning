@@ -1,40 +1,101 @@
 ---
+/* Base layout: every page's <head> (title, description, canonical, Open Graph, Twitter card, JSON-LD) comes from
+   src/data/seo.json by page path, so one place holds the SEO text and dates.
+   - Organization (one @id, referenced everywhere), WebSite, WebPage (or AboutPage) and a BreadcrumbList on inner pages.
+     Pages add their own nodes (Article, FAQPage, Person…) through `jsonld`.
+   - Preview deployments (Vercel VERCEL_ENV != production) get <meta name="robots" content="noindex">;
+     production never does. scripts/seo-check.mjs checks both.
+   - Search Console / Bing verification tags render only when site data `verification` has a code. */
 import '../styles/tokens.css';
 import '../styles/telning.css';
 import site from '../data/site-data.json';
+import seo from '../data/seo.json';
+import strings from '../data/strings.en.json';
 
-interface Props { title?: string; description?: string; }
-const {
-  title = `${site.publisher} · ${site.taglineSite}`,
-  description = 'Picture books for children from 0 to 7 where your child makes the choices. Every story is built around decision intelligence.',
-} = Astro.props;
-const ogImage = new URL('/og-image.png', Astro.site ?? Astro.url).href;
-// Dev builds label empty art slots with the file they wait for; production never shows them.
+interface Props { page: string; jsonld?: Record<string, unknown>[]; ogImage?: string; orgExtra?: Record<string, unknown>; noindex?: boolean }
+const { page, jsonld = [], ogImage, orgExtra = {}, noindex: noindexProp = false } = Astro.props;
+
+type Entry = { name: string; title: string; description: string; type?: string; article?: boolean; published?: string; lastmod?: string; sitemap?: boolean; noindex?: boolean; og?: string };
+const entry = (seo.pages as Record<string, Entry>)[page];
+if (!entry) throw new Error(`Base: add "${page}" to src/data/seo.json first`);
+
+const HOST = seo.host;
+const url = page === '/' ? `${HOST}/` : `${HOST}${page}`;
+const vercelEnv = import.meta.env.VERCEL_ENV as string | undefined;
+const isPreview = !!vercelEnv && vercelEnv !== 'production';
+const noindex = noindexProp || !!entry.noindex || isPreview;
+const ogImg = `${HOST}${ogImage || entry.og || '/og-image.png'}`;
 const dev = import.meta.env.DEV;
+
+const ORG_ID = `${HOST}/#organization`;
+const SITE_ID = `${HOST}/#website`;
+const social = site.social as Record<string, string>;
+const sameAs = ['instagram', 'tiktok', 'linkedin', 'amazonAuthor'].map((k) => social[k]).filter(Boolean);
+const org = {
+  '@type': 'Organization', '@id': ORG_ID,
+  name: site.publisher, alternateName: 'Telning', url: `${HOST}/`,
+  logo: { '@type': 'ImageObject', url: `${HOST}/apple-touch-icon.png`, width: 180, height: 180 },
+  sameAs,
+  ...orgExtra,
+};
+const website = { '@type': 'WebSite', '@id': SITE_ID, url: `${HOST}/`, name: 'Telning', publisher: { '@id': ORG_ID }, inLanguage: 'en' };
+const webpage: Record<string, unknown> = {
+  '@type': entry.type || 'WebPage', '@id': `${url}#webpage`, url, name: entry.title, description: entry.description,
+  isPartOf: { '@id': SITE_ID }, publisher: { '@id': ORG_ID }, inLanguage: 'en',
+  datePublished: entry.published, dateModified: entry.lastmod,
+  primaryImageOfPage: { '@type': 'ImageObject', url: ogImg, width: 1200, height: 630 },
+};
+const graph: Record<string, unknown>[] = [org, website, webpage];
+if (page !== '/' && page !== '/404') {
+  webpage.breadcrumb = { '@id': `${url}#breadcrumb` };
+  graph.push({
+    '@type': 'BreadcrumbList', '@id': `${url}#breadcrumb`,
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${HOST}/` },
+      { '@type': 'ListItem', position: 2, name: entry.name, item: url },
+    ],
+  });
+}
+graph.push(...jsonld);
+const ld = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
+const verification = (site as { verification?: { google?: string; bing?: string } }).verification || {};
 ---
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{title}</title>
-  <meta name="description" content={description}>
+  <title>{entry.title}</title>
+  <meta name="description" content={entry.description}>
+  <link rel="canonical" href={url}>
+  {noindex && <meta name="robots" content="noindex, nofollow">}
+  {verification.google && <meta name="google-site-verification" content={verification.google}>}
+  {verification.bing && <meta name="msvalidate.01" content={verification.bing}>}
   <meta name="theme-color" content="#f6f1e8">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/fonts/Fraunces-600.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/InstrumentSans-400.woff2" as="font" type="font/woff2" crossorigin>
-  <meta property="og:type" content="website">
+  <meta property="og:type" content={entry.article ? 'article' : 'website'}>
   <meta property="og:site_name" content={site.publisher}>
-  <meta property="og:title" content={title}>
-  <meta property="og:description" content={description}>
-  <meta property="og:image" content={ogImage}>
+  <meta property="og:locale" content={seo.locale}>
+  <meta property="og:url" content={url}>
+  <meta property="og:title" content={entry.title}>
+  <meta property="og:description" content={entry.description}>
+  <meta property="og:image" content={ogImg}>
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content={`${entry.title}. Telning Publishing House.`}>
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content={entry.title}>
+  <meta name="twitter:description" content={entry.description}>
+  <meta name="twitter:image" content={ogImg}>
+  <script type="application/ld+json" set:html={ld} />
 </head>
 <body>
   <div class="tn-page" data-dev={dev ? '' : undefined} lang="en">
-    <a class="tn-skip" href="#main">Skip to the main content</a>
+    <a class="tn-skip" href="#main">{strings['nav.skip']}</a>
     <slot />
   </div>
   <script>

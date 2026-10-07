@@ -1,0 +1,15 @@
+# After every push to main (Vercel deploys from it), tell IndexNow which URLs changed.
+# Waits two minutes so the Vercel deployment is live first.
+name: IndexNow
+on:
+  push:
+    branches: [main]
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: sleep 120
+      - run: node scripts/indexnow.mjs
