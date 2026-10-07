@@ -11,6 +11,15 @@ Simple steps, in order. Tick each one. Claude Code did the code side; the steps 
 - [ ] **Firewall.** Vercel → Project → Firewall. Make sure no rule challenges or blocks the search and AI bots in `robots.txt` (Googlebot, Bingbot, Applebot, OAI-SearchBot, ChatGPT-User, PerplexityBot, Perplexity-User, Claude-SearchBot, Claude-User, and the training bots GPTBot, ClaudeBot, Google-Extended, Applebot-Extended, CCBot). "Bot Protection" and "Attack Challenge Mode" should stay off, or allow-list these bots.
 - [ ] **Deploy** the `site-v2-pages` branch (merge to `main`). Check `https://telning.com/robots.txt`, `/sitemap.xml` and `/llms.txt` open.
 
+## A2. Vercel environment variables (for the story-card form) — once
+
+- [ ] Create a free account at https://resend.com, add and verify the domain `telning.com` (Resend shows the DNS records: add them at your DNS provider), then create an API key.
+- [ ] Vercel → Project → Settings → Environment Variables (Production and Preview):
+      `RESEND_API_KEY` = the key · `STORY_CARD_INBOX` = the team inbox, e.g. `cards@telning.com` · `STORY_CARD_FROM` = `Pim <pim@telning.com>`.
+      Until the key exists the form says "The story-card post box is not open yet"; nothing is lost silently.
+- [ ] In `src/data/site-data.json` set `storyCard.emailService` to `Resend` and `storyCard.inbox`: the privacy notices name the service.
+- [ ] Later, for auto mode: `STORY_CARD_MODE=auto` and `ANTHROPIC_API_KEY`. A person still finishes every card.
+
 ## B. Google Search Console — once
 
 1. [ ] Open https://search.google.com/search-console → Add property → **Domain** → `telning.com`.

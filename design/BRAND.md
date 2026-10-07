@@ -4,7 +4,7 @@ The look is a **paper theatre**: a premium publisher (Fraunces, warm paper, ink,
 
 ## Rules
 
-1. **Objects and cute animals, never characters.** Code may draw the paper objects and decorative animals in this system (balloons, cars, blocks, the signpost, the fox, the owl…; animals with simple dot eyes). Never Pim, a series main character or a book page: those come from the human illustrator, through art slots.
+1. **Objects and cute animals, never characters.** Code may draw the paper objects and decorative animals in this system (balloons, cars, blocks, the signpost, the fox, the owl…; animals with simple dot eyes). Never a series main character or a book page: those come from the human illustrator, through art slots. Pim comes from the approved Pim art (`art/pim/`, `Pim.astro`); code never invents a different Pim.
 2. **Decision intelligence first.** It is named first and shown biggest wherever skills appear. The other three skills sit beside it, never above it.
 3. **Pim speaks for Telning.** First person, warm, one short sentence, about choosing. Pim never makes a claim and never gives advice about a child's health.
 4. **Safe words only** (see Words). Describe what the child does; never promise a result.
@@ -41,7 +41,7 @@ The colophon (an open book forming a "T" and a young tree, cream in a red rounde
 
 ## Series, ages, skills
 
-Series (with the plain theme word shown under each name, for search): Home & Hearts (family & friends), Paws & Claws (animals), Star Hoppers (space), Little Gardeners (flowers & nature), Big Days (celebrations), The Toy Box (toys), Little Kitchen (food & cooking), Funny Pages (cartoons), Round the Year (months & seasons), Game On (sports), Everyday Heroes (superheroes), On the Move (cars, planes & balloons). Names live in the site data and can change; check each for trademarks before print. Ages: 0–3 Baby and toddler, 3–5 Preschool, 5–7 Early school. Skills: Decision intelligence (the heart), then Emotional intelligence, Social skills, Behavioural skills.
+Series (with the plain theme word shown under each name, for search): Home & Hearts (family & friends), Paws & Claws (animals), Star Hoppers (space), Little Gardeners (flowers & nature), Big Days (celebrations), The Toy Box (toys), Little Kitchen (food & cooking), Funny Pages (cartoons), Round the Year (months & seasons), Game On (sports), Everyday Heroes (superheroes), On the Move (cars, planes & balloons). Names live in the site data and can change; check each for trademarks before print. Ages: 0–3 Toddler, 3–5 Preschool, 5–7 Early school. Skills: Decision intelligence (the heart), then Emotional intelligence, Social skills, Behavioural skills.
 
 ## Components
 
@@ -49,4 +49,4 @@ Logo, Objects, PimNote, Button (and link), Pill, BookCover, BookCard, SeriesWorl
 
 ## Site data and text
 
-`assets/Site data/site-data.json` holds every fact that can change (series, ages, skills, books, links, switches); `strings.en.json` holds all English text (`strings.de.json`, `strings.sv.json` share the keys). A language shows in the switch only when marked `ready`.
+`src/data/site-data.json` holds every fact that can change (series, ages, skills, books, links, switches, founder, story-card settings); `src/data/strings.en.json` holds the shared English text and `src/data/pages/*.json` the page copy, marked draft until a person checks it (`strings.de.json`, `strings.sv.json` share the keys). The site has one language; there is no language switch.

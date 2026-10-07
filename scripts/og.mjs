@@ -15,7 +15,7 @@ const pim = readFileSync(join(ROOT, 'art/pim/pim-full.svg'), 'utf8').replace(/wi
 const lockup = readFileSync(join(ROOT, 'art/logo/lockup.svg'), 'utf8').replace(/width="[\d.]+" height="[\d.]+"/, '');
 
 const SCENES = {
-  '/': [obj('house'), obj('rocket'), obj('car'), obj('balloon')],
+  '/': [obj('house'), obj('rocket'), obj('car')],
   '/tada': ['<div class="tile">T</div><div class="tile">A</div><div class="tile key">D</div><div class="tile">A</div>'],
   '/guide': [obj('book'), obj('crayon-red'), obj('crayon-sea'), obj('chair')],
   '/send': [obj('plane'), obj('mailbox')],
@@ -48,7 +48,8 @@ const page = await browser.newPage({ viewport: { width: 1200, height: 630 }, dev
 for (const [path, entry] of Object.entries(seo.pages)) {
   if (path === '/404') continue;
   const slug = path === '/' ? 'home' : path.slice(1);
-  const title = entry.title.replace(/\s*\|\s*Telning$/, '').replace(/^Telning:\s*/, '');
+  const raw = entry.title.replace(/\s*\|\s*Telning$/, '').replace(/^Telning:\s*/, '');
+  const title = raw.charAt(0).toUpperCase() + raw.slice(1);
   await page.setContent(html(title, SCENES[path] || [obj('book')], path === '/pim' || path === '/tada'));
   await page.evaluate(() => document.fonts.ready);
   await page.waitForTimeout(150);
