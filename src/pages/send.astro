@@ -1,0 +1,141 @@
+---
+/* /send — Send Pim your ending: how it works, the sample card, the form (brief 5.1), privacy in plain words
+   (the real flow of src/server/story-card.ts), FAQ. Printed in the books as a QR code: the address never changes;
+   no shop links, no prices, none of the words gift, reward, prize, win, free. Copy: src/data/pages/send.json (draft). */
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHero from '../components/PageHero.astro';
+import Obj from '../components/Obj.astro';
+import Pim from '../components/Pim.astro';
+import StoryCard from '../components/StoryCard.astro';
+import KidDrawing from '../components/KidDrawing.astro';
+import Faq from '../components/Faq.astro';
+import site from '../data/site-data.json';
+import seo from '../data/seo.json';
+import t from '../data/pages/send.json';
+
+const PAGE = '/send';
+const entry = seo.pages[PAGE];
+const HOST = seo.host;
+const url = `${HOST}${PAGE}`;
+const TIME = site.storyCardReplyTime;
+const sc = (site as { storyCard?: { mode?: string; inbox?: string; emailService?: string; host?: string } }).storyCard || {};
+const fill = (s: string) => s.replace('{time}', TIME).replace('{host}', sc.host || 'Vercel').replace('{email}', sc.emailService || 'our email service');
+const isStaging = import.meta.env.DEV || (!!import.meta.env.VERCEL_ENV && import.meta.env.VERCEL_ENV !== 'production');
+const booksOut = (site.books as { key: string; title?: { en: string }; status?: string }[]).filter((b) => b.status === 'out').map((b) => ({ key: b.key, name: b.title?.en || b.key }));
+const bookOptions = booksOut.length ? booksOut : isStaging ? site.series.map((s) => ({ key: s.key, name: `${s.name} (staging)` })) : [];
+const ages = Array.from({ length: 10 }, (_, i) => i + 1);
+const faq = t.faq.items.map((it) => ({ q: it.q, a: fill(it.a) }));
+const jsonld = [{ '@type': 'FAQPage', '@id': `${url}#faq`, mainEntity: faq.map((it) => ({ '@type': 'Question', name: it.q, acceptedAnswer: { '@type': 'Answer', text: it.a } })) }];
+const jsStrings = { errors: t.form.errors, sending: t.form.sending, thanksH: t.form.thanksH, thanks: fill(t.form.thanks), submit: t.form.submit, change: t.form.photoChange, maxMb: 10 };
+---
+<Base page={PAGE} jsonld={jsonld}>
+  <Header />
+  <main id="main" tabindex="-1">
+    <PageHero page={PAGE} kicker={t.kicker} h1={t.h1} lead={t.lead} colour="sky-light">
+      <Fragment slot="after"><p class="tn-p">{fill(t.intro)}</p></Fragment>
+      <div class="tn-layer" style="--d:6;top:10%;left:0;width:100%"><div class="tn-drift" style="--drift:70s;width:22%"><Obj name="cloud" w="100%" /></div></div>
+      <div class="tn-layer" style="--d:4;top:8%;right:8%;width:16%"><Obj name="sun" w="100%" class="tn-spin" /></div>
+      <div class="tn-layer" style="--d:10;top:56%;bottom:-10%;left:0;width:100%"><svg class="tn-hill" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true"><path d="M0 300V56C60 32 130 26 200 38s130 18 200-6v268z" fill="var(--moss)"/></svg></div>
+      <div class="tn-layer" style="--d:24;bottom:10%;right:10%;width:16%"><Obj name="mailbox" w="100%" /></div>
+      <div class="tn-layer" style="--d:30;top:22%;left:14%;width:22%"><div class="tn-float"><div class="tn-sendhero__plane"><Obj name="plane" w="100%" /><span class="tn-sendhero__sheet"><KidDrawing /></span></div></div></div>
+      <div class="tn-layer tn-hide-sm" style="--d:20;bottom:14%;left:8%;width:12%"><Obj name="tulip" w="100%" class="tn-sway" /></div>
+    </PageHero>
+
+    <section class="tn-section" id="how" aria-labelledby="how-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-head tn-reveal"><h2 class="tn-h2" id="how-h" tabindex="-1">{t.how.h2}</h2></div>
+      <ol class="tn-cards tn-cards--3 tn-steps3">
+        {t.how.steps.map((s) => (<li class="tn-card tn-reveal"><span class="tn-card__ic" style={`--c:var(--${s.c})`} aria-hidden="true"><Obj name={s.icon} w="100%" flat /></span><h3 class="tn-h3">{s.h}</h3><p class="tn-p">{fill(s.t)}</p></li>))}
+      </ol>
+      <div class="tn-sendstory tn-view" aria-hidden="true">
+        <div class="ss-sheet"><KidDrawing /></div>
+        <div class="ss-env"><span class="ss-env__flap"></span></div>
+        <div class="ss-plane"><Obj name="plane" w="100%" /></div>
+        <div class="ss-pim"><Pim pose="full" shadow /></div>
+        <div class="ss-mailbox"><Obj name="mailbox" w="100%" /></div>
+        <div class="ss-card"><span></span></div>
+        <svg class="ss-ground" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 60V30C60 10 130 6 200 18s140 16 200 2v40z" fill="var(--moss)"/></svg>
+      </div>
+    </div></section>
+
+    <section class="tn-section" id="example" aria-labelledby="example-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-send">
+        <div class="tn-reveal" style="display:grid;gap:16px"><h2 class="tn-h2" id="example-h" tabindex="-1">{t.example.h2}</h2><p class="tn-lead">{t.example.text}</p></div>
+        <div class="tn-send__art tn-scene" data-depth-area><StoryCard name={t.example.cardName} age={t.example.cardAge} lines={t.example.cardLines as [string, string]} colour="sea-deep" sample label={t.example.cardLabel} class="tn-tilt" /></div>
+      </div>
+    </div></section>
+
+    <section class="tn-section" id="form" aria-labelledby="form-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-head tn-reveal"><h2 class="tn-h2" id="form-h" tabindex="-1">{t.form.h2}</h2><p class="tn-lead">{t.form.lead}</p></div>
+      <form class="tn-form" id="story-form" action="/api/story-card" method="post" enctype="multipart/form-data" novalidate data-mode={sc.mode || 'manual'}>
+        <ol class="tn-progress" aria-label="Form progress">{t.form.progress.map((p, i) => <li aria-current={i === 0 ? 'step' : undefined}><span class="tn-progress__n" aria-hidden="true">{i + 1}</span>{p}</li>)}</ol>
+        <input type="hidden" name="form" value="story-card">
+        <input type="hidden" name="lang" value="en">
+        <input type="hidden" name="photoCropped" value="">
+
+        <fieldset class="tn-form__part" id="part-1" data-step="1">
+          <legend class="tn-form__legend"><span class="tn-form__num" aria-hidden="true">1</span>{t.form.part1} <span class="tn-form__note">{t.form.part1Note}</span></legend>
+          <div class="tn-field"><label class="tn-label" for="f-email">{t.form.email}</label><input class="tn-input" id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="f-email-err"><p class="tn-error" id="f-email-err" aria-live="polite"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M10 5.5v5.5M10 14.2v.3"/></svg><span class="tn-error-text"></span></p></div>
+          <div class="tn-field"><label class="tn-label" for="f-name">{t.form.name}</label><input class="tn-input" id="f-name" name="childName" type="text" autocomplete="off" maxlength="40" required aria-describedby="f-name-hint f-name-err"><p class="tn-hint" id="f-name-hint">{t.form.nameHint}</p><p class="tn-error" id="f-name-err" aria-live="polite"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M10 5.5v5.5M10 14.2v.3"/></svg><span class="tn-error-text"></span></p></div>
+          <div class="tn-field"><label class="tn-label" for="f-age">{t.form.age}</label><select class="tn-input tn-select" id="f-age" name="childAge" required aria-describedby="f-age-err"><option value="">{t.form.ageChoose}</option>{ages.map((a) => <option value={a}>{a}</option>)}</select><p class="tn-error" id="f-age-err" aria-live="polite"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M10 5.5v5.5M10 14.2v.3"/></svg><span class="tn-error-text"></span></p></div>
+          {bookOptions.length > 0 ? (
+            <div class="tn-field"><label class="tn-label" for="f-book">{t.form.book}</label><select class="tn-input tn-select" id="f-book" name="book">{bookOptions.map((b) => <option value={b.key}>{b.name}</option>)}<option value="other">{t.form.bookOther}</option></select></div>
+          ) : <input type="hidden" name="book" value="other">}
+          <fieldset class="tn-field tn-field--group" aria-describedby="f-ending-err"><legend class="tn-label">{t.form.ending}</legend><div class="tn-radios">{t.form.endings.map((e, i) => <label class="tn-radio"><input type="radio" name="ending" value={['1', '2', 'own'][i]} required><span>{e}</span></label>)}</div><p class="tn-error" id="f-ending-err" aria-live="polite"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M10 5.5v5.5M10 14.2v.3"/></svg><span class="tn-error-text"></span></p></fieldset>
+          <div class="tn-field tn-field--photo"><label class="tn-label" for="f-photo">{t.form.photo}</label><p class="tn-hint" id="f-photo-hint">{t.form.photoHint}</p>
+            <div class="tn-photo"><input class="tn-photo__input" id="f-photo" name="photo" type="file" accept="image/jpeg,image/png,image/heic,image/heif,image/webp,.heic,.heif" required aria-describedby="f-photo-hint f-photo-err"><label class="tn-btn tn-btn--light tn-photo__btn" for="f-photo" data-choose={t.form.photoChoose} data-change={t.form.photoChange}>{t.form.photoChoose}</label></div>
+            <div class="tn-crop" hidden><p class="tn-hint">{t.form.cropHint}</p><div class="tn-crop__frame"><canvas class="tn-crop__canvas" width="640" height="640"></canvas></div><div class="tn-crop__tools"><button class="tn-btn tn-btn--light" type="button" data-rotate>{t.form.rotate} ↻</button><label class="tn-crop__zoom">{t.form.zoom} <input type="range" min="1" max="3" step="0.01" value="1" data-zoom></label></div></div>
+            <p class="tn-error" id="f-photo-err" aria-live="polite"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M10 5.5v5.5M10 14.2v.3"/></svg><span class="tn-error-text"></span></p></div>
+        </fieldset>
+
+        <fieldset class="tn-form__part" id="part-2" data-step="2">
+          <legend class="tn-form__legend"><span class="tn-form__num" aria-hidden="true">2</span>{t.form.part2} <span class="tn-form__note">{t.form.part2Note}</span></legend>
+          <div class="tn-note tn-note--sky tn-why"><h3 class="tn-h3">{t.form.why.h}</h3><p class="tn-p">{t.form.why.t}</p></div>
+          {t.form.q.map((q) => (
+            <div class="tn-field tn-field--q">
+              <p class="tn-label" id={`q-${q.id}-l`}>{q.label}</p>
+              {q.chips && <div class="tn-chips" role="group" aria-labelledby={`q-${q.id}-l`}>{t.form.chips.map((c) => <label class="tn-chip-opt"><input type="checkbox" name={`q_${q.id}_chip`} value={c}><span>{c}</span></label>)}</div>}
+              {q.chips2 && q.chips2.map((row, ri) => (<div class="tn-chips tn-chips--row" role="group" aria-label={`${q.label} ${row}`}><span class="tn-chips__row">{row}</span>{t.form.chips.map((c) => <label class="tn-chip-opt"><input type="checkbox" name={`q_${q.id}_${ri === 0 ? 'start' : 'end'}`} value={c}><span>{c}</span></label>)}</div>))}
+              <label class="tn-hint" for={`q-${q.id}`}>{t.form.more}</label><textarea class="tn-input tn-textarea" id={`q-${q.id}`} name={`q_${q.id}`} maxlength="300" rows="2"></textarea>
+            </div>
+          ))}
+        </fieldset>
+
+        <fieldset class="tn-form__part" id="part-3" data-step="3">
+          <legend class="tn-form__legend"><span class="tn-form__num" aria-hidden="true">3</span>{t.form.part3} <span class="tn-form__note">{t.form.part3Note}</span></legend>
+          <div class="tn-checks">
+            <label class="tn-check"><input type="checkbox" name="consentGuardian" value="yes" required aria-describedby="f-c1-err"><span>{t.form.c1}</span></label><p class="tn-error" id="f-c1-err" aria-live="polite"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M10 5.5v5.5M10 14.2v.3"/></svg><span class="tn-error-text"></span></p>
+            <label class="tn-check"><input type="checkbox" name="consentCard" value="yes" required aria-describedby="f-c2-err"><span>{t.form.c2}</span></label><p class="tn-error" id="f-c2-err" aria-live="polite"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M10 5.5v5.5M10 14.2v.3"/></svg><span class="tn-error-text"></span></p>
+            <label class="tn-check"><input type="checkbox" name="consentAnswers" value="yes" aria-describedby="f-c3-note f-c3-err"><span>{t.form.c3} <span class="tn-hint" id="f-c3-note">{t.form.c3Note}</span></span></label><p class="tn-error" id="f-c3-err" aria-live="polite"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M10 5.5v5.5M10 14.2v.3"/></svg><span class="tn-error-text"></span></p>
+            <label class="tn-check"><input type="checkbox" name="consentShare" value="yes" aria-describedby="f-c4-note"><span>{t.form.c4} <span class="tn-hint" id="f-c4-note">{t.form.c4Note}</span></span></label>
+          </div>
+          <p class="tn-small"><a class="tn-link" href="/childrens-privacy">{t.form.privacyLink}</a></p>
+          <div class="tn-hp" aria-hidden="true"><label for="f-web">{t.form.honeypot}</label><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+          <p class="tn-error tn-form__fail" id="f-form-err" aria-live="assertive"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M10 5.5v5.5M10 14.2v.3"/></svg><span class="tn-error-text"></span></p>
+          <div class="tn-actions"><button class="tn-btn" type="submit">{t.form.submit}</button></div>
+        </fieldset>
+        <div class="tn-form__thanks" tabindex="-1" role="status" hidden><div class="tn-pim__disc tn-form__thanks-pim"><Pim pose="portrait" /></div><h3 class="tn-h2">{t.form.thanksH}</h3><p class="tn-lead">{fill(t.form.thanks)}</p></div>
+      </form>
+      <script type="application/json" id="send-strings" set:html={JSON.stringify(jsStrings)} />
+    </div></section>
+
+    <section class="tn-section" id="privacy" aria-labelledby="privacy-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-note tn-reveal" style="max-width:var(--text-max)"><h2 class="tn-h3" id="privacy-h" tabindex="-1">{t.privacy.h2}</h2>{t.privacy.p.map((p) => <p class="tn-p">{fill(p)}</p>)}<p class="tn-p"><a class="tn-link tn-link--solo" href="/childrens-privacy">{t.privacy.link}</a></p></div>
+    </div></section>
+
+    <section class="tn-section" id="faq" aria-labelledby="faq-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-head tn-reveal"><h2 class="tn-h2" id="faq-h" tabindex="-1">{t.faq.h2}</h2></div>
+      <Faq items={faq} />
+    </div></section>
+
+    <section class="tn-section" id="next" aria-labelledby="next-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-next tn-reveal"><h2 class="tn-h2" id="next-h" tabindex="-1">{t.next.h2}</h2><p class="tn-lead">{t.next.text}</p>
+        <div class="tn-actions"><a class="tn-btn" href="/guide">{t.next.button}</a><a class="tn-link tn-link--solo" href="/tada">{t.next.link}</a></div></div>
+    </div></section>
+  </main>
+  <Footer />
+  <script>
+    import '../scripts/send-form.js';
+  </script>
+</Base>

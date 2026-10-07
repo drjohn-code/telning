@@ -40,6 +40,13 @@
   "formEndpoint": "",
   "guidePdf": "",
   "storyCardReplyTime": "24 hours",
+  "storyCard": {
+    "mode": "manual",
+    "inbox": "",
+    "emailService": "",
+    "host": "Vercel",
+    "keepDays": 30
+  },
   "pim": {
     "art": "svg",
     "handDrawn": false

@@ -1,0 +1,127 @@
+{
+  "_draft": true,
+  "_note": "All text on /send is a draft for a person to check (STRINGS_DRAFT). /send is a QR page: no shop links, no prices, none of the words gift, reward, prize, win, free. The privacy words describe the real flow in src/server/story-card.ts; if the code changes, these words change.",
+  "kicker": "Telning Publishing House · Story cards",
+  "h1": "Send Pim your ending",
+  "lead": "Your child drew the ending. Pim sends back a story card.",
+  "intro": "Take a photo of the drawing page and fill in a short form. Within {time}, a story card and ideas for your next talk come back by email. This is for grown-ups. We ask for a first name and an age, never a photo of your child.",
+
+  "how": {
+    "h2": "How does it work?",
+    "steps": [
+      { "icon": "book", "c": "sky-light", "h": "Take a photo of the drawing page", "t": "Only the drawing. Good light, no people in the picture." },
+      { "icon": "clipboard", "c": "gold-light", "h": "Fill in the short form", "t": "Your email, your child's first name and age, and which ending they chose." },
+      { "icon": "plane", "c": "blush", "h": "Get the story card by email", "t": "Within {time}: the card, two lines from Pim, and ideas for your next talk." }
+    ]
+  },
+
+  "example": {
+    "h2": "What comes back",
+    "text": "A story card like this one, with your child's drawing, first name and age, and two lines from Pim. Under it, in the email: three questions for your next talk and one small thing to try in real life.",
+    "cardName": "Noa",
+    "cardAge": 5,
+    "cardLines": ["You chose the ending where they share.", "I would choose that one too!"],
+    "cardLabel": "Sample story card: a child's crayon drawing of a house, a sun and flowers, with the words A TADA ending by Noa, 5, and two lines from Pim."
+  },
+
+  "form": {
+    "h2": "The form",
+    "lead": "Three short parts. Only the first part is required.",
+    "progress": ["The drawing", "Talk about the story", "Consent"],
+    "part1": "The drawing",
+    "part1Note": "Required",
+    "email": "Your email (we send the card here)",
+    "name": "Your child's first name",
+    "nameHint": "First name only.",
+    "age": "Your child's age",
+    "ageChoose": "Choose an age",
+    "book": "Which book?",
+    "bookOther": "Other",
+    "ending": "Which ending did your child choose?",
+    "endings": ["Ending 1", "Ending 2", "They drew their own"],
+    "photo": "Photo of the drawing page",
+    "photoHint": "Only the drawing, please. No people in the photo. JPG, PNG, HEIC or WebP, up to 10 MB.",
+    "photoChoose": "Choose a photo",
+    "photoChange": "Choose another photo",
+    "rotate": "Rotate",
+    "zoom": "Zoom",
+    "cropHint": "Drag the picture to place the drawing in the frame. Use the slider to zoom.",
+    "part2": "Talk about the story",
+    "part2Note": "All optional",
+    "why": {
+      "h": "Why we ask these questions",
+      "t": "These questions are optional. Your answers help us write ideas that fit your child's story: what to ask next and how to keep the talk going. We use your answers once, to write your tips. We do not save them. We never use them to test, judge or diagnose your child, and we never share them. You can skip every question and still get a story card."
+    },
+    "chips": ["happy", "sad", "angry", "worried", "scared", "surprised", "calm", "proud", "other"],
+    "q": [
+      { "id": "world", "label": "What did your child say about the place where the story happens?" },
+      { "id": "character", "label": "How did your child think the main character felt?", "chips": true },
+      { "id": "child", "label": "How did your child feel at the start of the story, and at the end?", "chips2": ["At the start", "At the end"] },
+      { "id": "choice", "label": "Why did your child choose this ending?" },
+      { "id": "life", "label": "Did your child talk about a time they felt like this, or what they would do?" },
+      { "id": "else", "label": "Anything else you noticed?" }
+    ],
+    "more": "In your own words (optional, up to 300 characters)",
+    "part3": "Consent",
+    "part3Note": "Required",
+    "c1": "I am the child's parent or guardian, and I am over 18.",
+    "c2": "You may use the first name, age and drawing to make the story card.",
+    "c3": "You may use my answers once to write tips for our next talk.",
+    "c3Note": "Needed only if you answered a question in part 2.",
+    "c4": "You may share the story card (first name, age and drawing only) on Telning's Instagram and TikTok.",
+    "c4Note": "Optional. We never share your answers or your email.",
+    "privacyLink": "Read the children's privacy notice",
+    "submit": "Send to Pim",
+    "sending": "Sending…",
+    "thanksH": "Pim has your drawing!",
+    "thanks": "Look in your email within {time}.",
+    "honeypot": "Website",
+    "errors": {
+      "email": "Please write your email, so we can send the card.",
+      "emailInvalid": "Please check your email address.",
+      "name": "Please write your child's first name.",
+      "age": "Please choose your child's age.",
+      "ending": "Please choose which ending your child picked.",
+      "photo": "Please add a photo of the drawing.",
+      "photoType": "Please choose a JPG, PNG, HEIC or WebP photo.",
+      "photoSize": "That photo is bigger than 10 MB. Please choose a smaller one.",
+      "c1": "Please confirm you are the parent or guardian and over 18.",
+      "c2": "Please allow us to use the first name, age and drawing for the card.",
+      "c3": "Please allow us to use your answers, or clear part 2.",
+      "failed": "Sorry, that did not work. Please try again in a minute.",
+      "notReady": "The story-card post box is not open yet. Please try again soon.",
+      "person": "We can only take a photo of the drawing. Please take a new photo without people in it."
+    }
+  },
+
+  "privacy": {
+    "h2": "What happens to what you send",
+    "p": [
+      "Your email, your child's first name and age, the drawing and your answers go in one email to our small team. A person looks at the drawing, makes the card and writes your tips.",
+      "Your answers are used once, to write the tips. They are not saved in any database, file or statistics. The email is deleted after we reply, and in every case within 30 days.",
+      "The drawing is deleted right after we send your card. If you let us share the card on Instagram or TikTok, we keep only the finished story card image, never your answers or your email.",
+      "The photo's hidden data (camera, date, place) is removed before anyone sees it. We do not add you to the email list unless you ask for that separately.",
+      "Who touches the data: our website host ({host}), which receives the form, and our email service ({email}), which carries the email to our team. Nobody else."
+    ],
+    "link": "Read the children's privacy notice"
+  },
+
+  "faq": {
+    "h2": "Questions parents ask",
+    "items": [
+      { "q": "Do I need to send a photo of my child?", "a": "No, please do not. We only want the drawing. If a photo shows a person, we ask you for a new one." },
+      { "q": "How long does it take?", "a": "A person makes every card. You get an email within {time}." },
+      { "q": "My child only scribbled. Can I still send it?", "a": "Yes. A scribble is a real ending at two or three years old. Pim loves scribbles." },
+      { "q": "Can I send more than one drawing?", "a": "Yes, one form per drawing. Pim answers every one." },
+      { "q": "Which languages do you write in?", "a": "English for now. The books have no words, so the story works in any language at home." },
+      { "q": "What do you do with my answers about the story?", "a": "We read them once to write your tips, then they are gone. They are never used to test, judge or diagnose your child, and never shared." }
+    ]
+  },
+
+  "next": {
+    "h2": "Not sure what to ask next time?",
+    "text": "The parent guide has questions that work, by age.",
+    "button": "Read the parent guide",
+    "link": "Why TADA works"
+  }
+}
