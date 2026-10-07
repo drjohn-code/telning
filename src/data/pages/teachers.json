@@ -1,0 +1,56 @@
+{
+  "_draft": true,
+  "_note": "All text on /teachers is a draft for a person to check (STRINGS_DRAFT). 'SEL' and 'speech therapists often use wordless books' are allowed here (guideline 3.7). Not 'CASEL-aligned' unless John confirms. No promises about copying pages or licences (John decides).",
+  "kicker": "Telning Publishing House · For teachers",
+  "h1": "Wordless picture books for the classroom",
+  "lead": "Every child can join in, whatever language they speak at home.",
+  "intro": "Telning books have no words, so the whole class can tell the story together. One picture per page, one change per page, and a fork with two endings to talk about. This page shows how teachers use them with a whole class, a small group, or one child.",
+
+  "why": {
+    "h2": "Why do wordless books work in class?",
+    "cards": [
+      { "icon": "bubble", "c": "sky-light", "h": "Every child can join", "t": "No reading level, no language barrier. A child who speaks Arabic at home and a child who speaks Swedish tell the same page." },
+      { "icon": "book", "c": "gold-light", "h": "The children do the talking", "t": "With wordless books, adults ask more open questions and children say more. The book is the stage; the talk is the play." },
+      { "icon": "bulb", "c": "blush", "h": "One picture, one change", "t": "Simple pages keep attention on the story. Children with less language can still follow and take part." },
+      { "icon": "signpost", "c": "moss", "h": "A fork to argue about", "t": "Two endings side by side. Half the class picks one, half the other. Then: why?" }
+    ],
+    "therapists": "Speech therapists often use wordless books to get children telling stories. The same clear sequence works for a class."
+  },
+
+  "how": {
+    "h2": "TADA for the classroom",
+    "lead": "The same four steps as at home: Talk, Ask, Decide, Act. Three ways to run them.",
+    "modes": [
+      { "h": "Whole class", "t": "Show one page at a time on the screen or hold the book up. Ask one question per page and take three answers. At the fork, vote with hands, then ask two children why.", "time": "15–20 minutes" },
+      { "h": "Small group", "t": "Four to six children, one book. Each child tells one page in turn. The group chooses the ending together and has to agree on a reason.", "time": "15 minutes" },
+      { "h": "One-to-one", "t": "The child holds the book and tells the whole story. You ask, wait, and add one word. Good for a child who is new to the language of the classroom.", "time": "10 minutes" }
+    ],
+    "link": "Read the TADA way"
+  },
+
+  "topics": {
+    "h2": "Topics you can teach with the books",
+    "lead": "Feelings and life skills, in the words children use. In teacher language: SEL.",
+    "items": [
+      { "h": "Feelings", "t": "Naming a feeling, seeing it in a face and a body, noticing it change." },
+      { "h": "Friends", "t": "Sharing, taking turns, joining a game, saying sorry." },
+      { "h": "Choices", "t": "Seeing two ways, thinking about what happens next, picking one and saying why." },
+      { "h": "Everyday life", "t": "A new place, a first day, a visit to the doctor, bedtime." }
+    ]
+  },
+
+  "pack": {
+    "h2": "The teacher pack is coming",
+    "line": "Discussion questions for every book, a fork page for the whole class, and a short TADA plan. Leave your email and we send it when it is ready.",
+    "button": "Tell me when it is ready",
+    "consent": "We use your email only for the teacher pack and Telning news.",
+    "thanks": "Thank you! We will write when the pack is ready."
+  },
+
+  "next": {
+    "h2": "Want the science?",
+    "text": "The TADA page has the research in plain words, with sources.",
+    "button": "The TADA way",
+    "link": "The parent guide"
+  }
+}
