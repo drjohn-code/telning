@@ -1,0 +1,133 @@
+---
+/* /about — About us: the founder's note (portrait in a paper frame, letter card, LinkedIn and email), who we are
+   (team cards only from site data), how a book is made (timeline with the seed-to-tree scroll story), our promises,
+   the name, contact. Copy: src/data/pages/about.json (draft). Founder facts: site data `founder` only. */
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHero from '../components/PageHero.astro';
+import Obj from '../components/Obj.astro';
+import site from '../data/site-data.json';
+import seo from '../data/seo.json';
+import t from '../data/pages/about.json';
+import { SOCIAL_ICONS } from '../components/socialIcons';
+
+const PAGE = '/about';
+const entry = seo.pages[PAGE];
+const HOST = seo.host;
+const url = `${HOST}${PAGE}`;
+const ORG_ID = `${HOST}/#organization`;
+const F = site.founder;
+const PERSON_ID = `${url}#founder`;
+const members = (site.team?.members || []) as { name: string; role: string; bio?: string; photo?: string; photoAlt?: string }[];
+const person = {
+  '@type': 'Person', '@id': PERSON_ID, name: F.name, jobTitle: F.role, description: F.credentials,
+  image: `${HOST}${F.portrait}`, worksFor: { '@id': ORG_ID }, sameAs: [F.linkedin],
+};
+const teamPeople = members.map((m, i) => ({ '@type': 'Person', '@id': `${url}#team-${i + 1}`, name: m.name, jobTitle: m.role, worksFor: { '@id': ORG_ID } }));
+---
+<Base page={PAGE} jsonld={[person, ...teamPeople]} orgExtra={{ founder: { '@id': PERSON_ID } }}>
+  <Header />
+  <main id="main" tabindex="-1">
+    <PageHero page={PAGE} kicker={t.kicker} h1={t.h1} lead={t.lead} colour="sky-light">
+      <Fragment slot="after"><p class="tn-p">{t.intro}</p></Fragment>
+      <div class="tn-layer" style="--d:4;top:8%;right:8%;width:18%"><Obj name="sun" w="100%" class="tn-spin" /></div>
+      <div class="tn-layer" style="--d:8;top:14%;left:0;width:100%"><div class="tn-drift" style="--drift:75s;width:22%"><Obj name="cloud" w="100%" /></div></div>
+      <div class="tn-layer" style="--d:10;top:50%;bottom:-10%;left:0;width:100%"><svg class="tn-hill" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true"><path d="M0 300V58C60 34 130 28 200 40s130 18 200-6v266z" fill="var(--moss)"/></svg></div>
+      <div class="tn-layer" style="--d:20;top:70%;bottom:-10%;left:0;width:100%"><svg class="tn-hill" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true"><path d="M0 300V50C50 30 110 22 170 34s110 20 160 6 60-20 70-18v228z" fill="var(--forest-light)"/></svg></div>
+      <div class="tn-layer" style="--d:28;bottom:14%;left:40%;width:22%"><Obj name="tulip" w="100%" class="tn-sway" swap={{ red: 'moss', 'red-light': 'gold-light', 'red-deep': 'forest-light' }} /></div>
+      <div class="tn-layer tn-hide-sm" style="--d:24;bottom:16%;left:12%;width:14%"><Obj name="tulip" w="100%" /></div>
+      <div class="tn-layer tn-hide-sm" style="--d:30;bottom:12%;right:10%;width:13%"><div class="tn-hop-idle"><Obj name="hedgehog" w="100%" /></div></div>
+      <div class="tn-layer tn-hide-sm" style="--d:34;top:18%;right:30%;width:9%"><div class="tn-float"><Obj name="bee" w="100%" /></div></div>
+    </PageHero>
+
+    <section class="tn-section" id="founder" aria-labelledby="founder-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-head tn-reveal"><h2 class="tn-h2" id="founder-h" tabindex="-1">{t.founder.h2}</h2></div>
+      <div class="tn-founder">
+        <figure class="tn-founder__fig tn-reveal">
+          <div class="tn-pframe" style="--c:var(--gold-light)">
+            <div class="tn-pframe__arch">
+              <picture>
+                <source srcset={F.portrait} type="image/webp" />
+                <img src={F.portraitPng} alt={F.portraitAlt} width={F.portraitWidth} height={F.portraitHeight} loading="lazy" decoding="async" />
+              </picture>
+              <svg class="tn-pframe__hill" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 100V48C70 18 150 14 230 32s120 14 170-6v74z" fill="var(--moss)"/><path d="M0 100V70C80 48 160 46 240 58s110 10 160 0v42z" fill="var(--forest-light)"/></svg>
+            </div>
+            <div class="tn-pframe__o" style="left:-12%;bottom:-6%;width:30%" aria-hidden="true"><Obj name="tulip" w="100%" class="tn-sway" swap={{ red: 'moss', 'red-light': 'gold-light', 'red-deep': 'forest-light' }} /></div>
+            <div class="tn-pframe__o" style="right:-10%;top:4%;width:22%" aria-hidden="true"><Obj name="heart" w="100%" /></div>
+            <div class="tn-pframe__o" style="right:-8%;bottom:-4%;width:14%;transform:rotate(22deg)" aria-hidden="true"><Obj name="crayon-red" w="100%" /></div>
+          </div>
+          <figcaption>{t.founder.caption}</figcaption>
+        </figure>
+        <div class="tn-letter-card tn-reveal">
+          <p class="tn-letter-card__hello">{t.founder.hello}</p>
+          {t.founder.paragraphs.map((p) => <p class="tn-p">{p}</p>)}
+          <p class="tn-letter-card__sign">{t.founder.signoff}<b>{t.founder.signname}</b></p>
+          <p class="tn-letter-card__meta">{F.name} · {F.role}, {site.publisher} · {F.credentials}</p>
+          <ul class="tn-letter-card__links">
+            <li><a href={F.linkedin} rel="me noopener" aria-label={t.founder.linkedin}><Fragment set:html={SOCIAL_ICONS.linkedin} /><span>{t.founder.linkedin}</span></a></li>
+            <li><a href={`mailto:${F.email}`}><span class="tn-sr">{t.founder.emailLabel}: </span>{F.email}</a></li>
+          </ul>
+        </div>
+      </div>
+    </div></section>
+
+    <section class="tn-section" id="team" aria-labelledby="team-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-head tn-reveal"><h2 class="tn-h2" id="team-h" tabindex="-1">{t.team.h2}</h2><p class="tn-lead">{site.teamCreditOn ? t.team.line : t.team.text}</p></div>
+      <div class="tn-team">
+        {site.teamCreditOn && <p class="tn-p tn-reveal">{t.team.text}</p>}
+        {members.length > 0 && (
+          <ul class="tn-cards tn-cards--3">
+            {members.map((m) => (<li class="tn-card tn-reveal">{m.photo && <img src={m.photo} alt={m.photoAlt || m.name} width="160" height="160" loading="lazy" decoding="async" style="border-radius:50%;width:96px;height:96px;object-fit:cover" />}<h3 class="tn-h3">{m.name}</h3><p class="tn-small"><strong>{m.role}</strong></p>{m.bio && <p class="tn-p">{m.bio}</p>}</li>))}
+          </ul>
+        )}
+      </div>
+    </div></section>
+
+    <section class="tn-section" id="made" aria-labelledby="made-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-head tn-reveal"><h2 class="tn-h2" id="made-h" tabindex="-1">{t.made.h2}</h2></div>
+      <div class="tn-timeline tn-view">
+        <div class="tn-sapling" aria-hidden="true">
+          <svg viewBox="0 0 260 300" aria-hidden="true">
+            <ellipse class="sap-ground" cx="130" cy="282" rx="110" ry="14" fill="var(--paper-deep)"/>
+            <path d="M40 286c30-22 150-22 180 0" fill="var(--gold-deep)" opacity=".85"/>
+            <ellipse class="sap-seed" cx="130" cy="268" rx="12" ry="8" fill="var(--gold-deep)"/>
+            <path class="sap-stem" d="M126 272c-2-60 0-120 4-180 2 60 2 120-4 180z" fill="var(--forest)"/>
+            <path class="sap-leaf" style="--at:0.3;--o:100% 100%" d="M128 232c-30-6-52-26-50-54 26 4 46 24 50 54z" fill="var(--moss)"/>
+            <path class="sap-leaf" style="--at:0.4;--o:0% 100%" d="M130 206c30-8 50-30 46-58-26 6-44 28-46 58z" fill="var(--forest-light)"/>
+            <path class="sap-leaf" style="--at:0.5;--o:100% 100%" d="M129 176c-26-4-42-22-40-46 22 4 38 22 40 46z" fill="var(--moss)"/>
+            <path class="sap-leaf" style="--at:0.58;--o:0% 100%" d="M131 150c24-6 38-26 34-50-22 6-34 26-34 50z" fill="var(--forest-light)"/>
+            <g class="sap-crown">
+              <circle cx="130" cy="86" r="46" fill="var(--forest-light)"/>
+              <circle cx="100" cy="104" r="30" fill="var(--moss)"/>
+              <circle cx="162" cy="100" r="32" fill="var(--forest)"/>
+              <circle cx="130" cy="70" r="34" fill="var(--moss)"/>
+              <circle cx="118" cy="98" r="6" fill="var(--red)"/><circle cx="150" cy="80" r="6" fill="var(--red)"/><circle cx="138" cy="112" r="6" fill="var(--gold)"/>
+            </g>
+          </svg>
+        </div>
+        <ol class="tn-tl">
+          {t.made.steps.map((s) => (<li class="tn-reveal"><span class="tn-card__ic" style={`--c:var(--${s.c})`} aria-hidden="true"><Obj name={s.icon} w="100%" flat /></span><div><h3 class="tn-h3">{s.h}</h3><p class="tn-p">{s.t}</p></div></li>))}
+        </ol>
+      </div>
+    </div></section>
+
+    <section class="tn-section" id="promises" aria-labelledby="promises-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-head tn-reveal"><h2 class="tn-h2" id="promises-h" tabindex="-1">{t.promises.h2}</h2></div>
+      <ul class="tn-cards tn-cards--4 tn-promises">
+        {t.promises.items.map((p) => (<li class="tn-card tn-reveal"><h3 class="tn-h3">{p.h}</h3><p class="tn-p">{p.t}</p></li>))}
+      </ul>
+      <p class="tn-p tn-reveal" style="margin-top:var(--s5)"><a class="tn-link tn-link--solo" href="/childrens-privacy">{t.promises.privacyLink}</a></p>
+    </div></section>
+
+    <section class="tn-section" id="name" aria-labelledby="name-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-cards">
+        <div class="tn-note tn-note--sky tn-reveal" style="max-width:none"><h2 class="tn-h3" id="name-h" tabindex="-1">{t.name.h2}</h2><p class="tn-p">{t.name.t1}</p><p class="tn-p">{t.name.t2}</p></div>
+        <div class="tn-note tn-reveal" style="max-width:none" id="contact" aria-labelledby="contact-h"><h2 class="tn-h3" id="contact-h" tabindex="-1">{t.contact.h2}</h2><p class="tn-p">{t.contact.text}</p>
+          {site.contactEmail ? <p class="tn-p"><a class="tn-link tn-link--solo" href={`mailto:${site.contactEmail}`}><span class="tn-sr">{t.contact.emailLabel}: </span>{site.contactEmail}</a></p> : <p class="tn-p">{t.contact.soon}</p>}
+        </div>
+      </div>
+    </div></section>
+  </main>
+  <Footer />
+</Base>

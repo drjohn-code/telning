@@ -1,0 +1,7 @@
+/* Simple generic social glyphs in one style (24 px box, 1.9 px line): a camera, a music note, an "in" badge.
+   Used by the footer and by the founder note on /about. Swap in official brand icons later if wanted. */
+export const SOCIAL_ICONS: Record<string, string> = {
+  instagram: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.5 5.5 9.8 3.8h4.4l1.3 1.7H19a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7.5a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><circle cx="12" cy="12.6" r="3.9" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="17.6" cy="8.6" r="1" fill="currentColor"/></svg>',
+  tiktok: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 17.5V5.2l9-2v11" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><ellipse cx="7.2" cy="17.6" rx="2.9" ry="2.4" fill="currentColor"/><ellipse cx="16.2" cy="14.3" rx="2.9" ry="2.4" fill="currentColor"/></svg>',
+  linkedin: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3.6" width="18" height="18" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="8" cy="8.5" r="1.15" fill="currentColor"/><rect x="7" y="10.6" width="2" height="6.6" rx="1" fill="currentColor"/><path d="M11.2 17.2v-6.6h2v1c.5-.8 1.3-1.2 2.3-1.2 1.6 0 2.5 1 2.5 2.8v4h-2v-3.7c0-.9-.4-1.4-1.1-1.4s-1.2.5-1.2 1.5v3.6z" fill="currentColor"/></svg>',
+};

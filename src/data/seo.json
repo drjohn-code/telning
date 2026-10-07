@@ -31,7 +31,7 @@
     "/send": {
       "name": "Send Pim your ending",
       "title": "Send Pim your child's ending, get a story card | Telning",
-      "description": "Take a photo of your child's drawing, fill in a short form, and Pim sends back a story card with ideas for your next talk. First name and age only, never a photo of a child.",
+      "description": "Take a photo of your child's drawing, fill in a short form, and Pim sends back a story card with ideas for your next talk. First name and age only, never a photo.",
       "type": "WebPage",
       "published": "2026-10-08",
       "lastmod": "2026-10-08"
@@ -39,7 +39,7 @@
     "/about": {
       "name": "About us",
       "title": "About us: the scientists behind Telning books",
-      "description": "Telning Publishing House is a small team of cognitive and behavioural scientists in Sweden. Meet the founder, see how a book is made, and read our promises to families.",
+      "description": "Telning Publishing House is a small team of cognitive and behavioural scientists in Sweden. Meet the founder, see how a book is made, and read our promises.",
       "type": "AboutPage",
       "published": "2026-10-08",
       "lastmod": "2026-10-08"
@@ -55,7 +55,7 @@
     "/teachers": {
       "name": "For teachers",
       "title": "Wordless picture books for the classroom | Telning",
-      "description": "How teachers use Telning's wordless picture books: every child can join whatever language they speak at home, with TADA for the whole class, small groups or one-to-one.",
+      "description": "How teachers use Telning's wordless picture books: every child can join, whatever language they speak at home. TADA for the whole class, groups or one-to-one.",
       "type": "WebPage",
       "published": "2026-10-08",
       "lastmod": "2026-10-08"
@@ -63,7 +63,7 @@
     "/privacy": {
       "name": "Privacy notice",
       "title": "Privacy notice | Telning",
-      "description": "How Telning Publishing House handles data on this website, on the email list, and in the emails you send us. Plain words, no cookies, no trackers, and how to contact us.",
+      "description": "How Telning Publishing House handles data on this website, on the email list and in the emails you send us. Plain words, no cookies, no trackers, and how to reach us.",
       "type": "WebPage",
       "published": "2026-10-08",
       "lastmod": "2026-10-08"
@@ -71,7 +71,7 @@
     "/childrens-privacy": {
       "name": "Children's privacy notice",
       "title": "Children's privacy notice | Telning",
-      "description": "What we collect when a parent sends a drawing for a story card, why, how long we keep it, who processes it, your rights, and how to contact us. Written for parents.",
+      "description": "What we collect when a parent sends a drawing for a story card, why, how long we keep it, who processes it, your rights, and how to contact us. For parents.",
       "type": "WebPage",
       "published": "2026-10-08",
       "lastmod": "2026-10-08"
@@ -79,7 +79,7 @@
     "/terms": {
       "name": "Terms",
       "title": "Terms | Telning",
-      "description": "The terms for using telning.com and the Telning story-card service, from WelloWork AB, the company behind Telning Publishing House. Short sections in plain English.",
+      "description": "The terms for using telning.com and the Telning story-card service, from WelloWork AB, the company behind Telning Publishing House. Short sections, plain English.",
       "type": "WebPage",
       "published": "2026-10-08",
       "lastmod": "2026-10-08"

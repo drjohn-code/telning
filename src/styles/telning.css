@@ -502,6 +502,59 @@ img, svg { display: block; max-width: 100%; }
   .tn-dodont { grid-template-columns: 1fr 1fr; }
 }
 
+/* ---------- /about: founder note (portrait in a paper frame + letter card), team, timeline with the sapling story ---------- */
+.tn-founder { display: grid; gap: var(--s6); align-items: start; }
+.tn-founder__fig { margin: 0; display: grid; gap: var(--s3); justify-items: center; width: min(100%, 220px); margin-inline: auto; }
+.tn-pframe { position: relative; width: 100%; padding: 10% 12% 0; background: var(--c, var(--gold-light)); border-radius: var(--radius-l); box-shadow: var(--shadow-2); transform: rotate(-1.5deg); }
+.tn-pframe__arch { position: relative; overflow: hidden; background: var(--sky-light); border: 6px solid var(--cream); border-bottom: 0; border-radius: 999px 999px 0 0; box-shadow: var(--shadow-1); aspect-ratio: 0.72; }
+.tn-pframe__arch img { display: block; width: 100%; height: auto; }
+.tn-pframe__hill { position: absolute; left: -6%; right: -6%; bottom: -2px; width: 112%; height: 24%; }
+.tn-pframe__o { position: absolute; }
+.tn-pframe__o .tn-obj { width: 100%; }
+.tn-founder__fig figcaption { font-size: 14px; color: var(--ink-soft); text-align: center; }
+.tn-letter-card { position: relative; display: grid; gap: var(--s4); max-width: var(--text-max); padding: var(--s5) var(--s5) var(--s6); background: var(--cream); color: var(--ink); border-radius: var(--radius-m); box-shadow: 2px 2px 0 var(--paper), 4px 4px 0 var(--paper-deep), 6px 6px 0 var(--paper), var(--shadow-2); }
+.tn-letter-card .tn-p { max-width: none; }
+.tn-letter-card__hello { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 24px; }
+.tn-letter-card__sign { margin: var(--s2) 0 0; font-family: var(--font-display); font-style: italic; font-size: 22px; line-height: 1.2; }
+.tn-letter-card__sign b { display: block; font-size: 30px; font-weight: 600; font-style: italic; }
+.tn-letter-card__meta { margin: 0; font-size: 13px; color: var(--ink-soft); }
+.tn-letter-card__links { list-style: none; margin: var(--s2) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s2) var(--s5); }
+.tn-letter-card__links a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--ink); font-weight: 600; text-decoration: underline; text-decoration-color: var(--red); text-underline-offset: 0.22em; transition: color var(--move); }
+.tn-letter-card__links a:hover { color: var(--red-deep); }
+.tn-letter-card__links svg { width: 22px; height: 22px; flex: none; }
+.tn-team { display: grid; gap: var(--s4); }
+.tn-timeline { display: grid; gap: var(--s5); }
+.tn-sapling { display: grid; place-items: end center; height: 240px; padding: var(--s4); background: var(--sky-light); border-radius: var(--radius-l); overflow: hidden; }
+.tn-sapling svg { width: 100%; max-width: 260px; height: 100%; overflow: visible; }
+.tn-sapling .sap-ground { }
+.tn-sapling .sap-seed { transform-box: fill-box; transform-origin: center; }
+.tn-sapling .sap-stem { transform-box: fill-box; transform-origin: 50% 100%; }
+.tn-sapling .sap-leaf { transform-box: fill-box; transform-origin: var(--o, 0% 100%); }
+.tn-sapling .sap-crown { transform-box: fill-box; transform-origin: 50% 100%; }
+.tn-js .tn-sapling .sap-seed { opacity: clamp(0, 1 - (var(--p) - 0.18) * 8, 1); transition: opacity 80ms linear; }
+.tn-js .tn-sapling .sap-stem { transform: scaleY(clamp(0.02, (var(--p) - 0.14) * 1.6, 1)); transition: transform 80ms linear; }
+.tn-js .tn-sapling .sap-leaf { transform: scale(clamp(0, (var(--p) - var(--at)) * 7, 1)); transition: transform 80ms linear; }
+.tn-js .tn-sapling .sap-crown { transform: scale(clamp(0, (var(--p) - 0.66) * 5, 1)); transition: transform 80ms linear; }
+.tn-tl { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s3); counter-reset: tl; }
+.tn-tl li { position: relative; display: grid; grid-template-columns: 56px 1fr; gap: var(--s3); align-items: start; background: var(--cream); border-radius: var(--radius-l); padding: var(--s4); box-shadow: var(--shadow-2); }
+.tn-tl .tn-card__ic { width: 56px; height: 56px; margin: 0; }
+.tn-tl h3 { margin: 0 0 4px; }
+.tn-promises .tn-card { padding: var(--s5); }
+.tn-promises .tn-card h3::before { content: "✓ "; color: var(--red); }
+@media (min-width: 600px) {
+  .tn-founder__fig { width: min(100%, 300px); }
+  .tn-letter-card { padding: var(--s6) var(--s7) var(--s7); }
+  .tn-sapling { height: 300px; }
+  .tn-tl li { padding: var(--s5); grid-template-columns: 64px 1fr; gap: var(--s4); }
+}
+@media (min-width: 1024px) {
+  .tn-founder { grid-template-columns: 340px 1fr; gap: var(--s8); }
+  .tn-founder__fig { width: 100%; margin: 0; }
+  .tn-timeline { grid-template-columns: 1fr 1.3fr; gap: var(--s7); align-items: start; }
+  .tn-sapling { position: sticky; top: calc(var(--header-h, 84px) + var(--s5)); height: 420px; }
+  .tn-tl { gap: var(--s4); }
+}
+
 /* ---------- scroll stories: .tn-view carries --p (0 → 1) from JS; without JS or under reduced motion the final state shows ---------- */
 .tn-view { --p: 1; }
 .tn-js .tn-view { --p: 0; }
