@@ -41,7 +41,7 @@ img, svg { display: block; max-width: 100%; }
 }
 
 /* ---------- buttons and links ---------- */
-.tn-btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--s2); min-height: 44px; padding: 0 20px; border: 0; border-radius: var(--radius-pill); background: var(--ink); color: var(--cream); font-family: var(--font-text); font-weight: 600; font-size: 15px; text-decoration: none; cursor: pointer; box-shadow: var(--shadow-2); transition: transform var(--move) var(--ease), box-shadow var(--move) var(--ease), background-color var(--move); }
+.tn-btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--s2); min-height: 40px; padding: 0 18px; border: 0; border-radius: var(--radius-pill); background: var(--ink); color: var(--cream); font-family: var(--font-text); font-weight: 600; font-size: 14px; text-decoration: none; cursor: pointer; box-shadow: var(--shadow-2); transition: transform var(--move) var(--ease), box-shadow var(--move) var(--ease), background-color var(--move); }
 @media (min-width: 600px) { .tn-btn { min-height: 52px; padding: 0 var(--s5); font-size: 17px; } }
 @media (min-width: 1024px) { .tn-btn { min-height: 56px; padding: 0 var(--s6); font-size: 18px; } }
 .tn-btn:hover, .tn-btn.is-hover { transform: translateY(-2px); box-shadow: var(--shadow-3); background: var(--forest); }
@@ -114,8 +114,8 @@ img, svg { display: block; max-width: 100%; }
 .tn-header__in { display: flex; align-items: center; gap: var(--s2); flex-wrap: wrap; padding-block: 10px; }
 .tn-home { display: inline-flex; align-items: center; min-height: 48px; margin-right: auto; color: var(--ink); border-radius: 8px; }
 .tn-home .tn-lockup { height: 38px; width: auto; }
-.tn-menu-btn { order: 2; display: inline-flex; align-items: center; gap: var(--s2); min-height: 42px; padding: 0 14px; background: var(--ink); color: var(--cream); border: 0; border-radius: var(--radius-pill); font: inherit; font-weight: 600; font-size: 15px; cursor: pointer; }
-.tn-menu-btn svg { width: 18px; height: 12px; } .tn-menu-btn path { stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
+.tn-menu-btn { order: 2; display: inline-grid; place-items: center; width: 44px; min-height: 44px; padding: 0; background: none; color: var(--ink); border: 0; border-radius: 50%; cursor: pointer; }
+.tn-menu-btn svg { width: 24px; height: 16px; } .tn-menu-btn path { stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
 .tn-nav { order: 3; flex-basis: 100%; display: none; }
 .tn-nav.is-open { display: block; }
 .tn-nav ul { list-style: none; margin: 0; padding: var(--s2) 0; display: grid; border-top: 1px solid var(--ink); }
@@ -264,6 +264,9 @@ img, svg { display: block; max-width: 100%; }
 .pim-star { transform-box: fill-box; transform-origin: center; animation: tn-pim-twinkle 3.6s ease-in-out infinite alternate; }
 .pim-star:nth-of-type(2) { animation-delay: -1.2s; } .pim-star:nth-of-type(3) { animation-delay: -2.4s; }
 @keyframes tn-pim-twinkle { from { opacity: .82; transform: scale(.94); } to { opacity: 1; transform: scale(1.06); } }
+.pim-blink .pim-star, .pim-still .pim-star { animation: none; }
+.pim-blink .pim-eye { transform-box: fill-box; transform-origin: center; animation: tn-pim-blink 4.8s ease-in-out infinite; }
+@keyframes tn-pim-blink { 0%, 93%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.08); } }
 .tn-pim__bubble { position: relative; background: var(--cream); border-radius: 22px 22px 22px 6px; padding: var(--s3) var(--s4) var(--s3); box-shadow: var(--shadow-2); }
 .tn-pim__bubble { font-family: var(--font-display); font-weight: 400; font-size: 16px; line-height: 1.3; }
 @media (min-width: 600px) { .tn-pim { grid-template-columns: 76px 1fr; } .tn-pim__bubble { font-size: 19px; } }
@@ -293,7 +296,9 @@ img, svg { display: block; max-width: 100%; }
 .tn-send { display: grid; gap: var(--s6); align-items: center; }
 .tn-send__art { position: relative; max-width: 240px; width: 62%; justify-self: center; }
 @media (min-width: 600px) { .tn-send { gap: var(--s7); } .tn-send__art { max-width: 360px; width: 80%; } }
-.tn-send__art .tn-slot { box-shadow: var(--shadow-3); transform: rotate(3deg); background: var(--cream); }
+.tn-send__art .tn-slot { box-shadow: var(--shadow-3); transform: rotate(3deg); background: var(--white); }
+.tn-send__card .tn-kiddraw { position: absolute; inset: 6%; width: 88%; height: 88%; }
+.tn-kiddraw { display: block; }
 .tn-send__art > .tn-layer { z-index: 2; }
 @media (min-width: 1024px) { .tn-send { grid-template-columns: 1.2fr 1fr; } }
 
@@ -361,11 +366,11 @@ img, svg { display: block; max-width: 100%; }
 @media (min-width: 600px) { .tn-email { padding: var(--s7); } .tn-email__row { grid-template-columns: minmax(0, 1fr) auto; align-items: end; } }
 
 /* ---------- footer (phone first: smaller and more compact; social links are icon + name, no boxes) ---------- */
-.tn-footer { background: var(--forest); color: var(--cream); margin-top: var(--s7); padding-block: var(--s6) var(--s4); position: relative; }
+.tn-footer { background: var(--forest); color: var(--cream); margin-top: var(--s7); padding-block: var(--s8) var(--s4); position: relative; }
 .tn-footer__in { display: grid; gap: var(--s4); }
 .tn-footer .tn-lockup { height: 40px; width: auto; color: var(--cream); }
 .tn-footer ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--s4); }
-.tn-footer a { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; color: var(--cream); font-weight: 600; font-size: 14px; text-decoration: underline; text-decoration-color: var(--gold); text-decoration-thickness: 1.5px; text-underline-offset: 0.22em; }
+.tn-footer a { display: inline-flex; align-items: center; min-height: 40px; min-width: 44px; color: var(--cream); font-weight: 600; font-size: 13px; text-decoration: underline; text-decoration-color: var(--gold); text-decoration-thickness: 1.5px; text-underline-offset: 0.22em; }
 .tn-footer__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s2) var(--s4); margin-top: var(--s4); padding-top: var(--s3); border-top: 1px solid rgb(255 253 248 / 0.22); }
 .tn-footer__copy { margin: 0; font-size: 13px; }
 .tn-footer__social { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s4); }
@@ -379,7 +384,7 @@ img, svg { display: block; max-width: 100%; }
 @keyframes tn-walk { from { transform: translateX(0); } to { transform: translateX(160px); } }
 .tn-footer__hills { position: absolute; left: 0; right: 0; bottom: 100%; height: 48px; width: 100%; }
 @media (min-width: 600px) {
-  .tn-footer { margin-top: var(--s8); padding-block: var(--s8) var(--s6); }
+  .tn-footer { margin-top: var(--s8); padding-block: var(--s9) var(--s6); }
   .tn-footer__in { gap: var(--s5); }
   .tn-footer .tn-lockup { height: 64px; }
   .tn-footer ul { column-gap: var(--s5); }
@@ -395,12 +400,11 @@ img, svg { display: block; max-width: 100%; }
 
 /* ---------- 404: Pim peeks from behind the signpost ---------- */
 .tn-404 { display: grid; gap: var(--s6); padding-block: var(--s6) var(--s8); align-items: center; }
-.tn-404__scene { display: flex; align-items: flex-end; justify-content: center; gap: 10%; width: min(100%, 340px); margin-inline: auto; }
-.tn-404__post { width: 34%; }
-.tn-404__pim { width: 48%; }
+.tn-404__scene { display: flex; align-items: flex-end; justify-content: center; width: min(100%, 340px); margin-inline: auto; }
+.tn-404__pim { width: 72%; }
 .tn-404__text { display: grid; gap: var(--s4); }
 .tn-404__links { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3) var(--s6); }
-@media (min-width: 600px) { .tn-404 { padding-block: var(--s8) var(--s9); } .tn-404__scene { width: min(100%, 420px); } }
+@media (min-width: 600px) { .tn-404 { padding-block: var(--s8) var(--s9); } .tn-404__scene { width: min(100%, 400px); } }
 @media (min-width: 1024px) { .tn-404 { grid-template-columns: 1fr 1.2fr; gap: var(--s8); } .tn-404__scene { width: 100%; max-width: 460px; } }
 
 /* ---------- motion off ---------- */

@@ -98,10 +98,10 @@ def face():
         # brows
         f'<path d="M84 106 q10 -7 20 -3" stroke="{C["ink"]}" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".75"/>'
         f'<path d="M136 103 q10 -4 20 3" stroke="{C["ink"]}" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".75"/>'
-        # open eye (viewer's left)
-        f'<ellipse cx="97" cy="124" rx="10.5" ry="11.5" fill="{C["white"]}"/>'
+        # open eye (viewer's left); the group can blink (class pim-eye)
+        f'<g class="pim-eye"><ellipse cx="97" cy="124" rx="10.5" ry="11.5" fill="{C["white"]}"/>'
         f'<circle cx="98" cy="125" r="7.6" fill="{C["sea"]}"/><circle cx="98.5" cy="125.5" r="4.2" fill="{C["ink"]}"/>'
-        f'<circle cx="94.8" cy="121" r="2.3" fill="{C["white"]}"/>'
+        f'<circle cx="94.8" cy="121" r="2.3" fill="{C["white"]}"/></g>'
         # winking eye (viewer's right)
         f'<path d="M136 122 Q148 111 160 122" stroke="{C["ink"]}" stroke-width="3.4" fill="none" stroke-linecap="round"/>'
         # nose and smile

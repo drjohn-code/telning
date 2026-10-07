@@ -1,5 +1,5 @@
 // A5: after any anchor link, the top edge of the section sits at the bottom edge of the sticky header (±1 px),
-// at 375, 768 and 1280 px, for the header, the footer, the hero button and "How our books work".
+// at 375, 768 and 1280 px, for the header, the footer, the hero button and the hero TADA link.
 import { test, expect, type Page } from '@playwright/test';
 
 const WIDTHS = [375, 768, 1280];
@@ -7,8 +7,8 @@ const LINKS = [
   { name: 'header Ages', sel: 'header nav a[href="/#ages"]', id: 'ages', menu: true },
   { name: 'header Series', sel: 'header nav a[href="/#series"]', id: 'series', menu: true },
   { name: 'header Skills', sel: 'header nav a[href="/#skills"]', id: 'skills', menu: true },
-  { name: 'hero button', sel: '.tn-hero a.tn-btn[href="#ages"]', id: 'ages', menu: false },
-  { name: 'hero "How our books work"', sel: '.tn-hero a[href="#skills"]', id: 'skills', menu: false },
+  { name: 'hero button', sel: '.tn-hero a.tn-btn[href="#series"]', id: 'series', menu: false },
+  { name: 'hero "The TADA method"', sel: '.tn-hero a[href="#tada"]', id: 'tada', menu: false },
   { name: 'footer Ages', sel: 'footer a[href="/#ages"]', id: 'ages', menu: false },
   { name: 'footer Series', sel: 'footer a[href="/#series"]', id: 'series', menu: false },
   { name: 'footer Skills', sel: 'footer a[href="/#skills"]', id: 'skills', menu: false },

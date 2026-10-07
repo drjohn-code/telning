@@ -1,10 +1,9 @@
 ---
-/* 404: the signpost and Pim, sitting a little apart. Astro writes dist/404.html; Vercel serves it with HTTP status 404
+/* 404: Pim, sitting and blinking. Astro writes dist/404.html; Vercel serves it with HTTP status 404
    for every unknown path, including the coming-soon routes /series/* and /books. No redirect to the home page. */
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import Obj from '../components/Obj.astro';
 import Pim from '../components/Pim.astro';
 import strings from '../data/strings.en.json';
 ---
@@ -13,8 +12,7 @@ import strings from '../data/strings.en.json';
   <main id="main" tabindex="-1">
     <section class="tn-wrap tn-404" aria-labelledby="nf-h">
       <div class="tn-404__scene" aria-hidden="true">
-        <div class="tn-404__post"><Obj name="signpost" w="100%" /></div>
-        <div class="tn-404__pim"><Pim pose="full" shadow /></div>
+        <div class="tn-404__pim"><Pim pose="full" shadow motion="blink" /></div>
       </div>
       <div class="tn-404__text">
         <p class="tn-kicker">404</p>
