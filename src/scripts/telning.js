@@ -12,6 +12,65 @@ import stringsEn from '../data/strings.en.json';
   var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var finePointer = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
 
+  /* Header height → --header-h on <html>, so anchor jumps never land under the sticky header
+     (CSS: html { scroll-padding-top: var(--header-h) } and [id] { scroll-margin-top: var(--header-h) }) */
+  var header = null;
+  function headerH() { return header ? header.getBoundingClientRect().height : 0; }
+  function setHeaderH() { if (header) document.documentElement.style.setProperty('--header-h', Math.ceil(headerH()) + 'px'); }
+  T.initHeader = function () {
+    header = document.querySelector('.tn-header'); if (!header) return;
+    setHeaderH();
+    if ('ResizeObserver' in window) new ResizeObserver(setHeaderH).observe(header);
+    window.addEventListener('resize', setHeaderH);
+  };
+  /* Every scroll the site does goes through here: the top of el sits right under the header.
+     { center: true } centres a block, but never puts its top under the header. { instant: true } = no smooth scroll. */
+  T.scrollToEl = function (el, o) {
+    o = o || {};
+    setHeaderH();
+    var r = el.getBoundingClientRect(), y = r.top + window.scrollY, h = headerH();
+    var top = y - h;
+    if (o.center) top = Math.min(top, y - (window.innerHeight - r.height) / 2);
+    window.scrollTo({ top: Math.max(0, Math.round(top)), left: 0, behavior: (calm || o.instant) ? 'auto' : 'smooth' });
+  };
+  function focusHeading(el) {
+    var id = el.getAttribute('aria-labelledby');
+    var h = (id && document.getElementById(id)) || (el.matches('h1,h2,h3') ? el : el.querySelector('h1,h2,h3')) || el;
+    if (!h.hasAttribute('tabindex')) h.setAttribute('tabindex', '-1');
+    h.focus({ preventScroll: true });
+  }
+  function closeMenu() {
+    each(document, '.tn-menu-btn[aria-expanded="true"]', function (btn) {
+      btn.setAttribute('aria-expanded', 'false');
+      var nav = document.getElementById(btn.getAttribute('aria-controls')); if (nav) nav.classList.remove('is-open');
+    });
+  }
+  function hashTarget(hash) { try { return document.getElementById(decodeURIComponent(hash.slice(1))); } catch (x) { return null; } }
+  /* In-page anchors (href="#ages" or "/#ages" on the same page): close the phone menu, scroll with the offset,
+     update the URL, move focus to the section heading. A page that loads with a hash scrolls after fonts and images
+     are ready, and checks again after 300 ms in case the layout moved. Links to other pages are left alone. */
+  T.initAnchors = function (root) {
+    each(root, 'a[href*="#"]', function (a) {
+      a.addEventListener('click', function (e) {
+        if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) return;
+        var url; try { url = new URL(a.getAttribute('href'), location.href); } catch (x) { return; }
+        if (url.origin !== location.origin || url.pathname !== location.pathname || url.hash.length < 2) return;
+        var target = hashTarget(url.hash); if (!target) return;
+        e.preventDefault();
+        closeMenu();
+        T.scrollToEl(target);
+        if (location.hash !== url.hash) history.pushState(null, '', url.hash);
+        focusHeading(target);
+      });
+    });
+    function toHash() { var t = location.hash.length > 1 && hashTarget(location.hash); if (t) { T.scrollToEl(t, { instant: true }); focusHeading(t); } }
+    if (location.hash.length > 1) {
+      var go = function () { toHash(); setTimeout(toHash, 300); };
+      var fonts = (document.fonts && document.fonts.ready) || Promise.resolve();
+      if (document.readyState === 'complete') fonts.then(go); else window.addEventListener('load', function () { fonts.then(go); });
+    }
+  };
+
   /* Depth: layers inside .tn-scene move with the pointer (desktop) and with the scroll */
   T.initDepth = function (root) {
     if (calm) return;
@@ -103,7 +162,7 @@ import stringsEn from '../data/strings.en.json';
         var key = a.getAttribute('data-tn-notify'), book = (T.data.books || []).concat((T.data.series || []).map(function (x) { return { key: x.key, title: { en: x.name } }; })).filter(function (b) { return b.key === key; })[0];
         var chip = block.querySelector('.tn-email__chip');
         if (book && chip) { block.querySelector('input[name="book"]').value = key; chip.querySelector('.tn-email__chip-text').textContent = book.title.en; chip.classList.add('is-on'); }
-        block.classList.remove('is-done'); block.scrollIntoView({ block: 'center' });
+        block.classList.remove('is-done'); T.scrollToEl(block, { center: true });
         var input = block.querySelector('input[type="email"]'); if (input) input.focus({ preventScroll: true });
       });
     });
@@ -111,6 +170,6 @@ import stringsEn from '../data/strings.en.json';
 
   T.init = function (root) {
     document.documentElement.classList.add('tn-js');
-    T.initReveal(root); T.initDepth(root); T.initTilt(root); T.initMenu(root); T.initEmail(root);
+    T.initHeader(); T.initAnchors(root); T.initReveal(root); T.initDepth(root); T.initTilt(root); T.initMenu(root); T.initEmail(root);
   };
 })();
