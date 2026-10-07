@@ -101,7 +101,7 @@
       "Your answers are used once, to write the tips. They are not saved in any database, file or statistics. The email is deleted after we reply, and in every case within 30 days.",
       "The drawing is deleted right after we send your card. If you let us share the card on Instagram or TikTok, we keep only the finished story card image, never your answers or your email.",
       "The photo's hidden data (camera, date, place) is removed before anyone sees it. We do not add you to the email list unless you ask for that separately.",
-      "Who touches the data: our website host ({host}), which receives the form, and our email service ({email}), which carries the email to our team. Nobody else."
+      "Who touches the data: our website host ({host}), which receives the form, and {email}, which carries the email to our team. Nobody else."
     ],
     "link": "Read the children's privacy notice"
   },

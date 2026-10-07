@@ -21,7 +21,7 @@ const HOST = seo.host;
 const url = `${HOST}${PAGE}`;
 const TIME = site.storyCardReplyTime;
 const sc = (site as { storyCard?: { mode?: string; inbox?: string; emailService?: string; host?: string } }).storyCard || {};
-const fill = (s: string) => s.replace('{time}', TIME).replace('{host}', sc.host || 'Vercel').replace('{email}', sc.emailService || 'our email service');
+const fill = (s: string) => s.replace('{time}', TIME).replace('{host}', sc.host || 'Vercel').replace('{email}', sc.emailService || 'our email service (to be named)');
 const isStaging = import.meta.env.DEV || (!!import.meta.env.VERCEL_ENV && import.meta.env.VERCEL_ENV !== 'production');
 const booksOut = (site.books as { key: string; title?: { en: string }; status?: string }[]).filter((b) => b.status === 'out').map((b) => ({ key: b.key, name: b.title?.en || b.key }));
 const bookOptions = booksOut.length ? booksOut : isStaging ? site.series.map((s) => ({ key: s.key, name: `${s.name} (staging)` })) : [];

@@ -8,7 +8,8 @@
       "description": "Wordless picture books for children aged 0–7 from Telning Publishing House. Your child colours the story, chooses the ending and talks about feelings with you.",
       "type": "WebPage",
       "published": "2026-10-07",
-      "lastmod": "2026-10-08"
+      "lastmod": "2026-10-08",
+      "og": "/og/home.png"
     },
     "/tada": {
       "name": "The TADA way",
@@ -17,7 +18,8 @@
       "type": "WebPage",
       "article": true,
       "published": "2026-10-08",
-      "lastmod": "2026-10-08"
+      "lastmod": "2026-10-08",
+      "og": "/og/tada.png"
     },
     "/guide": {
       "name": "For grown-ups",
@@ -26,7 +28,8 @@
       "type": "WebPage",
       "article": true,
       "published": "2026-10-08",
-      "lastmod": "2026-10-08"
+      "lastmod": "2026-10-08",
+      "og": "/og/guide.png"
     },
     "/send": {
       "name": "Send Pim your ending",
@@ -34,7 +37,8 @@
       "description": "Take a photo of your child's drawing and fill in a short form. Pim sends back a story card with ideas for your next talk. First name and age only, no photos.",
       "type": "WebPage",
       "published": "2026-10-08",
-      "lastmod": "2026-10-08"
+      "lastmod": "2026-10-08",
+      "og": "/og/send.png"
     },
     "/about": {
       "name": "About us",
@@ -42,7 +46,8 @@
       "description": "Telning Publishing House is a small team of cognitive and behavioural scientists in Sweden. Meet the founder, see how a book is made, and read our promises.",
       "type": "AboutPage",
       "published": "2026-10-08",
-      "lastmod": "2026-10-08"
+      "lastmod": "2026-10-08",
+      "og": "/og/about.png"
     },
     "/pim": {
       "name": "Meet Pim",
@@ -50,7 +55,8 @@
       "description": "Pim is a small hedgehog with three stars on its head. Pim listens, wonders and chooses, and writes the letters and story cards that come from Telning.",
       "type": "WebPage",
       "published": "2026-10-08",
-      "lastmod": "2026-10-08"
+      "lastmod": "2026-10-08",
+      "og": "/og/pim.png"
     },
     "/teachers": {
       "name": "For teachers",
@@ -58,7 +64,8 @@
       "description": "How teachers use Telning's wordless picture books: every child can join, whatever language they speak at home. TADA for the whole class, groups or one-to-one.",
       "type": "WebPage",
       "published": "2026-10-08",
-      "lastmod": "2026-10-08"
+      "lastmod": "2026-10-08",
+      "og": "/og/teachers.png"
     },
     "/privacy": {
       "name": "Privacy notice",
@@ -66,7 +73,8 @@
       "description": "How Telning Publishing House handles data on this website, on the email list and in the emails you send us. Plain words, no cookies, no trackers.",
       "type": "WebPage",
       "published": "2026-10-08",
-      "lastmod": "2026-10-08"
+      "lastmod": "2026-10-08",
+      "og": "/og/privacy.png"
     },
     "/childrens-privacy": {
       "name": "Children's privacy notice",
@@ -74,7 +82,8 @@
       "description": "What we collect when a parent sends a drawing for a story card, why, how long we keep it, who processes it, your rights, and how to contact us. For parents.",
       "type": "WebPage",
       "published": "2026-10-08",
-      "lastmod": "2026-10-08"
+      "lastmod": "2026-10-08",
+      "og": "/og/childrens-privacy.png"
     },
     "/terms": {
       "name": "Terms",
@@ -82,7 +91,8 @@
       "description": "The terms for using telning.com and the Telning story-card service, from WelloWork AB, the company behind Telning Publishing House. Short and in plain English.",
       "type": "WebPage",
       "published": "2026-10-08",
-      "lastmod": "2026-10-08"
+      "lastmod": "2026-10-08",
+      "og": "/og/terms.png"
     },
     "/404": {
       "name": "Page not found",
