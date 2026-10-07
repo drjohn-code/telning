@@ -168,8 +168,43 @@ import stringsEn from '../data/strings.en.json';
     });
   };
 
+  /* Scroll stories: every .tn-view element carries --p from 0 (its top edge enters at the bottom of the viewport)
+     to 1 (its bottom edge leaves at the top). CSS turns --p into transforms and opacity (only under .tn-js, so the
+     final state shows without JS). Reduced motion: --p is 1 and nothing moves. */
+  T.initView = function (root) {
+    var els = Array.prototype.slice.call((root || document).querySelectorAll('.tn-view'));
+    if (!els.length) return;
+    if (calm) { els.forEach(function (el) { el.style.setProperty('--p', '1'); }); return; }
+    var active = [], raf = 0;
+    function update() {
+      raf = 0; var vh = window.innerHeight;
+      active.forEach(function (el) {
+        var r = el.getBoundingClientRect(), p = (vh - r.top) / (vh + r.height);
+        el.style.setProperty('--p', Math.max(0, Math.min(1, p)).toFixed(4));
+      });
+    }
+    function tick() { if (!raf) raf = requestAnimationFrame(update); }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var i = active.indexOf(e.target);
+        if (e.isIntersecting) { if (i < 0) active.push(e.target); }
+        else { if (i >= 0) active.splice(i, 1); e.target.style.setProperty('--p', e.boundingClientRect.top > 0 ? '0' : '1'); }
+      });
+      tick();
+    }, { rootMargin: '12% 0px' });
+    els.forEach(function (el) { io.observe(el); });
+    window.addEventListener('scroll', tick, { passive: true });
+    window.addEventListener('resize', tick);
+    tick();
+  };
+
+  /* <details data-open-min="600">: open from that viewport width (the content is always in the HTML) */
+  T.initDetails = function (root) {
+    each(root, 'details[data-open-min]', function (d) { if (window.innerWidth >= parseInt(d.getAttribute('data-open-min'), 10)) d.open = true; });
+  };
+
   T.init = function (root) {
     document.documentElement.classList.add('tn-js');
-    T.initHeader(); T.initAnchors(root); T.initReveal(root); T.initDepth(root); T.initTilt(root); T.initMenu(root); T.initEmail(root);
+    T.initHeader(); T.initAnchors(root); T.initReveal(root); T.initDepth(root); T.initTilt(root); T.initMenu(root); T.initEmail(root); T.initView(root); T.initDetails(root);
   };
 })();

@@ -19,6 +19,10 @@
   },
   "illustratorName": "",
   "teamCreditOn": true,
+  "team": {
+    "experienceLine": "and from our clinical and behavioural work with children and families",
+    "members": []
+  },
   "contactEmail": "",
   "formEndpoint": "",
   "guidePdf": "",

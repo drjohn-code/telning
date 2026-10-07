@@ -1,0 +1,20 @@
+---
+/* PageHero: every inner page opens with breadcrumbs, a kicker, the H1 (the LCP element, never animated),
+   a lead, an optional first paragraph, and its own paper-theatre scene in the slot (a colour field with
+   .tn-layer children; depth follows the pointer through Telning.initDepth). */
+import Breadcrumbs from './Breadcrumbs.astro';
+interface Props { page: string; kicker?: string; h1: string; lead: string; colour?: string; class?: string }
+const { page, kicker, h1, lead, colour = 'sky-light', class: cls = '' } = Astro.props;
+---
+<section class={`tn-wrap tn-pagehero ${cls}`} data-depth-area aria-labelledby="page-h">
+  <div class="tn-pagehero__text">
+    <Breadcrumbs page={page} />
+    {kicker && <p class="tn-kicker">{kicker}</p>}
+    <h1 class="tn-h1" id="page-h" tabindex="-1">{h1}</h1>
+    <p class="tn-lead">{lead}</p>
+    <slot name="after" />
+  </div>
+  <div class="tn-pagehero__scene tn-scene" style={`--c:var(--${colour})`} aria-hidden="true">
+    <slot />
+  </div>
+</section>

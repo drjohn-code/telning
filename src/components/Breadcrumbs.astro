@@ -1,0 +1,9 @@
+---
+/* Breadcrumbs on inner pages: Home › Page name (names from src/data/seo.json). The BreadcrumbList JSON-LD
+   is rendered by Base.astro for the same path. */
+import seo from '../data/seo.json';
+interface Props { page: string }
+const { page } = Astro.props;
+const entry = (seo.pages as Record<string, { name: string }>)[page];
+---
+<nav class="tn-crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><span aria-current="page">{entry?.name}</span></li></ol></nav>

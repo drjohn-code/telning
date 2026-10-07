@@ -1,0 +1,133 @@
+---
+/* /tada — The TADA way: where it comes from, the science in plain words with sources, what is new, the four steps
+   in depth (with the paper-road scroll story), the honest box, sources, next step. Copy: src/data/pages/tada.json (draft). */
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHero from '../components/PageHero.astro';
+import Obj from '../components/Obj.astro';
+import KidDrawing from '../components/KidDrawing.astro';
+import site from '../data/site-data.json';
+import seo from '../data/seo.json';
+import t from '../data/pages/tada.json';
+
+const PAGE = '/tada';
+const entry = seo.pages[PAGE];
+const HOST = seo.host;
+const url = `${HOST}${PAGE}`;
+const ORG_ID = `${HOST}/#organization`;
+const teamLine = site.teamCreditOn && site.team?.experienceLine ? `, ${site.team.experienceLine}.` : '.';
+const srcById = Object.fromEntries(t.sources.list.map((s) => [s.id, s]));
+const shortName = (id: string) => (srcById[id]?.text || id).split('(')[0].trim().replace(/,$/, '') + ' ' + (srcById[id]?.text.match(/\((\d{4})\)/) || ['', ''])[1];
+
+const article = {
+  '@type': 'Article', '@id': `${url}#article`, headline: t.h1, description: entry.description, inLanguage: 'en',
+  author: { '@id': ORG_ID }, publisher: { '@id': ORG_ID }, datePublished: entry.published, dateModified: entry.lastmod,
+  mainEntityOfPage: { '@id': `${url}#webpage` }, image: `${HOST}${entry.og || '/og-image.png'}`,
+  citation: t.sources.list.map((s) => ({ '@type': 'ScholarlyArticle', name: s.text, ...(s.doi ? { url: `https://doi.org/${s.doi}` } : {}) })),
+};
+const fmt = (d: string) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+---
+<Base page={PAGE} jsonld={[article]}>
+  <Header />
+  <main id="main" tabindex="-1">
+    <PageHero page={PAGE} kicker={t.kicker} h1={t.h1} lead={t.lead} colour="sky-light">
+      <Fragment slot="after">
+        <p class="tn-p">{t.intro}</p>
+        <p class="tn-byline">{t.byline} · <span class="tn-updated">{t.updated} <time datetime={entry.lastmod}>{fmt(entry.lastmod)}</time></span></p>
+      </Fragment>
+      <div class="tn-layer" style="--d:4;top:8%;right:8%;width:18%"><Obj name="sun" w="100%" class="tn-spin" /></div>
+      <div class="tn-layer" style="--d:8;top:12%;left:0;width:100%"><div class="tn-drift" style="--drift:70s;width:22%"><Obj name="cloud" w="100%" /></div></div>
+      <div class="tn-layer" style="--d:10;top:48%;bottom:-10%;left:0;width:100%"><svg class="tn-hill" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true"><path d="M0 300V52C40 30 80 20 130 28s90 26 140 20 90-34 130-30v230z" fill="var(--moss)"/></svg></div>
+      <div class="tn-layer" style="--d:20;top:66%;bottom:-10%;left:0;width:100%"><svg class="tn-hill" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true"><path d="M0 300V46C50 26 110 18 170 30s110 22 160 6 60-20 70-18v236z" fill="var(--forest-light)"/></svg></div>
+      <div class="tn-layer tn-hide-sm" style="--d:16;bottom:36%;left:5%;width:11%"><div class="tn-hop-idle"><Obj name="bunny" w="100%" /></div></div>
+      <div class="tn-layer" style="--d:30;bottom:12%;left:12%;width:76%"><div class="tn-letters" aria-hidden="true"><span class="tn-letter">T</span><span class="tn-letter">A</span><span class="tn-letter tn-letter--key">D</span><span class="tn-letter">A</span></div></div>
+    </PageHero>
+
+    <section class="tn-section" id="built" aria-labelledby="built-h"><div class="tn-wrap">
+      <div class="tn-head tn-reveal"><h2 class="tn-h2" id="built-h" tabindex="-1">{t.built.h2}</h2><p class="tn-lead">{t.built.text}{teamLine}</p></div>
+      <ol class="tn-cards tn-cards--3 tn-steps3">
+        {t.built.steps.filter((s) => !s.needsTeam || site.teamCreditOn).map((s) => (
+          <li class="tn-card tn-reveal"><h3 class="tn-h3">{s.h}</h3><p class="tn-p">{s.t}</p></li>
+        ))}
+      </ol>
+    </div></section>
+
+    <section class="tn-section" id="science" aria-labelledby="science-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-head tn-reveal"><h2 class="tn-h2" id="science-h" tabindex="-1">{t.science.h2}</h2><p class="tn-lead">{t.science.lead}</p></div>
+      <ul class="tn-cards tn-cards--3">
+        {t.science.cards.map((c) => (
+          <li class="tn-card tn-reveal">
+            <span class="tn-card__ic" style={`--c:var(--${c.c})`} aria-hidden="true"><Obj name={c.icon} w="100%" flat /></span>
+            <h3 class="tn-h3">{c.h}</h3>
+            <p class="tn-p">{c.t}</p>
+            <p class="tn-card__src">{t.science.srcLabel}: {c.src.map((id, i) => (<><a href={`#src-${id}`}>{shortName(id)}</a>{i < c.src.length - 1 ? '; ' : ''}</>))}</p>
+          </li>
+        ))}
+        <li class="tn-card tn-card--tinted tn-reveal" style="--c:var(--sky-light)">
+          <h3 class="tn-h3">{t.science.dialogicH3}</h3>
+          <p class="tn-p">{t.science.dialogicText}</p>
+        </li>
+      </ul>
+    </div></section>
+
+    <div class="tn-wrap"><section class="tn-band tn-scene" id="new" aria-labelledby="new-h">
+      <div class="tn-band__objs tn-hide-sm" aria-hidden="true"><div style="right:5%;top:6%;width:96px"><Obj name="moon" w="100%" class="tn-float slow" /></div></div>
+      <div style="position:relative;z-index:1;display:grid;gap:12px"><h2 class="tn-h2" id="new-h" tabindex="-1">{t.new.h2}</h2></div>
+      <ol class="tn-tada">
+        {t.new.items.map((it) => (<li class="tn-tada-step tn-reveal"><h3 class="tn-h3">{it.h}</h3><p class="tn-p">{it.t}</p></li>))}
+      </ol>
+    </section></div>
+
+    <section class="tn-section" id="steps" aria-labelledby="steps-h"><div class="tn-wrap">
+      <div class="tn-head tn-reveal"><h2 class="tn-h2" id="steps-h" tabindex="-1">{t.steps.h2}</h2><p class="tn-lead">{t.steps.lead}</p></div>
+      <div class="tn-roadsteps tn-view">
+        <div class="tn-road" aria-hidden="true">
+          <svg class="tn-road__svg" viewBox="0 0 100 1000" preserveAspectRatio="none" aria-hidden="true">
+            <path class="tn-road__bed" d="M50 0C20 90 80 170 50 250S20 420 50 500 80 660 50 740 20 900 50 1000" pathLength="1"/>
+            <path class="tn-road__line" d="M50 0C20 90 80 170 50 250S20 420 50 500 80 660 50 740 20 900 50 1000" pathLength="1"/>
+          </svg>
+          <span class="tn-road__stop" style="--at:6%;--show:0.08">T</span>
+          <span class="tn-road__stop" style="--at:31%;--show:0.26">A</span>
+          <span class="tn-road__stop tn-road__stop--key" style="--at:56%;--show:0.44">D</span>
+          <span class="tn-road__sign" style="--at:56%;--show:0.5"><Obj name="signpost" w="100%" /></span>
+          <span class="tn-road__stop" style="--at:81%;--show:0.62">A</span>
+          <span class="tn-road__frame" style="--at:81%;--show:0.68"><KidDrawing /></span>
+        </div>
+        <ol class="tn-steps">
+          {t.steps.list.map((s) => (
+            <li class={`tn-step${s.key ? ' tn-step--key' : ''}`}>
+              <h3 class="tn-h3 tn-step__h"><span class="tn-step__letter" aria-hidden="true">{s.letter}</span>{s.name}</h3>
+              <p class="tn-step__who">{s.who}</p>
+              <p class="tn-p">{s.what}</p>
+              <p class="tn-small"><strong>{t.steps.sayLabel}</strong></p>
+              <ul class="tn-step__say">{s.say.map((x) => <li>{x}</li>)}</ul>
+              <dl class="tn-step__tips"><div><dt>{t.steps.tipYoung}</dt><dd>{s.young}</dd></div><div><dt>{t.steps.tipOlder}</dt><dd>{s.older}</dd></div></dl>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div></section>
+
+    <section class="tn-section" id="honest" aria-labelledby="honest-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-note tn-reveal"><h2 class="tn-h3" id="honest-h" tabindex="-1">{t.honest.h2}</h2><p class="tn-p">{t.honest.p1}</p><p class="tn-p">{t.honest.p2}</p></div>
+    </div></section>
+
+    <section class="tn-section" id="sources" aria-labelledby="sources-h" style="padding-top:0"><div class="tn-wrap">
+      <details class="tn-details" data-open-min="600">
+        <summary><span id="sources-h">{t.sources.h2}</span></summary>
+        <div class="tn-prose"><p class="tn-p">{t.sources.lead}</p>
+          <ol class="tn-sources">
+            {t.sources.list.map((s) => (<li id={`src-${s.id}`}>{s.text}{s.doi && <> <a href={`https://doi.org/${s.doi}`} rel="noopener">{t.sources.doiLabel}: doi.org/{s.doi}</a></>}</li>))}
+          </ol>
+        </div>
+      </details>
+    </div></section>
+
+    <section class="tn-section" id="next" aria-labelledby="next-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-next tn-reveal"><h2 class="tn-h2" id="next-h" tabindex="-1">{t.next.h2}</h2><p class="tn-lead">{t.next.text}</p>
+        <div class="tn-actions"><a class="tn-btn" href="/guide">{t.next.button}</a><a class="tn-link tn-link--solo" href="/send">{t.next.link}</a></div></div>
+    </div></section>
+  </main>
+  <Footer />
+</Base>
