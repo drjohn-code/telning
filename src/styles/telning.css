@@ -6,6 +6,9 @@
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: var(--header-h, 84px); }
 [id] { scroll-margin-top: var(--header-h, 84px); }
+#ages, #skills { scroll-margin-top: calc(var(--header-h, 84px) + 24px); }
+/* headings take focus after an anchor jump (for screen readers); they are not controls, so no focus ring */
+h1[tabindex="-1"]:focus, h2[tabindex="-1"]:focus, h3[tabindex="-1"]:focus { outline: none; }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-text); font-size: 16px; line-height: 1.6; }
 @media (min-width: 600px) { body { font-size: 18px; } }
 img, svg { display: block; max-width: 100%; }

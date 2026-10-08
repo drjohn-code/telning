@@ -29,7 +29,8 @@ import stringsEn from '../data/strings.en.json';
     o = o || {};
     setHeaderH();
     var r = el.getBoundingClientRect(), y = r.top + window.scrollY, h = headerH();
-    var top = y - h;
+    /* a section with no top padding of its own (e.g. #ages) gets 24 px of air under the header */
+    var top = y - h - ((parseFloat(getComputedStyle(el).paddingTop) || 0) < 16 ? 24 : 0);
     if (o.center) top = Math.min(top, y - (window.innerHeight - r.height) / 2);
     window.scrollTo({ top: Math.max(0, Math.round(top)), left: 0, behavior: (calm || o.instant) ? 'auto' : 'smooth' });
   };

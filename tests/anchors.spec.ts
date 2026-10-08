@@ -1,4 +1,5 @@
 // A5: after any anchor link, the top edge of the section sits at the bottom edge of the sticky header (±1 px),
+// or 24 px under it for a section with no top padding of its own (#ages, #skills),
 // at 375, 768 and 1280 px, for the header, the footer, the hero button and the hero TADA link.
 import { test, expect, type Page } from '@playwright/test';
 
@@ -46,7 +47,7 @@ for (const width of WIDTHS) {
         await page.locator(link.sel).click();
         await settled(page);
         const g = await gap(page, link.id);
-        expect(Math.abs(g.sectionTop - g.headerBottom), `section top ${g.sectionTop} vs header bottom ${g.headerBottom}`).toBeLessThanOrEqual(1);
+        expect(Math.abs(g.sectionTop - g.headerBottom - (['ages', 'skills'].includes(link.id) ? 24 : 0)), `section top ${g.sectionTop} vs header bottom ${g.headerBottom}`).toBeLessThanOrEqual(1);
         expect(g.focus, 'focus moves to the section heading').toBe(`${link.id}-h`);
         if (link.menu && width < 1024) await expect(page.locator('#tn-nav')).not.toHaveClass(/is-open/);
       });
