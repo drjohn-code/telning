@@ -18,7 +18,7 @@ const handDrawn = !!site.pim?.handDrawn && !!site.illustratorName;
 <Base page={PAGE}>
   <Header />
   <main id="main" tabindex="-1">
-    <PageHero page={PAGE} kicker={t.kicker} h1={t.h1} lead={t.lead} colour="sky-light">
+    <PageHero page={PAGE} h1={t.h1} lead={t.lead} colour="sky-light">
       <Fragment slot="after"><p class="tn-p">{t.intro}</p></Fragment>
       <div class="tn-layer" style="--d:4;top:8%;left:8%;width:9%"><Obj name="star" w="100%" class="tn-twinkle" /></div>
       <div class="tn-layer" style="--d:6;top:20%;right:10%;width:7%"><Obj name="star" w="100%" class="tn-twinkle late" /></div>

@@ -17,7 +17,7 @@ const PEGS = [0.12, 0.3, 0.48, 0.66, 0.84];
 <Base page={PAGE}>
   <Header />
   <main id="main" tabindex="-1">
-    <PageHero page={PAGE} kicker={t.kicker} h1={t.h1} lead={t.lead} colour="gold-light">
+    <PageHero page={PAGE} h1={t.h1} lead={t.lead} colour="gold-light">
       <Fragment slot="after"><p class="tn-p">{t.intro}</p></Fragment>
       <div class="tn-layer" style="--d:6;top:10%;left:6%;right:6%;height:2px;background:var(--ink-soft)"></div>
       {[0, 1, 2].map((i) => (<div class="tn-layer" style={`--d:${10 + i * 4};top:9%;left:${12 + i * 30}%;width:20%`}><div class="tn-string__sheet" style={`--r:${[-6, 4, -3][i]}deg`}><span class="tn-string__peg"></span><KidDrawing /></div></div>))}

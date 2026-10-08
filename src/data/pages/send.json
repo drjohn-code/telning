@@ -1,7 +1,6 @@
 {
   "_draft": true,
   "_note": "All text on /send is a draft for a person to check (STRINGS_DRAFT). /send is a QR page: no shop links, no prices, none of the words gift, reward, prize, win, free. The privacy words describe the real flow in src/server/story-card.ts; if the code changes, these words change.",
-  "kicker": "Telning Publishing House · Story cards",
   "h1": "Send Pim your ending",
   "lead": "Your child drew the ending. Pim sends back a story card.",
   "intro": "Take a photo of the drawing page and fill in a short form. Within {time}, a story card and ideas for your next talk come back by email. This is for grown-ups. We ask for a first name and an age, never a photo of your child.",
@@ -44,7 +43,7 @@
     "lead": "Three short steps. Only the first one is required; you can skip the questions in step 2.",
     "progress": [
       "The drawing",
-      "Talk about the story",
+      "Tell the story",
       "Consent"
     ],
     "part1": "The drawing",
@@ -63,7 +62,7 @@
     "rotate": "Rotate",
     "zoom": "Zoom",
     "cropHint": "Drag the picture to place the drawing in the frame. Use the slider to zoom.",
-    "part2": "Talk about the story",
+    "part2": "Tell the story",
     "part2Note": "All optional",
     "why": {
       "h": "Why we ask these questions",

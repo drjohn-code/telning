@@ -21,7 +21,7 @@ const srcById = Object.fromEntries(t.sources.list.map((s) => [s.id, s]));
 const shortName = (id: string) => (srcById[id]?.text || id).split('(')[0].trim().replace(/,$/, '') + ' ' + (srcById[id]?.text.match(/\((\d{4})\)/) || ['', ''])[1];
 
 const article = {
-  '@type': 'Article', '@id': `${url}#article`, headline: t.h1, description: entry.description, inLanguage: 'en',
+  '@type': 'Article', '@id': `${url}#article`, headline: t.h1.replace('\n', ' '), description: entry.description, inLanguage: 'en',
   author: { '@id': ORG_ID }, publisher: { '@id': ORG_ID }, datePublished: entry.published, dateModified: entry.lastmod,
   mainEntityOfPage: { '@id': `${url}#webpage` }, image: `${HOST}${entry.og || '/og-image.png'}`,
   citation: t.sources.list.map((s) => ({ '@type': 'ScholarlyArticle', name: s.text, ...(s.doi ? { url: `https://doi.org/${s.doi}` } : {}) })),
@@ -31,7 +31,7 @@ const fmt = (d: string) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB'
 <Base page={PAGE} jsonld={[article]}>
   <Header />
   <main id="main" tabindex="-1">
-    <PageHero page={PAGE} kicker={t.kicker} h1={t.h1} lead={t.lead} colour="sky-light">
+    <PageHero page={PAGE} h1={t.h1} lead={t.lead} colour="sky-light">
       <Fragment slot="after">
         <p class="tn-p">{t.intro}</p>
         <p class="tn-byline">{t.byline} · <span class="tn-updated">{t.updated} <time datetime={entry.lastmod}>{fmt(entry.lastmod)}</time></span></p>

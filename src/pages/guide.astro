@@ -35,7 +35,7 @@ const jsonld = [
 <Base page={PAGE} jsonld={jsonld}>
   <Header />
   <main id="main" tabindex="-1">
-    <PageHero page={PAGE} kicker={t.kicker} h1={t.h1} lead={t.lead} colour="gold-light">
+    <PageHero page={PAGE} h1={t.h1} lead={t.lead} colour="gold-light">
       <Fragment slot="after">
         <p class="tn-p">{t.intro}</p>
         <p class="tn-byline">{t.byline} · <span class="tn-updated">{t.updated} <time datetime={entry.lastmod}>{fmt(entry.lastmod)}</time></span></p>
