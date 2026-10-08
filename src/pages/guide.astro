@@ -96,10 +96,10 @@ const jsonld = [
     <section class="tn-section" id="dos" aria-labelledby="dos-h" style="padding-top:0"><div class="tn-wrap">
       <div class="tn-head tn-reveal"><h2 class="tn-h2" id="dos-h" tabindex="-1">{t.dos.h2}</h2></div>
       <div class="tn-cards tn-dodont">
-        <div class="tn-card tn-card--tinted tn-reveal" style="--c:var(--sky-light)"><h3 class="tn-h3">{t.dos.doH}</h3><ul class="tn-dodont__list">{t.dos.do.map((x) => <li>{x}</li>)}</ul></div>
-        <div class="tn-card tn-card--tinted tn-reveal" style="--c:var(--blush)"><h3 class="tn-h3">{t.dos.dontH}</h3><ul class="tn-dodont__list">{t.dos.dont.map((x) => <li>{x}</li>)}</ul></div>
+        <div class="tn-card tn-card--tinted tn-reveal" style="--c:var(--sky-light)"><span class="tn-card__ic" style="--c:var(--cream)" aria-hidden="true"><Obj name="star" w="100%" flat /></span><h3 class="tn-h3">{t.dos.doH}</h3><ul class="tn-dodont__list">{t.dos.do.map((x) => <li>{x}</li>)}</ul></div>
+        <div class="tn-card tn-card--tinted tn-reveal" style="--c:var(--blush)"><span class="tn-card__ic" style="--c:var(--cream)" aria-hidden="true"><Obj name="shield" w="100%" flat /></span><h3 class="tn-h3">{t.dos.dontH}</h3><ul class="tn-dodont__list">{t.dos.dont.map((x) => <li>{x}</li>)}</ul></div>
+        <div class="tn-card tn-card--tinted tn-dodont__tip tn-reveal" style="--c:var(--gold-light)"><span class="tn-card__ic" style="--c:var(--cream)" aria-hidden="true"><Obj name="crayon-red" w="100%" flat /></span><div><h3 class="tn-h3">{t.marker.h}</h3><p class="tn-p">{t.marker.t}</p></div></div>
       </div>
-      <div class="tn-note tn-reveal" style="margin-top:var(--s5)"><h3 class="tn-h3">{t.marker.h}</h3><p class="tn-p">{t.marker.t}</p></div>
     </div></section>
 
     <EmailBlock id="guide-pdf" tag="guide" h2={t.pdf.h2} line={site.guidePdf ? t.pdf.lineReady : t.pdf.lineSoon} button={t.pdf.button} consent={t.pdf.consent} thanks={site.guidePdf ? t.pdf.thanks : t.pdf.thanksSoon} class="tn-section--tight" />

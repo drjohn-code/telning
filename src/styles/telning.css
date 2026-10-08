@@ -436,7 +436,7 @@ img, svg { display: block; max-width: 100%; }
 .tn-card { display: grid; gap: var(--s2); align-content: start; background: var(--cream); color: var(--ink); border-radius: var(--radius-l); padding: var(--s5); box-shadow: var(--shadow-2); }
 .tn-card--tinted { background: var(--c, var(--cream)); }
 .tn-card__ic { width: 56px; height: 56px; display: grid; place-items: center; border-radius: 50%; background: var(--c, var(--sky-light)); padding: 10px; margin-bottom: var(--s2); }
-.tn-card__ic .tn-obj { width: 100%; filter: none; }
+.tn-card__ic .tn-obj { width: 100%; height: 100%; filter: none; }
 .tn-card .tn-p { font-size: 16px; }
 .tn-card__src { font-size: 14px; color: var(--ink-soft); margin: 0; }
 .tn-card__src a { color: var(--ink); font-weight: 600; text-decoration: underline; text-decoration-color: var(--red); text-underline-offset: 0.2em; }
@@ -504,6 +504,8 @@ img, svg { display: block; max-width: 100%; }
 .tn-shortstep--key .tn-step__letter { background: var(--gold); color: var(--ink); }
 .tn-shortsteps__link { padding-top: var(--s2); }
 .tn-dodont__list { margin: 0; padding-left: 1.2em; display: grid; gap: var(--s2); }
+.tn-dodont__tip > div { display: grid; gap: var(--s2); }
+@media (min-width: 600px) { .tn-dodont__tip { grid-column: 1 / -1; grid-template-columns: auto 1fr; align-items: center; column-gap: var(--s5); } .tn-dodont__tip .tn-card__ic { margin-bottom: 0; } }
 .tn-cards--4 .tn-agechip__n, .tn-cards .tn-agechip__n { margin: 0 0 var(--s2); }
 @media (min-width: 600px) {
   .tn-cards--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
