@@ -40,11 +40,14 @@ import stringsEn from '../data/strings.en.json';
     if (!h.hasAttribute('tabindex')) h.setAttribute('tabindex', '-1');
     h.focus({ preventScroll: true });
   }
+  function setMenu(btn, open) {
+    var nav = document.getElementById(btn.getAttribute('aria-controls'));
+    btn.setAttribute('aria-expanded', String(open)); if (nav) nav.classList.toggle('is-open', open);
+    btn.querySelector('.tn-sr').textContent = open ? 'Close menu' : 'Menu';
+    document.documentElement.classList.toggle('tn-menu-open', open);
+  }
   function closeMenu() {
-    each(document, '.tn-menu-btn[aria-expanded="true"]', function (btn) {
-      btn.setAttribute('aria-expanded', 'false');
-      var nav = document.getElementById(btn.getAttribute('aria-controls')); if (nav) nav.classList.remove('is-open');
-    });
+    each(document, '.tn-menu-btn[aria-expanded="true"]', function (btn) { setMenu(btn, false); });
   }
   function hashTarget(hash) { try { return document.getElementById(decodeURIComponent(hash.slice(1))); } catch (x) { return null; } }
   /* In-page anchors (href="#ages" or "/#ages" on the same page): close the phone menu, scroll with the offset,
@@ -122,12 +125,15 @@ import stringsEn from '../data/strings.en.json';
 
   T.initMenu = function (root) {
     each(root, '.tn-menu-btn', function (btn) {
-      var nav = document.getElementById(btn.getAttribute('aria-controls'));
-      btn.addEventListener('click', function () {
-        var open = btn.getAttribute('aria-expanded') !== 'true';
-        btn.setAttribute('aria-expanded', String(open)); nav.classList.toggle('is-open', open);
-      });
+      btn.addEventListener('click', function () { setMenu(btn, btn.getAttribute('aria-expanded') !== 'true'); });
     });
+    /* Close on a tap on the dimmed page, on Esc (focus goes back to the button), and when the screen grows to desktop */
+    each(root, '.tn-scrim', function (s) { s.addEventListener('click', closeMenu); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      var btn = document.querySelector('.tn-menu-btn[aria-expanded="true"]'); if (btn) { closeMenu(); btn.focus(); }
+    });
+    if (window.matchMedia) { var wide = window.matchMedia('(min-width: 1024px)'); var onWide = function () { if (wide.matches) closeMenu(); }; if (wide.addEventListener) wide.addEventListener('change', onWide); }
   };
 
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
