@@ -26,7 +26,6 @@ const article = {
   mainEntityOfPage: { '@id': `${url}#webpage` }, image: `${HOST}${entry.og || '/og-image.png'}`,
   citation: t.sources.list.map((s) => ({ '@type': 'ScholarlyArticle', name: s.text, ...(s.doi ? { url: `https://doi.org/${s.doi}` } : {}) })),
 };
-const fmt = (d: string) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 ---
 <Base page={PAGE} jsonld={[article]}>
   <Header />
@@ -34,7 +33,6 @@ const fmt = (d: string) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB'
     <PageHero page={PAGE} h1={t.h1} lead={t.lead} colour="sky-light">
       <Fragment slot="after">
         <p class="tn-p">{t.intro}</p>
-        <p class="tn-byline">{t.byline} · <span class="tn-updated">{t.updated} <time datetime={entry.lastmod}>{fmt(entry.lastmod)}</time></span></p>
       </Fragment>
       <div class="tn-layer" style="--d:4;top:8%;right:8%;width:18%"><Obj name="sun" w="100%" class="tn-spin" /></div>
       <div class="tn-layer" style="--d:8;top:12%;left:0;width:100%"><div class="tn-drift" style="--drift:70s;width:22%"><Obj name="cloud" w="100%" /></div></div>
@@ -88,7 +86,9 @@ const fmt = (d: string) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB'
             <path class="tn-road__line" d="M50 0C20 90 80 170 50 250S20 420 50 500 80 660 50 740 20 900 50 1000" pathLength="1"/>
           </svg>
           <span class="tn-road__stop" style="--at:6%;--show:0.08">T</span>
+          <span class="tn-road__sign" style="--at:6%;--show:0.12"><Obj name="bubble" w="100%" /></span>
           <span class="tn-road__stop" style="--at:31%;--show:0.26">A</span>
+          <span class="tn-road__sign" style="--at:31%;--show:0.3"><Obj name="bubble-q" w="100%" /></span>
           <span class="tn-road__stop tn-road__stop--key" style="--at:56%;--show:0.44">D</span>
           <span class="tn-road__sign" style="--at:56%;--show:0.5"><Obj name="signpost" w="100%" /></span>
           <span class="tn-road__stop" style="--at:81%;--show:0.62">A</span>

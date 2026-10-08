@@ -18,7 +18,6 @@ const entry = seo.pages[PAGE];
 const HOST = seo.host;
 const url = `${HOST}${PAGE}`;
 const ORG_ID = `${HOST}/#organization`;
-const fmt = (d: string) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 const PAGE_OBJ = ['bubble', 'bubble-q', 'signpost', 'crayon-gold'];
 const jsonld = [
   {
@@ -38,7 +37,6 @@ const jsonld = [
     <PageHero page={PAGE} h1={t.h1} lead={t.lead} colour="gold-light">
       <Fragment slot="after">
         <p class="tn-p">{t.intro}</p>
-        <p class="tn-byline">{t.byline} · <span class="tn-updated">{t.updated} <time datetime={entry.lastmod}>{fmt(entry.lastmod)}</time></span></p>
       </Fragment>
       <div class="tn-layer" style="--d:6;top:10%;left:0;width:100%"><div class="tn-drift" style="--drift:80s;width:20%"><Obj name="cloud" w="100%" /></div></div>
       <div class="tn-layer" style="--d:10;top:52%;bottom:-10%;left:0;width:100%"><svg class="tn-hill" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true"><path d="M0 300V60C60 36 120 30 200 40s130 20 200-4v264z" fill="var(--paper-deep)"/></svg></div>
