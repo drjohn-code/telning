@@ -1,5 +1,5 @@
 /* Simple generic social glyphs in one style (24 px box, 1.9 px line): a camera, a music note, an "in" badge.
-   Used by the footer and by the founder note on /about. Swap in official brand icons later if wanted. */
+   Used by the footer. Swap in official brand icons later if wanted. */
 export const SOCIAL_ICONS: Record<string, string> = {
   instagram: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.5 5.5 9.8 3.8h4.4l1.3 1.7H19a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7.5a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><circle cx="12" cy="12.6" r="3.9" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="17.6" cy="8.6" r="1" fill="currentColor"/></svg>',
   tiktok: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 17.5V5.2l9-2v11" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><ellipse cx="7.2" cy="17.6" rx="2.9" ry="2.4" fill="currentColor"/><ellipse cx="16.2" cy="14.3" rx="2.9" ry="2.4" fill="currentColor"/></svg>',

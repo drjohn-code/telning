@@ -74,7 +74,7 @@ const fmt = (d: string) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB'
     <div class="tn-wrap"><section class="tn-band tn-scene" id="new" aria-labelledby="new-h">
       <div class="tn-band__objs tn-hide-sm" aria-hidden="true"><div style="right:5%;top:6%;width:96px"><Obj name="moon" w="100%" class="tn-float slow" /></div></div>
       <div style="position:relative;z-index:1;display:grid;gap:12px"><h2 class="tn-h2" id="new-h" tabindex="-1">{t.new.h2}</h2></div>
-      <ol class="tn-tada">
+      <ol class="tn-tada tn-tada--3">
         {t.new.items.map((it) => (<li class="tn-tada-step tn-reveal"><h3 class="tn-h3">{it.h}</h3><p class="tn-p">{it.t}</p></li>))}
       </ol>
     </section></div>

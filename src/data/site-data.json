@@ -16,8 +16,8 @@
   "legal": {
     "company": "WelloWork AB",
     "copyrightYear": 2026,
-    "orgNumber": "",
-    "address": ""
+    "orgNumber": "559472-9997",
+    "address": "Dekangatan 4, Uppsala, Sweden"
   },
   "illustratorName": "",
   "teamCreditOn": true,
@@ -25,27 +25,14 @@
     "experienceLine": "and from our clinical and behavioural work with children and families",
     "members": []
   },
-  "founder": {
-    "name": "Dr. John Muhammadi",
-    "firstName": "John",
-    "role": "Founder",
-    "credentials": "Medical doctor and cognitive scientist",
-    "linkedin": "https://www.linkedin.com/in/muhammadi-bg/",
-    "email": "john@telning.com",
-    "portrait": "/art/dr-john-muhammadi-telning-founder.webp",
-    "portraitPng": "/art/dr-john-muhammadi-telning-founder.png",
-    "portraitWidth": 692,
-    "portraitHeight": 1187,
-    "portraitAlt": "Illustrated portrait of Dr. John Muhammadi, founder of Telning: a smiling man with glasses and a moustache, in navy scrubs."
-  },
-  "contactEmail": "",
+  "contactEmail": "info@telning.com",
   "formEndpoint": "",
   "guidePdf": "",
   "storyCardReplyTime": "24 hours",
   "storyCard": {
     "mode": "manual",
-    "inbox": "",
-    "emailService": "",
+    "inbox": "info@telning.com",
+    "emailService": "Resend",
     "host": "Vercel",
     "keepDays": 30
   },

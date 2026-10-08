@@ -1,7 +1,6 @@
 ---
-/* /about — About us: the founder's note (portrait in a paper frame, letter card, LinkedIn and email), who we are
-   (team cards only from site data), how a book is made (timeline with the seed-to-tree scroll story), our promises,
-   the name, contact. Copy: src/data/pages/about.json (draft). Founder facts: site data `founder` only. */
+/* /about — About us: who we are (team cards only from site data; none invented), how a book is made (timeline with
+   the seed-to-tree scroll story), our promises, the name, contact. Copy: src/data/pages/about.json (draft). */
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -10,23 +9,16 @@ import Obj from '../components/Obj.astro';
 import site from '../data/site-data.json';
 import seo from '../data/seo.json';
 import t from '../data/pages/about.json';
-import { SOCIAL_ICONS } from '../components/socialIcons';
 
 const PAGE = '/about';
 const entry = seo.pages[PAGE];
 const HOST = seo.host;
 const url = `${HOST}${PAGE}`;
 const ORG_ID = `${HOST}/#organization`;
-const F = site.founder;
-const PERSON_ID = `${url}#founder`;
 const members = (site.team?.members || []) as { name: string; role: string; bio?: string; photo?: string; photoAlt?: string }[];
-const person = {
-  '@type': 'Person', '@id': PERSON_ID, name: F.name, jobTitle: F.role, description: F.credentials,
-  image: `${HOST}${F.portrait}`, worksFor: { '@id': ORG_ID }, sameAs: [F.linkedin],
-};
 const teamPeople = members.map((m, i) => ({ '@type': 'Person', '@id': `${url}#team-${i + 1}`, name: m.name, jobTitle: m.role, worksFor: { '@id': ORG_ID } }));
 ---
-<Base page={PAGE} jsonld={[person, ...teamPeople]} orgExtra={{ founder: { '@id': PERSON_ID } }}>
+<Base page={PAGE} jsonld={teamPeople}>
   <Header />
   <main id="main" tabindex="-1">
     <PageHero page={PAGE} kicker={t.kicker} h1={t.h1} lead={t.lead} colour="sky-light">
@@ -41,36 +33,6 @@ const teamPeople = members.map((m, i) => ({ '@type': 'Person', '@id': `${url}#te
       <div class="tn-layer tn-hide-sm" style="--d:34;top:18%;right:30%;width:9%"><div class="tn-float"><Obj name="bee" w="100%" /></div></div>
     </PageHero>
 
-    <section class="tn-section" id="founder" aria-labelledby="founder-h" style="padding-top:0"><div class="tn-wrap">
-      <div class="tn-head tn-reveal"><h2 class="tn-h2" id="founder-h" tabindex="-1">{t.founder.h2}</h2></div>
-      <div class="tn-founder">
-        <figure class="tn-founder__fig tn-reveal">
-          <div class="tn-pframe" style="--c:var(--gold-light)">
-            <div class="tn-pframe__arch">
-              <picture>
-                <source srcset={F.portrait} type="image/webp" />
-                <img src={F.portraitPng} alt={F.portraitAlt} width={F.portraitWidth} height={F.portraitHeight} loading="lazy" decoding="async" />
-              </picture>
-              <svg class="tn-pframe__hill" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 100V48C70 18 150 14 230 32s120 14 170-6v74z" fill="var(--moss)"/><path d="M0 100V70C80 48 160 46 240 58s110 10 160 0v42z" fill="var(--forest-light)"/></svg>
-            </div>
-            <div class="tn-pframe__o" style="left:-12%;bottom:-6%;width:30%" aria-hidden="true"><Obj name="tulip" w="100%" class="tn-sway" swap={{ red: 'moss', 'red-light': 'gold-light', 'red-deep': 'forest-light' }} /></div>
-            <div class="tn-pframe__o" style="right:-10%;top:4%;width:22%" aria-hidden="true"><Obj name="heart" w="100%" /></div>
-            <div class="tn-pframe__o" style="right:-8%;bottom:-4%;width:14%;transform:rotate(22deg)" aria-hidden="true"><Obj name="crayon-red" w="100%" /></div>
-          </div>
-          <figcaption>{t.founder.caption}</figcaption>
-        </figure>
-        <div class="tn-letter-card tn-reveal">
-          <p class="tn-letter-card__hello">{t.founder.hello}</p>
-          {t.founder.paragraphs.map((p) => <p class="tn-p">{p}</p>)}
-          <p class="tn-letter-card__sign">{t.founder.signoff}<b>{t.founder.signname}</b></p>
-          <p class="tn-letter-card__meta">{F.name} · {F.role}, {site.publisher} · {F.credentials}</p>
-          <ul class="tn-letter-card__links">
-            <li><a href={F.linkedin} rel="me noopener" aria-label={t.founder.linkedin}><Fragment set:html={SOCIAL_ICONS.linkedin} /><span>{t.founder.linkedin}</span></a></li>
-            <li><a href={`mailto:${F.email}`}><span class="tn-sr">{t.founder.emailLabel}: </span>{F.email}</a></li>
-          </ul>
-        </div>
-      </div>
-    </div></section>
 
     <section class="tn-section" id="team" aria-labelledby="team-h" style="padding-top:0"><div class="tn-wrap">
       <div class="tn-head tn-reveal"><h2 class="tn-h2" id="team-h" tabindex="-1">{t.team.h2}</h2><p class="tn-lead">{site.teamCreditOn ? t.team.line : t.team.text}</p></div>

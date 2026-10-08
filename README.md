@@ -26,7 +26,7 @@ an empty legal placeholder (`scripts/legal-check.mjs`).
 | `design/tokens.json` | Design tokens (source of truth). `npm run tokens` writes `src/styles/tokens.css`. |
 | `design/BRAND.md` | The brand book: rules, voice, safe and banned words. Read it before writing copy. |
 | `docs/` | The brief (`telning-claude-code-prompt.md`), the research guideline (claims list), the print design system, the web design-system zip, `components.md` (what changed, what is new), `seo-keyword-map.md`, `seo-launch.md` (what to do in Vercel, Search Console, Bing). |
-| `src/data/site-data.json` | Facts that change: series, ages, books, social links, founder, team, story-card settings, legal placeholders, switches (`teamCreditOn`, `pim.art`, `pim.handDrawn`, `claims.firstApproved`). Empty = not known: hide it, never invent it. |
+| `src/data/site-data.json` | Facts that change: series, ages, books, social links, team, story-card settings, legal details, switches (`teamCreditOn`, `pim.art`, `pim.handDrawn`, `claims.firstApproved`). Empty = not known: hide it, never invent it. |
 | `src/data/seo.json` | One place for every page's title, description, dates, page type and OG image. |
 | `src/data/strings.en.json`, `src/data/pages/*.json` | Shared UI text and per-page copy. Page files are `_draft` until a person checks them. |
 | `src/layouts/Base.astro` | The `<head>` for every page (SEO, JSON-LD, preview = noindex). |
@@ -34,9 +34,9 @@ an empty legal placeholder (`scripts/legal-check.mjs`).
 | `src/pages/` | `/`, `/tada`, `/guide`, `/send`, `/about`, `/pim`, `/teachers`, `/privacy`, `/childrens-privacy`, `/terms`, `404`. |
 | `src/styles/telning.css` | All styles (`tn-` classes), phone first. |
 | `art/` | The design system's objects, animals, science desk and logo SVGs; `art/pim/` the Pim art; `art/source/` the founder and Pim source files. |
-| `public/art/` | The Pim cut-out and the founder portrait (WebP + PNG). `public/og/` the Open Graph images. |
+| `public/art/` | The Pim cut-out (WebP + PNG). `public/og/` the Open Graph images. |
 | `api/story-card.js`, `server/story-card.js` | The "Send Pim your ending" Vercel function and its pure handler. |
-| `scripts/` | Build checks, `pim-cutout.py`, `pim-svg.py`, `founder-cutout.py`, `og.mjs`, `shots.mjs` (review screenshots), `indexnow.mjs`. |
+| `scripts/` | Build checks, `pim-cutout.py`, `pim-svg.py`, `og.mjs`, `shots.mjs` (review screenshots), `indexnow.mjs`. |
 | `tests/` | Playwright (`anchors.spec.ts`, `site.spec.ts`) and node tests (`privacy.test.mjs`, `story-card-function.test.mjs`). |
 
 ## Environment variables (Vercel → Settings → Environment Variables)
@@ -53,8 +53,7 @@ an empty legal placeholder (`scripts/legal-check.mjs`).
 
 ## Before going live
 
-- Fill the legal placeholders in `site-data.json` (`legal.orgNumber`, `legal.address`, `contactEmail`,
-  `storyCard.emailService`, `storyCard.inbox`): the production build stops while they are empty.
+- The legal details, the contact address and the story-card settings are in `site-data.json`; the production build stops if one is ever emptied.
 - `formEndpoint` is empty: the email sign-up forms only pretend to submit until an endpoint exists.
 - `/guide` and `/send` are printed in the books as QR codes: those addresses never change, and they carry no shop
   links, prices, or the words gift, reward, prize, win, free (claims-lint checks).

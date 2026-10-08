@@ -7,7 +7,7 @@ import legal from '../data/pages/legal.json';
 const PAGE = '/childrens-privacy';
 const t = legal.childrens;
 const sc = (site as { storyCard?: { mode?: string; emailService?: string; host?: string; keepDays?: number } }).storyCard || {};
-const contact = site.contactEmail || site.founder.email;
+const contact = site.contactEmail;
 const ph = (s: string) => s
   .replace(/\{orgNumber\}/g, site.legal.orgNumber || 'company number: to be added')
   .replace(/\{address\}/g, site.legal.address || 'to be added')

@@ -1,66 +1,81 @@
 {
   "_draft": true,
-  "_note": "All text on /about is a draft for a person to check (STRINGS_DRAFT). The founder note is John's own text from the brief (section 4.2, page 4), lightly polished. Team members come from site data team.members; none are invented.",
+  "_note": "All text on /about is a draft for a person to check (STRINGS_DRAFT). Team members come from site data team.members; none are invented.",
   "kicker": "Telning Publishing House · About us",
   "h1": "Little stories for growing minds",
   "lead": "A small publishing house in Sweden, made by people who love a good question.",
-  "intro": "Telning Publishing House makes wordless picture books for children aged 0 to 7. Each story is coloured by the child, who then chooses how it ends. Behind the books is a small team of cognitive and behavioural scientists, and a founder who writes to you below.",
-
-  "founder": {
-    "h2": "A note from our founder",
-    "hello": "Hello, I'm John.",
-    "paragraphs": [
-      "I am a medical doctor and a cognitive scientist. The question I love most is a simple one: how do we decide? And the people I love working with most are children.",
-      "Children choose all day long. Which shoe goes on first? Share the toy, or keep it? Small choices, but they feel big when you are small.",
-      "That is why I started Telning. Our books have no words, so the story belongs to you and your child. You look, you talk, you wonder together. Then your child decides how it ends. There is no wrong answer.",
-      "I cannot promise what a book will do for your child. I can promise that we make each one with care, with honest words, and with respect for your family.",
-      "Thank you for being here. If you have a question or an idea, please write to me. I would love to hear from you."
-    ],
-    "signoff": "Warmly,",
-    "signname": "John",
-    "caption": "John, founder of Telning. Illustrated portrait.",
-    "linkedin": "John on LinkedIn",
-    "emailLabel": "Write to John"
-  },
-
+  "intro": "Telning Publishing House makes wordless picture books for children aged 0 to 7. Each story is coloured by the child, who then chooses how it ends. Behind the books is a small team of cognitive and behavioural scientists in Uppsala, Sweden.",
   "team": {
     "h2": "Who we are",
     "line": "Telning books are created by our team of cognitive and behavioural scientists.",
     "text": "We are a small team in Sweden. We read the research, write the story scripts, test the books with families, and answer every story card ourselves."
   },
-
   "made": {
     "h2": "How is a Telning book made?",
     "steps": [
-      { "icon": "magnifier", "c": "sky-light", "h": "Research", "t": "We start from what studies say about shared reading, wordless books and talking about feelings." },
-      { "icon": "clipboard", "c": "gold-light", "h": "Story script", "t": "One line per picture: what we see, what the character feels, what changes. Then the fork with two endings." },
-      { "icon": "crayon-forest", "c": "moss", "h": "Hand-drawn", "t": "Our illustrator draws every page by hand. No AI pictures inside a Telning book." },
-      { "icon": "heart", "c": "blush", "h": "Tested with families", "t": "Real children, real crayons. We change what confuses, and we keep what starts a talk." },
-      { "icon": "book", "c": "paper-deep", "h": "Printed", "t": "One picture per sheet, printed on one side, so markers do not come through." }
+      {
+        "icon": "magnifier",
+        "c": "sky-light",
+        "h": "Research",
+        "t": "We start from what studies say about shared reading, wordless books and talking about feelings."
+      },
+      {
+        "icon": "clipboard",
+        "c": "gold-light",
+        "h": "Story script",
+        "t": "One line per picture: what we see, what the character feels, what changes. Then the fork with two endings."
+      },
+      {
+        "icon": "crayon-forest",
+        "c": "moss",
+        "h": "Hand-drawn",
+        "t": "Our illustrator draws every page by hand. No AI pictures inside a Telning book."
+      },
+      {
+        "icon": "heart",
+        "c": "blush",
+        "h": "Tested with families",
+        "t": "Real children, real crayons. We change what confuses, and we keep what starts a talk."
+      },
+      {
+        "icon": "book",
+        "c": "paper-deep",
+        "h": "Printed",
+        "t": "One picture per sheet, printed on one side, so markers do not come through."
+      }
     ]
   },
-
   "promises": {
     "h2": "Our promises",
     "items": [
-      { "h": "Honest words", "t": "We say what a book is, not what it will do. No big claims, no numbers from studies on a cover." },
-      { "h": "Hand-drawn books", "t": "Every picture inside a Telning book is drawn by a person. No AI pictures inside." },
-      { "h": "Children's privacy", "t": "A story card needs a first name, an age and a drawing. Never a photo of a child. We delete what we do not need." },
-      { "h": "Quiet emails", "t": "We write only when a book is out. No tracking, no cookies on this site." }
+      {
+        "h": "Honest words",
+        "t": "We say what a book is, not what it will do. No big claims, no numbers from studies on a cover."
+      },
+      {
+        "h": "Hand-drawn books",
+        "t": "Every picture inside a Telning book is drawn by a person. No AI pictures inside."
+      },
+      {
+        "h": "Children's privacy",
+        "t": "A story card needs a first name, an age and a drawing. Never a photo of a child. We delete what we do not need."
+      },
+      {
+        "h": "Quiet emails",
+        "t": "We write only when a book is out. No tracking, no cookies on this site."
+      }
     ],
     "privacyLink": "Read the children's privacy notice"
   },
-
   "name": {
     "h2": "Why \"Telning\"?",
     "t1": "\"Telning\" is Swedish for a young shoot, a sapling. In older Swedish it also means a child.",
     "t2": "Telning Publishing House is made in Sweden."
   },
-
   "contact": {
     "h2": "Contact",
     "text": "Questions, ideas, a story to tell us? Write to us. We read every email.",
     "emailLabel": "Email us",
-    "soon": "Our contact address is on its way. Until then, write to John above."
+    "soon": "Our contact address is on its way."
   }
 }
