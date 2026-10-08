@@ -65,7 +65,7 @@ descriptions, dates and page types are in `src/data/seo.json`.
 | `/tada` | The paper road: stops T, A, D (fork + signpost), A (frame where a crayon drawing draws itself). | Article JSON-LD with citations; sources from the guideline only; team line only when `teamCreditOn`. |
 | `/guide` | The open book whose pages turn, one TADA object per leaf (sticky on desktop). | QR page: no gift/reward/prize/win/free (claims-lint). Guide sign-up (tag `guide`); download when `guidePdf` is set. FAQPage JSON-LD. |
 | `/send` | Drawing → envelope → paper plane → Pim at the mailbox → card flies back. | The form (brief 5.1) with crop/rotate/zoom; privacy words = the real flow; FAQPage JSON-LD. QR page rules. |
-| `/about` | Seed → shoot → tree beside the timeline. | Who we are (team cards only from site data), how a book is made, promises, the name, contact. The founder note was removed on the owner's request. |
+| `/about` | Seed → shoot → tree beside the timeline. | How a book is made, promises, the name, contact. The founder note and the team section were removed on the owner's request. |
 | `/pim` | A crayon scribble fills a big leaf. | "Made by hand" section only when `pim.handDrawn` and `illustratorName` are set. |
 | `/teachers` | Children's drawings clip onto a string one by one. | "SEL" and "speech therapists" allowed here. Teacher pack sign-up (tag `teacher`). |
 | `/privacy`, `/childrens-privacy`, `/terms` | — | From `legal.json`; placeholders from site data; `legal-check` stops a production build while one is empty. |

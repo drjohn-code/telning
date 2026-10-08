@@ -1,6 +1,6 @@
 ---
-/* /about — About us: who we are (team cards only from site data; none invented), how a book is made (timeline with
-   the seed-to-tree scroll story), our promises, the name, contact. Copy: src/data/pages/about.json (draft). */
+/* /about — About us: how a book is made (timeline with the seed-to-tree scroll story), our promises, the name,
+   contact. Copy: src/data/pages/about.json (draft). */
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -15,10 +15,8 @@ const entry = seo.pages[PAGE];
 const HOST = seo.host;
 const url = `${HOST}${PAGE}`;
 const ORG_ID = `${HOST}/#organization`;
-const members = (site.team?.members || []) as { name: string; role: string; bio?: string; photo?: string; photoAlt?: string }[];
-const teamPeople = members.map((m, i) => ({ '@type': 'Person', '@id': `${url}#team-${i + 1}`, name: m.name, jobTitle: m.role, worksFor: { '@id': ORG_ID } }));
 ---
-<Base page={PAGE} jsonld={teamPeople}>
+<Base page={PAGE}>
   <Header />
   <main id="main" tabindex="-1">
     <PageHero page={PAGE} kicker={t.kicker} h1={t.h1} lead={t.lead} colour="sky-light">
@@ -34,17 +32,6 @@ const teamPeople = members.map((m, i) => ({ '@type': 'Person', '@id': `${url}#te
     </PageHero>
 
 
-    <section class="tn-section" id="team" aria-labelledby="team-h" style="padding-top:0"><div class="tn-wrap">
-      <div class="tn-head tn-reveal"><h2 class="tn-h2" id="team-h" tabindex="-1">{t.team.h2}</h2><p class="tn-lead">{site.teamCreditOn ? t.team.line : t.team.text}</p></div>
-      <div class="tn-team">
-        {site.teamCreditOn && <p class="tn-p tn-reveal">{t.team.text}</p>}
-        {members.length > 0 && (
-          <ul class="tn-cards tn-cards--3">
-            {members.map((m) => (<li class="tn-card tn-reveal">{m.photo && <img src={m.photo} alt={m.photoAlt || m.name} width="160" height="160" loading="lazy" decoding="async" style="border-radius:50%;width:96px;height:96px;object-fit:cover" />}<h3 class="tn-h3">{m.name}</h3><p class="tn-small"><strong>{m.role}</strong></p>{m.bio && <p class="tn-p">{m.bio}</p>}</li>))}
-          </ul>
-        )}
-      </div>
-    </div></section>
 
     <section class="tn-section" id="made" aria-labelledby="made-h" style="padding-top:0"><div class="tn-wrap">
       <div class="tn-head tn-reveal"><h2 class="tn-h2" id="made-h" tabindex="-1">{t.made.h2}</h2></div>
