@@ -5,6 +5,7 @@
    Logs carry no field values. The request body is never written anywhere. */
 import sharp from 'sharp';
 import { handleStoryCard, SYSTEM_PROMPT } from '../server/story-card.js';
+import { hasKey, sendEmail } from '../server/resend.js';
 import site from '../src/data/site-data.json' with { type: 'json' };
 
 const sc = site.storyCard || {};
@@ -17,16 +18,6 @@ async function processImage(buffer) {
   if (!['jpeg', 'png', 'webp', 'heif'].includes(meta.format)) throw new Error('type');
   const out = await sharp(buffer).rotate().resize({ width: 1600, height: 1600, fit: 'inside', withoutEnlargement: true }).jpeg({ quality: 85 }).toBuffer();
   return { buffer: out, type: 'image/jpeg' };                      // sharp drops EXIF/GPS unless withMetadata() is called
-}
-
-async function sendEmail({ to, from, replyTo, subject, text, attachments }) {
-  const key = process.env.RESEND_API_KEY;
-  if (!key) throw new Error('no email service');
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST', headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from, to: [to], reply_to: replyTo, subject, text, attachments: attachments.map((a) => ({ filename: a.filename, content: a.content.toString('base64') })) }),
-  });
-  if (!res.ok) throw new Error(`email ${res.status}`);
 }
 
 /* Auto mode: the Claude API checks the photo for people and writes Pim's lines and the note (JSON). */
@@ -80,7 +71,7 @@ export async function POST(request) {
   const extra = MODE === 'auto' ? await ai() : {};
   const result = await handleStoryCard({ fields, file, ip }, {
     mode: MODE, inbox: INBOX, from: FROM, replyTime: site.storyCardReplyTime, keepDays: sc.keepDays || 30,
-    processImage, sendEmail: process.env.RESEND_API_KEY ? sendEmail : null,   // no key → 503 notReady, nothing is lost silently
+    processImage, sendEmail: hasKey() ? sendEmail : null,   // no key → 503 notReady, nothing is lost silently
     ...extra, log: (o) => console.log('story-card', JSON.stringify(o)),
   });
   const wantsJson = (request.headers.get('accept') || '').includes('application/json') || (request.headers.get('content-type') || '').includes('application/json');

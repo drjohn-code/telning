@@ -13,7 +13,7 @@ Simple steps, in order. Tick each one. Claude Code did the code side; the steps 
 
 ## A2. Vercel environment variables (for the story-card form) — once
 
-- [ ] Create a free account at https://resend.com, add and verify the domain `telning.com` (Resend shows the DNS records: add them at your DNS provider), then create an API key.
+- [ ] Create a free account at https://resend.com, add and verify the domain `telning.com` (Resend shows the DNS records: add them at your DNS provider), then create an API key with **Full access** (needed to keep the sign-up lists; Resend → Audience shows them as segments "Letters from Pim", "TADA guide", "Teacher pack").
 - [ ] Vercel → Project → Settings → Environment Variables (Production and Preview):
       `RESEND_API_KEY` = the key · `STORY_CARD_INBOX` = the team inbox, e.g. `cards@telning.com` · `STORY_CARD_FROM` = `Pim <pim@telning.com>`.
       Until the key exists the form says "The story-card post box is not open yet"; nothing is lost silently.

@@ -149,8 +149,8 @@ import stringsEn from '../data/strings.en.json';
         function done() { block.classList.add('is-done'); block.querySelector('.tn-email__thanks').focus(); }
         function fail() { btn.textContent = label; btn.removeAttribute('aria-disabled'); setError(s('email.failed')); }
         var endpoint = (T.data && T.data.formEndpoint) || '';
-        if (!endpoint) { setTimeout(done, 500); return; }   /* design preview: no endpoint chosen yet */
-        fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        if (!endpoint) { fail(); return; }   /* never a fake thank-you */
+        fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           body: JSON.stringify({ form: (form.querySelector('input[name="form"]') || {}).value || 'news', email: v, book: bookInput ? bookInput.value : '', lang: document.documentElement.lang || 'en' }) })
           .then(function (r) { r.ok ? done() : fail(); }, fail);
       });

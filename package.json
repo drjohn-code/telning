@@ -13,7 +13,7 @@
     "test:e2e": "playwright test",
     "check": "node scripts/sitemap.mjs && node scripts/claims-lint.mjs && node scripts/seo-check.mjs",
     "indexnow": "node scripts/indexnow.mjs",
-    "test:privacy": "node --test tests/privacy.test.mjs tests/story-card-function.test.mjs"
+    "test:privacy": "node --test tests/privacy.test.mjs tests/story-card-function.test.mjs tests/subscribe.test.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.132.0",

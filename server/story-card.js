@@ -49,12 +49,10 @@ export function validate(fields, file) {
   const email = String(fields.email || '').trim();
   const name = String(fields.childName || '').trim().slice(0, 40);
   const age = parseInt(fields.childAge, 10);
-  const ending = String(fields.ending || '');
   if (!email) return 'email';
   if (!EMAIL_RE.test(email)) return 'emailInvalid';
   if (!name) return 'name';
   if (!(age >= 1 && age <= 10)) return 'age';
-  if (!['1', '2', 'own'].includes(ending)) return 'ending';
   if (!file || !file.buffer || !file.buffer.length) return 'photo';
   if (file.buffer.length > MAX_BYTES) return 'photoSize';
   if (fields.consentGuardian !== 'yes') return 'c1';
@@ -106,11 +104,10 @@ with two gentle lines from Pim only.
 Answer with JSON only, no other text:
 {"concern": false, "lines": ["…", "…"], "note": {"whatYourChildDid": "…", "questions": ["…", "…", "…"], "actIdea": "…", "tip": "…"}}`;
 
-export function buildPrompt({ childName, childAge, ending, book, answers }) {
-  const endingText = ending === 'own' ? 'drew their own ending' : `chose ending ${ending}`;
+export function buildPrompt({ childName, childAge, book, answers }) {
   const a = answers;
   const lines = [
-    `Child: ${childName}, age ${childAge}. Book: ${book || 'not given'}. The child ${endingText}.`,
+    `Child: ${childName}, age ${childAge}. Book: ${book || 'not given'}. The drawing is the ending the child chose or drew.`,
     a.world.text && `Place of the story, in the parent's words: ${a.world.text}`,
     (a.character.chips.length || a.character.text) && `How the child thought the main character felt: ${[...a.character.chips, a.character.text].filter(Boolean).join(', ')}`,
     (a.child.start.length || a.child.end.length || a.child.text) && `The child's own feelings: at the start ${a.child.start.join(', ') || '-'}; at the end ${a.child.end.join(', ') || '-'}. ${a.child.text}`,
@@ -126,7 +123,6 @@ export function buildPrompt({ childName, childAge, ending, book, answers }) {
 export function teamEmail({ fields, answers, filled, generated, replyTime, keepDays }) {
   const name = String(fields.childName || '').trim().slice(0, 40);
   const age = parseInt(fields.childAge, 10);
-  const ending = fields.ending === 'own' ? 'drew their own ending' : `ending ${fields.ending}`;
   const share = fields.consentShare === 'yes' ? 'YES (first name, age and drawing only)' : 'no';
   const list = (arr) => (arr && arr.length ? arr.join(', ') : '-');
   const a = answers;
@@ -136,7 +132,6 @@ export function teamEmail({ fields, answers, filled, generated, replyTime, keepD
     `Parent email: ${String(fields.email || '').trim()}`,
     `Child: ${name}, ${age}`,
     `Book: ${fields.book || 'other'}`,
-    `Ending: ${ending}`,
     `May share the card on Instagram/TikTok: ${share}`,
     '',
     filled ? 'ANSWERS (use once to write the tips; delete this email after you reply, and within ' + keepDays + ' days in every case):' : 'The parent skipped part 2 (no answers).',
@@ -200,7 +195,7 @@ export async function handleStoryCard(input, deps) {
     const b64 = image.buffer.toString('base64');
     try {
       if (deps.checkPhoto && (await deps.checkPhoto(b64))) return done(400, { ok: false, error: 'person' });
-      const g = await deps.generate(buildPrompt({ childName: fields.childName, childAge: fields.childAge, ending: fields.ending, book: fields.book, answers }), b64);
+      const g = await deps.generate(buildPrompt({ childName: fields.childName, childAge: fields.childAge, book: fields.book, answers }), b64);
       generated = g && !checkGenerated(g) ? g : null;             // a failed check → manual (no AI draft)
     } catch (e) { generated = null; }
   }

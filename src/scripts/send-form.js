@@ -1,6 +1,8 @@
-/* /send form: progress line, photo preview with rotate / zoom / drag-to-crop (re-encoded to JPEG, which also drops
-   EXIF and GPS), validation in words, the conditional consent for part 2, and the fetch submit with the thank-you
-   state. Without JS the form still posts as multipart to /api/story-card. Field values never go to analytics or logs. */
+/* /send form: three steps with working tabs and Next/Back (one step visible at a time; step 1 is checked before moving
+   on), photo preview with rotate / zoom / drag-to-crop (re-encoded to JPEG, which also drops EXIF and GPS), validation
+   in words, the conditional consent for step 2, and the fetch submit with the thank-you state. Without JS every step
+   shows, the tabs are plain links, and the form posts as multipart to /api/story-card. Field values never go to
+   analytics or logs. */
 (function () {
   var form = document.getElementById('story-form'); if (!form) return;
   var S = JSON.parse(document.getElementById('send-strings').textContent);
@@ -8,14 +10,7 @@
   function $(sel, root) { return (root || form).querySelector(sel); }
   function $$(sel, root) { return Array.prototype.slice.call((root || form).querySelectorAll(sel)); }
 
-  /* progress line: the part in view is the current step */
-  var steps = $$('.tn-progress li'), parts = $$('.tn-form__part');
-  if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (es) {
-      es.forEach(function (e) { if (e.isIntersecting) { var n = parseInt(e.target.getAttribute('data-step'), 10); steps.forEach(function (li, i) { if (i + 1 === n) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current'); }); } });
-    }, { rootMargin: '-40% 0px -50% 0px' });
-    parts.forEach(function (p) { io.observe(p); });
-  }
+  var tabs = $$('.tn-progress__tab'), parts = $$('.tn-form__part'), current = 1;
 
   /* errors in words, never colour alone */
   function err(fieldEl, id, msg) {
@@ -75,23 +70,61 @@
   function part2Filled() { return $$('#part-2 input:checked').length > 0 || $$('#part-2 textarea').some(function (t) { return t.value.trim(); }); }
 
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-  function validate() {
-    var first = null, ok = true;
-    function bad(field, id, msg, el) { err(field, id, msg); ok = false; if (!first) first = el; }
+  /* Each check returns the first field with a problem (or null), and writes the messages. */
+  function checkStep1() {
+    var first = null;
+    function bad(id, msg, el) { err(null, id, msg); if (!first) first = el; }
     var email = $('#f-email'); err(null, 'f-email-err', '');
-    if (!email.value.trim()) bad(null, 'f-email-err', S.errors.email, email); else if (!EMAIL_RE.test(email.value.trim())) bad(null, 'f-email-err', S.errors.emailInvalid, email);
-    var name = $('#f-name'); err(null, 'f-name-err', ''); if (!name.value.trim()) bad(null, 'f-name-err', S.errors.name, name);
-    var age = $('#f-age'); err(null, 'f-age-err', ''); if (!age.value) bad(null, 'f-age-err', S.errors.age, age);
-    var ending = $('input[name="ending"]:checked'); err($('#f-ending-err').closest('fieldset'), 'f-ending-err', ''); if (!ending) bad($('#f-ending-err').closest('fieldset'), 'f-ending-err', S.errors.ending, $('input[name="ending"]'));
-    var f = input.files && input.files[0], pm = fileOk(f); err(null, 'f-photo-err', ''); if (pm) bad(null, 'f-photo-err', pm, input);
-    var c1 = $('input[name="consentGuardian"]'), c2 = $('input[name="consentCard"]'), c3 = $('input[name="consentAnswers"]');
-    err(c1.closest('.tn-checks'), 'f-c1-err', ''); err(c2.closest('.tn-checks'), 'f-c2-err', ''); err(c3.closest('.tn-checks'), 'f-c3-err', '');
-    if (!c1.checked) bad(c1.closest('.tn-checks'), 'f-c1-err', S.errors.c1, c1);
-    if (!c2.checked) bad(c2.closest('.tn-checks'), 'f-c2-err', S.errors.c2, c2);
-    if (part2Filled() && !c3.checked) bad(c3.closest('.tn-checks'), 'f-c3-err', S.errors.c3, c3);
-    if (first) { first.focus({ preventScroll: true }); if (window.Telning && window.Telning.scrollToEl) window.Telning.scrollToEl(first.closest('.tn-field') || first, { center: true }); }
-    return ok;
+    if (!email.value.trim()) bad('f-email-err', S.errors.email, email); else if (!EMAIL_RE.test(email.value.trim())) bad('f-email-err', S.errors.emailInvalid, email);
+    var name = $('#f-name'); err(null, 'f-name-err', ''); if (!name.value.trim()) bad('f-name-err', S.errors.name, name);
+    var age = $('#f-age'); err(null, 'f-age-err', ''); if (!age.value) bad('f-age-err', S.errors.age, age);
+    var f = input.files && input.files[0], pm = fileOk(f); err(null, 'f-photo-err', ''); if (pm) bad('f-photo-err', pm, input);
+    return first;
   }
+  function checkStep3() {
+    var first = null;
+    var c1 = $('input[name="consentGuardian"]'), c2 = $('input[name="consentCard"]'), c3 = $('input[name="consentAnswers"]');
+    var box = c1.closest('.tn-checks');
+    function bad(id, msg, el) { err(box, id, msg); if (!first) first = el; }
+    err(box, 'f-c1-err', ''); err(box, 'f-c2-err', ''); err(box, 'f-c3-err', '');
+    if (!c1.checked) bad('f-c1-err', S.errors.c1, c1);
+    if (!c2.checked) bad('f-c2-err', S.errors.c2, c2);
+    if (part2Filled() && !c3.checked) bad('f-c3-err', S.errors.c3, c3);
+    return first;
+  }
+  function focusField(el) {
+    el.focus({ preventScroll: true });
+    if (window.Telning && window.Telning.scrollToEl) window.Telning.scrollToEl(el.closest('.tn-field, .tn-checks') || el, { center: true });
+  }
+
+  /* Steps: one part visible at a time. Moving forward past step 1 needs step 1 to be complete. */
+  function show(n, focus) {
+    current = n;
+    parts.forEach(function (p) { p.hidden = parseInt(p.getAttribute('data-step'), 10) !== n; });
+    tabs.forEach(function (a) {
+      var k = parseInt(a.getAttribute('data-goto'), 10);
+      if (k === n) a.setAttribute('aria-current', 'step'); else a.removeAttribute('aria-current');
+      a.classList.toggle('is-done', k < n);
+    });
+    if (focus !== false) {
+      var part = parts[n - 1];
+      if (window.Telning && window.Telning.scrollToEl) window.Telning.scrollToEl(form, { instant: calm });
+      part.focus({ preventScroll: true });
+    }
+  }
+  function go(n) {
+    if (n > 1 && n > current) {
+      var bad1 = checkStep1();
+      if (bad1) { if (current !== 1) show(1, false); focusField(bad1); return; }
+    }
+    show(n);
+  }
+  form.classList.add('is-steps');
+  $$('[data-nav]').forEach(function (el) { el.hidden = false; });
+  $$('[data-goto]').forEach(function (el) {
+    el.addEventListener('click', function (e) { e.preventDefault(); go(parseInt(el.getAttribute('data-goto'), 10)); });
+  });
+  show(1, false);
 
   var submitBtn = $('button[type="submit"]'), failP = $('#f-form-err');
   function fail(msg) { failP.querySelector('.tn-error-text').textContent = msg; failP.classList.add('is-on'); submitBtn.textContent = S.submit; submitBtn.removeAttribute('aria-disabled'); }
@@ -99,7 +132,10 @@
     e.preventDefault();
     failP.classList.remove('is-on');
     if ($('#f-web').value) { done(); return; }                       /* honeypot: pretend */
-    if (!validate()) return;
+    var bad1 = checkStep1();
+    if (bad1) { show(1, false); focusField(bad1); return; }
+    var bad3 = checkStep3();
+    if (bad3) { if (current !== 3) show(3, false); focusField(bad3); return; }
     submitBtn.textContent = S.sending; submitBtn.setAttribute('aria-disabled', 'true');
     exportBlob().then(function (blob) {
       var fd = new FormData(form);

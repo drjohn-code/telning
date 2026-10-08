@@ -6,10 +6,10 @@ export default defineConfig({
   timeout: 30_000,
   retries: 0,
   reporter: 'list',
-  use: { baseURL: 'http://localhost:4321' },
+  use: { baseURL: 'http://127.0.0.1:4321' },
   webServer: {
-    command: 'npx astro preview --port 4321',
-    url: 'http://localhost:4321/',
+    command: 'npx astro preview --port 4321 --host 127.0.0.1 --ignore-lock',
+    url: 'http://127.0.0.1:4321/',
     reuseExistingServer: true,
     timeout: 30_000,
   },

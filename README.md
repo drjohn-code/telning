@@ -36,6 +36,7 @@ an empty legal placeholder (`scripts/legal-check.mjs`).
 | `art/` | The design system's objects, animals, science desk and logo SVGs; `art/pim/` the Pim art; `art/source/` the founder and Pim source files. |
 | `public/art/` | The Pim cut-out (WebP + PNG). `public/og/` the Open Graph images. |
 | `api/story-card.js`, `server/story-card.js` | The "Send Pim your ending" Vercel function and its pure handler. |
+| `api/subscribe.js`, `server/subscribe.js` | The email sign-ups (Letters from Pim, TADA guide, teacher pack): a Resend contact in one segment per list; if the key cannot store contacts, the sign-up is emailed to the team inbox. `server/resend.js` holds the shared Resend calls. |
 | `scripts/` | Build checks, `pim-cutout.py`, `pim-svg.py`, `og.mjs`, `shots.mjs` (review screenshots), `indexnow.mjs`. |
 | `tests/` | Playwright (`anchors.spec.ts`, `site.spec.ts`) and node tests (`privacy.test.mjs`, `story-card-function.test.mjs`). |
 
@@ -43,7 +44,7 @@ an empty legal placeholder (`scripts/legal-check.mjs`).
 
 | Name | What |
 | --- | --- |
-| `RESEND_API_KEY` | The email service for the story-card form. Until it is set the form answers "not open yet" (503) and nothing is lost silently. |
+| `RESEND_API_KEY` | Resend, for the story-card form and the sign-ups. Use a **Full access** key so sign-ups are stored as contacts (a sending-only key still works: sign-ups then arrive as emails). Without it both forms answer "not open yet" and nothing is lost silently. |
 | `STORY_CARD_INBOX` | The team inbox that receives each submission (or set `storyCard.inbox` in site data). |
 | `STORY_CARD_FROM` | The sender, e.g. `Pim <pim@telning.com>` (the domain must be verified in Resend). |
 | `STORY_CARD_MODE` | `manual` (default) or `auto` (the Claude API drafts Pim's lines and the note; a person still finishes). |
@@ -54,7 +55,6 @@ an empty legal placeholder (`scripts/legal-check.mjs`).
 ## Before going live
 
 - The legal details, the contact address and the story-card settings are in `site-data.json`; the production build stops if one is ever emptied.
-- `formEndpoint` is empty: the email sign-up forms only pretend to submit until an endpoint exists.
 - `/guide` and `/send` are printed in the books as QR codes: those addresses never change, and they carry no shop
   links, prices, or the words gift, reward, prize, win, free (claims-lint checks).
 - Follow `docs/seo-launch.md` (www redirect, Search Console, Bing).

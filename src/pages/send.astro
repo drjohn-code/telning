@@ -28,7 +28,7 @@ const bookOptions = booksOut.length ? booksOut : isStaging ? site.series.map((s)
 const ages = Array.from({ length: 10 }, (_, i) => i + 1);
 const faq = t.faq.items.map((it) => ({ q: it.q, a: fill(it.a) }));
 const jsonld = [{ '@type': 'FAQPage', '@id': `${url}#faq`, mainEntity: faq.map((it) => ({ '@type': 'Question', name: it.q, acceptedAnswer: { '@type': 'Answer', text: it.a } })) }];
-const jsStrings = { errors: t.form.errors, sending: t.form.sending, thanksH: t.form.thanksH, thanks: fill(t.form.thanks), submit: t.form.submit, change: t.form.photoChange, maxMb: 10 };
+const jsStrings = { errors: t.form.errors, stepError: t.form.stepError, sending: t.form.sending, thanksH: t.form.thanksH, thanks: fill(t.form.thanks), submit: t.form.submit, change: t.form.photoChange, maxMb: 10 };
 ---
 <Base page={PAGE} jsonld={jsonld}>
   <Header />
@@ -69,12 +69,12 @@ const jsStrings = { errors: t.form.errors, sending: t.form.sending, thanksH: t.f
     <section class="tn-section" id="form" aria-labelledby="form-h" style="padding-top:0"><div class="tn-wrap">
       <div class="tn-head tn-reveal"><h2 class="tn-h2" id="form-h" tabindex="-1">{t.form.h2}</h2><p class="tn-lead">{t.form.lead}</p></div>
       <form class="tn-form" id="story-form" action="/api/story-card" method="post" enctype="multipart/form-data" novalidate data-mode={sc.mode || 'manual'}>
-        <ol class="tn-progress" aria-label="Form progress">{t.form.progress.map((p, i) => <li aria-current={i === 0 ? 'step' : undefined}><span class="tn-progress__n" aria-hidden="true">{i + 1}</span>{p}</li>)}</ol>
+        <ol class="tn-progress" aria-label={t.form.progressLabel}>{t.form.progress.map((p, i) => <li><a class="tn-progress__tab" href={`#part-${i + 1}`} data-goto={i + 1} aria-current={i === 0 ? 'step' : undefined}><span class="tn-progress__n" aria-hidden="true">{i + 1}</span><span class="tn-progress__l">{p}</span></a></li>)}</ol>
         <input type="hidden" name="form" value="story-card">
         <input type="hidden" name="lang" value="en">
         <input type="hidden" name="photoCropped" value="">
 
-        <fieldset class="tn-form__part" id="part-1" data-step="1">
+        <fieldset class="tn-form__part" id="part-1" data-step="1" tabindex="-1">
           <legend class="tn-form__legend"><span class="tn-form__num" aria-hidden="true">1</span>{t.form.part1} <span class="tn-form__note">{t.form.part1Note}</span></legend>
           <div class="tn-field"><label class="tn-label" for="f-email">{t.form.email}</label><input class="tn-input" id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="f-email-err"><p class="tn-error" id="f-email-err" aria-live="polite"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M10 5.5v5.5M10 14.2v.3"/></svg><span class="tn-error-text"></span></p></div>
           <div class="tn-field"><label class="tn-label" for="f-name">{t.form.name}</label><input class="tn-input" id="f-name" name="childName" type="text" autocomplete="off" maxlength="40" required aria-describedby="f-name-hint f-name-err"><p class="tn-hint" id="f-name-hint">{t.form.nameHint}</p><p class="tn-error" id="f-name-err" aria-live="polite"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M10 5.5v5.5M10 14.2v.3"/></svg><span class="tn-error-text"></span></p></div>
@@ -82,14 +82,14 @@ const jsStrings = { errors: t.form.errors, sending: t.form.sending, thanksH: t.f
           {bookOptions.length > 0 ? (
             <div class="tn-field"><label class="tn-label" for="f-book">{t.form.book}</label><select class="tn-input tn-select" id="f-book" name="book">{bookOptions.map((b) => <option value={b.key}>{b.name}</option>)}<option value="other">{t.form.bookOther}</option></select></div>
           ) : <input type="hidden" name="book" value="other">}
-          <fieldset class="tn-field tn-field--group" aria-describedby="f-ending-err"><legend class="tn-label">{t.form.ending}</legend><div class="tn-radios">{t.form.endings.map((e, i) => <label class="tn-radio"><input type="radio" name="ending" value={['1', '2', 'own'][i]} required><span>{e}</span></label>)}</div><p class="tn-error" id="f-ending-err" aria-live="polite"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M10 5.5v5.5M10 14.2v.3"/></svg><span class="tn-error-text"></span></p></fieldset>
           <div class="tn-field tn-field--photo"><label class="tn-label" for="f-photo">{t.form.photo}</label><p class="tn-hint" id="f-photo-hint">{t.form.photoHint}</p>
             <div class="tn-photo"><input class="tn-photo__input" id="f-photo" name="photo" type="file" accept="image/jpeg,image/png,image/heic,image/heif,image/webp,.heic,.heif" required aria-describedby="f-photo-hint f-photo-err"><label class="tn-btn tn-btn--light tn-photo__btn" for="f-photo" data-choose={t.form.photoChoose} data-change={t.form.photoChange}>{t.form.photoChoose}</label></div>
             <div class="tn-crop" hidden><p class="tn-hint">{t.form.cropHint}</p><div class="tn-crop__frame"><canvas class="tn-crop__canvas" width="640" height="640"></canvas></div><div class="tn-crop__tools"><button class="tn-btn tn-btn--light" type="button" data-rotate>{t.form.rotate} ↻</button><label class="tn-crop__zoom">{t.form.zoom} <input type="range" min="1" max="3" step="0.01" value="1" data-zoom></label></div></div>
             <p class="tn-error" id="f-photo-err" aria-live="polite"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M10 5.5v5.5M10 14.2v.3"/></svg><span class="tn-error-text"></span></p></div>
+          <div class="tn-form__nav" data-nav hidden><button class="tn-btn" type="button" data-goto="2">{t.form.next2}</button></div>
         </fieldset>
 
-        <fieldset class="tn-form__part" id="part-2" data-step="2">
+        <fieldset class="tn-form__part" id="part-2" data-step="2" tabindex="-1">
           <legend class="tn-form__legend"><span class="tn-form__num" aria-hidden="true">2</span>{t.form.part2} <span class="tn-form__note">{t.form.part2Note}</span></legend>
           <div class="tn-note tn-note--sky tn-why"><h3 class="tn-h3">{t.form.why.h}</h3><p class="tn-p">{t.form.why.t}</p></div>
           {t.form.q.map((q) => (
@@ -100,9 +100,10 @@ const jsStrings = { errors: t.form.errors, sending: t.form.sending, thanksH: t.f
               <label class="tn-hint" for={`q-${q.id}`}>{t.form.more}</label><textarea class="tn-input tn-textarea" id={`q-${q.id}`} name={`q_${q.id}`} maxlength="300" rows="2"></textarea>
             </div>
           ))}
+          <div class="tn-form__nav" data-nav hidden><button class="tn-btn tn-btn--light" type="button" data-goto="1">{t.form.back}</button><button class="tn-btn" type="button" data-goto="3">{t.form.next3}</button></div>
         </fieldset>
 
-        <fieldset class="tn-form__part" id="part-3" data-step="3">
+        <fieldset class="tn-form__part" id="part-3" data-step="3" tabindex="-1">
           <legend class="tn-form__legend"><span class="tn-form__num" aria-hidden="true">3</span>{t.form.part3} <span class="tn-form__note">{t.form.part3Note}</span></legend>
           <div class="tn-checks">
             <label class="tn-check"><input type="checkbox" name="consentGuardian" value="yes" required aria-describedby="f-c1-err"><span>{t.form.c1}</span></label><p class="tn-error" id="f-c1-err" aria-live="polite"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M10 5.5v5.5M10 14.2v.3"/></svg><span class="tn-error-text"></span></p>
@@ -113,7 +114,7 @@ const jsStrings = { errors: t.form.errors, sending: t.form.sending, thanksH: t.f
           <p class="tn-small"><a class="tn-link" href="/childrens-privacy">{t.form.privacyLink}</a></p>
           <div class="tn-hp" aria-hidden="true"><label for="f-web">{t.form.honeypot}</label><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
           <p class="tn-error tn-form__fail" id="f-form-err" aria-live="assertive"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M10 5.5v5.5M10 14.2v.3"/></svg><span class="tn-error-text"></span></p>
-          <div class="tn-actions"><button class="tn-btn" type="submit">{t.form.submit}</button></div>
+          <div class="tn-form__nav tn-form__nav--end"><button class="tn-btn tn-btn--light" type="button" data-goto="2" data-nav hidden>{t.form.back}</button><button class="tn-btn" type="submit">{t.form.submit}</button></div>
         </fieldset>
         <div class="tn-form__thanks" tabindex="-1" role="status" hidden><div class="tn-pim__disc tn-form__thanks-pim"><Pim pose="portrait" /></div><h3 class="tn-h2">{t.form.thanksH}</h3><p class="tn-lead">{fill(t.form.thanks)}</p></div>
       </form>

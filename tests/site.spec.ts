@@ -48,26 +48,43 @@ test('reduced motion: final states shown, nothing animates', async ({ browser })
   await ctx.close();
 });
 
-test('keyboard only: the send form fields are reachable with a visible focus ring', async ({ page }) => {
+test('keyboard only: the send form, step by step, with a visible focus ring', async ({ page }) => {
   await page.goto('/send');
-  const seen = new Set<string>();
-  for (let i = 0; i < 160; i++) {
-    await page.keyboard.press('Tab');
-    const info = await page.evaluate(() => {
-      const el = document.activeElement as HTMLElement | null;
-      if (!el) return null;
-      const cs = getComputedStyle(el);
-      const ring = cs.outlineStyle !== 'none' && parseFloat(cs.outlineWidth) > 0;
-      const wrap = el.closest('.tn-radio, .tn-chip-opt, .tn-check');
-      const wrapRing = wrap ? getComputedStyle(wrap).outlineStyle !== 'none' : false;
-      return { id: el.id || el.getAttribute('name') || el.tagName, ring: ring || wrapRing || el.classList.contains('tn-photo__input') };
-    });
-    if (!info) continue;
-    seen.add(info.id);
-    if (['f-email', 'f-name', 'f-age', 'ending', 'consentGuardian', 'consentCard'].includes(info.id)) expect(info.ring, `focus ring on ${info.id}`).toBe(true);
+  async function tabUntil(pred: (id: string) => boolean, max = 120) {
+    const seen = new Set<string>();
+    for (let i = 0; i < max; i++) {
+      await page.keyboard.press('Tab');
+      const info = await page.evaluate(() => {
+        const el = document.activeElement as HTMLElement | null;
+        if (!el) return null;
+        const cs = getComputedStyle(el);
+        const wrap = el.closest('.tn-radio, .tn-chip-opt, .tn-check');
+        const ring = (cs.outlineStyle !== 'none' && parseFloat(cs.outlineWidth) > 0) || (wrap ? getComputedStyle(wrap).outlineStyle !== 'none' : false) || el.classList.contains('tn-photo__input');
+        return { id: el.id || el.getAttribute('name') || el.getAttribute('data-goto') && `goto-${el.getAttribute('data-goto')}` || el.tagName, ring };
+      });
+      if (!info) continue;
+      seen.add(info.id);
+      if (['f-email', 'f-name', 'f-age', 'consentGuardian', 'consentCard'].includes(info.id)) expect(info.ring, `focus ring on ${info.id}`).toBe(true);
+      if (pred(info.id)) return seen;
+    }
+    return seen;
   }
-  for (const id of ['f-email', 'f-name', 'f-age', 'ending', 'f-photo', 'consentGuardian', 'consentCard', 'consentAnswers', 'consentShare']) expect(seen.has(id), `reached ${id}`).toBe(true);
-  expect([...seen].some((s) => s === 'BUTTON'), 'reached the submit button').toBe(true);
+  // step 1 by keyboard: the fields, then the Next button
+  let seen = await tabUntil((id) => id === 'f-photo');
+  for (const id of ['f-email', 'f-name', 'f-age', 'f-photo']) expect(seen.has(id), `reached ${id}`).toBe(true);
+  await page.fill('#f-email', 'parent@example.com'); await page.fill('#f-name', 'Noa'); await page.selectOption('#f-age', '4');
+  await page.setInputFiles('#f-photo', { name: 'd.png', mimeType: 'image/png', buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==', 'base64') });
+  await page.locator('#part-1 [data-goto="2"]').focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#part-2')).toBeVisible();
+  // step 2 by keyboard: the chips and boxes, then Next
+  seen = await tabUntil((id) => id === 'goto-3');
+  expect([...seen].some((id) => id.startsWith('q_')), 'reached the questions').toBe(true);
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#part-3')).toBeVisible();
+  // step 3: the consents and the submit button
+  seen = await tabUntil((id) => id === 'BUTTON');
+  for (const id of ['consentGuardian', 'consentCard', 'consentAnswers', 'consentShare']) expect(seen.has(id), `reached ${id}`).toBe(true);
 });
 
 test('every page: skip link, one main, header menu works with the keyboard on phones', async ({ browser }) => {
