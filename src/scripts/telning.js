@@ -169,9 +169,12 @@ import stringsEn from '../data/strings.en.json';
     });
   };
 
-  /* Scroll stories: every .tn-view element carries --p from 0 (its top edge enters at the bottom of the viewport)
-     to 1 (its bottom edge leaves at the top). CSS turns --p into transforms and opacity (only under .tn-js, so the
-     final state shows without JS). Reduced motion: --p is 1 and nothing moves. */
+  /* Scroll stories: every .tn-view element carries --p from 0 to 1 while the picture crosses a line at 75% of the
+     viewport height: 0 when its top edge reaches the line, 1 when it has moved past by its own height (at least 40% of
+     the viewport, so a short picture finishes while it is still in full view). data-track="<selector>" measures that
+     child instead (the picture inside a section with cards or text); a sticky child is not measured (it does not move),
+     the whole element is. CSS turns --p into transforms and opacity (only under .tn-js, so the final state shows
+     without JS). Reduced motion: --p is 1 and nothing moves. */
   T.initView = function (root) {
     var els = Array.prototype.slice.call((root || document).querySelectorAll('.tn-view'));
     if (!els.length) return;
@@ -180,7 +183,9 @@ import stringsEn from '../data/strings.en.json';
     function update() {
       raf = 0; var vh = window.innerHeight;
       active.forEach(function (el) {
-        var r = el.getBoundingClientRect(), p = (vh - r.top) / (vh + r.height);
+        var t = (el.dataset.track && el.querySelector(el.dataset.track)) || el;
+        if (t !== el && getComputedStyle(t).position === 'sticky') t = el;
+        var r = t.getBoundingClientRect(), p = (vh * 0.75 - r.top) / Math.max(r.height, vh * 0.4);
         el.style.setProperty('--p', Math.max(0, Math.min(1, p)).toFixed(4));
       });
     }

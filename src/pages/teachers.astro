@@ -38,7 +38,7 @@ const PEGS = [0.12, 0.3, 0.48, 0.66, 0.84];
 
     <section class="tn-section" id="how" aria-labelledby="how-h" style="padding-top:0"><div class="tn-wrap">
       <div class="tn-head tn-reveal"><h2 class="tn-h2" id="how-h" tabindex="-1">{t.how.h2}</h2><p class="tn-lead">{t.how.lead}</p></div>
-      <div class="tn-stringstory tn-view">
+      <div class="tn-stringstory tn-view" data-track=".tn-string">
         <div class="tn-string" aria-hidden="true">
           <span class="tn-string__line"></span>
           {PEGS.map((at, i) => (<div class="tn-string__sheet tn-string__sheet--story" style={`--at:${at};--x:${6 + i * 19}%;--r:${[-5, 4, -2, 5, -4][i]}deg`}><span class="tn-string__peg"></span><KidDrawing /></div>))}

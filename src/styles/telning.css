@@ -694,7 +694,7 @@ img, svg { display: block; max-width: 100%; }
 .tn-road__svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .tn-road__bed { fill: none; stroke: var(--paper-deep); stroke-width: 14; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 .tn-road__line { fill: none; stroke: var(--gold-deep); stroke-width: 3; stroke-dasharray: 1; stroke-dashoffset: 0; vector-effect: non-scaling-stroke; }
-.tn-js .tn-road__line { stroke-dashoffset: calc(1 - var(--p) * 1.15); transition: stroke-dashoffset 80ms linear; }
+.tn-js .tn-road__line { stroke-dashoffset: calc(1 - var(--p) * 1.04); transition: stroke-dashoffset 80ms linear; }
 .tn-road__stop { position: absolute; left: 50%; top: var(--at); width: 36px; height: 36px; margin: -18px 0 0 -18px; display: grid; place-items: center; border-radius: 50%; background: var(--red); color: var(--cream); font-family: var(--font-display); font-weight: 600; font-size: 18px; box-shadow: var(--shadow-1); }
 .tn-road__stop--key { background: var(--gold); color: var(--ink); }
 .tn-js .tn-road__stop { opacity: clamp(0, (var(--p) - var(--show)) * 12, 1); transform: scale(clamp(0.5, 0.5 + (var(--p) - var(--show)) * 6, 1)); transition: opacity 80ms linear, transform 80ms linear; }
