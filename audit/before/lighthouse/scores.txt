@@ -1,0 +1,12 @@
+basket-desktop   perf=100 acce=100 best=100 seo=66 LCP=0.4 s CLS=0 TBT=0 ms
+basket-mobile    perf=100 acce=100 best=100 seo=66 LCP=1.5 s CLS=0 TBT=0 ms
+book-desktop     perf=100 acce=100 best=100 seo=100 LCP=0.5 s CLS=0 TBT=0 ms
+book-mobile      perf=98 acce=100 best=100 seo=100 LCP=2.4 s CLS=0 TBT=0 ms
+books-desktop    perf=99 acce=100 best=100 seo=100 LCP=0.6 s CLS=0.061 TBT=0 ms
+books-mobile     perf=84 acce=100 best=100 seo=100 LCP=3.2 s CLS=0.192 TBT=0 ms
+gifts-desktop    perf=100 acce=100 best=100 seo=100 LCP=0.6 s CLS=0 TBT=0 ms
+gifts-mobile     perf=95 acce=100 best=100 seo=100 LCP=2.9 s CLS=0 TBT=0 ms
+home-desktop     perf=100 acce=100 best=100 seo=100 LCP=0.4 s CLS=0.011 TBT=0 ms
+home-mobile      perf=99 acce=100 best=100 seo=100 LCP=1.9 s CLS=0 TBT=20 ms
+mug-desktop      perf=100 acce=100 best=100 seo=100 LCP=0.5 s CLS=0 TBT=0 ms
+mug-mobile       perf=98 acce=100 best=100 seo=100 LCP=2.3 s CLS=0 TBT=0 ms
