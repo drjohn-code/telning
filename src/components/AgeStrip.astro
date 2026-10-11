@@ -1,16 +1,18 @@
 ---
-/* AgeStrip: the quiet way in by age. An age card links to /books?age=<key> only when at least one book
-   with that age is "out" in site-data.json. Until then it is a plain card with the "Coming soon" pill. */
+/* AgeStrip: the quiet way in by age. An age card links to /books?age=<key> when the shop has books and posters
+   for that age. Until then it is a plain card with the "Coming soon" pill (1–3 for now). */
 import site from '../data/site-data.json';
 import strings from '../data/strings.en.json';
 import Obj from './Obj.astro';
 
 const ART: Record<string, { animal: string; c: string }> = {
-  '0-3': { animal: 'duck', c: 'blush' },
+  '1-3': { animal: 'duck', c: 'blush' },
   '3-5': { animal: 'bunny', c: 'sky' },
   '5-7': { animal: 'owl', c: 'gold-light' },
 };
-const outAges = new Set((site.books as { status?: string; age?: string }[]).filter((b) => b.status === 'out').map((b) => b.age));
+import { catalog } from '../lib/shop';
+/* An age links to the shop (Books & posters, filtered by age) when the shop has products for it. 1–3 stays "Coming soon". */
+const outAges = new Set(catalog.products.filter((p: any) => p.age).map((p: any) => p.age));
 ---
 <section class="tn-wrap tn-agesec" aria-labelledby="ages-h" id="ages"><div class="tn-ages"><h2 class="tn-ages__h" id="ages-h" tabindex="-1">{strings['ages.h2']}</h2><ul class="tn-agestrip">{site.ages.map((a) => {
   const out = outAges.has(a.key);

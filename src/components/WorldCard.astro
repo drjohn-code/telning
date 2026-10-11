@@ -1,22 +1,26 @@
 ---
 /* WorldCard: one series as a little paper world. The scene goes in the slot.
-   A card is a link to /series/<key> only when the series' `status` is "out" in site-data.json.
-   Otherwise it is a plain <div> with the dark "Coming soon" pill: not in the tab order, no pointer cursor,
-   no lift or tilt. Screen readers hear "Home & Hearts, Family & friends, Coming soon". */
+   A card links to the series in the shop (/books/<key>) when the shop has its books or posters, with a small
+   "Book" and "Poster" tag. Otherwise it is a plain <div> with the soft "Coming soon" pill: not in the tab order,
+   no pointer cursor, no lift or tilt. Screen readers hear "Home & Hearts, Family & friends, Book, Poster". */
 import site from '../data/site-data.json';
 import strings from '../data/strings.en.json';
+import { catalog } from '../lib/shop';
 
 interface Props { key: string }
 const { key } = Astro.props;
 const s = site.series.find((x) => x.key === key);
 if (!s) throw new Error(`WorldCard: there is no series "${key}" in site-data.json`);
-const out = s.status === 'out';
+const items = catalog.products.filter((p: any) => p.series === key);
+const tags = [items.some((p: any) => p.type === 'book') && 'Book', items.some((p: any) => p.type === 'poster') && 'Poster'].filter(Boolean) as string[];
+const out = tags.length > 0;
 ---
 <li class="tn-reveal">
   {out ? (
-    <a class="tn-world tn-world--link tn-tilt" data-tilt="8" href={`/series/${key}`}>
+    <a class="tn-world tn-world--link tn-tilt" data-tilt="8" href={`/books/${key}`}>
       <slot />
-      <span class="tn-world__body"><span class="tn-world__name">{s.name}</span><span class="tn-world__theme">{s.theme}</span></span>
+      <span class="tn-world__tags">{tags.map((t) => <span class="tn-pill tn-world__tag"><span class="tn-sr">, </span>{t}</span>)}</span>
+      <span class="tn-world__body"><span class="tn-world__name">{s.name}</span><span class="tn-sr">, </span><span class="tn-world__theme">{s.theme}</span></span>
     </a>
   ) : (
     <div class="tn-world tn-world--soon">

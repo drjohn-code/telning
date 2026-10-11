@@ -4,7 +4,7 @@ import strings from "../data/strings.en.json";
 ---
 <section class="tn-section" id="series" aria-labelledby="series-h"><div class="tn-wrap">
   <div class="tn-head tn-reveal"><h2 class="tn-h2" id="series-h" tabindex="-1">{strings["series.h2"]}</h2></div>
-  <ul class="tn-worlds"><WorldCard key="home-hearts"><span class="tn-world__scene" style="--c:var(--blush)" aria-hidden="true"><svg class="tn-world__far" viewBox="0 0 400 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 80V40C70 14 150 10 230 28s120 12 170-8v60z" fill="var(--cream)" opacity=".28"/></svg><div class="tn-world__o " style="left:8%;bottom:14%;width:46%"><svg style="--w:100%;" viewBox="0 0 120 120" class="tn-obj" aria-hidden="true" focusable="false">
+  <div class="tn-fold" data-fold><ul class="tn-worlds" id="series-list"><WorldCard key="home-hearts"><span class="tn-world__scene" style="--c:var(--blush)" aria-hidden="true"><svg class="tn-world__far" viewBox="0 0 400 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 80V40C70 14 150 10 230 28s120 12 170-8v60z" fill="var(--cream)" opacity=".28"/></svg><div class="tn-world__o " style="left:8%;bottom:14%;width:46%"><svg style="--w:100%;" viewBox="0 0 120 120" class="tn-obj" aria-hidden="true" focusable="false">
 <rect x="22" y="54" width="76" height="56" fill="var(--cream)"/>
 <rect x="76" y="54" width="22" height="56" fill="var(--paper-deep)"/>
 <rect x="78" y="22" width="12" height="24" fill="var(--red-deep)"/>
@@ -245,5 +245,5 @@ import strings from "../data/strings.en.json";
 <ellipse cx="38" cy="32" rx="7" ry="12" transform="rotate(20 38 32)" fill="var(--cream)" opacity=".35"/>
 <path d="M51 88l2 14M69 88l-2 14" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/>
 <rect x="49" y="100" width="22" height="16" rx="3" fill="var(--gold-deep)"/>
-<rect x="49" y="100" width="22" height="5" rx="2" fill="var(--red-deep)"/></svg></div><svg class="tn-world__ground" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 60V26C60 8 130 2 200 14s140 18 200 4v42z" fill="var(--cream)"/></svg></span></WorldCard></ul>
+<rect x="49" y="100" width="22" height="5" rx="2" fill="var(--red-deep)"/></svg></div><svg class="tn-world__ground" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 60V26C60 8 130 2 200 14s140 18 200 4v42z" fill="var(--cream)"/></svg></span></WorldCard></ul><div class="tn-fold__fade" aria-hidden="true"></div></div><p class="tn-fold__more"><button class="tn-btn tn-btn--ghost" type="button" aria-controls="series-list" aria-expanded="false" data-fold-btn data-more={strings["series.more"]} data-less={strings["series.less"]}>{strings["series.more"]}</button></p>
 </div></section>

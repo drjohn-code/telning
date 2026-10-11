@@ -3,7 +3,7 @@
   "_note": "All text on /about is a draft for a person to check (STRINGS_DRAFT). Team members come from site data team.members; none are invented.",
   "h1": "Little stories for growing minds",
   "lead": "A small publishing house in Sweden, made by people who love a good question.",
-  "intro": "Telning Publishing House makes wordless picture books for children aged 0 to 7. Each story is coloured by the child, who then chooses how it ends. Behind the books is a small team of cognitive and behavioural scientists in Uppsala, Sweden.",
+  "intro": "Telning Publishing House makes wordless picture books for children aged 0 to 7. Each story is coloured by the child, who then chooses how it ends. Behind the books is a small team of cognitive and behavioural scientists in Uppsala, Sweden. Every book and every gift is designed in Sweden by our team of scientists and illustrators, and printed close to you.",
   "made": {
     "h2": "How is a Telning book made?",
     "steps": [
@@ -35,7 +35,7 @@
         "icon": "book",
         "c": "paper-deep",
         "h": "Printed",
-        "t": "One picture per sheet, printed on one side, so markers do not come through."
+        "t": "Drawings on the right-hand pages only, on uncoated paper made for pencils and crayons, printed to order close to you."
       }
     ]
   },

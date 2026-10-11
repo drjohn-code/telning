@@ -11,8 +11,8 @@
   "nav.about": "About",
   "hero.h1": "Little stories, growing minds.",
   "hero.text": "Picture books where your child makes the choices. Every story is built around decision intelligence, with emotional intelligence, social skills and behavioural skills woven in.",
-  "hero.button": "Our publications",
-  "hero.link": "The TADA method",
+  "hero.button": "Books & posters",
+  "hero.link": "Gifts",
   "pim.hello": "Hi, I’m Pim! In every story, you choose what happens next.",
   "pim.skills": "My favourite question: what would you choose?",
   "pim.send": "Send me your ending. I’ll send you a story card back!",
@@ -97,5 +97,13 @@
   "nf.tada": "Read the TADA way",
   "nf.send": "Send Pim your ending",
   "card.title": "A TADA ending by {name}, {age}",
-  "card.sample": "Sample"
+  "card.sample": "Sample",
+  "hero.line": "Books your child finishes. Gifts that keep the story going.",
+  "nav.books": "Books & posters",
+  "nav.gifts": "Gifts",
+  "series.more": "See all 12 series",
+  "series.less": "Show less",
+  "gifts.h2": "Gifts",
+  "gifts.pim": "The grown-ups get something too.",
+  "gifts.button": "See all gifts"
 }
