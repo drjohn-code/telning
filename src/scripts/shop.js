@@ -55,8 +55,10 @@
       else b.push({ sku: it.sku, variant: it.variant || '', qty: Math.min(max, it.qty || 1) });
     });
     saveBasket(b);
+    lastAdded = items.length === 1 ? items[0].sku : null;
     if (!opts || opts.open !== false) openDrawer(true);
   };
+  var lastAdded = null;
   function onBuy(e) {
     var f = e.target;
     if (!f.matches || !f.matches('form.tn-buy')) return;
@@ -73,6 +75,8 @@
     if (!drawer) { location.href = '/basket'; return; }
     lastFocus = document.activeElement;
     drawer.classList.toggle('is-added', !!added);
+    var at = drawer.querySelector('[data-added-text]');
+    if (at) { at.textContent = 'Added to your basket'; if (added && lastAdded) catalog().then(function (j) { var p = j.products[lastAdded]; if (p && added) at.textContent = 'Added: ' + p.n; }).catch(function () {}); }
     if (typeof drawer.showModal === 'function') { if (!drawer.open) drawer.showModal(); } else drawer.setAttribute('open', '');
     document.documentElement.classList.add('tn-drawer-open');
     render();
@@ -152,6 +156,7 @@
         if (!b.length) return;
         if (list) list.innerHTML = linesHtml(b, c);
         if (sum) sum.innerHTML = summaryHtml(totals(b, c), c);
+        each(root, '[data-basket-skel]', function (sk) { sk.hidden = true; });
       });
       applyPrices();
     }).catch(function () { /* the catalogue could not load: the page still links to /basket */ });
@@ -361,7 +366,8 @@
       var bb = bar.querySelector('[data-buybar]'); bb.removeAttribute('tabindex');
       bb.addEventListener('click', function () { if (form.requestSubmit) form.requestSubmit(); else form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })); });
       var ticking = false;
-      var check = function () { ticking = false; bar.classList.toggle('is-on', form.getBoundingClientRect().bottom < 0); };
+      var mainBtn = form.querySelector('button[type="submit"]') || form;
+      var check = function () { ticking = false; var r = mainBtn.getBoundingClientRect(); bar.classList.toggle('is-on', r.bottom < 0 || r.top > window.innerHeight); };
       window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(check); } }, { passive: true });
       check();
     }

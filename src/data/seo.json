@@ -97,12 +97,12 @@
     "/404": {
       "name": "Page not found",
       "title": "Page not found | Telning",
-      "description": "Telning is under development and this address is not live yet. Go to the home page, read about the TADA way, or send Pim your child's ending for a story card.",
+      "description": "This page is not here. Go back to the home page, open Books & posters or Gifts, or read about the TADA way: Talk, Ask, Decide, Act, with Pim.",
       "type": "WebPage",
       "sitemap": false,
       "noindex": true,
       "published": "2026-10-08",
-      "lastmod": "2026-10-08"
+      "lastmod": "2026-10-12"
     }
   }
 }

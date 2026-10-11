@@ -9,9 +9,10 @@ for (const f of t.type.fonts) {
 out.push('', ':root {');
 for (const c of t.color.tokens) out.push(`  --${c.name}: ${c.value};`);
 for (const [k, v] of Object.entries(t.type.families)) out.push(`  --font-${k}: ${v};`);
-for (const fam of ['spacing', 'radius', 'shadow', 'layout', 'duration', 'easing']) {
+for (const fam of ['spacing', 'radius', 'shadow', 'layout', 'duration', 'easing', 'control']) {
   for (const x of t[fam].tokens) out.push(`  --${x.name}: ${x.value};`);
 }
+for (const x of t.series.tokens) out.push(`  --${x.name}: var(--${x.value});`);
 out.push('}');
 writeFileSync(new URL('../src/styles/tokens.css', import.meta.url), out.join('\n') + '\n');
 console.log('tokens.css written');

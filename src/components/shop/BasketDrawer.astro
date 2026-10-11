@@ -9,12 +9,13 @@ import CurrencySelect from './CurrencySelect.astro';
       <h2 class="tn-drawer__h" id="tn-drawer-h">Your basket</h2>
       <button class="tn-drawer__x" type="button" data-close aria-label="Close the basket"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     </div>
-    <p class="tn-drawer__added" role="status"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Added to your basket</p>
+    <p class="tn-drawer__added" role="status"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-added-text>Added to your basket</span></p>
     <div class="tn-drawer__empty" data-basket-empty>
       <p class="tn-p">Your basket is empty.</p>
-      <p class="tn-drawer__links"><a class="tn-link" href="/books">Books &amp; posters</a> <a class="tn-link" href="/gifts">Gifts</a></p>
+      <p class="tn-drawer__links"><a class="tn-btn" href="/books">Books &amp; posters</a> <a class="tn-btn tn-btn--secondary" href="/gifts">Gifts</a></p>
     </div>
     <div class="tn-drawer__full" data-basket-full hidden>
+      <ul class="tn-skel" data-basket-skel aria-hidden="true"><li><i></i><span><b></b><b></b></span></li><li><i></i><span><b></b><b></b></span></li></ul>
       <ul class="tn-lines" data-basket-lines></ul>
       <div class="tn-drawer__foot">
         <CurrencySelect id="cur-drawer" />

@@ -1,6 +1,6 @@
 ---
 /* 404: Pim, sitting and blinking. Astro writes dist/404.html; Vercel serves it with HTTP status 404
-   for every unknown path, including the coming-soon routes /series/* and /books. No redirect to the home page. */
+   for every unknown path. Branded, with the two shop doors. No redirect to the home page. */
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -20,8 +20,9 @@ import strings from '../data/strings.en.json';
         <p class="tn-lead">{strings['nf.text']}</p>
         <ul class="tn-404__links">
           <li><a class="tn-btn" href="/">{strings['nf.home']}</a></li>
+          <li><a class="tn-btn tn-btn--secondary" href="/books">{strings['nf.books']}</a></li>
+          <li><a class="tn-btn tn-btn--secondary" href="/gifts">{strings['nf.gifts']}</a></li>
           <li><a class="tn-link tn-link--solo" href="/tada">{strings['nf.tada']}</a></li>
-          <li><a class="tn-link tn-link--solo" href="/send">{strings['nf.send']}</a></li>
         </ul>
       </div>
     </section>

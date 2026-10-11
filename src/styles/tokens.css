@@ -47,6 +47,26 @@
   --shadow-3: 0 4px 8px rgba(22,20,15,0.10), 0 28px 50px rgba(22,20,15,0.18);
   --content-max: 1180px;
   --text-max: 640px;
+  --prose-max: 68ch;
+  --hero-stage: min(44svh, 520px);
   --move: 220ms;
+  --enter: 320ms;
+  --reveal: 600ms;
   --ease: cubic-bezier(0.2,0.7,0.3,1);
+  --control-h: 48px;
+  --control-pad: 24px;
+  --chip-h: 40px;
+  --control-font: 16px;
+  --accent-home-hearts: var(--red);
+  --accent-paws-claws: var(--forest);
+  --accent-star-hoppers: var(--sea-deep);
+  --accent-little-gardeners: var(--moss);
+  --accent-big-days: var(--gold);
+  --accent-toy-box: var(--sky);
+  --accent-little-kitchen: var(--blush);
+  --accent-funny-pages: var(--red-light);
+  --accent-round-the-year: var(--sea);
+  --accent-game-on: var(--red-deep);
+  --accent-everyday-heroes: var(--rose);
+  --accent-on-the-move: var(--gold-light);
 }
