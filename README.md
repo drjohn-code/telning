@@ -40,6 +40,23 @@ an empty legal placeholder (`scripts/legal-check.mjs`).
 | `scripts/` | Build checks, `pim-cutout.py`, `pim-svg.py`, `og.mjs`, `shots.mjs` (review screenshots), `indexnow.mjs`. |
 | `tests/` | Playwright (`anchors.spec.ts`, `site.spec.ts`) and node tests (`privacy.test.mjs`, `story-card-function.test.mjs`). |
 
+## The shop (Books & posters, Gifts)
+
+Our own code with Stripe Checkout; no Shopify. Every price, shipping fee and product text is in three data files:
+`src/data/shop.json` (prices per currency, parcels and fees, product types, packs), `src/data/shop-books.json`
+(the 24 book stories and poster texts) and `src/data/shop-gifts.json` (mug, tote, postcard and card designs).
+`server/catalog.js` builds the catalogue from them for the pages, the basket and the Vercel functions.
+
+| Path | What |
+| --- | --- |
+| `src/pages/books/…`, `src/pages/gifts/…` | Collections, series pages and one product page per item (`src/components/shop/ProductPage.astro`). |
+| `/basket`, `/order/thanks`, `/organisations`, `/materials`, `/shipping-returns` | Basket, thank-you, story packs + quote form, materials, delivery and returns. |
+| `src/scripts/shop.js` | Basket (on the device, localStorage), currency switch, drawer, gallery, filters, packs, quote form. |
+| `api/checkout.js` → `server/checkout.js` | Basket → Stripe Checkout Session. Prices and shipping always from the server. |
+| `api/stripe-webhook.js` → `server/orders.js` | After payment: emails the team an order sheet split by printer (Lulu, Printful, Gelato) and the customer a confirmation. Printer APIs plug in through `partners`. |
+| `api/quote.js` → `server/quote.js` | Quote requests from `/organisations`, emailed to the team. |
+| `scripts/shop/` | The art and photo studio: `build-art.mjs` (posters, covers, gift print files into `art/print/`, git-ignored because the repo is public) and `build-photos.mjs` (product photos in `public/shop/img/`, OG images). Run `node scripts/shop/build-photos.mjs all` after art changes and commit the images. |
+
 ## Environment variables (Vercel → Settings → Environment Variables)
 
 | Name | What |
@@ -49,6 +66,13 @@ an empty legal placeholder (`scripts/legal-check.mjs`).
 | `STORY_CARD_FROM` | The sender, e.g. `Pim <pim@telning.com>` (the domain must be verified in Resend). |
 | `STORY_CARD_MODE` | `manual` (default) or `auto` (the Claude API drafts Pim's lines and the note; a person still finishes). |
 | `ANTHROPIC_API_KEY` | Auto mode only. Server-side only, never in the browser. |
+
+| `STRIPE_SECRET_KEY` | Stripe secret key (`sk_test_…` while testing, `sk_live_…` to sell). Without it the basket says "The shop opens very soon" and nothing is charged. |
+| `STRIPE_WEBHOOK_SECRET` | From Stripe → Developers → Webhooks → endpoint `https://telning.com/api/stripe-webhook`, events `checkout.session.completed` and `checkout.session.async_payment_succeeded`. |
+| `STRIPE_TAX` | `on` turns on Stripe Tax (set up the tax settings in Stripe first). EUR and GBP prices include VAT; USD and CAD add sales tax. |
+| `STRIPE_TERMS` | `on` asks the buyer to accept the terms at checkout (set the terms URL in Stripe → Settings → Public details first). |
+| `ORDER_INBOX` | Team inbox for order sheets and quote requests (falls back to `STORY_CARD_INBOX`, then `contactEmail`). |
+| `ORDER_FROM` | Sender of order emails, e.g. `Telning <orders@telning.com>` (falls back to `STORY_CARD_FROM`). |
 
 `VERCEL_ENV` is set by Vercel: preview builds are `noindex`, production never.
 

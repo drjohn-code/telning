@@ -19,7 +19,7 @@ test('no dead internal links, no coming-soon links', () => {
       if (!href.startsWith('/')) continue;
       const path = href.split('#')[0].split('?')[0];
       if (!path) continue;
-      if (/^\/series\/|^\/books/.test(path)) soon.push(`${file}: ${href}`);
+      if (/^\/series\//.test(path)) soon.push(`${file}: ${href}`);   // /books is the shop now (Books & posters)
       if (path === '/api/story-card') continue;                      // the Vercel function, not a static file
       const ok = path === '/' || existsSync(join(DIST, path.slice(1), 'index.html')) || existsSync(join(DIST, path.slice(1))) || existsSync(join(DIST, path.slice(1) + '.html'));
       if (!ok) dead.push(`${file}: ${href}`);

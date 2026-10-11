@@ -1,0 +1,78 @@
+---
+/* /gifts/mugs, /gifts/tote-bags, /gifts/postcards, /gifts/greeting-cards: every design of one gift. */
+import Base from '../../../layouts/Base.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import ProductCard from '../../../components/shop/ProductCard.astro';
+import TrustBar from '../../../components/shop/TrustBar.astro';
+import CurrencySelect from '../../../components/shop/CurrencySelect.astro';
+import { catalog, shop, gifts, img, giftPath, GIFT_TYPES, money } from '../../../lib/shop';
+
+export function getStaticPaths() {
+  return GIFT_TYPES.map((t: string) => ({ params: { type: giftPath(t).split('/')[2] }, props: { t } }));
+}
+const { t } = Astro.props as any;
+const PAGE = giftPath(t);
+const ty = (shop.types as any)[t];
+const products = catalog.products.filter((p: any) => p.type === t);
+const occasions = [...new Set(products.map((p: any) => p.occasion).filter(Boolean))] as string[];
+const p0: any = products[0];
+const pr = p0.variants ? p0.variants[0].price : p0.price;
+const fromAttrs = Object.fromEntries(['EUR', 'GBP', 'USD', 'CAD'].map((c) => [`data-${c.toLowerCase()}`, money(pr[c], c, (shop.currencies as any)[c].locale)]));
+const HERO: Record<string, string> = { mug: 'mug-the-garden/table', tote: 'tote-to-the-moon/scene', postcards: 'postcards-happy-birthday/scene', cards: 'cards-thank-you/scene' };
+const others = GIFT_TYPES.filter((x: string) => x !== t);
+const COVER: Record<string, string> = { mug: 'mug-the-moon/white', tote: 'tote-library-day/natural', postcards: 'postcards-hello-grandma/front', cards: 'cards-birthday-balloons/front' };
+---
+<Base page={PAGE}>
+  <Header />
+  <main id="main" tabindex="-1">
+    <section class="tn-wrap tn-shophero" aria-labelledby="page-h">
+      <Breadcrumbs page={PAGE} />
+      <div class="tn-shophero__in">
+        <div class="tn-shophero__text">
+          <h1 class="tn-h1" id="page-h" tabindex="-1">{ty.plural}</h1>
+          <p class="tn-lead">{ty.scene}</p>
+          <ul class="tn-shophero__pts">{ty.facts.map((f: string) => <li>{f}</li>)}</ul>
+          <p class="tn-shophero__from">From <span class="tn-price" {...fromAttrs}>{fromAttrs['data-eur']}</span> · {products.length} designs</p>
+        </div>
+        <div class="tn-shophero__art" aria-hidden="true">
+          <img class="tn-shophero__a" src={img(`/shop/img/${HERO[t]}`, 1200)} alt="" width="1200" height="1200" fetchpriority="high" />
+        </div>
+      </div>
+    </section>
+
+    <section class="tn-wrap tn-shopgrid" aria-labelledby="all-h">
+      <h2 class="tn-h2 tn-h2--s" id="all-h">The designs</h2>
+      {occasions.length > 1 && (
+        <div class="tn-filters" data-filters="#grid" data-count="#count" hidden>
+          <div class="tn-filters__g tn-filters__g--scroll" role="group" aria-label="Occasion"><span class="tn-filters__l">Occasion</span>
+            <button type="button" class="tn-chip" data-group="occasion" data-value="">All</button>
+            {occasions.map((o) => <button type="button" class="tn-chip" data-group="occasion" data-value={o}>{(gifts.occasions as any)[o]}</button>)}
+          </div>
+          <div class="tn-filters__end"><output id="count" class="tn-filters__count">{products.length} items</output><CurrencySelect id="cur-type" /></div>
+        </div>
+      )}
+      <ul class="tn-pgrid" id="grid">{products.map((p: any, i: number) => <ProductCard p={p} eager={i < 4} />)}</ul>
+    </section>
+
+    <section class="tn-section tn-section--tight" aria-labelledby="mat-h"><div class="tn-wrap">
+      <div class="tn-next">
+        <h2 class="tn-h2 tn-h2--s" id="mat-h">Material and care</h2>
+        <p class="tn-p">{ty.materials}</p>
+        <p class="tn-p">{ty.care}</p>
+        <p><a class="tn-link tn-link--solo" href="/materials">Our materials and certificates</a></p>
+      </div>
+    </div></section>
+
+    <section class="tn-section tn-section--tight" aria-labelledby="other-h"><div class="tn-wrap">
+      <div class="tn-head"><h2 class="tn-h2 tn-h2--s" id="other-h">More gifts</h2></div>
+      <ul class="tn-gifttiles tn-gifttiles--3">{others.map((x: string) => (
+        <li><a class="tn-gifttile" href={giftPath(x)}><img src={img(`/shop/img/${COVER[x]}`, 600)} alt="" width="600" height="600" loading="lazy" /><span class="tn-gifttile__body"><span class="tn-gifttile__name">{(shop.types as any)[x].tile}</span></span></a></li>))}</ul>
+      <p class="tn-p" style="margin-top:var(--s5)"><a class="tn-link tn-link--solo" href="/gifts">All gifts</a></p>
+    </div></section>
+
+    <section class="tn-section tn-section--tight" aria-label="Our promises"><div class="tn-wrap"><TrustBar /></div></section>
+  </main>
+  <Footer />
+</Base>

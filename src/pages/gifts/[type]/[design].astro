@@ -1,0 +1,10 @@
+---
+/* /gifts/<type>/<design>: one page per gift design (mugs, tote bags, postcards, greeting cards). */
+import ProductPage from '../../../components/shop/ProductPage.astro';
+import { catalog } from '../../../lib/shop';
+export function getStaticPaths() {
+  return catalog.products.filter((p: any) => p.category === 'gifts').map((p: any) => ({ params: { type: p.url.split('/')[2], design: p.url.split('/')[3] }, props: { p } }));
+}
+const { p } = Astro.props;
+---
+<ProductPage p={p} />

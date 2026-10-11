@@ -1,0 +1,23 @@
+---
+/* /shipping-returns — delivery times and fees per region (from src/data/shop.json), parcels, returns (EU law in every
+   market), damaged items. DRAFT: a lawyer checks the returns text before the shop opens. */
+import LegalPage from '../components/LegalPage.astro';
+import { shop, site, money } from '../lib/shop';
+
+const fee = (k: string, c: string) => money(Math.round((shop.parcels as any)[k].first[c] * 100), c, (shop.currencies as any)[c].locale);
+const extra = (c: string) => money(Math.round((shop.parcels as any).books.extra[c] * 100), c, (shop.currencies as any)[c].locale);
+const R: Record<string, string> = { EU: 'EUR', UK: 'GBP', US: 'USD', CA: 'CAD' };
+const regions = Object.entries(shop.regions as any).map(([k, r]: [string, any]) => `<strong>${r.name}</strong>: ${r.delivery[0]}–${r.delivery[1]} working days. Books ${fee('books', R[k])}, giant posters ${fee('posters', R[k])}, mugs ${fee('mugs', R[k])}, tote bags ${fee('totes', R[k])}, postcards and greeting cards ${fee('cards', R[k])} per parcel; ${extra(R[k])} for each extra item in the same parcel.`);
+const sections = [
+  { id: 'where', h: 'Where we deliver', p: ['We deliver to the European Union, the United Kingdom, the United States and Canada. The currency you choose in the basket sets the delivery region: euros for the EU, pounds for the UK, US dollars for the US and Canadian dollars for Canada.'] },
+  { id: 'made', h: 'Made to order, printed near you', p: ['Nothing waits in a warehouse. When you order, each item is printed for you by one of our printing partners, close to your address: books by Lulu, giant posters, mugs and tote bags by Printful, postcards and greeting cards by Gelato.', 'Because each printer sends its own parcel, an order with a book and a poster arrives in two parcels, sometimes on different days.'] },
+  { id: 'times', h: 'Delivery times and shipping costs', p: ['Delivery times include printing. Shipping is a flat fee per parcel, shown in the basket before you pay:'], list: regions },
+  { id: 'tracking', h: 'Tracking', p: ['You get an order confirmation by email after you pay. When a parcel ships, we email you its tracking link. Giant posters travel rolled in a sturdy tube.'] },
+  { id: 'duties', h: 'Customs and duties', p: ['We print in your region so that you do not pay import duties. If a parcel ever arrives with a duty or a fee to pay, write to us and we sort it out.'] },
+  { id: 'change', h: 'Changing or cancelling an order', p: [`Write to us at once at <a href="mailto:${site.contactEmail}">${site.contactEmail}</a> with your order number if you need to change or cancel something. Once an order has gone to the printer, it cannot be changed, but you can still return it (see below).`] },
+  { id: 'returns', h: 'Returns within 14 days', p: ['Our returns policy follows EU law in every market, also in the UK, the US and Canada:'], list: ['You can cancel your purchase within 14 days of the day the parcel arrives, without giving a reason.', `Tell us first by email at <a href="mailto:${site.contactEmail}">${site.contactEmail}</a> with your order number.`, `Send the items back unused, in their packaging, to our own address: ${site.legal.company}, ${site.legal.address}. Please do not send them to the printer.`, 'You pay the return postage. We refund the price and the standard delivery cost within 14 days, once the items are back with us, to the card or account you paid with.'] },
+  { id: 'damaged', h: 'Damaged, faulty or wrong items', p: [`If something arrives damaged, faulty or not what you ordered, email us at <a href="mailto:${site.contactEmail}">${site.contactEmail}</a> with your order number and a photo. We send a new one or refund it, at our cost. You do not need to send the item back unless we ask.`] },
+  { id: 'questions', h: 'Questions', p: [`Write to <a href="mailto:${site.contactEmail}">${site.contactEmail}</a>. Read the <a href="/terms">Terms</a> and <a href="/materials">Our materials</a>.`] },
+];
+---
+<LegalPage page="/shipping-returns" h1="Shipping & returns" lead="Where we deliver, how long it takes, what it costs, and how to send something back. Short sections, plain English." sections={sections} tocLabel="On this page" updatedLabel="Last updated" draftLabel="Draft: needs a legal check" />

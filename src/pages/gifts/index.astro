@@ -1,0 +1,82 @@
+---
+/* /gifts — Gifts: four tiles (Mugs, Tote bags, Postcards, Greeting cards), then every design, filtered by product
+   and occasion. Gifts carry their own designs, not tied to a series. Words: keepsake, never reward or prize. */
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PimNote from '../../components/PimNote.astro';
+import ProductCard from '../../components/shop/ProductCard.astro';
+import TrustBar from '../../components/shop/TrustBar.astro';
+import CurrencySelect from '../../components/shop/CurrencySelect.astro';
+import { catalog, shop, gifts, img, giftPath, GIFT_TYPES, money } from '../../lib/shop';
+
+const PAGE = '/gifts';
+const LINES: Record<string, string> = {
+  mug: 'For the grown-up who reads the story every night.',
+  tote: 'The book, the crayons, the library trip.',
+  postcards: 'Ten cards to write and send to Grandma.',
+  cards: 'Ten cards for birthdays and holidays, blank inside.',
+};
+const COVER: Record<string, string> = { mug: 'mug-the-moon/table', tote: 'tote-library-day/scene', postcards: 'postcards-hello-grandma/pack', cards: 'cards-birthday-balloons/envelope' };
+const products = GIFT_TYPES.flatMap((t: string) => catalog.products.filter((p: any) => p.type === t));
+const from = (t: string) => { const p: any = products.find((x: any) => x.type === t); const pr = p.variants ? p.variants[0].price : p.price; return Object.fromEntries(['EUR', 'GBP', 'USD', 'CAD'].map((c) => [`data-${c.toLowerCase()}`, money(pr[c], c, (shop.currencies as any)[c].locale)])); };
+const occasions = [...new Set(products.map((p: any) => p.occasion).filter(Boolean))] as string[];
+---
+<Base page={PAGE}>
+  <Header />
+  <main id="main" tabindex="-1">
+    <section class="tn-wrap tn-shophero" aria-labelledby="page-h">
+      <Breadcrumbs page={PAGE} />
+      <div class="tn-shophero__in">
+        <div class="tn-shophero__text">
+          <h1 class="tn-h1" id="page-h" tabindex="-1">Gifts</h1>
+          <p class="tn-lead">Mugs, tote bags, postcards and greeting cards, each with its own quiet Telning design. Keepsakes that keep the story going, after the last page.</p>
+          <PimNote line="The grown-ups get something too." size="sm" />
+        </div>
+        <div class="tn-shophero__art" aria-hidden="true">
+          <img class="tn-shophero__a" src={img('/shop/img/mug-the-moon/table', 1200)} alt="" width="1200" height="1200" fetchpriority="high" />
+          <img class="tn-shophero__b" src={img('/shop/img/cards-make-a-wish/envelope', 600)} alt="" width="600" height="600" />
+        </div>
+      </div>
+    </section>
+
+    <section class="tn-wrap" aria-labelledby="tiles-h">
+      <h2 class="tn-sr" id="tiles-h">The four gifts</h2>
+      <ul class="tn-gifttiles">{GIFT_TYPES.map((t: string) => { const ty = (shop.types as any)[t]; const a = from(t); return (
+        <li><a class="tn-gifttile" href={giftPath(t)}>
+          <img src={img(`/shop/img/${COVER[t]}`, 600)} alt="" width="600" height="600" loading="eager" />
+          <span class="tn-gifttile__body"><span class="tn-gifttile__name">{ty.tile}</span><span class="tn-gifttile__line">{LINES[t]}</span><span class="tn-gifttile__from">From <span class="tn-price" {...a}>{a['data-eur']}</span></span></span>
+        </a></li>); })}</ul>
+    </section>
+
+    <section class="tn-wrap tn-shopgrid" aria-labelledby="all-h">
+      <h2 class="tn-h2 tn-h2--s" id="all-h">Every design</h2>
+      <div class="tn-filters" data-filters="#grid" data-count="#count" hidden>
+        <div class="tn-filters__g" role="group" aria-label="Product"><span class="tn-filters__l">Product</span>
+          <button type="button" class="tn-chip" data-group="type" data-value="">All</button>
+          {GIFT_TYPES.map((t: string) => <button type="button" class="tn-chip" data-group="type" data-value={t}>{(shop.types as any)[t].tile}</button>)}
+        </div>
+        <div class="tn-filters__g tn-filters__g--scroll" role="group" aria-label="Occasion"><span class="tn-filters__l">Occasion</span>
+          <button type="button" class="tn-chip" data-group="occasion" data-value="">All</button>
+          {occasions.map((o) => <button type="button" class="tn-chip" data-group="occasion" data-value={o}>{(gifts.occasions as any)[o]}</button>)}
+        </div>
+        <div class="tn-filters__end"><output id="count" class="tn-filters__count">{products.length} items</output><CurrencySelect id="cur-gifts" /></div>
+      </div>
+      <ul class="tn-pgrid" id="grid">{products.map((p: any) => <ProductCard p={p} />)}</ul>
+    </section>
+
+    <section class="tn-section tn-section--tight" aria-labelledby="keep-h"><div class="tn-wrap tn-split">
+      <div class="tn-split__img"><img src={img('/shop/img/tote-library-day/scene', 1200)} alt="The Library day tote bag with a book and crayons" width="1200" height="1200" loading="lazy" /></div>
+      <div class="tn-split__text">
+        <h2 class="tn-h2" id="keep-h">A keepsake, after the last page</h2>
+        <p class="tn-lead">Your child chose the ending and drew it. A mug at breakfast or a card on the fridge keeps that story in daily life, so it gets told again.</p>
+        <p class="tn-p">One rule from the research on children’s drawing: give it after the drawing, as a surprise, never as a promise before. Children who expect something for drawing draw less on their own; a surprise does not have that effect.</p>
+        <p class="tn-p"><a class="tn-link tn-link--solo" href="/tada">Read the TADA way</a></p>
+      </div>
+    </div></section>
+
+    <section class="tn-section tn-section--tight" aria-label="Our promises"><div class="tn-wrap"><TrustBar /></div></section>
+  </main>
+  <Footer />
+</Base>

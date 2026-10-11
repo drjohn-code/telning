@@ -1,0 +1,29 @@
+---
+/* The basket drawer: a side sheet (<dialog>) filled by src/scripts/shop.js from the basket on this device.
+   Not on the QR pages. The full basket is /basket. */
+import CurrencySelect from './CurrencySelect.astro';
+---
+<dialog class="tn-drawer" id="tn-drawer" aria-labelledby="tn-drawer-h" data-basket>
+  <div class="tn-drawer__in">
+    <div class="tn-drawer__head">
+      <h2 class="tn-drawer__h" id="tn-drawer-h">Your basket</h2>
+      <button class="tn-drawer__x" type="button" data-close aria-label="Close the basket"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <p class="tn-drawer__added" role="status"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Added to your basket</p>
+    <div class="tn-drawer__empty" data-basket-empty>
+      <p class="tn-p">Your basket is empty.</p>
+      <p class="tn-drawer__links"><a class="tn-link" href="/books">Books &amp; posters</a> <a class="tn-link" href="/gifts">Gifts</a></p>
+    </div>
+    <div class="tn-drawer__full" data-basket-full hidden>
+      <ul class="tn-lines" data-basket-lines></ul>
+      <div class="tn-drawer__foot">
+        <CurrencySelect id="cur-drawer" />
+        <div data-basket-sum></div>
+        <p class="tn-basketmsg" data-basket-msg role="alert" hidden></p>
+        <button class="tn-btn tn-btn--buy" type="button" data-checkout>Go to checkout</button>
+        <a class="tn-btn tn-btn--ghost" href="/basket">View basket</a>
+        <p class="tn-secure"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Secure payment with Stripe</p>
+      </div>
+    </div>
+  </div>
+</dialog>

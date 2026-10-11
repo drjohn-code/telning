@@ -1,0 +1,329 @@
+{
+  "_draft": "Book titles, stories, choices, endings, talk lines and poster texts: DRAFT (12 Oct 2026), written for the shop. A person checks them before print. No series main character is named: the illustrator draws the characters.",
+  "series": {
+    "home-hearts": {
+      "world": "Family, friends and the people next door: small moments at home where a kind choice matters.",
+      "books": {
+        "3-5": {
+          "title": "Grandma’s Red Balloon",
+          "hook": "Grandma brings one red balloon. Little brother wants it too.",
+          "story": "Grandma is coming! The little cat helps to tidy the house, set the table and pick flowers from the garden. Grandma arrives with a big hug and one red balloon. Then little brother starts to cry: he wants the balloon too.",
+          "choice": "Keep the red balloon, or give it to little brother?",
+          "endings": ["The cat gives the balloon to little brother, and Grandma says thank you.", "The cat keeps the balloon, and they play a balloon game together."],
+          "talk": ["How does little brother feel?", "Kind.", "What would you do with the balloon?"],
+          "keep": "the day the red balloon was shared"
+        },
+        "5-7": {
+          "title": "The New Kid on Our Street",
+          "hook": "A moving van, a new house, and a new kid alone by the gate.",
+          "story": "A big moving van stops on the street. Boxes, a bike, a kite and a lamp go into the empty house. The friends are flying kites in the park, but the new kid stands alone by the gate and watches. Nobody knows their name yet.",
+          "choice": "Go and say hello now, or ask the whole group to come along?",
+          "endings": ["One friend walks over alone and asks the new kid to fly a kite.", "The whole group walks over together, and everyone says their name."],
+          "talk": ["How does the new kid feel at the gate?", "Shy.", "What could you say first?"],
+          "keep": "the day we said hello at the gate"
+        }
+      },
+      "posters": {
+        "3-5": { "scene": "A big house with a red roof, a tree, a cat, a puppy, hearts, a sun and a kite. Big shapes and thick lines for small hands." },
+        "5-7": { "scene": "A whole street of houses with windows to fill, a mailbox, bikes, kites, balloons, a picnic, friends and pets, and lots of small things to find." }
+      }
+    },
+    "paws-claws": {
+      "world": "Animals of the woods, the farm and the house: sharing space, taking turns and caring for each other.",
+      "books": {
+        "3-5": {
+          "title": "The Sunny Spot",
+          "hook": "One warm, sunny spot. One puppy. One cat. Who gets it?",
+          "story": "It is a cold morning. The puppy finds the only sunny spot on the floor and curls up. Then the cat comes in: the cat wants the warm spot too. They look at each other. Nobody moves.",
+          "choice": "Share the sunny spot, or take turns?",
+          "endings": ["The puppy moves over, and they nap side by side.", "The puppy plays with the ball first, then it is the puppy’s turn again."],
+          "talk": ["Is the cat cross or sad?", "Wait.", "What would be fair?"],
+          "keep": "the morning of the sunny spot"
+        },
+        "5-7": {
+          "title": "The Lost Duckling",
+          "hook": "A little duckling, alone by the pond, and three friends who want to help.",
+          "story": "On a walk in the woods, the fox, the bear and the bunny find a duckling alone at the edge of the pond. It peeps and peeps. There is no mother duck to see. The friends want to help, but how?",
+          "choice": "Wait by the pond for the mother duck, or go and ask the old owl for help?",
+          "endings": ["The friends wait quietly by the reeds until the mother duck swims back.", "The bunny stays with the duckling while the others run to ask the owl."],
+          "talk": ["How does the duckling feel?", "Lost.", "Who could help?"],
+          "keep": "the day we found the duckling’s mother"
+        }
+      },
+      "posters": {
+        "3-5": { "scene": "A fox, a bear, a bunny, a duck and a frog by a pond, with a big tree, a snail and a bee. Big shapes and thick lines for small hands." },
+        "5-7": { "scene": "A busy forest and farm: more than a dozen animals, a pond with fish, mushrooms, flowers, birds and paw prints to follow, with small details for steady hands." }
+      }
+    },
+    "star-hoppers": {
+      "world": "Rockets, planets and starry nights: big adventures and the choices that come with them.",
+      "books": {
+        "3-5": {
+          "title": "The Moon or the Stars?",
+          "hook": "One more trip before bedtime. Where should the little rocket go?",
+          "story": "The little rocket crew, a penguin and a bear, put on their helmets for one last trip before bedtime. Out of the window they see the big round moon. Then a shooting star flies by. There is only time for one.",
+          "choice": "Fly to the moon, or stay and watch the shooting stars?",
+          "endings": ["The crew lands on the moon and jumps very high.", "The crew lies on the grass and counts the shooting stars."],
+          "talk": ["How does the penguin feel before the trip?", "Excited.", "Where would you go?"],
+          "keep": "the night the crew chose the moon"
+        },
+        "5-7": {
+          "title": "One Seat Left",
+          "hook": "The rocket to the ringed planet has one seat left, and two friends want it.",
+          "story": "Everyone at the moon base packs for the trip to the ringed planet. The bunny has the map, the owl has the snacks. Then the captain counts the seats: there is only one seat left, and both the bunny and the owl want it. It is the owl’s very first trip.",
+          "choice": "Let the owl go first, or both wait for the next rocket together?",
+          "endings": ["The bunny gives the owl the seat and waves from the moon base.", "Both friends wait, and fly together on the next rocket."],
+          "talk": ["How does the bunny feel when the door closes?", "Fair.", "Is there another way?"],
+          "keep": "the day the owl flew first"
+        }
+      },
+      "posters": {
+        "3-5": { "scene": "A big rocket on the moon, a ringed planet, a comet, a flying saucer, a penguin and a bear on a moon walk, and stars to colour. Big shapes and thick lines for small hands." },
+        "5-7": { "scene": "A busy moon base: rockets, planets, a comet, a flying saucer, a satellite, a telescope, a whole crew and more than thirty stars, with small details for steady hands." }
+      }
+    },
+    "little-gardeners": {
+      "world": "Seeds, flowers, bees and rain: patience, care and the small things that grow.",
+      "books": {
+        "3-5": {
+          "title": "The Tulip and the Bee",
+          "hook": "The first tulip in the garden. Pick it, or leave it for the bee?",
+          "story": "The little gardener plants a seed, waters it and waits. Sun, rain, more waiting. One morning there is a red tulip! The little gardener wants to pick it for Mum. But a bee is buzzing around the tulip too.",
+          "choice": "Pick the tulip for Mum, or leave it for the bee?",
+          "endings": ["The tulip goes in a jar on the kitchen table for Mum.", "The tulip stays, and the bee comes back every day."],
+          "talk": ["What does the bee need?", "Gentle.", "Where would you put the flower?"],
+          "keep": "the day the tulip stayed for the bee"
+        },
+        "5-7": {
+          "title": "Who Ate the Lettuce?",
+          "hook": "Holes in every lettuce leaf, and a very slow snail.",
+          "story": "The friends grow lettuce, carrots and strawberries in their garden. One morning every lettuce leaf has holes in it. They follow a shiny trail across the path and find a very happy snail. The snail is still hungry.",
+          "choice": "Move the snail far away, or plant a small patch just for the snail?",
+          "endings": ["The friends carry the snail to the wild meadow, where there is plenty to eat.", "The friends plant a small lettuce patch by the fence, just for the snail."],
+          "talk": ["Why did the snail eat the lettuce?", "Hungry.", "What else could you do?"],
+          "keep": "the summer of the snail’s own patch"
+        }
+      },
+      "posters": {
+        "3-5": { "scene": "Tulips, a big sun, a watering can, a snail, a bee, a butterfly and a tree in a garden. Big shapes and thick lines for small hands." },
+        "5-7": { "scene": "A whole garden: rows of vegetables, flowers, mushrooms, a pond, bees, butterflies, ladybirds and garden tools, with small details for steady hands." }
+      }
+    },
+    "big-days": {
+      "world": "Birthdays, Halloween, Christmas, Easter and Midsummer: the big days and the small choices inside them.",
+      "books": {
+        "3-5": {
+          "title": "One Big Cake",
+          "hook": "The birthday cake is ready, but one friend is late.",
+          "story": "It is the duck’s birthday. There are balloons, flags and one big cake with candles. All the friends are here, except one. Everyone looks at the cake. The candles are waiting.",
+          "choice": "Cut the cake now, or wait for the last friend?",
+          "endings": ["Everyone plays a game while they wait, then they cut the cake together.", "They cut the cake now and save the biggest piece for the friend."],
+          "talk": ["How does it feel to wait?", "Patient.", "What would you do while you wait?"],
+          "keep": "the birthday we waited for a friend"
+        },
+        "5-7": {
+          "title": "The Lantern Walk",
+          "hook": "Pumpkin lanterns, a dark path, and a little bat who is scared of the dark.",
+          "story": "The friends carve pumpkin lanterns for the autumn lantern walk. Everyone is ready to go. But the little bat stays by the door: the path is dark, and the bat is scared. A bat, scared of the dark!",
+          "choice": "Go on the walk with the bat holding your lantern, or have a lantern party at home?",
+          "endings": ["The bat walks in the middle, holding the brightest lantern.", "The friends put all the lanterns in the garden and have a party there."],
+          "talk": ["What makes the bat scared?", "Brave.", "How can friends help?"],
+          "keep": "the night of the lantern walk"
+        }
+      },
+      "posters": {
+        "3-5": { "scene": "A birthday party: a big cake, balloons, presents, a flag garland and party animals. Big shapes and thick lines for small hands." },
+        "5-7": { "scene": "A year of big days in one picture: birthday cake and balloons, Halloween lanterns, a Christmas tree, Easter eggs and Midsummer flowers, with small details for steady hands." }
+      }
+    },
+    "toy-box": {
+      "world": "Blocks, balls, kites and teddies: playing, tidying up and saying sorry.",
+      "books": {
+        "3-5": {
+          "title": "Blocks or Ball?",
+          "hook": "Tidy-up time. But the tower is not finished yet.",
+          "story": "The teddy makes the tallest block tower ever. The ball rolls, the kite flies, the drum goes boom. Then it is tidy-up time. The tower is almost finished, and there is just one block left.",
+          "choice": "Tidy up now, or build one more block first?",
+          "endings": ["The teddy tidies up with a song, and the toys go to sleep.", "The teddy puts on the last block, then everyone tidies up together."],
+          "talk": ["How do the toys feel at night?", "Ready.", "What comes first?"],
+          "keep": "the night the tower was finished"
+        },
+        "5-7": {
+          "title": "The Broken Kite",
+          "hook": "A borrowed kite, a gust of wind, and a big rip.",
+          "story": "The teddy borrows a friend’s best kite. It flies higher and higher, until a gust of wind pulls it into a tree. The kite comes down with a big rip. The friend has not seen it yet.",
+          "choice": "Tell the friend now, or fix the kite first?",
+          "endings": ["The teddy tells the friend, and they fix the kite together with tape.", "The teddy mends the kite, gives it back and says sorry."],
+          "talk": ["How does the teddy feel inside?", "Sorry.", "What could you say?"],
+          "keep": "the day the kite was mended"
+        }
+      },
+      "posters": {
+        "3-5": { "scene": "A big toy box with blocks, a ball, a teddy, a train, a drum and a kite. Big shapes and thick lines for small hands." },
+        "5-7": { "scene": "A playroom full of toys: a train with wagons, block towers, spinning tops, boats, kites, dolls’ chairs and more than forty things to colour." }
+      }
+    },
+    "little-kitchen": {
+      "world": "Cooking, baking and eating together: tasting, sharing and taking turns at the table.",
+      "books": {
+        "3-5": {
+          "title": "Soup Day",
+          "hook": "Carrots or peas? The soup can only be one colour.",
+          "story": "It is soup day! The bunny and the bear wash the vegetables, fill the big pot with water and wait for it to bubble. There are orange carrots and green peas on the table. The bunny wants carrots. The bear wants peas.",
+          "choice": "Carrot soup or pea soup?",
+          "endings": ["They make orange carrot soup today and green pea soup tomorrow.", "They make one big soup with carrots and peas together."],
+          "talk": ["What does the soup smell like?", "Warm.", "What would you put in?"],
+          "keep": "the day we made soup"
+        },
+        "5-7": {
+          "title": "The Last Strawberry",
+          "hook": "A picnic, three friends, and one strawberry left.",
+          "story": "The friends pack bread, cherries, a pie and a bowl of strawberries for a picnic in the park. They eat and laugh in the sun. Then there is only one strawberry left, and three friends. The pig had none.",
+          "choice": "Cut the strawberry into three, or give it to the friend who had none?",
+          "endings": ["They cut it into three tiny pieces and laugh at how small they are.", "They give the last strawberry to the pig."],
+          "talk": ["Who had none?", "Share.", "Is cutting it fair?"],
+          "keep": "the picnic of the last strawberry"
+        }
+      },
+      "posters": {
+        "3-5": { "scene": "A big cooking pot, a teapot, carrots, a cupcake, apples and a pear on a kitchen table. Big shapes and thick lines for small hands." },
+        "5-7": { "scene": "A busy kitchen and picnic: bread, pies, teapots, fruit, vegetables, spoons and cooking animals, with small details for steady hands." }
+      }
+    },
+    "funny-pages": {
+      "world": "Comic strips, jokes and silly days: laughing together, and knowing when a joke is funny for everyone.",
+      "books": {
+        "3-5": {
+          "title": "The Hiccup Frog",
+          "hook": "The big show is about to start, and the frog has hiccups.",
+          "story": "The frog is the star of the big show. The curtain is ready, the friends are in their seats. Then: hic! The frog has hiccups. Hic! Hic! The show cannot start like this.",
+          "choice": "Let the friends shout BOO, or drink water slowly?",
+          "endings": ["The friends shout BOO, and the hiccups jump away.", "The frog drinks water slowly, and the show starts with a smile."],
+          "talk": ["Is the frog funny or sad?", "Giggle.", "What helps you?"],
+          "keep": "the show the hiccups almost stopped"
+        },
+        "5-7": {
+          "title": "Who Is Laughing?",
+          "hook": "Everyone laughs when the duck slips. But is the duck laughing too?",
+          "story": "The friends put on a comic show with speech bubbles and funny hats. In the middle of the show the duck slips on a banana and falls down. Everyone laughs, very loudly. The duck does not laugh. The duck looks at the floor.",
+          "choice": "Keep laughing, or stop and ask if the duck is OK?",
+          "endings": ["The friends help the duck up, and the duck decides if it was funny.", "They make a new show where everyone slips on purpose, the duck first."],
+          "talk": ["Is the duck laughing too?", "Kind.", "When is a joke funny for everyone?"],
+          "keep": "the show where everyone slipped"
+        }
+      },
+      "posters": {
+        "3-5": { "scene": "A frog, a duck and a cat on a comic stage with big speech bubbles, a burst and stars. Big shapes and thick lines for small hands." },
+        "5-7": { "scene": "A whole comic page: panels, speech bubbles, bursts, a show with animals in funny hats, with small details for steady hands." }
+      }
+    },
+    "round-the-year": {
+      "world": "Snow, rain, sun and falling leaves: the months and seasons, and making the most of every kind of day.",
+      "books": {
+        "3-5": {
+          "title": "Snow Day",
+          "hook": "The first snow! A snowman or a snow angel?",
+          "story": "The little penguin wakes up and looks out of the window: everything is white! Boots, hat, mittens, scarf. Outside the snow is soft and deep. There is enough snow for one big thing.",
+          "choice": "Build a snowman, or make snow angels?",
+          "endings": ["The penguin makes a snowman with a carrot nose and a red scarf.", "The penguin lies down and makes a row of snow angels."],
+          "talk": ["How do cold hands feel?", "Brrr.", "What would you build?"],
+          "keep": "the first snow day"
+        },
+        "5-7": {
+          "title": "The Rainy Picnic",
+          "hook": "The picnic is packed. Then the rain starts.",
+          "story": "All week the friends plan a picnic: sandwiches, apples, a blanket and a kite. On picnic day the sky turns grey and the rain starts. Drip, drop, splash. The basket is ready by the door.",
+          "choice": "Picnic under umbrellas in the rain, or build a picnic tent inside?",
+          "endings": ["Boots on, umbrellas up: they picnic in the rain and jump in puddles.", "They build a blanket tent in the living room and picnic inside."],
+          "talk": ["How do they feel when the rain starts?", "Disappointed.", "What can we still do?"],
+          "keep": "the day of the rainy picnic"
+        }
+      },
+      "posters": {
+        "3-5": { "scene": "Four seasons in four big shapes: a snowman, a tulip, a sun and an autumn leaf, with an umbrella, a kite and a big cloud. Big shapes and thick lines for small hands." },
+        "5-7": { "scene": "A year in one picture: winter snow, spring flowers, summer sun and autumn leaves, with animals and weather in every corner and small details for steady hands." }
+      }
+    },
+    "game-on": {
+      "world": "Balls, races and games in the park: playing fair, taking turns and cheering for each other.",
+      "books": {
+        "3-5": {
+          "title": "Kick or Catch?",
+          "hook": "One ball, two friends, two different games.",
+          "story": "The fox and the bear go to the park with one big ball. The fox wants to kick it. The bear wants to throw and catch it. They both hold the ball, and nobody lets go.",
+          "choice": "Play football first, or play catch first?",
+          "endings": ["They play football first, then catch.", "They make up a new game: catch, then kick."],
+          "talk": ["What does the bear want?", "Turn.", "How can you both play?"],
+          "keep": "the day of the new ball game"
+        },
+        "5-7": {
+          "title": "The Last Race",
+          "hook": "Sports day, the last race, and a friend who falls.",
+          "story": "It is sports day. Flags, cones and a long white line. The last race is the big one. The friends run as fast as they can. Then, just before the finish line, the pig trips and falls.",
+          "choice": "Run on to the finish line, or stop and help?",
+          "endings": ["The fox stops, helps the pig up, and they cross the line together.", "The fox finishes, then runs back to cheer the pig all the way in."],
+          "talk": ["How does the pig feel on the ground?", "Together.", "How does helping feel?"],
+          "keep": "the race we finished together"
+        }
+      },
+      "posters": {
+        "3-5": { "scene": "A park with a big football, a goal flag, cones, a bike and animals ready to play. Big shapes and thick lines for small hands." },
+        "5-7": { "scene": "Sports day: races, balls, skates, bikes, flags, cones and cheering animals in every corner, with small details for steady hands." }
+      }
+    },
+    "everyday-heroes": {
+      "world": "Capes, fire engines and helping hands: being brave, asking for help and helping others.",
+      "books": {
+        "3-5": {
+          "title": "The Kitten in the Tree",
+          "hook": "A little kitten is stuck up a tree. Who can help?",
+          "story": "The puppy puts on a red cape and goes out to look for someone to help. Meow! A little kitten is stuck high up in a tree. The puppy wants to climb up, but the tree is very tall.",
+          "choice": "Call the fire engine, or ask a grown-up for a ladder?",
+          "endings": ["The fire engine comes, and the kitten climbs down the long ladder.", "A grown-up holds the ladder, and the kitten jumps into the soft blanket."],
+          "talk": ["How does the kitten feel up there?", "Scared.", "Who can help?"],
+          "keep": "the day the kitten came down"
+        },
+        "5-7": {
+          "title": "Hero for a Day",
+          "hook": "Two capes, one day, and two people who need help.",
+          "story": "The friends make capes with stars and look for someone to help. Next door, the old neighbour has heavy shopping bags. In the park, a little friend cries over a puzzle that will not fit. Both need help, and the day is short.",
+          "choice": "Help carry the shopping first, or help with the puzzle first?",
+          "endings": ["They carry the shopping, then hurry to the park.", "They split up: one helps with the bags, one with the puzzle."],
+          "talk": ["What makes someone a hero?", "Helpful.", "Who could you help today?"],
+          "keep": "the day we were heroes"
+        }
+      },
+      "posters": {
+        "3-5": { "scene": "A fire engine, a big tree with a kitten, a puppy in a cape, a shield and stars. Big shapes and thick lines for small hands." },
+        "5-7": { "scene": "A town of helpers: fire engines, ladders, capes, masks, a helicopter, lightning bolts and animals helping each other, with small details for steady hands." }
+      }
+    },
+    "on-the-move": {
+      "world": "Cars, trains, boats, planes and balloons: going places and choosing the way.",
+      "books": {
+        "3-5": {
+          "title": "Train or Boat?",
+          "hook": "Grandpa lives by the sea. How should we get there?",
+          "story": "It is time to visit Grandpa by the sea. The bags are packed and the tickets are on the table. The train goes over the hills and through a tunnel. The boat goes across the water with the seagulls.",
+          "choice": "Take the train over the hills, or the boat across the water?",
+          "endings": ["The train goes chug-chug through the tunnel to Grandpa.", "The boat sails over the waves, and Grandpa waves from the shore."],
+          "talk": ["What can you see from the train?", "Fast.", "Which would you take?"],
+          "keep": "the trip to Grandpa by the sea"
+        },
+        "5-7": {
+          "title": "The Balloon Trip",
+          "hook": "The balloon is ready, but the wind is changing.",
+          "story": "The friends wake up early for their first hot-air balloon trip. The basket is ready, the balloon is full and round. But the flags on the field start to flap, and the clouds move fast. The wind is changing.",
+          "choice": "Go up now, or wait for the wind to calm down?",
+          "endings": ["They wait, look at the map, and go up when the flags are still.", "They go up just a little, with a long rope tied to the ground."],
+          "talk": ["How does the pilot decide?", "Careful.", "What would you check first?"],
+          "keep": "the morning of the balloon trip"
+        }
+      },
+      "posters": {
+        "3-5": { "scene": "A car on a road, a train, a boat, a plane, a hot-air balloon and big clouds. Big shapes and thick lines for small hands." },
+        "5-7": { "scene": "A busy world on the move: roads, a railway, a harbour, buses, bikes, planes, helicopters and balloons, with small details for steady hands." }
+      }
+    }
+  }
+}

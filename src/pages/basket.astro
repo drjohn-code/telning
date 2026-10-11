@@ -1,0 +1,41 @@
+---
+/* /basket — the full basket (noindex). Filled by src/scripts/shop.js from this device; checkout goes to Stripe. */
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CurrencySelect from '../components/shop/CurrencySelect.astro';
+import TrustBar from '../components/shop/TrustBar.astro';
+import { shop } from '../lib/shop';
+const PAGE = '/basket';
+---
+<Base page={PAGE}>
+  <Header />
+  <main id="main" tabindex="-1">
+    <section class="tn-wrap tn-basketpage" id="tn-basketpage" data-basket aria-labelledby="page-h">
+      <Breadcrumbs page={PAGE} />
+      <h1 class="tn-h1 tn-basketpage__h" id="page-h" tabindex="-1">Your basket</h1>
+      <div class="tn-basketpage__empty" data-basket-empty>
+        <p class="tn-lead">Your basket is empty. Your basket lives on this device until you pay.</p>
+        <p class="tn-drawer__links"><a class="tn-btn" href="/books">Books &amp; posters</a> <a class="tn-btn tn-btn--ghost" href="/gifts">Gifts</a></p>
+        <noscript><p class="tn-p">The basket needs JavaScript. Without it, use “Add to basket” on a product page to pay for that one item straight away.</p></noscript>
+      </div>
+      <div class="tn-basketpage__full" data-basket-full hidden>
+        <ul class="tn-lines tn-lines--big" data-basket-lines></ul>
+        <aside class="tn-basketpage__side" aria-label="Order summary">
+          <CurrencySelect id="cur-basket" />
+          <div data-basket-sum></div>
+          <p class="tn-basketmsg" data-basket-msg role="alert" hidden></p>
+          <button class="tn-btn tn-btn--buy" type="button" data-checkout>Go to checkout</button>
+          <p class="tn-secure"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Secure payment with Stripe. You enter your address on the next page.</p>
+          <ul class="tn-basketpage__notes">
+            <li>{shop.delivery}</li>
+            <li>We deliver to the EU, the UK, the US and Canada. The currency you choose sets the delivery region.</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+    <section class="tn-section tn-section--tight" aria-label="Our promises"><div class="tn-wrap"><TrustBar /></div></section>
+  </main>
+  <Footer />
+</Base>

@@ -1,0 +1,488 @@
+{
+  "_draft": "Shop facts. Prices (except book €12.90 and poster €19.90), shipping fees and texts are DRAFTS agreed on 12 Oct 2026. Change them here only: pages, the basket and Stripe Checkout all read this file. Amounts are in major units (12.90).",
+  "open": true,
+  "currencies": {
+    "EUR": {
+      "label": "€ EUR",
+      "region": "EU",
+      "locale": "en-IE",
+      "taxNote": "Price includes VAT."
+    },
+    "GBP": {
+      "label": "£ GBP",
+      "region": "UK",
+      "locale": "en-GB",
+      "taxNote": "Price includes VAT."
+    },
+    "USD": {
+      "label": "$ USD",
+      "region": "US",
+      "locale": "en-US",
+      "taxNote": "Sales tax, where it applies, is added at checkout."
+    },
+    "CAD": {
+      "label": "$ CAD",
+      "region": "CA",
+      "locale": "en-CA",
+      "taxNote": "Sales tax, where it applies, is added at checkout."
+    }
+  },
+  "defaultCurrency": "EUR",
+  "regions": {
+    "EU": {
+      "name": "European Union",
+      "delivery": [
+        3,
+        10
+      ],
+      "countries": [
+        "AT",
+        "BE",
+        "BG",
+        "HR",
+        "CY",
+        "CZ",
+        "DK",
+        "EE",
+        "FI",
+        "FR",
+        "DE",
+        "GR",
+        "HU",
+        "IE",
+        "IT",
+        "LV",
+        "LT",
+        "LU",
+        "MT",
+        "NL",
+        "PL",
+        "PT",
+        "RO",
+        "SK",
+        "SI",
+        "ES",
+        "SE"
+      ]
+    },
+    "UK": {
+      "name": "United Kingdom",
+      "delivery": [
+        3,
+        7
+      ],
+      "countries": [
+        "GB"
+      ]
+    },
+    "US": {
+      "name": "United States",
+      "delivery": [
+        3,
+        7
+      ],
+      "countries": [
+        "US"
+      ]
+    },
+    "CA": {
+      "name": "Canada",
+      "delivery": [
+        3,
+        7
+      ],
+      "countries": [
+        "CA"
+      ]
+    }
+  },
+  "parcels": {
+    "books": {
+      "name": "Books",
+      "partner": "Lulu",
+      "first": {
+        "EUR": 4.9,
+        "GBP": 3.9,
+        "USD": 4.9,
+        "CAD": 7.9
+      },
+      "extra": {
+        "EUR": 1.0,
+        "GBP": 1.0,
+        "USD": 1.0,
+        "CAD": 1.0
+      }
+    },
+    "posters": {
+      "name": "Giant posters",
+      "partner": "Printful",
+      "first": {
+        "EUR": 6.9,
+        "GBP": 5.9,
+        "USD": 7.9,
+        "CAD": 9.9
+      },
+      "extra": {
+        "EUR": 1.0,
+        "GBP": 1.0,
+        "USD": 1.0,
+        "CAD": 1.0
+      }
+    },
+    "mugs": {
+      "name": "Mugs",
+      "partner": "Printful",
+      "first": {
+        "EUR": 5.9,
+        "GBP": 4.9,
+        "USD": 5.9,
+        "CAD": 8.9
+      },
+      "extra": {
+        "EUR": 1.0,
+        "GBP": 1.0,
+        "USD": 1.0,
+        "CAD": 1.0
+      }
+    },
+    "totes": {
+      "name": "Tote bags",
+      "partner": "Printful",
+      "first": {
+        "EUR": 5.9,
+        "GBP": 4.9,
+        "USD": 5.9,
+        "CAD": 8.9
+      },
+      "extra": {
+        "EUR": 1.0,
+        "GBP": 1.0,
+        "USD": 1.0,
+        "CAD": 1.0
+      }
+    },
+    "cards": {
+      "name": "Postcards and greeting cards",
+      "partner": "Gelato",
+      "first": {
+        "EUR": 3.9,
+        "GBP": 2.9,
+        "USD": 3.9,
+        "CAD": 5.9
+      },
+      "extra": {
+        "EUR": 1.0,
+        "GBP": 1.0,
+        "USD": 1.0,
+        "CAD": 1.0
+      }
+    }
+  },
+  "types": {
+    "book": {
+      "category": "books",
+      "parcel": "books",
+      "partner": "lulu",
+      "maxQty": 30,
+      "noun": "colouring book",
+      "plural": "Colouring books",
+      "price": {
+        "EUR": 12.9,
+        "GBP": 10.9,
+        "USD": 13.9,
+        "CAD": 18.9
+      },
+      "scene": "Fourteen drawings, a few words to talk about on every page, and one empty page for the ending your child draws. One page a night at the kitchen table.",
+      "tag": "FSC paper",
+      "facts": [
+        "21.6 × 21.6 cm (8.5 × 8.5 in)",
+        "32 pages",
+        "Black-and-white inside, for colouring"
+      ],
+      "materials": "Printed on FSC-certified, acid-free, uncoated paper with a light texture made for pencils and crayons. Matte laminated cover. Glued spine with PUR, the strong, flexible glue used in bookshop paperbacks. Printed to order near you, in France, the UK, the US or Canada.",
+      "inside": [
+        "A welcome page with a QR code to send Pim your child’s ending",
+        "14 drawings to colour, each on a right-hand page",
+        "A short conversation guide for the grown-up facing every drawing: one question or one good word",
+        "Two endings to choose from",
+        "One empty last page where your child draws the ending"
+      ],
+      "care": "Best with pencils and crayons. Thick markers can show through, so every drawing sits on a right-hand page.",
+      "safety": "For colouring with a grown-up nearby. Keep the packaging away from children."
+    },
+    "poster": {
+      "category": "books",
+      "parcel": "posters",
+      "partner": "printful",
+      "maxQty": 20,
+      "noun": "giant colouring poster",
+      "plural": "Giant colouring posters",
+      "price": {
+        "EUR": 19.9,
+        "GBP": 17.9,
+        "USD": 21.9,
+        "CAD": 28.9
+      },
+      "scene": "Some of the picture is already in colour; the rest is waiting for your child. Finish it together, then frame it and hang it on the wall.",
+      "tag": "Printed in your region",
+      "facts": [
+        "70 × 100 cm",
+        "Matte paper, 189 g/m²",
+        "About 30% in colour, 70% to colour",
+        "Shipped rolled in a tube"
+      ],
+      "materials": "Printed on matte paper, 189 g/m² and 0.26 mm thick, with no shine, so it is easy to frame. Printed to order near you and shipped rolled in a tube. 70 × 100 cm is a standard frame size.",
+      "care": "Colour with pencils, crayons or felt-tips. Put a sheet of card under the poster when you use felt-tips. Lay it flat under a few books for a day after unrolling.",
+      "safety": "Keep the tube and the packaging away from small children."
+    },
+    "mug": {
+      "category": "gifts",
+      "parcel": "mugs",
+      "partner": "printful",
+      "maxQty": 12,
+      "noun": "mug",
+      "plural": "Mugs",
+      "tile": "Mugs",
+      "price": {
+        "EUR": 16.9,
+        "GBP": 14.9,
+        "USD": 17.9,
+        "CAD": 23.9
+      },
+      "variants": [
+        {
+          "key": "white",
+          "name": "White",
+          "price": {
+            "EUR": 16.9,
+            "GBP": 14.9,
+            "USD": 17.9,
+            "CAD": 23.9
+          }
+        },
+        {
+          "key": "colour",
+          "name": "Colour inside",
+          "price": {
+            "EUR": 18.9,
+            "GBP": 16.9,
+            "USD": 19.9,
+            "CAD": 26.9
+          }
+        }
+      ],
+      "variantLabel": "Mug",
+      "scene": "For the grown-up who reads the story every night. Pim’s cup for the morning coffee.",
+      "tag": "Printed in your region",
+      "facts": [
+        "Ceramic, 11 oz (330 ml)",
+        "9.6 cm tall, 8.3 cm across",
+        "Dishwasher and microwave safe"
+      ],
+      "materials": "White glazed ceramic, 330 ml. The print wraps around the mug. The colour-inside version has a glazed coloured inside and handle. Made to order in Europe or the US, near you.",
+      "care": "Dishwasher and microwave safe. Hand washing keeps the print bright for longer.",
+      "safety": "For hot drinks: take care with small children nearby."
+    },
+    "tote": {
+      "category": "gifts",
+      "parcel": "totes",
+      "partner": "printful",
+      "maxQty": 12,
+      "noun": "tote bag",
+      "plural": "Tote bags",
+      "tile": "Tote bags",
+      "price": {
+        "EUR": 24.9,
+        "GBP": 21.9,
+        "USD": 26.9,
+        "CAD": 35.9
+      },
+      "variants": [
+        {
+          "key": "natural",
+          "name": "Natural"
+        },
+        {
+          "key": "black",
+          "name": "Black"
+        }
+      ],
+      "variantLabel": "Colour",
+      "scene": "The grown-up’s bag: the book, the crayons, the spare socks, the library trip. Carry the story.",
+      "tag": "GOTS organic cotton",
+      "facts": [
+        "41 × 36 × 13 cm",
+        "Organic cotton twill, 272 g/m²",
+        "Straps 62 cm, fits on the shoulder"
+      ],
+      "materials": "100% organic cotton twill, 272 g/m², with GOTS and OCS certified organic cotton, and OEKO-TEX certified fabric. Printed with water-based inks. Made to order in Printful’s own sewing and print shops in Latvia, Spain, the UK, the US or Canada.",
+      "care": "Wash at 30°C inside out. Do not iron on the print. Do not tumble dry.",
+      "safety": "Not a toy. Keep the straps away from small children."
+    },
+    "postcards": {
+      "category": "gifts",
+      "parcel": "cards",
+      "partner": "gelato",
+      "maxQty": 20,
+      "noun": "postcards, pack of 10",
+      "plural": "Postcards",
+      "tile": "Postcards",
+      "price": {
+        "EUR": 12.9,
+        "GBP": 10.9,
+        "USD": 13.9,
+        "CAD": 18.9
+      },
+      "scene": "Ten cards, one design. Write a line on the back and send it to Grandma.",
+      "tag": "FSC paper",
+      "facts": [
+        "Pack of 10, one design",
+        "A6, 10.5 × 14.8 cm",
+        "Matte card, 300 g/m², rounded corners"
+      ],
+      "materials": "Matte uncoated card, 300 g/m², FSC certified. Rounded corners. The back has space for a message and an address. Printed to order near you.",
+      "care": "Write with a pen or a pencil. Ballpoint and felt-tip both work on the matte back.",
+      "safety": "Keep the packaging away from small children."
+    },
+    "cards": {
+      "category": "gifts",
+      "parcel": "cards",
+      "partner": "gelato",
+      "maxQty": 20,
+      "noun": "greeting cards, pack of 10",
+      "plural": "Greeting cards",
+      "tile": "Greeting cards",
+      "price": {
+        "EUR": 19.9,
+        "GBP": 17.9,
+        "USD": 21.9,
+        "CAD": 28.9
+      },
+      "scene": "Ten cards with Pim’s world on the front, with envelopes. Blank inside, for your own words.",
+      "tag": "FSC paper",
+      "facts": [
+        "Pack of 10, one design, with envelopes",
+        "Folded, 14.1 × 14.1 cm",
+        "Matte card, FSC certified, blank inside"
+      ],
+      "materials": "Folded matte card, FSC certified, square corners. Comes with 10 envelopes: premium recycled envelopes in the EU, standard envelopes elsewhere. Printed to order near you.",
+      "care": "Blank inside for your own words. Write with any pen.",
+      "safety": "Keep the packaging away from small children."
+    }
+  },
+  "delivery": "Made to order and printed in your region. EU 3–10 working days, US, UK and Canada 3–7 working days. Unused items can be returned within 14 days. If it arrives damaged or wrong, we replace it.",
+  "separateParcel": "Each printer sends its own parcel, so an order with a book and a poster arrives in two parcels.",
+  "trust": [
+    {
+      "h": "Printed in your region",
+      "t": "Made to order near you: France, the UK, the US or Canada for books; Europe or North America for everything else."
+    },
+    {
+      "h": "Certified paper and cotton",
+      "t": "FSC paper, GOTS organic cotton, OEKO-TEX fabric. Each claim sits next to its certificate on Our materials."
+    },
+    {
+      "h": "Made by scientists for play",
+      "t": "Every story is created by the Telning team of cognitive and behavioural scientists, and designed in Sweden."
+    }
+  ],
+  "bundles": [
+    {
+      "key": "book-poster",
+      "name": "Book + giant poster",
+      "line": "Colour the story in the book, then the whole world on the wall.",
+      "items": [
+        "book",
+        "poster"
+      ]
+    },
+    {
+      "key": "book-tote",
+      "name": "Book + tote bag",
+      "line": "The book goes in the bag; the bag goes to the library.",
+      "items": [
+        "book",
+        "tote"
+      ]
+    },
+    {
+      "key": "book-mug",
+      "name": "Book + mug",
+      "line": "A story for the child, a cup for the grown-up who reads it.",
+      "items": [
+        "book",
+        "mug"
+      ]
+    },
+    {
+      "key": "after-the-last-page",
+      "name": "After the last page",
+      "line": "The book, its giant poster and a pack of postcards: keep the story going.",
+      "items": [
+        "book",
+        "poster",
+        "postcards"
+      ]
+    }
+  ],
+  "partnerRefs": {
+    "_": "Printer product IDs per sku (or sku~variant), filled when each product is set up at Lulu, Printful or Gelato. They go into the order email and, later, the printer APIs."
+  },
+  "packs": {
+    "_draft": "Pack prices: EUR from the product plan (10%, 12%, 18% off the full price); GBP, USD and CAD worked out the same way from the draft prices. Shipping uses the normal parcel fees for the books, posters and tote bags inside.",
+    "items": [
+      {
+        "key": "circle",
+        "name": "Story Circle",
+        "for": "One kindergarten group or a reading club",
+        "books": 10,
+        "posters": 1,
+        "totes": 1,
+        "titles": 1,
+        "saving": 10,
+        "price": {
+          "EUR": 156,
+          "GBP": 134,
+          "USD": 169,
+          "CAD": 228
+        }
+      },
+      {
+        "key": "classroom",
+        "name": "Story Classroom",
+        "for": "A class or a whole kindergarten",
+        "books": 30,
+        "posters": 3,
+        "totes": 3,
+        "titles": 3,
+        "saving": 12,
+        "price": {
+          "EUR": 459,
+          "GBP": 393,
+          "USD": 496,
+          "CAD": 670
+        }
+      },
+      {
+        "key": "library",
+        "name": "Story Library",
+        "for": "Libraries, schools and municipalities",
+        "books": 50,
+        "posters": 5,
+        "totes": 5,
+        "titles": 5,
+        "saving": 18,
+        "price": {
+          "EUR": 709,
+          "GBP": 610,
+          "USD": 770,
+          "CAD": 1041
+        }
+      }
+    ],
+    "offers": [
+      "One extra giant poster for the first 20 organisations.",
+      "One sample book at print cost for a teacher who wants to see it first."
+    ]
+  }
+}

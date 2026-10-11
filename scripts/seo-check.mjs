@@ -10,6 +10,8 @@ import { fileURLToPath } from 'node:url';
 const ROOT = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const DIST = join(ROOT, 'dist');
 const seo = JSON.parse(readFileSync(join(ROOT, 'src/data/seo.json'), 'utf8'));
+const { shopPages } = await import('../server/catalog-data.js');
+seo.pages = { ...shopPages, ...seo.pages };   // the shop's generated pages (server/shop-seo.js)
 const HOST = seo.host;
 const env = process.env.VERCEL_ENV;
 const isPreview = !!env && env !== 'production';
@@ -76,7 +78,7 @@ for (const { path, html } of pages) {
     if (!new RegExp(`<loc>${expected.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}</loc><lastmod>\\d{4}-\\d{2}-\\d{2}`).test(sitemap)) fail(path, 'no lastmod in sitemap.xml');
   } else if (sitemap.includes(`<loc>${expected}</loc>`)) fail(path, 'must not be in sitemap.xml');
   if (outbound.size < 2) fail(path, `only ${outbound.size} internal link(s) out`);
-  if (path !== '/404' && (inbound[path] || 0) < 2) fail(path, `only ${inbound[path] || 0} internal link(s) in`);
+  if (path !== '/404' && !entry.noindex && (inbound[path] || 0) < 2) fail(path, `only ${inbound[path] || 0} internal link(s) in`);
   for (const img of imgs) if (!/\balt=/.test(img)) fail(path, `<img> without alt: ${img.slice(0, 80)}`);
   if (main.length < (path === '/404' ? 60 : 300)) fail(path, `main text is only ${main.length} characters in the HTML`);
 }

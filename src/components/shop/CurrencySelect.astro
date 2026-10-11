@@ -1,0 +1,8 @@
+---
+/* The currency switch (EUR, GBP, USD, CAD). The currency also sets the delivery region at checkout.
+   Without JavaScript prices stay in euros. */
+import { shop } from '../../lib/shop';
+interface Props { id?: string; class?: string }
+const { id = 'cur', class: cls = '' } = Astro.props;
+---
+<label class={`tn-curpick ${cls}`} for={id}><span>Prices in</span><select class="tn-cur" id={id} name="currency">{Object.entries(shop.currencies).map(([k, c]: [string, any]) => <option value={k}>{c.label}</option>)}</select></label>

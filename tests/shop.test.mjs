@@ -1,0 +1,150 @@
+// The shop: catalogue, shipping, checkout session parameters (with a fake Stripe), the webhook signature and the
+// order emails. Run: node --test tests/shop.test.mjs
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { createHmac } from 'node:crypto';
+import { catalog, shopPages } from '../server/catalog-data.js';
+import { shippingFor, resolveLines, CURRENCIES } from '../server/catalog.js';
+import { handleCheckout, sessionParams } from '../server/checkout.js';
+import { handleWebhook, orderFrom, teamText, customerText } from '../server/orders.js';
+import { verifySignature, formEncode } from '../server/stripe.js';
+
+test('catalogue: 12 series × 4 + 30 gifts, every product priced in every currency', () => {
+  assert.equal(catalog.products.filter((p) => p.category === 'books').length, 48);
+  assert.equal(catalog.products.filter((p) => p.category === 'gifts').length, 30);
+  for (const p of catalog.products) {
+    const prices = p.variants ? p.variants.map((v) => v.price) : [p.price];
+    for (const pr of prices) for (const c of CURRENCIES) assert.ok(Number.isInteger(pr[c]) && pr[c] > 0, `${p.sku} ${c}`);
+    assert.ok(p.url.startsWith('/books/') || p.url.startsWith('/gifts/'));
+    assert.ok(shopPages[p.url], `seo entry for ${p.url}`);
+  }
+  assert.equal(new Set(catalog.products.map((p) => p.sku)).size, catalog.products.length, 'skus are unique');
+  assert.equal(catalog.bySku.get('book-star-hoppers-3-5').price.EUR, 1290);
+  assert.equal(catalog.bySku.get('poster-star-hoppers-5-7').price.EUR, 1990);
+});
+
+test('shipping: one fee per printer parcel, plus the extra-item fee', () => {
+  const book = catalog.bySku.get('book-home-hearts-3-5');
+  const poster = catalog.bySku.get('poster-home-hearts-3-5');
+  const s = shippingFor(catalog.shop, [{ product: book, qty: 2 }, { product: poster, qty: 1 }], 'EUR');
+  assert.equal(s.parcels.length, 2);
+  assert.equal(s.total, 490 + 100 + 690);
+});
+
+test('resolveLines refuses unknown skus, bad quantities and missing variants', () => {
+  assert.throws(() => resolveLines(catalog, [{ sku: 'nope', qty: 1 }]));
+  assert.throws(() => resolveLines(catalog, [{ sku: 'book-home-hearts-3-5', qty: 0 }]));
+  assert.throws(() => resolveLines(catalog, [{ sku: 'mug-the-moon', qty: 1 }]));
+  assert.equal(resolveLines(catalog, [{ sku: 'mug-the-moon', variant: 'colour', qty: 2 }])[0].qty, 2);
+});
+
+test('checkout: prices come from the server; region follows the currency; no key → notReady', async () => {
+  const calls = [];
+  const stripe = async (method, path, params) => { calls.push({ method, path, params }); return { status: 200, json: { url: 'https://checkout.stripe.com/c/pay/x' } }; };
+  const body = { currency: 'GBP', items: [{ sku: 'mug-the-moon', variant: 'colour', qty: 1, price: 1 }, { sku: 'book-star-hoppers-5-7', qty: 1 }] };
+  const r = await handleCheckout({ body, origin: 'https://telning.com' }, { catalog, stripe, open: true });
+  assert.equal(r.status, 200);
+  const p = calls[0].params;
+  assert.equal(p.line_items[0].price_data.unit_amount, 1690);
+  assert.equal(p.line_items[0].price_data.currency, 'gbp');
+  assert.deepEqual(p.shipping_address_collection.allowed_countries, ['GB']);
+  assert.equal(p.shipping_options[0].shipping_rate_data.fixed_amount.amount, 490 + 390);
+  assert.match(p.success_url, /^https:\/\/telning\.com\/order\/thanks\?session_id=\{CHECKOUT_SESSION_ID\}$/);
+  const enc = formEncode(p).toString();
+  assert.match(enc, /line_items%5B0%5D%5Bprice_data%5D%5Bproduct_data%5D%5Bmetadata%5D%5Bsku%5D=mug-the-moon/);
+  const none = await handleCheckout({ body, origin: 'x' }, { catalog, stripe: null, open: true });
+  assert.equal(none.body.error, 'notReady');
+  const closed = await handleCheckout({ body, origin: 'x' }, { catalog, stripe, open: false });
+  assert.equal(closed.status, 503);
+});
+
+test('checkout: EUR delivers to the EU only, with VAT-inclusive prices when Stripe Tax is on', () => {
+  const lines = resolveLines(catalog, [{ sku: 'poster-big-days-3-5', qty: 1 }]);
+  const p = sessionParams(catalog, lines, 'EUR', { origin: 'https://telning.com', tax: true });
+  assert.ok(p.shipping_address_collection.allowed_countries.includes('SE'));
+  assert.ok(!p.shipping_address_collection.allowed_countries.includes('GB'));
+  assert.equal(p.line_items[0].price_data.tax_behavior, 'inclusive');
+  assert.equal(p.automatic_tax.enabled, true);
+});
+
+const SECRET = 'whsec_test';
+const sign = (raw, t = Math.floor(Date.now() / 1000)) => `t=${t},v1=${createHmac('sha256', SECRET).update(`${t}.${raw}`).digest('hex')}`;
+
+test('webhook signature: good, wrong secret, too old', () => {
+  const raw = '{"a":1}';
+  assert.ok(verifySignature(raw, sign(raw), SECRET));
+  assert.ok(!verifySignature(raw, sign(raw), 'whsec_other'));
+  assert.ok(!verifySignature(raw, sign(raw, Math.floor(Date.now() / 1000) - 3600), SECRET));
+  assert.ok(!verifySignature(raw + ' ', sign(raw), SECRET));
+});
+
+const SESSION = {
+  id: 'cs_test_a1b2c3d4e5f6g7h8', livemode: false, currency: 'eur', amount_total: 4370,
+  shipping_cost: { amount_total: 1280 }, total_details: { amount_tax: 0 }, metadata: { region: 'EU' },
+  customer_details: { email: 'anna@example.com', name: 'Anna Berg', phone: '+46700000000' },
+  collected_information: { shipping_details: { name: 'Anna Berg', address: { line1: 'Storgatan 1', postal_code: '753 20', city: 'Uppsala', country: 'SE' } } },
+  line_items: { data: [
+    { description: 'Star Hoppers colouring book, ages 3–5', quantity: 1, amount_total: 1290, price: { product: { metadata: { sku: 'book-star-hoppers-3-5', variant: '' } } } },
+    { description: 'Star Hoppers giant colouring poster, ages 3–5', quantity: 1, amount_total: 1990, price: { product: { metadata: { sku: 'poster-star-hoppers-3-5', variant: '' } } } },
+  ] },
+};
+
+test('order: split by printer, team sheet has the address and print files, customer email has no print details', () => {
+  const o = orderFrom(SESSION, catalog);
+  assert.deepEqual(Object.keys(o.parts).sort(), ['lulu', 'printful']);
+  const team = teamText(o);
+  assert.match(team, /TEST ORDER/);
+  assert.match(team, /Storgatan 1/);
+  assert.match(team, /art\/print\/posters\/star-hoppers-3-5\.svg/);
+  const cust = customerText(o, { contact: 'info@telning.com' });
+  assert.match(cust, /2 parcels/);
+  assert.doesNotMatch(cust, /art\/print/);
+});
+
+test('webhook: paid session → team and customer emails; unpaid → ignored; bad signature → 400', async () => {
+  const sent = [];
+  const deps = { secret: SECRET, catalog, stripe: async () => ({ status: 200, json: SESSION }), sendEmail: async (m) => { sent.push(m); }, inbox: 'team@example.com', from: 'Telning <o@example.com>', contact: 'info@example.com', log: () => {} };
+  const raw = JSON.stringify({ type: 'checkout.session.completed', data: { object: { id: SESSION.id, payment_status: 'paid' } } });
+  const r = await handleWebhook({ raw, signature: sign(raw) }, deps);
+  assert.equal(r.status, 200);
+  assert.equal(sent.length, 2);
+  assert.equal(sent[0].to, 'team@example.com');
+  assert.equal(sent[1].to, 'anna@example.com');
+  const unpaid = JSON.stringify({ type: 'checkout.session.completed', data: { object: { id: 'x', payment_status: 'unpaid' } } });
+  assert.equal((await handleWebhook({ raw: unpaid, signature: sign(unpaid) }, deps)).body.ignored, true);
+  assert.equal((await handleWebhook({ raw, signature: 't=1,v1=00' }, deps)).status, 400);
+  assert.equal((await handleWebhook({ raw, signature: sign(raw) }, { ...deps, secret: '' })).status, 503);
+});
+
+test('packs: choice checked, contents split over the titles, shipping per parcel, order split by printer', async () => {
+  const { packChoice, packContents } = await import('../server/catalog.js');
+  const pack = catalog.bySku.get('pack-classroom');
+  assert.equal(packChoice(catalog, pack, '3-5|star-hoppers,home-hearts|library-day~natural'), '3-5|star-hoppers,home-hearts|library-day~natural');
+  assert.equal(packChoice(catalog, pack, '3-5|a,b,c,d|library-day~natural'), null);
+  assert.equal(packChoice(catalog, pack, '1-3|star-hoppers|library-day~natural'), null);
+  const c = packContents(catalog, pack, '5-7|star-hoppers,home-hearts|crayons~black');
+  assert.equal(c.filter((x) => x.sku.startsWith('book-')).reduce((a, x) => a + x.qty, 0), 30);
+  assert.equal(c.filter((x) => x.sku.startsWith('poster-')).reduce((a, x) => a + x.qty, 0), 3);
+  const lines = resolveLines(catalog, [{ sku: 'pack-circle', variant: '3-5|paws-claws|crayons~natural', qty: 1 }]);
+  const ship = shippingFor(catalog.shop, lines, 'EUR');
+  assert.equal(ship.parcels.length, 3);
+  const o = orderFrom({ ...SESSION, line_items: { data: [{ description: 'Story Circle pack', quantity: 1, amount_total: 15600, price: { product: { metadata: { sku: 'pack-circle', variant: '3-5|paws-claws|crayons~natural' } } } }] } }, catalog);
+  assert.deepEqual(Object.keys(o.parts).sort(), ['lulu', 'printful']);
+  assert.equal(o.parts.lulu[0].qty, 10);
+});
+
+test('quote form: needs organisation, wish and a good email; honeypot; emails the team', async () => {
+  const { handleQuote, _reset } = await import('../server/quote.js');
+  _reset();
+  const sent = [];
+  const deps = { sendEmail: async (m) => sent.push(m), inbox: 'team@example.com', from: 'T <t@example.com>' };
+  assert.equal((await handleQuote({ fields: { organisation: 'Lilla förskolan', wish: '120 books', email: 'bad' } }, deps)).body.error, 'email');
+  assert.equal((await handleQuote({ fields: { organisation: '', wish: 'x', email: 'a@b.se' } }, deps)).body.error, 'missing');
+  assert.equal((await handleQuote({ fields: { website: 'spam', organisation: 'x', wish: 'x', email: 'a@b.se' } }, deps)).body.ok, true);
+  assert.equal(sent.length, 0);
+  const r = await handleQuote({ fields: { organisation: 'Lilla förskolan', country: 'Sweden', children: '120', wish: '120 books, ages 3–5', email: 'Rektor@Example.se', invoice: 'on' } }, deps);
+  assert.equal(r.status, 200);
+  assert.equal(sent[0].to, 'team@example.com');
+  assert.equal(sent[0].replyTo, 'rektor@example.se');
+  assert.match(sent[0].text, /Pay by invoice: yes/);
+});

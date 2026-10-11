@@ -1,0 +1,100 @@
+---
+/* /books — Books & posters: every colouring book and giant colouring poster, filtered by age, type and series.
+   All 48 cards are in the HTML (search engines and no-JS see everything); the filters only hide cards. */
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ProductCard from '../../components/shop/ProductCard.astro';
+import TrustBar from '../../components/shop/TrustBar.astro';
+import CurrencySelect from '../../components/shop/CurrencySelect.astro';
+import { catalog, site, img } from '../../lib/shop';
+
+const PAGE = '/books';
+const products = site.series.flatMap((s: any) => ['3-5', '5-7'].flatMap((a) => [`book-${s.key}-${a}`, `poster-${s.key}-${a}`])).map((k: string) => catalog.bySku.get(k)).filter(Boolean);
+const ld = [{ '@type': 'CollectionPage', '@id': 'https://telning.com/books#collection', name: 'Books & posters', url: 'https://telning.com/books', mainEntity: { '@type': 'ItemList', numberOfItems: products.length, itemListElement: products.map((p: any, i: number) => ({ '@type': 'ListItem', position: i + 1, url: `https://telning.com${p.url}`, name: p.name })) } }];
+const STEPS = [
+  { h: 'Colour the story', t: 'Fourteen drawings, one on each right-hand page. The pictures tell the story without words.' },
+  { h: 'Talk about it', t: 'Facing every drawing, one question or one good word for the grown-up: “How does the bunny feel here?”' },
+  { h: 'Choose the ending', t: 'At the end the story stops at a choice. Two endings to choose from, and no wrong answer.' },
+  { h: 'Draw it', t: 'The last page is empty. Your child draws the ending they chose, then you can send it to Pim.' },
+];
+---
+<Base page={PAGE} jsonld={ld}>
+  <Header />
+  <main id="main" tabindex="-1">
+    <section class="tn-wrap tn-shophero" aria-labelledby="page-h">
+      <Breadcrumbs page={PAGE} />
+      <div class="tn-shophero__in">
+        <div class="tn-shophero__text">
+          <h1 class="tn-h1" id="page-h" tabindex="-1">Books &amp; posters</h1>
+          <p class="tn-lead">Colouring story books and giant colouring posters, sorted by series and age. Your child colours the story, chooses the ending and draws it.</p>
+          <ul class="tn-shophero__pts"><li>12 series</li><li>Ages 3–5 and 5–7</li><li>Printed near you</li></ul>
+        </div>
+        <div class="tn-shophero__art" aria-hidden="true">
+          <img class="tn-shophero__a" src={img('/shop/img/book-star-hoppers-3-5/table', 1200)} alt="" width="1200" height="1200" fetchpriority="high" />
+          <img class="tn-shophero__b" src={img('/shop/img/poster-paws-claws-3-5/wall', 600)} alt="" width="600" height="600" />
+        </div>
+      </div>
+    </section>
+
+    <section class="tn-wrap tn-shopgrid" aria-labelledby="all-h">
+      <h2 class="tn-sr" id="all-h">All colouring books and giant posters</h2>
+      <div class="tn-filters" data-filters="#grid" data-count="#count" hidden>
+        <div class="tn-filters__g" role="group" aria-label="Age"><span class="tn-filters__l">Age</span>
+          <button type="button" class="tn-chip" data-group="age" data-value="">All</button>
+          <button type="button" class="tn-chip" data-group="age" data-value="3-5">3–5</button>
+          <button type="button" class="tn-chip" data-group="age" data-value="5-7">5–7</button>
+          <span class="tn-chip is-off" aria-disabled="true">1–3 <small>coming soon</small></span>
+        </div>
+        <div class="tn-filters__g" role="group" aria-label="Type"><span class="tn-filters__l">Type</span>
+          <button type="button" class="tn-chip" data-group="type" data-value="">All</button>
+          <button type="button" class="tn-chip" data-group="type" data-value="book">Colouring books</button>
+          <button type="button" class="tn-chip" data-group="type" data-value="poster">Giant posters</button>
+        </div>
+        <div class="tn-filters__g tn-filters__g--scroll" role="group" aria-label="Series"><span class="tn-filters__l">Series</span>
+          <button type="button" class="tn-chip" data-group="series" data-value="">All</button>
+          {site.series.map((s: any) => <button type="button" class="tn-chip" data-group="series" data-value={s.key}>{s.name}</button>)}
+        </div>
+        <div class="tn-filters__end"><output id="count" class="tn-filters__count">{products.length} items</output><CurrencySelect id="cur-books" /></div>
+      </div>
+      <ul class="tn-pgrid" id="grid">{products.map((p: any, i: number) => <ProductCard p={p} eager={i < 4} />)}</ul>
+    </section>
+
+    <section class="tn-section" aria-labelledby="how-h"><div class="tn-wrap">
+      <div class="tn-head"><h2 class="tn-h2" id="how-h">How a Telning colouring book works</h2><p class="tn-lead">Square, 21.6 × 21.6 cm, 32 pages, for one page a night at the kitchen table.</p></div>
+      <ol class="tn-cards tn-cards--4 tn-steps3">{STEPS.map((s) => <li class="tn-card"><h3 class="tn-h3">{s.h}</h3><p class="tn-p">{s.t}</p></li>)}</ol>
+      <p class="tn-p" style="margin-top:var(--s5)"><a class="tn-link tn-link--solo" href="/tada">Read the TADA way</a></p>
+    </div></section>
+
+    <section class="tn-section tn-section--tight" aria-labelledby="poster-h"><div class="tn-wrap tn-split">
+      <div class="tn-split__img"><img src={img('/shop/img/poster-star-hoppers-5-7/detail', 1200)} alt="Close-up of a giant colouring poster, half coloured in, with crayons" width="1200" height="1200" loading="lazy" /></div>
+      <div class="tn-split__text">
+        <h2 class="tn-h2" id="poster-h">Giant colouring posters</h2>
+        <p class="tn-lead">70 × 100 cm, one world per series. About a third is already in colour; the rest is waiting for your child.</p>
+        <ul class="tn-ticks"><li>Ages 3–5: big shapes and thick lines for small hands</li><li>Ages 5–7: small shapes and lots to find, for steady hands</li><li>Matte paper, shipped rolled in a tube; 70 × 100 cm is a standard frame size</li></ul>
+        <p class="tn-p">Colour it together over many days, then frame it and hang it on the wall.</p>
+      </div>
+    </div></section>
+
+    <section class="tn-section tn-section--tight" aria-labelledby="series-h"><div class="tn-wrap">
+      <div class="tn-head"><h2 class="tn-h2" id="series-h">Shop by series</h2></div>
+      <ul class="tn-serieslist">{site.series.map((s: any) => (
+        <li><a class="tn-seriestile" href={`/books/${s.key}`} style={`--c:var(--${s.colour})`}>
+          <img src={img(`/shop/img/book-${s.key}-3-5/front`, 600)} alt="" width="600" height="600" loading="lazy" />
+          <span class="tn-seriestile__name">{s.name}</span><span class="tn-seriestile__theme">{s.theme}</span>
+        </a></li>))}</ul>
+    </div></section>
+
+    <section class="tn-section tn-section--tight" aria-labelledby="org-h"><div class="tn-wrap">
+      <div class="tn-next">
+        <h2 class="tn-h2 tn-h2--s" id="org-h">For kindergartens, schools and libraries</h2>
+        <p class="tn-lead">Story packs of 10, 30 or 50 books with giant posters, tote bags and a group guide for the teacher. Pay by card or by invoice.</p>
+        <p><a class="tn-btn tn-btn--ghost" href="/organisations">See the story packs</a></p>
+      </div>
+    </div></section>
+
+    <section class="tn-section tn-section--tight" aria-label="Our promises"><div class="tn-wrap"><TrustBar /></div></section>
+  </main>
+  <Footer />
+</Base>

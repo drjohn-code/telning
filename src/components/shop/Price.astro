@@ -1,0 +1,8 @@
+---
+/* A price in every currency: euros in the HTML, the visitor's currency after the shop script runs. */
+import { priceAttrs, eur } from '../../lib/shop';
+interface Props { p: any; variant?: string; class?: string }
+const { p, variant, class: cls = '' } = Astro.props;
+const attrs = priceAttrs(p, variant);
+---
+<span class={`tn-price ${cls}`} {...attrs}>{attrs['data-eur'] || eur(p)}</span>

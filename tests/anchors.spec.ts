@@ -1,15 +1,14 @@
 // A5: after any anchor link, the top edge of the section sits at the bottom edge of the sticky header (±1 px),
 // or 24 px under it for a section with no top padding of its own (#ages, #skills),
-// at 375, 768 and 1280 px, for the header, the footer, the hero button and the hero TADA link.
+// at 375, 768 and 1280 px, for the header, the footer and the hero button. (The header's "Books & posters" and the
+// hero's "Gifts" go to the shop pages; "Series" stays in the header only on the QR pages /guide and /send.)
 import { test, expect, type Page } from '@playwright/test';
 
 const WIDTHS = [375, 768, 1280];
 const LINKS = [
   { name: 'header Ages', sel: 'header nav a[href="/#ages"]', id: 'ages', menu: true },
-  { name: 'header Series', sel: 'header nav a[href="/#series"]', id: 'series', menu: true },
   { name: 'header Skills', sel: 'header nav a[href="/#skills"]', id: 'skills', menu: true },
   { name: 'hero button', sel: '.tn-hero a.tn-btn[href="#series"]', id: 'series', menu: false },
-  { name: 'hero "The TADA method"', sel: '.tn-hero a[href="#tada"]', id: 'tada', menu: false },
   { name: 'footer Ages', sel: 'footer a[href="/#ages"]', id: 'ages', menu: false },
   { name: 'footer Series', sel: 'footer a[href="/#series"]', id: 'series', menu: false },
   { name: 'footer Skills', sel: 'footer a[href="/#skills"]', id: 'skills', menu: false },

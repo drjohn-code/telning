@@ -1,0 +1,29 @@
+---
+/* One product in a grid: photo, name, a short line, price, one tag, and a quick "Add to basket".
+   data-series / data-age / data-type / data-occasion feed the filters on /books and /gifts. */
+import Price from './Price.astro';
+import { img, ageLabel, shop } from '../../lib/shop';
+interface Props { p: any; view?: string; headingLevel?: 'h2' | 'h3'; eager?: boolean }
+const { p, view, headingLevel = 'h3', eager = false } = Astro.props;
+const H = headingLevel;
+const im = (view && p.images.find((i: any) => i.view === view)) || p.images[0];
+const t = (shop.types as any)[p.type];
+const sub = p.category === 'books' ? (p.type === 'book' ? p.book.hook : p.poster?.scene?.split('.')[0]) : p.design.words;
+const tag = p.age ? `Ages ${ageLabel(p.age)}` : t.tag;
+const add = JSON.stringify([{ sku: p.sku, variant: p.variants ? p.variants[0].key : '', qty: 1, max: p.maxQty }]);
+---
+<li class="tn-pcard" data-card data-series={p.series || ''} data-age={p.age || ''} data-type={p.type} data-occasion={p.occasion || ''}>
+  <a class="tn-pcard__link" href={p.url}>
+    <span class="tn-pcard__img"><img src={img(im.src, 600)} srcset={`${img(im.src, 600)} 600w, ${img(im.src, 1200)} 1200w`} sizes="(min-width: 1024px) 280px, (min-width: 600px) 33vw, 50vw" width="600" height="600" alt={`${p.name}: ${p.type === 'poster' ? 'the full poster art' : 'product photo'}`} loading={eager ? 'eager' : 'lazy'} decoding="async" /></span>
+    <span class="tn-pcard__body">
+      <span class="tn-pcard__kick">{p.category === 'books' ? `${p.seriesName} · ${p.type === 'book' ? 'Book' : 'Poster'}` : t.tile}</span>
+      <H class="tn-pcard__name">{p.category === 'books' ? (p.type === 'book' ? p.title : `Giant poster, ages ${ageLabel(p.age)}`) : p.title}</H>
+      <span class="tn-pcard__sub">{sub}</span>
+    </span>
+  </a>
+  <div class="tn-pcard__foot">
+    <span class="tn-pcard__price">{p.variants && p.type === 'mug' ? 'From ' : ''}<Price p={p} /></span>
+    <span class="tn-pill tn-pill--soft tn-pcard__tag">{tag}</span>
+    <button class="tn-pcard__add" type="button" data-add={add} aria-label={`Add to basket: ${p.name}${p.variants ? ', ' + p.variants[0].name : ''}`}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+  </div>
+</li>

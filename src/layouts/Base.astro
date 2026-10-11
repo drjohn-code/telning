@@ -11,12 +11,14 @@ import '../styles/telning.css';
 import site from '../data/site-data.json';
 import seo from '../data/seo.json';
 import strings from '../data/strings.en.json';
+import { allPages, crumbs } from '../lib/shop';
+import BasketDrawer from '../components/shop/BasketDrawer.astro';
 
-interface Props { page: string; jsonld?: Record<string, unknown>[]; ogImage?: string; orgExtra?: Record<string, unknown>; noindex?: boolean }
-const { page, jsonld = [], ogImage, orgExtra = {}, noindex: noindexProp = false } = Astro.props;
+interface Props { page: string; jsonld?: Record<string, unknown>[]; ogImage?: string; orgExtra?: Record<string, unknown>; noindex?: boolean; clearBasket?: boolean }
+const { page, jsonld = [], ogImage, orgExtra = {}, noindex: noindexProp = false, clearBasket = false } = Astro.props;
 
-type Entry = { name: string; title: string; description: string; type?: string; article?: boolean; published?: string; lastmod?: string; sitemap?: boolean; noindex?: boolean; og?: string };
-const entry = (seo.pages as Record<string, Entry>)[page];
+type Entry = { name: string; title: string; description: string; type?: string; article?: boolean; published?: string; lastmod?: string; sitemap?: boolean; noindex?: boolean; og?: string; parent?: string };
+const entry = (allPages as Record<string, Entry>)[page];
 if (!entry) throw new Error(`Base: add "${page}" to src/data/seo.json first`);
 
 const HOST = seo.host;
@@ -26,6 +28,7 @@ const isPreview = !!vercelEnv && vercelEnv !== 'production';
 const noindex = noindexProp || !!entry.noindex || isPreview;
 const ogImg = `${HOST}${ogImage || entry.og || '/og-image.png'}`;
 const dev = import.meta.env.DEV;
+const clean = page === '/guide' || page === '/send';   // QR pages: no basket (brand rule 7)
 
 const ORG_ID = `${HOST}/#organization`;
 const SITE_ID = `${HOST}/#website`;
@@ -50,10 +53,7 @@ if (page !== '/' && page !== '/404') {
   webpage.breadcrumb = { '@id': `${url}#breadcrumb` };
   graph.push({
     '@type': 'BreadcrumbList', '@id': `${url}#breadcrumb`,
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: `${HOST}/` },
-      { '@type': 'ListItem', position: 2, name: entry.name, item: url },
-    ],
+    itemListElement: crumbs(page).map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: c.path === '/' ? `${HOST}/` : `${HOST}${c.path}` })),
   });
 }
 graph.push(...jsonld);
@@ -93,14 +93,17 @@ const verification = (site as { verification?: { google?: string; bing?: string 
   <meta name="twitter:image" content={ogImg}>
   <script type="application/ld+json" set:html={ld} />
 </head>
-<body>
+<body data-clear-basket={clearBasket ? '' : undefined}>
   <div class="tn-page" data-dev={dev ? '' : undefined} lang="en">
     <a class="tn-skip" href="#main">{strings['nav.skip']}</a>
     <slot />
   </div>
+  {!clean && <BasketDrawer />}
   <script>
     import '../scripts/telning.js';
+    import '../scripts/shop.js';
     window.Telning.init(document);
+    window.Telning.initShop(document);
   </script>
 </body>
 </html>

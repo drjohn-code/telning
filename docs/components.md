@@ -83,3 +83,19 @@ so every browser behaves the same.
 
 UI controls keep `--move` (220 ms). Idle motion: one or two objects per section. Pim: the stars twinkle, or the eye
 blinks (404), never both. Everything stops under reduced motion (`tests/site.spec.ts` checks).
+
+## The shop (October 2026)
+
+| Component / page | What it is |
+|---|---|
+| `shop/ProductPage.astro` | One template for every product: photos (Gallery), name, scene line, price in four currencies, the choices (age and format links for books and posters; mug type; tote colour), quantity, "Add to basket" (a plain form post to `/api/checkout` without JavaScript), facts, promises, "Keep the story going", details (story, inside, material and care, delivery, safety), a set, "Complete the set", the trust bar, a phone buy bar. Product JSON-LD. |
+| `shop/ProductCard.astro` | Grid card with photo, name, line, price, tag and quick add; `data-series/age/type/occasion` for the filters. |
+| `shop/Gallery.astro` | Main photo, thumbnails, zoom (`<dialog>`). |
+| `shop/BasketDrawer.astro` | The side-sheet basket on every page except the QR pages. |
+| `shop/Price.astro`, `shop/CurrencySelect.astro`, `shop/TrustBar.astro` | Price with every currency in data attributes; the switch; the three promises. |
+| `GiftsBand.astro` | Homepage "Gifts" section: four tiles, one button, Pim. |
+| `WorldCard.astro`, `Series.astro` | Cards link to `/books/<series>` with "Book" and "Poster" tags; two rows, a fade and "See all 12 series". |
+| `Header.astro`, `Footer.astro` | Books & posters · Gifts (brand button) · Ages · Skills · For grown-ups · About, and the basket. On `/guide` and `/send` the header and footer stay clean: no shop links (brand rule 7). |
+
+New objects in `art/objects` and `art/animals` (about 60: seasons, garden and kitchen, transport and toys, space,
+heroes and more animals). Shading shapes carry `class="sh"`, so the colouring line art can drop them.

@@ -7,6 +7,8 @@ import { fileURLToPath } from 'node:url';
 const ROOT = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const DIST = join(ROOT, 'dist');
 const seo = JSON.parse(readFileSync(join(ROOT, 'src/data/seo.json'), 'utf8'));
+const { shopPages } = await import('../server/catalog-data.js');
+seo.pages = { ...shopPages, ...seo.pages };   // the shop's generated pages (server/shop-seo.js)
 
 const urls = [];
 for (const [path, p] of Object.entries(seo.pages)) {

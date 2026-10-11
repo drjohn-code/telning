@@ -1,0 +1,27 @@
+---
+/* /order/thanks — after Stripe Checkout (noindex). Clears the basket on this device. */
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PimNote from '../../components/PimNote.astro';
+const PAGE = '/order/thanks';
+const STEPS = [
+  { h: 'Your email', t: 'A confirmation with your order number is on its way to your inbox. Stripe sends the receipt.' },
+  { h: 'Printed near you', t: 'Each printer makes your items to order in your region: books, posters and gifts may come from different places.' },
+  { h: 'Tracking', t: 'When a parcel ships, we email you its tracking link. EU 3–10 working days; UK, US and Canada 3–7.' },
+];
+---
+<Base page={PAGE} clearBasket>
+  <Header />
+  <main id="main" tabindex="-1">
+    <section class="tn-wrap tn-thanks" aria-labelledby="page-h">
+      <h1 class="tn-h1" id="page-h" tabindex="-1">Thank you!</h1>
+      <p class="tn-lead">Your order is in. Thank you for choosing Telning.</p>
+      <PimNote line="When the story is finished, I’d love to see the ending." size="sm" />
+      <ol class="tn-cards tn-cards--3 tn-steps3">{STEPS.map((s) => <li class="tn-card"><h2 class="tn-h3">{s.h}</h2><p class="tn-p">{s.t}</p></li>)}</ol>
+      <p class="tn-p">Questions about your order? Write to <a class="tn-link" href="mailto:info@telning.com">info@telning.com</a> with your order number. Read <a class="tn-link" href="/shipping-returns">Shipping &amp; returns</a>.</p>
+      <p class="tn-drawer__links"><a class="tn-btn tn-btn--ghost" href="/books">Back to Books &amp; posters</a> <a class="tn-btn tn-btn--ghost" href="/tada">Read the TADA way</a></p>
+    </section>
+  </main>
+  <Footer />
+</Base>

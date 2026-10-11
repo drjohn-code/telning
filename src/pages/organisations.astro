@@ -1,0 +1,121 @@
+---
+/* /organisations — For organisations: three story packs (books, giant posters, tote bags, the group guide), a pack
+   builder (pack, age, titles, tote), and a quote form for bigger orders, company gifts, invoices and sample books.
+   Linked from the footer, /teachers and /books; not in the main menu. Copy and pack prices: DRAFT (product plan). */
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CurrencySelect from '../components/shop/CurrencySelect.astro';
+import TrustBar from '../components/shop/TrustBar.astro';
+import { shop, site, gifts, money, img } from '../lib/shop';
+
+const PAGE = '/organisations';
+const packs = (shop as any).packs.items;
+const T = shop.types as any;
+const attrs = (pr: Record<string, number>) => Object.fromEntries(Object.entries(pr).map(([c, v]) => [`data-${c.toLowerCase()}`, money(Math.round(v * 100), c, (shop.currencies as any)[c].locale)]));
+const full = (k: any) => Object.fromEntries(['EUR', 'GBP', 'USD', 'CAD'].map((c) => [c, k.books * T.book.price[c] + k.posters * T.poster.price[c] + k.totes * T.tote.price[c]]));
+const STEPS = [
+  { h: 'Build the pack', t: 'Choose the pack, one age group for the whole pack, the titles and the tote bag design.' },
+  { h: 'Pay by card, or ask for an invoice', t: 'Pay by card at checkout. For an invoice with your VAT number, a reference and 30 days to pay, use the form below.' },
+  { h: 'Three parcels, one address', t: 'The books, the posters and the tote bags come from their printers in three parcels, to one address.' },
+];
+---
+<Base page={PAGE}>
+  <Header />
+  <main id="main" tabindex="-1">
+    <section class="tn-wrap tn-shophero" aria-labelledby="page-h">
+      <Breadcrumbs page={PAGE} />
+      <div class="tn-shophero__in">
+        <div class="tn-shophero__text">
+          <p class="tn-pdp__kick">For kindergartens, schools, libraries and companies</p>
+          <h1 class="tn-h1" id="page-h" tabindex="-1">One story, many children.</h1>
+          <p class="tn-lead">Packs of books, giant posters and tote bags for groups, with a guide for the teacher on how to run one story with many children.</p>
+          <ul class="tn-shophero__pts"><li>10, 30 or 50 books</li><li>Save 10–18%</li><li>Card or invoice</li></ul>
+        </div>
+        <div class="tn-shophero__art" aria-hidden="true">
+          <img class="tn-shophero__a" src={img('/shop/img/pack-classroom/pack', 1200)} alt="" width="1200" height="1200" fetchpriority="high" />
+        </div>
+      </div>
+    </section>
+
+    <section class="tn-wrap" aria-labelledby="packs-h">
+      <h2 class="tn-h2 tn-h2--s" id="packs-h">The packs</h2>
+      <ul class="tn-packs">{packs.map((k: any) => (
+        <li class="tn-pack">
+          <p class="tn-pdp__kick">{k.for}</p>
+          <h3 class="tn-h3 tn-pack__name">{k.name}</h3>
+          <ul class="tn-ticks"><li>{k.books} colouring books, {k.titles === 1 ? 'one title' : `up to ${k.titles} titles`}</li><li>{k.posters} giant colouring poster{k.posters > 1 ? 's' : ''}</li><li>{k.totes} organic cotton tote bag{k.totes > 1 ? 's' : ''}</li><li>The group guide for the teacher (PDF)</li></ul>
+          <p class="tn-pack__price"><span class="tn-price" {...attrs(k.price)}>{attrs(k.price)['data-eur']}</span> <s class="tn-price" {...attrs(full(k))}>{attrs(full(k))['data-eur']}</s> <span class="tn-pill tn-pack__save">Save {k.saving}%</span></p>
+          <a class="tn-btn" href={`#build`} data-pack-start={`pack-${k.key}`}>Start this pack</a>
+        </li>))}</ul>
+      <ul class="tn-packs__offers">{(shop as any).packs.offers.map((o: string) => <li>{o}</li>)}</ul>
+    </section>
+
+    <section class="tn-section" id="build" aria-labelledby="build-h"><div class="tn-wrap">
+      <div class="tn-head"><h2 class="tn-h2 tn-h2--s" id="build-h">Build your pack</h2><p class="tn-lead">One age group for the whole pack, then the titles in that level. Every 10 books bring one giant poster and one tote bag.</p></div>
+      <form class="tn-buy tn-packform" method="post" action="/api/checkout">
+        <input type="hidden" name="currency" value="EUR" />
+        <input type="hidden" name="qty" value="1" />
+        <fieldset class="tn-opt"><legend>1. The pack</legend><div class="tn-opt__row">
+          {packs.map((k: any, i: number) => <label class="tn-chip tn-chip--radio"><input type="radio" name="sku" value={`pack-${k.key}`} checked={i === 0} data-titles={k.titles} />{k.name}</label>)}
+        </div></fieldset>
+        <fieldset class="tn-opt"><legend>2. Age group</legend><div class="tn-opt__row">
+          <label class="tn-chip tn-chip--radio"><input type="radio" name="pack_age" value="3-5" checked />Ages 3–5</label>
+          <label class="tn-chip tn-chip--radio"><input type="radio" name="pack_age" value="5-7" />Ages 5–7</label>
+        </div></fieldset>
+        <fieldset class="tn-opt"><legend>3. Titles <span class="tn-packform__max" data-max-label>(choose 1)</span></legend><div class="tn-opt__row">
+          {site.series.map((s: any, i: number) => <label class="tn-chip tn-chip--radio"><input type="checkbox" name="pack_titles" value={s.key} checked={i === 0} />{s.name}</label>)}
+        </div></fieldset>
+        <fieldset class="tn-opt"><legend>4. Tote bag</legend><div class="tn-opt__row">
+          <label class="tn-sel"><span class="tn-sr">Tote bag design</span><select class="tn-cur" name="pack_tote">{(gifts as any).tote.map((d: any) => <option value={d.key}>{d.name}</option>)}</select></label>
+          <label class="tn-chip tn-chip--radio"><input type="radio" name="pack_colour" value="natural" checked /><span class="tn-swatch" style="--sw:#efe6d4" aria-hidden="true"></span>Natural</label>
+          <label class="tn-chip tn-chip--radio"><input type="radio" name="pack_colour" value="black" /><span class="tn-swatch" style="--sw:#1d1c1a" aria-hidden="true"></span>Black</label>
+        </div></fieldset>
+        <p class="tn-basketmsg" data-pack-msg role="alert" hidden></p>
+        <div class="tn-buy__row tn-packform__row"><CurrencySelect id="cur-pack" /><button class="tn-btn tn-btn--buy" type="submit">Add pack to basket</button></div>
+      </form>
+    </div></section>
+
+    <section class="tn-section tn-section--tight" aria-labelledby="guide-h"><div class="tn-wrap tn-split">
+      <div class="tn-split__text">
+        <h2 class="tn-h2" id="guide-h">The group guide</h2>
+        <p class="tn-lead">What makes a pack more than a discount: a short PDF for the teacher, sent by email with every pack.</p>
+        <ul class="tn-ticks"><li>How to run one story with many children: one drawing a day, everyone talks, everyone chooses</li><li>The four TADA steps for a group: Talk, Ask, Decide, Act</li><li>The conversation questions for every page of the book</li><li>How to show the endings the children drew, and send them to Pim</li></ul>
+        <p class="tn-p"><a class="tn-link tn-link--solo" href="/teachers">For teachers</a></p>
+      </div>
+      <div class="tn-split__img"><img src={img('/shop/img/poster-paws-claws-3-5/wall', 1200)} alt="A giant colouring poster, coloured in and framed on a classroom wall" width="1200" height="1200" loading="lazy" /></div>
+    </div></section>
+
+    <section class="tn-section tn-section--tight" aria-labelledby="how-h"><div class="tn-wrap">
+      <div class="tn-head"><h2 class="tn-h2 tn-h2--s" id="how-h">How it works</h2></div>
+      <ol class="tn-cards tn-cards--3 tn-steps3">{STEPS.map((s) => <li class="tn-card"><h3 class="tn-h3">{s.h}</h3><p class="tn-p">{s.t}</p></li>)}</ol>
+    </div></section>
+
+    <section class="tn-section" id="quote" aria-labelledby="quote-h"><div class="tn-wrap">
+      <div class="tn-email tn-quote">
+        <div class="tn-head"><h2 class="tn-h2 tn-h2--s" id="quote-h">A bigger order, a company gift, or an invoice</h2><p class="tn-p">For 100 books or more, a book and a mug or tote bag for every family, payment by invoice, or one sample book at print cost. We answer within two working days.</p></div>
+        <form class="tn-quote__form" method="post" action="/api/quote" data-quote>
+          <div class="tn-quote__grid">
+            <label class="tn-field"><span>Organisation</span><input class="tn-input" name="organisation" required maxlength="140" autocomplete="organization" /></label>
+            <label class="tn-field"><span>Country</span><input class="tn-input" name="country" maxlength="80" autocomplete="country-name" /></label>
+            <label class="tn-field"><span>Number of children</span><input class="tn-input" name="children" inputmode="numeric" maxlength="12" /></label>
+            <label class="tn-field"><span>Your email</span><input class="tn-input" type="email" name="email" required maxlength="200" autocomplete="email" /></label>
+          </div>
+          <label class="tn-field"><span>What would you like?</span><textarea class="tn-input tn-textarea" name="wish" required maxlength="2000" rows="4"></textarea></label>
+          <div class="tn-quote__checks">
+            <label class="tn-check"><input type="checkbox" name="invoice" />We would like to pay by invoice (VAT number and reference, 30 days to pay)</label>
+            <label class="tn-check"><input type="checkbox" name="sample" />A teacher would like one sample book at print cost first</label>
+          </div>
+          <label class="tn-hp" aria-hidden="true">Leave this empty <input name="website" tabindex="-1" autocomplete="off" /></label>
+          <p class="tn-small">We use your details only to answer this request. Read the <a class="tn-link" href="/privacy">privacy notice</a>.</p>
+          <p class="tn-basketmsg" data-quote-msg role="status" hidden></p>
+          <button class="tn-btn" type="submit">Send the request</button>
+        </form>
+      </div>
+    </div></section>
+
+    <section class="tn-section tn-section--tight" aria-label="Our promises"><div class="tn-wrap"><TrustBar /></div></section>
+  </main>
+  <Footer />
+</Base>

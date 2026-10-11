@@ -7,12 +7,12 @@ import Header from './Header.astro';
 import Footer from './Footer.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
 import Obj from './Obj.astro';
-import seo from '../data/seo.json';
+import { allPages } from '../lib/shop';
 
 interface Section { id: string; h: string; p?: string[]; list?: string[]; after?: string[] }
 interface Props { page: string; h1: string; lead: string; sections: Section[]; tocLabel: string; updatedLabel: string; draftLabel: string }
 const { page, h1, lead, sections, tocLabel, updatedLabel, draftLabel } = Astro.props;
-const entry = seo.pages[page];
+const entry = allPages[page];
 const isStaging = import.meta.env.DEV || (!!import.meta.env.VERCEL_ENV && import.meta.env.VERCEL_ENV !== 'production');
 const fmt = (d: string) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 ---
