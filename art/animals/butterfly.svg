@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 108" width="130" height="108">
+<g class="o-antennae"><path d="M60 28C56 18 52 12 46 9M70 28C74 18 78 12 84 9" stroke="#16140F" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+<circle cx="46" cy="9" r="3" fill="#16140F"/><circle cx="84" cy="9" r="3" fill="#16140F"/></g>
+<g class="o-wings"><path d="M62 56C46 56 26 64 24 80C22 96 38 104 50 96C60 88 64 72 62 56z" fill="#E8B23A"/>
+<path d="M68 56C84 56 104 64 106 80C108 96 92 104 80 96C70 88 66 72 68 56z" fill="#E8B23A"/>
+<path class="sh" d="M106 80C108 96 92 104 80 96C76 93 73 88 71 82C80 92 98 92 106 78z" fill="#B8841A"/>
+<path d="M62 50C54 24 34 6 18 10C6 13 4 30 10 42C16 54 40 62 62 58z" fill="#CE4029"/>
+<path d="M68 50C76 24 96 6 112 10C124 13 126 30 120 42C114 54 90 62 68 58z" fill="#CE4029"/>
+<path class="sh" d="M112 10C124 13 126 30 120 42C114 54 90 62 68 58C88 56 108 48 114 38C120 28 118 16 112 10z" fill="#A9321D"/>
+<circle cx="30" cy="28" r="8" fill="#F6D27E"/><circle cx="100" cy="28" r="8" fill="#F6D27E"/>
+<circle cx="46" cy="46" r="4.5" fill="#FFFDF8"/><circle cx="84" cy="46" r="4.5" fill="#FFFDF8"/>
+<circle cx="38" cy="84" r="6" fill="#FFFDF8"/><circle cx="92" cy="84" r="6" fill="#FFFDF8"/></g>
+<ellipse cx="65" cy="70" rx="6.5" ry="26" fill="#B8841A"/>
+<circle cx="65" cy="38" r="12" fill="#B8841A"/>
+<g class="o-eyes"><circle cx="60.5" cy="37" r="3.4" fill="#16140F"/><circle cx="59.3" cy="35.8" r="1.2" fill="#FFFDF8"/><circle cx="69.5" cy="37" r="3.4" fill="#16140F"/><circle cx="68.3" cy="35.8" r="1.2" fill="#FFFDF8"/></g><ellipse cx="56.5" cy="43" rx="3" ry="2" fill="#E59A82" opacity=".85"/><ellipse cx="73.5" cy="43" rx="3" ry="2" fill="#E59A82" opacity=".85"/></svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 92" width="140" height="92">
+<rect x="6" y="8" width="84" height="58" rx="6" fill="#4F7FAE"/>
+<path class="sh" d="M6 52h84v8c0 3-3 6-6 6H12c-3 0-6-3-6-6z" fill="#2F5C88"/>
+<rect x="6" y="36" width="84" height="8" fill="#FFFDF8"/>
+<path d="M92 66V30c0-3 2-5 5-5h20c5 0 8 2 10 6l7 15c1 2 2 4 2 7v13z" fill="#CE4029"/>
+<path d="M100 31h16c2 0 4 1 5 3l6 13h-27z" fill="#DDEBF7"/>
+<rect x="102" y="52" width="8" height="4" rx="2" fill="#A9321D"/>
+<circle cx="132" cy="56" r="3.5" fill="#F6D27E"/>
+<rect x="6" y="62" width="130" height="10" rx="4" fill="#4A453D"/>
+<g class="o-wheel"><circle cx="32" cy="74" r="13" fill="#16140F"/><circle cx="32" cy="74" r="5" fill="#E9DFCF"/><rect x="30.5" y="63" width="3" height="6" rx="1.5" fill="#4A453D"/></g>
+<g class="o-wheel"><circle cx="112" cy="74" r="13" fill="#16140F"/><circle cx="112" cy="74" r="5" fill="#E9DFCF"/><rect x="110.5" y="63" width="3" height="6" rx="1.5" fill="#4A453D"/></g></svg>

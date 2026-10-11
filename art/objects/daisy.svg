@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 150" width="110" height="150">
+<path d="M55 58C57 88 55 114 53 142" stroke="#1E4A3B" stroke-width="6" fill="none" stroke-linecap="round"/>
+<path d="M54 122C34 120 22 106 18 90C36 92 50 104 54 122z" fill="#86A672"/>
+<path d="M55 104C72 98 84 86 88 70C72 72 60 84 55 104z" fill="#3D6E58"/>
+<ellipse class="sh" cx="55" cy="22" rx="7" ry="16" transform="rotate(18 55 44)" fill="#E9DFCF"/>
+<ellipse class="sh" cx="55" cy="22" rx="7" ry="16" transform="rotate(54 55 44)" fill="#E9DFCF"/>
+<ellipse class="sh" cx="55" cy="22" rx="7" ry="16" transform="rotate(90 55 44)" fill="#E9DFCF"/>
+<ellipse class="sh" cx="55" cy="22" rx="7" ry="16" transform="rotate(126 55 44)" fill="#E9DFCF"/>
+<ellipse class="sh" cx="55" cy="22" rx="7" ry="16" transform="rotate(162 55 44)" fill="#E9DFCF"/>
+<ellipse class="sh" cx="55" cy="22" rx="7" ry="16" transform="rotate(198 55 44)" fill="#E9DFCF"/>
+<ellipse class="sh" cx="55" cy="22" rx="7" ry="16" transform="rotate(234 55 44)" fill="#E9DFCF"/>
+<ellipse class="sh" cx="55" cy="22" rx="7" ry="16" transform="rotate(270 55 44)" fill="#E9DFCF"/>
+<ellipse class="sh" cx="55" cy="22" rx="7" ry="16" transform="rotate(306 55 44)" fill="#E9DFCF"/>
+<ellipse class="sh" cx="55" cy="22" rx="7" ry="16" transform="rotate(342 55 44)" fill="#E9DFCF"/>
+<ellipse cx="55" cy="24" rx="8" ry="16" fill="#FFFDF8"/>
+<ellipse cx="55" cy="24" rx="8" ry="16" transform="rotate(36 55 44)" fill="#FFFDF8"/>
+<ellipse cx="55" cy="24" rx="8" ry="16" transform="rotate(72 55 44)" fill="#FFFDF8"/>
+<ellipse cx="55" cy="24" rx="8" ry="16" transform="rotate(108 55 44)" fill="#FFFDF8"/>
+<ellipse cx="55" cy="24" rx="8" ry="16" transform="rotate(144 55 44)" fill="#FFFDF8"/>
+<ellipse cx="55" cy="24" rx="8" ry="16" transform="rotate(180 55 44)" fill="#FFFDF8"/>
+<ellipse cx="55" cy="24" rx="8" ry="16" transform="rotate(216 55 44)" fill="#FFFDF8"/>
+<ellipse cx="55" cy="24" rx="8" ry="16" transform="rotate(252 55 44)" fill="#FFFDF8"/>
+<ellipse cx="55" cy="24" rx="8" ry="16" transform="rotate(288 55 44)" fill="#FFFDF8"/>
+<ellipse cx="55" cy="24" rx="8" ry="16" transform="rotate(324 55 44)" fill="#FFFDF8"/>
+<circle cx="55" cy="44" r="13" fill="#E8B23A"/>
+<path class="sh" d="M55 31a13 13 0 0 1 0 26 9 13 0 0 0 0-26z" fill="#B8841A"/>
+<circle cx="50.5" cy="39.5" r="3.5" fill="#FFFDF8" opacity=".45"/></svg>

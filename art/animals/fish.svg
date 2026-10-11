@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 119 91" width="119" height="91">
+<path d="M36 45C26 33 16 21 4 17C8 29 10 37 14 45C10 53 8 61 4 73C16 69 26 57 36 45z" fill="#CE4029"/>
+<path d="M56 17C62 3 80 1 92 9C84 11 76 15 70 19z" fill="#CE4029"/>
+<path d="M60 77C64 87 72 89 80 85L76 77z" fill="#CE4029"/>
+<ellipse cx="72" cy="47" rx="42" ry="34" fill="#E8B23A"/>
+<path class="sh" d="M36 64.5A42 34 0 0 0 108 64.5C90 75 54 75 36 64.5z" fill="#B8841A" opacity=".55"/>
+<path d="M52 17.1C46 35 46 59 52 76.9A42 34 0 0 0 64 80.4C60 61 60 33 64 13.6A42 34 0 0 0 52 17.1z" fill="#FFFDF8"/>
+<path d="M76 13.2C80 31 80 63 76 80.8A42 34 0 0 0 88 78.4C93 61 93 33 88 15.6A42 34 0 0 0 76 13.2z" fill="#FFFDF8"/>
+<path d="M77 54C71 47 64 48 62 52C65 59 72 60 77 54z" fill="#CE4029"/>
+<path d="M106 57c2 3 6 3 8 0" stroke="#16140F" stroke-width="2" fill="none" stroke-linecap="round"/><g class="o-eyes"><circle cx="101" cy="41" r="3.4" fill="#16140F"/><circle cx="99.8" cy="39.8" r="1.2" fill="#FFFDF8"/></g><ellipse cx="98" cy="53" rx="5" ry="3" fill="#E59A82" opacity=".85"/></svg>

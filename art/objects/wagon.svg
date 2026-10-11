@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 120" width="104" height="120">
+<rect x="12" y="32" width="80" height="56" rx="3" fill="#E8B23A"/>
+<rect class="sh" x="12" y="34" width="80" height="5" fill="#B8841A"/>
+<rect x="12" y="72" width="80" height="14" fill="#B8841A"/>
+<rect x="20" y="42" width="26" height="22" rx="5" fill="#DDEBF7"/>
+<path class="sh" d="M20 55h26v4c0 3-2 5-5 5H25c-3 0-5-2-5-5z" fill="#B9D3EC"/>
+<rect x="58" y="42" width="26" height="22" rx="5" fill="#DDEBF7"/>
+<path class="sh" d="M58 55h26v4c0 3-2 5-5 5H63c-3 0-5-2-5-5z" fill="#B9D3EC"/>
+<rect x="7" y="24" width="90" height="11" rx="4" fill="#2F5C88"/>
+<rect x="8" y="84" width="88" height="10" rx="4" fill="#4A453D"/>
+<rect x="3" y="86" width="8" height="6" rx="2" fill="#4A453D"/>
+<rect x="93" y="86" width="8" height="6" rx="2" fill="#4A453D"/>
+<g class="o-wheel"><circle cx="32" cy="102" r="13" fill="#16140F"/><circle cx="32" cy="102" r="5" fill="#E9DFCF"/><rect x="30.5" y="91" width="3" height="6" rx="1.5" fill="#4A453D"/></g>
+<g class="o-wheel"><circle cx="72" cy="102" r="13" fill="#16140F"/><circle cx="72" cy="102" r="5" fill="#E9DFCF"/><rect x="70.5" y="91" width="3" height="6" rx="1.5" fill="#4A453D"/></g></svg>

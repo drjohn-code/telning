@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 148 82" width="148" height="82">
+<rect x="26" y="14" width="6" height="10" fill="#4A453D"/>
+<rect x="80" y="14" width="6" height="10" fill="#4A453D"/>
+<rect x="4" y="22" width="90" height="42" rx="4" fill="#CE4029"/>
+<path d="M92 22h22c5 0 8 2 11 7l9 15c1 2 2 4 2 7v13H92z" fill="#CE4029"/>
+<path d="M100 28h14c2 0 4 1 5 3l7 13h-26z" fill="#DDEBF7"/>
+<path d="M4 42h132v8H4z" fill="#FFFDF8"/>
+<path d="M4 54h132v6c0 2-2 4-4 4H8c-2 0-4-2-4-4z" fill="#A9321D"/>
+<rect x="12" y="28" width="30" height="10" rx="2" fill="#EA7A62"/>
+<rect x="50" y="28" width="34" height="10" rx="2" fill="#EA7A62"/>
+<path d="M102 22a6 6 0 0 1 12 0z" fill="#F6D27E"/>
+<circle cx="130" cy="39" r="3.5" fill="#F6D27E"/>
+<rect x="128" y="56" width="16" height="8" rx="3" fill="#4A453D"/>
+<path d="M4 4h112v12H4zM9 8v4h9V8zM22 8v4h9V8zM35 8v4h9V8zM48 8v4h9V8zM61 8v4h9V8zM74 8v4h9V8zM87 8v4h9V8zM100 8v4h11V8z" fill="#E8B23A"/>
+<g class="o-wheel"><circle cx="30" cy="64" r="13" fill="#16140F"/><circle cx="30" cy="64" r="5" fill="#E9DFCF"/><rect x="28.5" y="53" width="3" height="6" rx="1.5" fill="#4A453D"/></g>
+<g class="o-wheel"><circle cx="112" cy="64" r="13" fill="#16140F"/><circle cx="112" cy="64" r="5" fill="#E9DFCF"/><rect x="110.5" y="53" width="3" height="6" rx="1.5" fill="#4A453D"/></g></svg>
