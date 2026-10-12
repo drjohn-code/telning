@@ -92,7 +92,8 @@ export function customerText(o, { contact }) {
 
 /**
  * input: { raw, signature }
- * deps:  { secret, catalog, stripe(method, path, params), sendEmail, inbox, from, contact, partners: { lulu?, printful?, gelato? }, log }
+ * deps:  { secret, catalog, stripe(method, path, params), sendEmail, inbox, from, contact, partners: { lulu?, printful?, gelato? }, log,
+ *          db?: { recordOrder(order), logEmail({…}) }, render?: (template, data) → { subject, html, text } }
  */
 export async function handleWebhook({ raw, signature }, deps) {
   const { log = () => {} } = deps;
@@ -109,6 +110,12 @@ export async function handleWebhook({ raw, signature }, deps) {
   const r = await deps.stripe('GET', `/checkout/sessions/${encodeURIComponent(s0.id)}`, { expand: ['line_items.data.price.product'] });
   if (r.status !== 200) { log({ event: 'session-read-failed', status: r.status }); return { status: 502, body: { ok: false, error: 'stripe' } }; }
   const order = orderFrom(r.json, deps.catalog);
+  order.paymentIntent = typeof r.json.payment_intent === 'string' ? r.json.payment_intent : r.json.payment_intent?.id || null;
+  order.subtotal = r.json.amount_subtotal ?? null;
+  // the database (when connected): customers, orders, items, fulfilments; a repeat of the same session is ignored
+  let saved = null;
+  if (deps.db) { try { saved = await deps.db.recordOrder(order); } catch (e) { log({ event: 'db-failed' }); } }
+  if (saved && saved.duplicate) { log({ event: 'duplicate', number: order.number }); return { status: 200, body: { ok: true, duplicate: true } }; }
 
   // printers that are connected get their part now; the rest is placed by hand from the team email
   const sent = {};
@@ -123,8 +130,13 @@ export async function handleWebhook({ raw, signature }, deps) {
     await deps.sendEmail({ to: deps.inbox, from: deps.from, replyTo: order.email || undefined, subject: `${order.live ? 'Order' : 'TEST order'} ${order.number}: ${order.items.reduce((a, i) => a + i.qty, 0)} item(s), ${Object.keys(order.parts).length} printer(s)`, text: teamText(order) + (status ? `\n\nPrinter APIs:\n${status}` : '') });
   } catch { log({ event: 'team-email-failed' }); return { status: 500, body: { ok: false, error: 'email' } }; }
   if (order.email) {
-    try { await deps.sendEmail({ to: order.email, from: deps.from, replyTo: deps.contact, subject: `Your Telning order ${order.number}`, text: customerText(order, { contact: deps.contact }) }); }
-    catch { log({ event: 'customer-email-failed' }); }
+    const subject = `Your Telning order ${order.number}`;
+    const text = customerText(order, { contact: deps.contact });
+    const html = deps.render ? deps.render('order-confirmation', { order, contact: deps.contact }).html : undefined;
+    try {
+      await deps.sendEmail({ to: order.email, from: deps.from, replyTo: deps.contact, subject, text, html });
+      if (deps.db) await deps.db.logEmail({ template: 'order-confirmation', to: order.email, subject, orderId: saved?.orderId || null });
+    } catch { log({ event: 'customer-email-failed' }); if (deps.db) await deps.db.logEmail({ template: 'order-confirmation', to: order.email, subject, orderId: saved?.orderId || null, status: 'failed' }); }
   }
   log({ event: 'order', live: order.live, items: order.items.length, printers: Object.keys(order.parts) });
   return { status: 200, body: { ok: true } };

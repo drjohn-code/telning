@@ -1,0 +1,19 @@
+---
+import Admin from '../../layouts/Admin.astro';
+---
+<Admin title="Order" page="/admin/orders">
+  <h2 class="ad-h1" data-title style="margin-bottom:var(--s3)">Order</h2>
+  <div class="ad-grid2">
+    <section class="ad-card"><h2>Customer and delivery</h2><div data-summary></div></section>
+    <section class="ad-card"><h2>Status and notes</h2>
+      <div class="ad-form">
+        <label class="ad-field"><span>Status</span><select data-order-status>{['paid', 'making', 'shipped', 'delivered', 'cancelled', 'refunded', 'returned'].map((s) => <option value={s}>{s}</option>)}</select></label>
+        <label class="ad-field"><span>Notes (internal)</span><textarea class="ad-note" data-order-notes></textarea></label>
+        <div class="ad-actions"><button class="tn-btn" type="button" data-save-order>Save</button><button class="tn-btn tn-btn--secondary" type="button" data-add-followup>Add a follow-up</button></div>
+      </div>
+    </section>
+  </div>
+  <section class="ad-card"><h2>Items</h2><div data-items></div></section>
+  <section class="ad-card"><h2>Parcels and tracking</h2><div data-parcels></div></section>
+  <section class="ad-card"><h2>Emails sent</h2><div data-emails></div></section>
+</Admin>

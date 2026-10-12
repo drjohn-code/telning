@@ -1,0 +1,70 @@
+{
+  "order-confirmation": {
+    "subject": "Your Telning order {{number}}",
+    "kind": "transactional"
+  },
+  "order-making": {
+    "subject": "We are making your order {{number}}",
+    "kind": "transactional"
+  },
+  "order-shipped": {
+    "subject": "A parcel from your order {{number}} is on its way",
+    "kind": "transactional"
+  },
+  "order-delivered": {
+    "subject": "Your Telning parcel has arrived",
+    "kind": "transactional"
+  },
+  "review-request": {
+    "subject": "How was the story, {{first}}?",
+    "kind": "transactional"
+  },
+  "story-card": {
+    "subject": "Your story card from Pim",
+    "kind": "transactional"
+  },
+  "newsletter-confirm": {
+    "subject": "Please confirm: Letters from Pim",
+    "kind": "transactional"
+  },
+  "newsletter-welcome": {
+    "subject": "Welcome to Letters from Pim",
+    "kind": "marketing"
+  },
+  "quote-received": {
+    "subject": "We received your request, {{organisation}}",
+    "kind": "transactional"
+  },
+  "invoice-sent": {
+    "subject": "Your invoice from Telning, {{organisation}}",
+    "kind": "transactional"
+  },
+  "return-received": {
+    "subject": "Your return request, order {{number}}",
+    "kind": "transactional"
+  },
+  "auth-reset": {
+    "subject": "Reset your Telning admin password",
+    "kind": "transactional"
+  },
+  "auth-magic": {
+    "subject": "Your Telning admin sign-in link",
+    "kind": "transactional"
+  },
+  "letters-from-pim": {
+    "subject": "{{subject}}",
+    "kind": "marketing"
+  },
+  "series-launch": {
+    "subject": "New: {{series}} is out",
+    "kind": "marketing"
+  },
+  "gift-guide": {
+    "subject": "Gifts that keep the story going",
+    "kind": "marketing"
+  },
+  "abandoned-checkout": {
+    "subject": "Your basket is still here",
+    "kind": "marketing"
+  }
+}

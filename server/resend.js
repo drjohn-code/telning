@@ -18,11 +18,12 @@ export async function resendApi(method, path, body) {
 }
 
 /** Send one email. attachments: [{ filename, content: Buffer }]. Throws when Resend refuses. */
-export async function sendEmail({ to, from, replyTo, subject, text, attachments = [] }) {
+export async function sendEmail({ to, from, replyTo, subject, text, html, attachments = [], headers }) {
   if (!hasKey()) throw new Error('no email service');
   const r = await resendApi('POST', '/emails', {
-    from, to: [to], ...(replyTo ? { reply_to: replyTo } : {}), subject, text,
+    from, to: [to], ...(replyTo ? { reply_to: replyTo } : {}), subject, text, ...(html ? { html } : {}), ...(headers ? { headers } : {}),
     ...(attachments.length ? { attachments: attachments.map((a) => ({ filename: a.filename, content: a.content.toString('base64') })) } : {}),
   });
   if (r.status < 200 || r.status >= 300) throw new Error(`email ${r.status}`);
+  return r.json && r.json.id;
 }

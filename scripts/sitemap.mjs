@@ -7,8 +7,15 @@ import { fileURLToPath } from 'node:url';
 const ROOT = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const DIST = join(ROOT, 'dist');
 const seo = JSON.parse(readFileSync(join(ROOT, 'src/data/seo.json'), 'utf8'));
-const { shopPages } = await import('../server/catalog-data.js');
+const { shopPages, catalog } = await import('../server/catalog-data.js');
 seo.pages = { ...shopPages, ...seo.pages };   // the shop's generated pages (server/shop-seo.js)
+const esc = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+// product photos per page (Google Images): the product pages carry their five photos, the collections their hero
+const imagesOf = (path) => {
+  const p = catalog.products.find((x) => x.url === path);
+  if (p) return p.images.map((im, i) => ({ loc: `${seo.host}${im.src}-1200.webp`, title: i === 0 ? p.name : `${p.name}: ${im.view.replace('-', ' ')}` }));
+  return [];
+};
 
 const urls = [];
 for (const [path, p] of Object.entries(seo.pages)) {
@@ -18,8 +25,9 @@ for (const [path, p] of Object.entries(seo.pages)) {
   const isPreview = !!process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'production';
   if (!isPreview && /<meta name="robots" content="noindex/.test(readFileSync(file, 'utf8'))) continue;
   if (!/^\d{4}-\d{2}-\d{2}$/.test(p.lastmod || '')) throw new Error(`sitemap: ${path} needs a real lastmod (YYYY-MM-DD) in seo.json`);
-  urls.push(`  <url><loc>${seo.host}${path === '/' ? '/' : path}</loc><lastmod>${p.lastmod}</lastmod></url>`);
+  const imgs = imagesOf(path).map((im) => `<image:image><image:loc>${esc(im.loc)}</image:loc><image:title>${esc(im.title)}</image:title></image:image>`).join('');
+  urls.push(`  <url><loc>${seo.host}${path === '/' ? '/' : path}</loc><lastmod>${p.lastmod}</lastmod>${imgs}</url>`);
 }
-const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`;
+const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${urls.join('\n')}\n</urlset>\n`;
 writeFileSync(join(DIST, 'sitemap.xml'), xml);
 console.log(`sitemap: ${urls.length} URL(s) written to dist/sitemap.xml`);

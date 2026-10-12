@@ -5,6 +5,9 @@
 import { handleSubscribe } from '../server/subscribe.js';
 import { hasKey, resendApi, sendEmail } from '../server/resend.js';
 import site from '../src/data/site-data.json' with { type: 'json' };
+import { hasDb, upsert, select, update } from '../server/supabase.js';
+import { render } from '../server/emails.js';
+import { startOptIn } from '../server/newsletter.js';
 
 const INBOX = process.env.STORY_CARD_INBOX || site.storyCard?.inbox || site.contactEmail || '';
 const FROM = process.env.STORY_CARD_FROM || 'Telning <no-reply@telning.com>';
@@ -23,6 +26,7 @@ export async function POST(request) {
   const ip = (request.headers.get('x-forwarded-for') || '').split(',')[0].trim() || 'unknown';
   const result = await handleSubscribe({ fields, ip }, {
     api: hasKey() ? resendApi : null, sendEmail, inbox: INBOX, from: FROM,
+    optIn: hasDb() && hasKey() ? (email, list) => startOptIn(email, list, { db: { upsert, select, update }, sendEmail, render, from: FROM }) : null,
     log: (o) => console.log('subscribe', JSON.stringify(o)),
   });
   const json = (request.headers.get('content-type') || '').includes('application/json') || (request.headers.get('accept') || '').includes('application/json');

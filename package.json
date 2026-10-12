@@ -13,14 +13,23 @@
     "test:e2e": "playwright test",
     "check": "node scripts/sitemap.mjs && node scripts/claims-lint.mjs && node scripts/seo-check.mjs",
     "indexnow": "node scripts/indexnow.mjs",
-    "test:privacy": "node --test tests/privacy.test.mjs tests/story-card-function.test.mjs tests/subscribe.test.mjs tests/shop.test.mjs"
+    "test:privacy": "node --test tests/privacy.test.mjs tests/story-card-function.test.mjs tests/subscribe.test.mjs tests/shop.test.mjs tests/emails.test.mjs",
+    "emails:build": "node scripts/emails/build.mjs",
+    "emails:test-send": "node scripts/emails/send-test.mjs",
+    "photos": "node scripts/shop/build-photos.mjs all",
+    "walls": "node scripts/shop/build-walls.mjs --review",
+    "audit:shots": "node scripts/audit/shots.mjs",
+    "admin:create": "node scripts/create-admin.mjs",
+    "db:seed": "node scripts/seed.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.132.0",
+    "@supabase/supabase-js": "^2.117.3",
     "astro": "^7.3.6"
   },
   "devDependencies": {
-    "@playwright/test": "^1.64.0"
+    "@playwright/test": "^1.64.0",
+    "mjml": "^5.4.1"
   },
   "engines": {
     "node": ">=22"

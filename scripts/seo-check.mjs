@@ -33,7 +33,7 @@ const pagePath = (file) => {
 const attr = (html, re) => { const m = html.match(re); return m ? m[1] : ''; };
 const text = (html) => html.replace(/<script[\s\S]*?<\/script>/gi, ' ').replace(/<style[\s\S]*?<\/style>/gi, ' ').replace(/<svg[\s\S]*?<\/svg>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 
-const pages = [...htmlFiles(DIST)].map((file) => ({ file, path: pagePath(file), html: readFileSync(file, 'utf8') }));
+const pages = [...htmlFiles(DIST)].map((file) => ({ file, path: pagePath(file), html: readFileSync(file, 'utf8') })).filter((p) => !p.path.startsWith('/admin'));   // the admin is noindex and private
 const inbound = {};
 for (const p of pages) for (const m of p.html.matchAll(/<a [^>]*href="(\/[^"#?]*)/g)) {
   const to = m[1].replace(/\/$/, '') || '/';

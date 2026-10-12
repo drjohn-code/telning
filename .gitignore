@@ -7,3 +7,6 @@ test-results/
 playwright-report/
 review/
 art/print/
+.admin-credentials.local
+.env*.local
+supabase/.temp/

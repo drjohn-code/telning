@@ -52,6 +52,10 @@ export async function handleSubscribe(input, deps) {
   if (!EMAIL_RE.test(email) || email.length > 254) return done(400, { ok: false, error: 'invalid' });
   if (!deps.api) return done(503, { ok: false, error: 'notReady' });
 
+  // 0. Double opt-in when the database is connected: the row and the "please confirm" email; the Resend contact
+  //    still follows, so nothing changes for the sign-up itself.
+  if (deps.optIn) { try { await deps.optIn(email, list); } catch (e) { log({ event: 'optin-failed' }); } }
+
   // 1. Resend contact in the list's segment
   let why = '';
   try {

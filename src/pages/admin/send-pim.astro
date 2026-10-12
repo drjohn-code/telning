@@ -1,0 +1,8 @@
+---
+import Admin from '../../layouts/Admin.astro';
+---
+<Admin title="Send Pim submissions" page="/admin/send-pim">
+  <Fragment slot="tools"><button class="tn-btn tn-btn--secondary" type="button" data-csv>CSV</button></Fragment>
+  <p class="ad-small" style="margin:0 0 var(--s3)">A book choice, an ending, a first name and a parent's email. No photos are stored. Rows are deleted 30 days after the card is sent.</p>
+  <div data-list><div class="ad-empty">Loading…</div></div>
+</Admin>

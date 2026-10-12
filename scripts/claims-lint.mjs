@@ -45,6 +45,7 @@ function pagePath(file) {
 let hits = 0;
 for (const file of htmlFiles(DIST)) {
   const page = pagePath(file);
+  if (page.startsWith('/admin')) continue;   // private, noindex
   const allowed = Object.entries(ALLOW).filter(([p]) => page.startsWith(p)).flatMap(([, l]) => l);
   let text = textOf(readFileSync(file, 'utf8'));
   for (const src of allowed) text = text.replace(new RegExp(`(?<![\\w-])(?:${src})(?![\\w-])`, 'gi'), ' ');

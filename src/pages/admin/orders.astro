@@ -1,0 +1,13 @@
+---
+import Admin from '../../layouts/Admin.astro';
+---
+<Admin title="Orders" page="/admin/orders">
+  <Fragment slot="tools">
+    <input class="tn-input" type="search" placeholder="Search number, email, name" data-search aria-label="Search orders" />
+    <select data-status aria-label="Status"><option value="">All statuses</option>{['paid', 'making', 'shipped', 'delivered', 'cancelled', 'refunded', 'returned'].map((s) => <option value={s}>{s}</option>)}</select>
+    <select data-partner aria-label="Partner"><option value="">All partners</option><option value="lulu">Books</option><option value="printful">Story Walls, mugs, totes</option><option value="gelato">Cards</option></select>
+    <input class="tn-input" type="text" placeholder="Country (SE)" data-country aria-label="Country" style="width:120px" />
+    <button class="tn-btn tn-btn--secondary" type="button" data-csv>CSV</button>
+  </Fragment>
+  <div data-list><div class="ad-empty">Loading…</div></div>
+</Admin>

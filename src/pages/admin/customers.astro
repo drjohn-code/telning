@@ -1,0 +1,7 @@
+---
+import Admin from '../../layouts/Admin.astro';
+---
+<Admin title="Customers" page="/admin/customers">
+  <Fragment slot="tools"><input class="tn-input" type="search" placeholder="Search email or name" data-search aria-label="Search customers" /><button class="tn-btn tn-btn--secondary" type="button" data-csv>CSV</button></Fragment>
+  <div data-list><div class="ad-empty">Loading…</div></div>
+</Admin>

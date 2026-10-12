@@ -1,0 +1,8 @@
+---
+import Admin from '../../layouts/Admin.astro';
+---
+<Admin title="Products" page="/admin/products">
+  <Fragment slot="tools"><button class="tn-btn tn-btn--secondary" type="button" data-csv>CSV</button></Fragment>
+  <p class="ad-small" style="margin:0 0 var(--s3)">Read-only. Prices and texts live in the data files in the repository; this list shows each product's status.</p>
+  <div data-list><div class="ad-empty">Loading…</div></div>
+</Admin>

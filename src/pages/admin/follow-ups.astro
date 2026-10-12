@@ -1,0 +1,8 @@
+---
+import Admin from '../../layouts/Admin.astro';
+---
+<Admin title="Follow-ups" page="/admin/follow-ups">
+  <Fragment slot="tools"><select data-status aria-label="Status"><option value="">Open and waiting</option><option value="open">open</option><option value="waiting">waiting</option><option value="done">done</option></select><button class="tn-btn tn-btn--secondary" type="button" data-check-stale>Check parcels with no update for 3 days</button><button class="tn-btn tn-btn--secondary" type="button" data-csv>CSV</button></Fragment>
+  <div class="ad-tabs" role="tablist"><button type="button" role="tab" data-tab="partner" aria-selected="true">From partners</button><button type="button" role="tab" data-tab="customer" aria-selected="false">From customers</button></div>
+  <div data-list><div class="ad-empty">Loading…</div></div>
+</Admin>

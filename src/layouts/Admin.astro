@@ -1,0 +1,55 @@
+---
+/* The admin panel layout: noindex/nofollow, not in the sitemap, the site fonts, a left menu, desktop first but
+   works on a phone. Pages are static shells; src/scripts/admin.js signs in with Supabase Auth (email + password),
+   checks admin_users and fills the tables with RLS-protected reads. Env (build time): PUBLIC_SUPABASE_URL,
+   PUBLIC_SUPABASE_ANON_KEY. The service role key is never here. */
+import '../styles/tokens.css';
+import '../styles/telning.css';
+import '../styles/admin.css';
+interface Props { title: string; page: string }
+const { title, page } = Astro.props;
+const url = import.meta.env.PUBLIC_SUPABASE_URL || '';
+const anon = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
+const NAV = [['/admin', 'Dashboard'], ['/admin/orders', 'Orders'], ['/admin/customers', 'Customers'], ['/admin/follow-ups', 'Follow-ups'], ['/admin/newsletter', 'Newsletter'], ['/admin/quotes', 'Organisation quotes'], ['/admin/send-pim', 'Send Pim'], ['/admin/emails', 'Emails'], ['/admin/products', 'Products'], ['/admin/password', 'Change password']];
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{title} · Telning admin</title>
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#f6f1e8">
+</head>
+<body class="ad" data-admin-page={page} data-supabase-url={url} data-supabase-anon={anon}>
+  <div class="ad-login" data-login hidden>
+    <form class="ad-login__card" data-login-form>
+      <p class="ad-brand">Telning <span>admin</span></p>
+      <h1 class="ad-h1">Sign in</h1>
+      <label class="ad-field"><span>Email</span><input class="tn-input" type="email" name="email" autocomplete="username" required /></label>
+      <label class="ad-field"><span>Password</span><input class="tn-input" type="password" name="password" autocomplete="current-password" required minlength="12" /></label>
+      <p class="ad-msg" data-login-msg role="alert" hidden></p>
+      <button class="tn-btn tn-btn--block" type="submit">Sign in</button>
+      <p class="ad-small">Only Telning admins. Five wrong tries lock the form for a minute. Sessions end after 30 minutes without activity.</p>
+    </form>
+  </div>
+  <div class="ad-app" data-app hidden>
+    <aside class="ad-side">
+      <p class="ad-brand"><a href="/admin">Telning <span>admin</span></a></p>
+      <nav aria-label="Admin"><ul>{NAV.map(([href, label]) => <li><a href={href} aria-current={href === page ? 'page' : undefined}>{label}</a></li>)}</ul></nav>
+      <p class="ad-side__foot"><span data-user-email></span><br><button class="ad-linkbtn" type="button" data-signout>Sign out</button><br><a href="/" target="_blank" rel="noopener">Open the site</a></p>
+    </aside>
+    <main class="ad-main" id="main">
+      <header class="ad-top"><h1 class="ad-h1">{title}</h1><div class="ad-top__tools"><slot name="tools" /></div></header>
+      <p class="ad-msg" data-page-msg role="status" hidden></p>
+      <slot />
+    </main>
+  </div>
+  <p class="ad-notconf" data-notconf hidden>The admin is not configured yet: set <code>PUBLIC_SUPABASE_URL</code> and <code>PUBLIC_SUPABASE_ANON_KEY</code> in Vercel (and <code>SUPABASE_SERVICE_ROLE_KEY</code> for the server), run the migration in <code>supabase/migrations</code> and <code>scripts/create-admin.mjs</code>.</p>
+  <script>
+    import '../scripts/admin.js';
+  </script>
+</body>
+</html>

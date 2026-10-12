@@ -18,17 +18,17 @@ Running log so work can continue after a context reset. Keep it short: done / do
 - [x] 1 Audit (audit/before 145 shots, Lighthouse 6 pages × 2, docs/audit/premium-audit.md) DONE
 - [x] 2 Research: docs/research/premium-benchmark.md + seo-keywords.md DONE (committed)
 - [x] 3 Design system + details DONE (committed 8972e6e)
-- [~] 4 Imagery: Story Walls (scripts/shop/scenes/walls.mjs, lib/wall.mjs, build-walls.mjs), covers with Pim (lib/cover.mjs), gift art with Pim (lib/giftart.mjs), photo scenes (lib/photos.mjs), pipeline (build-photos.mjs → AVIF+WebP, src/data/shop-images.json). 81 folders rendered, old folders removed. TODO: 300-dpi print PNGs for 3 launch series, final 100% check.
-- [~] 5 Copy: shop.json, materials, shipping-returns, legal, tada, about, teachers rewritten; catalog renamed (Story Wall, names, URLs); vercel.json 301s. TODO: build passes, final grep.
-- [~] 6 Shop UX: ProductPage rewritten (descriptor, scene line, trust row, delivery estimate), Picture component, packs without age step (catalog.js packChoice, organisations.astro, shop.js, api/checkout.js). TODO: tests, basket flow check.
-- [ ] 7 SEO
-- [ ] 8 Emails (MJML, Resend, preview route)
-- [ ] 9 Admin + Supabase (migrations, scripts, admin pages)
+- [x] 4 Imagery (committed ed9388c): Story Walls (scripts/shop/scenes/walls.mjs, lib/wall.mjs, build-walls.mjs), covers with Pim (lib/cover.mjs), gift art with Pim (lib/giftart.mjs), photo scenes (lib/photos.mjs), pipeline (build-photos.mjs → AVIF+WebP, src/data/shop-images.json). 81 folders rendered, old folders removed. TODO: 300-dpi print PNGs for 3 launch series, final 100% check.
+- [x] 5 Copy (committed ed9388c): shop.json, materials, shipping-returns, legal, tada, about, teachers rewritten; catalog renamed (Story Wall, names, URLs); vercel.json 301s. TODO: build passes, final grep.
+- [x] 6 Shop UX (committed ed9388c): ProductPage rewritten (descriptor, scene line, trust row, delivery estimate), Picture component, packs without age step (catalog.js packChoice, organisations.astro, shop.js, api/checkout.js). TODO: tests, basket flow check.
+- [x] 7 SEO: sitemap with images, robots blocks /admin /cart /checkout /api /basket, llms.txt, titles/descriptions, JSON-LD Product+Offer+shipping, 301s. TODO: Lighthouse after.
+- [x] 8 Emails: emails/layout.mjs + templates.mjs (17), scripts/emails/build.mjs → server/emails/compiled.js, server/emails.js render, newsletter double opt-in (server/newsletter.js, api/newsletter-confirm.js, api/newsletter-unsubscribe.js), admin previews /admin/emails, test send script (john@telning.com only).
+- [x] 9 Admin + Supabase: supabase/migrations/0001_shop_admin.sql, server/supabase.js (REST, service role, server only), webhook writes orders, scripts/create-admin.mjs (password prepared in .admin-credentials.local, user NOT created: no key), scripts/seed.mjs, src/pages/admin/* + src/scripts/admin.js + src/layouts/Admin.astro.
 - [ ] 10 QA (after screenshots, flow test, a11y, final grep)
 - [ ] 11 REPORT.md + push
 
 ## Doing
-- Build after the imagery + rename; fix errors; update tests (tests/shop.test.mjs, tests/shop.spec.ts: pack variant is now "book-…,book-…|tote~colour", names changed).
+- Phase 10 QA: after screenshots, Lighthouse after, a11y, final grep; then REPORT.md and push.
 
 ## Decisions (short; full list goes to REPORT.md)
 - Tote colour label "Natural" → "Undyed" (rule 6 bans "natural"); variant key `natural` stays in code/URLs.
@@ -40,4 +40,4 @@ Running log so work can continue after a context reset. Keep it short: done / do
 - No image API key on this machine: all product photos are code renders of the real print art (allowed by the brief); a real photoshoot list goes in REPORT.md.
 
 ## Needs a human
-- No `.env` locally: Stripe, Resend, Supabase and image-API keys are not on this machine.
+- No `.env` locally: Stripe, Resend, Supabase and image-API keys are not on this machine. Admin user not created yet (needs SUPABASE_SERVICE_ROLE_KEY): run `SUPABASE_SERVICE_ROLE_KEY=… node scripts/create-admin.mjs`; the prepared password is in .admin-credentials.local.
