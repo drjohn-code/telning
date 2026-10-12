@@ -104,7 +104,7 @@ const scene = sceneLine(p);
 const pimLine = p.type === 'book' ? 'I can’t wait to see which ending you choose.' : p.type === 'poster' ? 'Can you find me on the wall?' : null;
 const cert = p.type === 'tote' ? 'GOTS · OEKO-TEX' : p.type === 'mug' ? 'Food-safe ceramic' : 'FSC-certified paper';
 ---
-<Base page={p.url} jsonld={[ld]}>
+<Base page={p.url} jsonld={[ld]} preload={{ src: images[0].src }}>
   <Header />
   <main id="main" tabindex="-1">
     <div class="tn-wrap"><Breadcrumbs page={p.url} /></div>

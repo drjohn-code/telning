@@ -1,0 +1,6 @@
+basket-mobile    perf=99 acce=100 best=100 seo=69 LCP=2.0 s CLS=0 TBT=0 ms
+book-mobile      perf=96 acce=100 best=100 seo=100 LCP=2.8 s CLS=0 TBT=0 ms
+books-mobile     perf=95 acce=100 best=100 seo=100 LCP=2.9 s CLS=0 TBT=0 ms
+gifts-mobile     perf=95 acce=100 best=100 seo=100 LCP=2.8 s CLS=0 TBT=0 ms
+home-mobile      perf=99 acce=100 best=100 seo=100 LCP=1.8 s CLS=0 TBT=20 ms
+mug-mobile       perf=97 acce=100 best=100 seo=100 LCP=2.6 s CLS=0 TBT=0 ms

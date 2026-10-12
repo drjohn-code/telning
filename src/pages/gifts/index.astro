@@ -24,7 +24,7 @@ const products = GIFT_TYPES.flatMap((t: string) => catalog.products.filter((p: a
 const from = (t: string) => { const p: any = products.find((x: any) => x.type === t); const pr = p.variants ? p.variants[0].price : p.price; return Object.fromEntries(['EUR', 'GBP', 'USD', 'CAD'].map((c) => [`data-${c.toLowerCase()}`, money(pr[c], c, (shop.currencies as any)[c].locale)])); };
 const occasions = [...new Set(products.map((p: any) => p.occasion).filter(Boolean))] as string[];
 ---
-<Base page={PAGE}>
+<Base page={PAGE} preload={{ src: view('mug-the-moon', 'breakfast'), sizes: '(min-width: 1024px) 520px, 100vw' }}>
   <Header />
   <main id="main" tabindex="-1">
     <section class="tn-wrap tn-shophero" aria-labelledby="page-h">

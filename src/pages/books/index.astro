@@ -21,7 +21,7 @@ const STEPS = [
   { h: 'Draw it', t: 'The last page is empty. Your child draws the ending they chose, then you can send it to Pim.' },
 ];
 ---
-<Base page={PAGE} jsonld={ld}>
+<Base page={PAGE} jsonld={ld} preload={{ src: view('book-star-hoppers-3-5', 'table'), sizes: '(min-width: 1024px) 520px, 100vw' }}>
   <Header />
   <main id="main" tabindex="-1">
     <section class="tn-wrap tn-shophero" aria-labelledby="page-h">

@@ -24,11 +24,11 @@ Running log so work can continue after a context reset. Keep it short: done / do
 - [x] 7 SEO: sitemap with images, robots blocks /admin /cart /checkout /api /basket, llms.txt, titles/descriptions, JSON-LD Product+Offer+shipping, 301s. TODO: Lighthouse after.
 - [x] 8 Emails: emails/layout.mjs + templates.mjs (17), scripts/emails/build.mjs → server/emails/compiled.js, server/emails.js render, newsletter double opt-in (server/newsletter.js, api/newsletter-confirm.js, api/newsletter-unsubscribe.js), admin previews /admin/emails, test send script (john@telning.com only).
 - [x] 9 Admin + Supabase: supabase/migrations/0001_shop_admin.sql, server/supabase.js (REST, service role, server only), webhook writes orders, scripts/create-admin.mjs (password prepared in .admin-credentials.local, user NOT created: no key), scripts/seed.mjs, src/pages/admin/* + src/scripts/admin.js + src/layouts/Admin.astro.
-- [ ] 10 QA (after screenshots, flow test, a11y, final grep)
-- [ ] 11 REPORT.md + push
+- [x] 10 QA: audit/after (145 shots), Lighthouse after, tests/flow.test.mjs, a11y 100, final grep clean
+- [x] 11 REPORT.md written; push after the final commit
 
 ## Doing
-- Phase 10 QA: after screenshots, Lighthouse after, a11y, final grep; then REPORT.md and push.
+- Final commit and push. Open: mobile lab LCP 2.6–2.9 s on photo pages (target 2.5).
 
 ## Decisions (short; full list goes to REPORT.md)
 - Tote colour label "Natural" → "Undyed" (rule 6 bans "natural"); variant key `natural` stays in code/URLs.

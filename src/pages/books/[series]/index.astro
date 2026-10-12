@@ -23,7 +23,7 @@ const totalAttrs = (list: any[]) => Object.fromEntries(['EUR', 'GBP', 'USD', 'CA
 const others = site.series.filter((x: any) => x.key !== s.key);
 const ld = [{ '@type': 'CollectionPage', '@id': `https://telning.com${PAGE}#collection`, name: s.name, url: `https://telning.com${PAGE}`, about: s.theme, mainEntity: { '@type': 'ItemList', itemListElement: items.map((p: any, i: number) => ({ '@type': 'ListItem', position: i + 1, url: `https://telning.com${p.url}`, name: p.name })) } }];
 ---
-<Base page={PAGE} jsonld={ld}>
+<Base page={PAGE} jsonld={ld} preload={{ src: view(`poster-${s.key}-5-7`, 'wall'), sizes: '(min-width: 1024px) 520px, 100vw' }}>
   <Header />
   <main id="main" tabindex="-1">
     <section class="tn-wrap tn-shophero tn-shophero--series" aria-labelledby="page-h" style={`--c:var(--${s.colour})`}>

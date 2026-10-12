@@ -23,7 +23,7 @@ const STEPS = [
   { h: 'Three parcels, one address', t: 'The books, the Story Walls and the tote bags arrive in three parcels, to one address.' },
 ];
 ---
-<Base page={PAGE}>
+<Base page={PAGE} preload={{ src: view('pack-classroom', 'pack'), sizes: '(min-width: 1024px) 520px, 100vw' }}>
   <Header />
   <main id="main" tabindex="-1">
     <section class="tn-wrap tn-shophero" aria-labelledby="page-h">

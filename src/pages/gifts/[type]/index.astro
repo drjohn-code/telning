@@ -25,7 +25,7 @@ const HERO: Record<string, string> = { mug: view('mug-the-garden', 'breakfast'),
 const others = GIFT_TYPES.filter((x: string) => x !== t);
 const COVER: Record<string, string> = { mug: view('mug-the-moon', 'white'), tote: view('tote-library-day', 'natural'), postcards: view('postcards-hello-grandma', 'front'), cards: view('cards-birthday-balloons', 'front') };
 ---
-<Base page={PAGE}>
+<Base page={PAGE} preload={{ src: HERO[t], sizes: '(min-width: 1024px) 520px, 100vw' }}>
   <Header />
   <main id="main" tabindex="-1">
     <section class="tn-wrap tn-shophero" aria-labelledby="page-h">

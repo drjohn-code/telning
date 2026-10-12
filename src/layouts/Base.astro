@@ -14,8 +14,9 @@ import strings from '../data/strings.en.json';
 import { allPages, crumbs } from '../lib/shop';
 import BasketDrawer from '../components/shop/BasketDrawer.astro';
 
-interface Props { page: string; jsonld?: Record<string, unknown>[]; ogImage?: string; orgExtra?: Record<string, unknown>; noindex?: boolean; clearBasket?: boolean }
-const { page, jsonld = [], ogImage, orgExtra = {}, noindex: noindexProp = false, clearBasket = false } = Astro.props;
+interface Props { page: string; jsonld?: Record<string, unknown>[]; ogImage?: string; orgExtra?: Record<string, unknown>; noindex?: boolean; clearBasket?: boolean; preload?: { src: string; sizes?: string; widths?: number[] } }
+const { page, jsonld = [], ogImage, orgExtra = {}, noindex: noindexProp = false, clearBasket = false, preload } = Astro.props;
+const pre = preload ? { set: (preload.widths || [600, 1200]).map((w) => `${preload.src}-${w}.avif ${w}w`).join(', '), sizes: preload.sizes || '(min-width: 1024px) 640px, 100vw' } : null;
 
 type Entry = { name: string; title: string; description: string; type?: string; article?: boolean; published?: string; lastmod?: string; sitemap?: boolean; noindex?: boolean; og?: string; parent?: string };
 const entry = (allPages as Record<string, Entry>)[page];
@@ -78,6 +79,7 @@ const verification = (site as { verification?: { google?: string; bing?: string 
   <link rel="manifest" href="/site.webmanifest">
   <link rel="preload" href="/fonts/Fraunces-600.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/InstrumentSans-400.woff2" as="font" type="font/woff2" crossorigin>
+  {pre && <link rel="preload" as="image" type="image/avif" imagesrcset={pre.set} imagesizes={pre.sizes} fetchpriority="high">}
   <meta property="og:type" content={entry.article ? 'article' : 'website'}>
   <meta property="og:site_name" content={site.publisher}>
   <meta property="og:locale" content={seo.locale}>

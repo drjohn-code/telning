@@ -1,0 +1,12 @@
+basket-desktop   100 · 100 · 100 · 69 | LCP 0.4 s CLS 0
+basket-mobile    99 · 100 · 100 · 69 | LCP 2.0 s CLS 0
+book-desktop     100 · 100 · 100 · 100 | LCP 0.6 s CLS 0
+book-mobile      96 · 100 · 100 · 100 | LCP 2.8 s CLS 0
+books-desktop    100 · 100 · 100 · 100 | LCP 0.5 s CLS 0.037
+books-mobile     95 · 100 · 100 · 100 | LCP 2.9 s CLS 0
+gifts-desktop    100 · 100 · 100 · 100 | LCP 0.5 s CLS 0
+gifts-mobile     95 · 100 · 100 · 100 | LCP 2.8 s CLS 0
+home-desktop     100 · 100 · 100 · 100 | LCP 0.4 s CLS 0
+home-mobile      99 · 100 · 100 · 100 | LCP 1.8 s CLS 0
+mug-desktop      100 · 100 · 100 · 100 | LCP 0.5 s CLS 0
+mug-mobile       97 · 100 · 100 · 100 | LCP 2.6 s CLS 0
