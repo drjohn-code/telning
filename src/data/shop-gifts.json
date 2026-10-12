@@ -54,6 +54,54 @@
       "insideHex": "#E59A82",
       "story": null,
       "about": "Pim reads on top of a stack of books. On the other side, the words every grown-up hears at bedtime: “One more page.”"
+    },
+    {
+      "key": "cocoa-cat",
+      "name": "Cocoa Cat",
+      "words": "",
+      "animal": "cat",
+      "occasion": "halloween",
+      "story": null,
+      "placeholder": true,
+      "line": "A witch-hat cat and a warm cup of cocoa.",
+      "about": "A black cat with big round eyes in a tiny witch hat, curled around a steaming cup of cocoa, with one small pumpkin beside it.",
+      "prompt": "halloween/mug/cat"
+    },
+    {
+      "key": "cocoa-ghost",
+      "name": "Cocoa Ghost",
+      "words": "",
+      "animal": "dog",
+      "occasion": "halloween",
+      "story": null,
+      "placeholder": true,
+      "line": "A small dog in a ghost sheet, cocoa at the ready.",
+      "about": "A small brown dog dressed as a friendly ghost in a white sheet with round eye holes, sitting beside a steaming cup of cocoa.",
+      "prompt": "halloween/mug/dog"
+    },
+    {
+      "key": "pumpkin-cats",
+      "name": "Pumpkin Cats",
+      "words": "",
+      "animal": "cats",
+      "occasion": "halloween",
+      "story": null,
+      "placeholder": true,
+      "line": "Three cats peek over one big pumpkin.",
+      "about": "Three cats peeking over the edge of one big orange pumpkin: a ginger cat, a black cat and a grey tabby.",
+      "prompt": "halloween/mug/cats"
+    },
+    {
+      "key": "pumpkin-dogs",
+      "name": "Pumpkin Dogs",
+      "words": "",
+      "animal": "dogs",
+      "occasion": "halloween",
+      "story": null,
+      "placeholder": true,
+      "line": "Three dogs peek over one big pumpkin.",
+      "about": "Three dogs peeking over the edge of one big orange pumpkin: a long dachshund, a small white dog and a floppy-eared brown dog.",
+      "prompt": "halloween/mug/dogs"
     }
   ],
   "tote": [
@@ -98,6 +146,54 @@
       "words": "What would you choose?",
       "story": null,
       "about": "Pim sits and smiles under a question bubble, with Pim’s favourite question: “What would you choose?”"
+    },
+    {
+      "key": "moon-cat",
+      "name": "Moon Cat",
+      "words": "",
+      "animal": "cat",
+      "occasion": "halloween",
+      "story": null,
+      "placeholder": true,
+      "line": "A tall cat in a witch hat under the crescent moon.",
+      "about": "A tall black cat in a pointy witch hat sitting under a big crescent moon, with three small bats and a few stars.",
+      "prompt": "halloween/tote/cat"
+    },
+    {
+      "key": "lantern-dog",
+      "name": "Lantern Dog",
+      "words": "",
+      "animal": "dog",
+      "occasion": "halloween",
+      "story": null,
+      "placeholder": true,
+      "line": "A mummy dog walks proudly with a pumpkin lantern.",
+      "about": "A floppy-eared dog dressed as a mummy in white bandages, walking proudly with a small pumpkin lantern.",
+      "prompt": "halloween/tote/dog"
+    },
+    {
+      "key": "cat-parade",
+      "name": "Cat Parade",
+      "words": "",
+      "animal": "cats",
+      "occasion": "halloween",
+      "story": null,
+      "placeholder": true,
+      "line": "Four cats in costume, in a row under the moon.",
+      "about": "Four cats of different colours in simple witch and mummy costumes sitting in a row under a crescent moon, with small bats above.",
+      "prompt": "halloween/tote/cats"
+    },
+    {
+      "key": "dog-parade",
+      "name": "Dog Parade",
+      "words": "",
+      "animal": "dogs",
+      "occasion": "halloween",
+      "story": null,
+      "placeholder": true,
+      "line": "Four dogs in costume, out with their pumpkin buckets.",
+      "about": "Four dogs of different sizes in simple ghost, mummy and witch-hat costumes walking together with small pumpkin buckets.",
+      "prompt": "halloween/tote/dogs"
     }
   ],
   "postcards": [
@@ -164,6 +260,54 @@
       "occasion": "everyday",
       "story": "star-hoppers",
       "about": "Pim and an owl on a branch under the moon and the stars: for someone far away."
+    },
+    {
+      "key": "moonlight-cat",
+      "name": "Moonlight Cat",
+      "words": "",
+      "animal": "cat",
+      "occasion": "halloween",
+      "story": null,
+      "placeholder": true,
+      "line": "A ginger cat on a stone wall in the moonlight.",
+      "about": "A ginger cat in a striped witch hat sitting on a low stone wall in the moonlight, three small pumpkins at its feet, a crescent moon and small stars.",
+      "prompt": "halloween/postcard/cat"
+    },
+    {
+      "key": "pumpkin-pup",
+      "name": "Pumpkin Pup",
+      "words": "",
+      "animal": "dog",
+      "occasion": "halloween",
+      "story": null,
+      "placeholder": true,
+      "line": "A small dog in a pumpkin costume, deep in the leaves.",
+      "about": "A small dog in a pumpkin costume sitting in a pile of autumn leaves, a crescent moon behind it.",
+      "prompt": "halloween/postcard/dog"
+    },
+    {
+      "key": "pumpkin-patch-cats",
+      "name": "Pumpkin Patch Cats",
+      "words": "",
+      "animal": "cats",
+      "occasion": "halloween",
+      "story": null,
+      "placeholder": true,
+      "line": "A cat family watches the bats over the pumpkin patch.",
+      "about": "A family of cats of different colours watching small bats fly over a pumpkin patch at dusk.",
+      "prompt": "halloween/postcard/cats"
+    },
+    {
+      "key": "trick-or-treat-dogs",
+      "name": "Trick-or-Treat Dogs",
+      "words": "",
+      "animal": "dogs",
+      "occasion": "halloween",
+      "story": null,
+      "placeholder": true,
+      "line": "A dog family out trick-or-treating.",
+      "about": "A family of dogs of different colours in costumes trick-or-treating along a small path past a smiling pumpkin.",
+      "prompt": "halloween/postcard/dogs"
     }
   ],
   "cards": [
@@ -246,6 +390,54 @@
       "occasion": "love",
       "story": "star-hoppers",
       "about": "Pim holds a heart-shaped balloon floating up to the moon: for Valentine’s, Mother’s or Father’s Day."
+    },
+    {
+      "key": "boo-cat",
+      "name": "Boo Cat",
+      "words": "",
+      "animal": "cat",
+      "occasion": "halloween",
+      "story": null,
+      "placeholder": true,
+      "line": "A white cat in a ghost sheet with a paper bat.",
+      "about": "A white cat in a little ghost sheet holding a small paper bat on a string, smiling, with one small pumpkin beside it.",
+      "prompt": "halloween/greeting-card/cat"
+    },
+    {
+      "key": "witch-hat-dog",
+      "name": "Witch Hat Dog",
+      "words": "",
+      "animal": "dog",
+      "occasion": "halloween",
+      "story": null,
+      "placeholder": true,
+      "line": "A spotted dog in a witch hat with a pumpkin lantern.",
+      "about": "A spotted dog in a little witch hat holding a small pumpkin lantern, sitting among a few autumn leaves.",
+      "prompt": "halloween/greeting-card/dog"
+    },
+    {
+      "key": "pumpkin-kittens",
+      "name": "Pumpkin Kittens",
+      "words": "",
+      "animal": "cats",
+      "occasion": "halloween",
+      "story": null,
+      "placeholder": true,
+      "line": "Two kittens in pumpkin hats under the moon.",
+      "about": "Two kittens in tiny pumpkin hats sitting close together under a crescent moon.",
+      "prompt": "halloween/greeting-card/cats"
+    },
+    {
+      "key": "pumpkin-puppies",
+      "name": "Pumpkin Puppies",
+      "words": "",
+      "animal": "dogs",
+      "occasion": "halloween",
+      "story": null,
+      "placeholder": true,
+      "line": "Two puppies in pumpkin hats in the leaves.",
+      "about": "Two puppies in tiny pumpkin hats sitting close together among autumn leaves.",
+      "prompt": "halloween/greeting-card/dogs"
     }
   ],
   "occasions": {
@@ -258,5 +450,6 @@
     "new-baby": "New baby",
     "love": "Love",
     "everyday": "Every day"
-  }
+  },
+  "_halloween": "DRAFT (12 Oct 2026): the Halloween line of cats and dogs, four designs per product (one cat, one dog, many cats, many dogs). `placeholder: true` = no photos yet (a placeholder picture, cannot be ordered). `prompt` points to scripts/catalog/prompts.json; `about` is the picture brief, `line` the one-line card text. No printed words unless John writes them in `words`."
 }

@@ -1,7 +1,7 @@
 {
   "_draft": true,
   "_note": "All text on /about is a draft for a person to check (STRINGS_DRAFT). Team members come from site data team.members; none are invented.",
-  "h1": "Little stories for growing minds",
+  "h1": "The people behind Pim",
   "lead": "A small publishing house in Sweden, made by people who love a good question.",
   "intro": "Telning Publishing House makes wordless picture books for children aged 0 to 7. Each story is coloured by the child, who then chooses how it ends. Behind the books is a small team of cognitive and behavioural scientists in Uppsala, Sweden. Every book and every gift is designed in Sweden by our team of scientists and illustrators, and printed close to you.",
   "made": {
@@ -22,8 +22,8 @@
       {
         "icon": "crayon-forest",
         "c": "moss",
-        "h": "Hand-drawn",
-        "t": "Our illustrator draws every page by hand. No AI pictures inside a Telning book."
+        "h": "Made by a person, with AI tools",
+        "t": "Pictures are made by a person together with AI tools. A person checks every picture."
       },
       {
         "icon": "heart",
@@ -47,12 +47,12 @@
         "t": "We say what a book is, not what it will do. No big claims, no numbers from studies on a cover."
       },
       {
-        "h": "Hand-drawn books",
-        "t": "Every picture inside a Telning book is drawn by a person. No AI pictures inside."
+        "h": "Pictures checked by a person",
+        "t": "Pictures are made by a person together with AI tools. A person checks every picture."
       },
       {
         "h": "Children's privacy",
-        "t": "A story card needs a first name, an age and a drawing. Never a photo of a child. We delete what we do not need."
+        "t": "A story card needs a first name and an age. Never a photo of a child. We delete what we do not need."
       },
       {
         "h": "Quiet emails",

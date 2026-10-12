@@ -78,12 +78,12 @@ const ld: Record<string, unknown> = {
   '@type': p.type === 'book' ? ['Product', 'Book'] : 'Product',
   '@id': `${HOST}${p.url}#product`, name: p.name, sku: p.sku, url: `${HOST}${p.url}`,
   image: p.images.map((im: any) => `${HOST}${im.src}-1200.webp`),
-  description: p.type === 'book' ? `${p.book.hook} ${p.book.story}` : p.type === 'poster' ? `${p.seriesName} Story Wall: a large colouring poster, 100 × 70 cm. ${p.poster.scene}` : `${sceneLine(p)} ${p.design.about}`,
+  description: p.type === 'book' ? `${p.book.hook} ${p.book.story}` : p.type === 'poster' ? `${p.seriesName} Story Wall: a large colouring picture for the wall, 100 × 70 cm. ${p.poster.scene}` : `${sceneLine(p)} ${p.design.about}`,
   brand: { '@type': 'Brand', name: 'Telning' }, manufacturer: { '@id': `${HOST}/#organization` },
   category: p.category === 'books' ? 'Books & posters' : 'Gifts',
   material: p.type === 'tote' ? 'GOTS-certified organic cotton' : p.type === 'mug' ? 'Ceramic' : 'FSC-certified paper',
   ...(p.type === 'book' ? { bookFormat: 'https://schema.org/Paperback', numberOfPages: 32, author: { '@id': `${HOST}/#organization` }, publisher: { '@id': `${HOST}/#organization` }, typicalAgeRange: p.age, alternateName: `${p.seriesName} colouring book, ages ${al}` } : {}),
-  ...(p.type === 'poster' ? { alternateName: `${p.seriesName} large colouring poster, ages ${al}`, size: '100 × 70 cm' } : {}),
+  ...(p.type === 'poster' ? { alternateName: `${p.seriesName} Story Wall, ages ${al}`, size: '100 × 70 cm' } : {}),
   ...(p.age ? { audience: { '@type': 'PeopleAudience', suggestedMinAge: Number(p.age.split('-')[0]), suggestedMaxAge: Number(p.age.split('-')[1]) } } : {}),
   offers: {
     '@type': 'Offer', url: `${HOST}${p.url}`, price: priceOf(p), priceCurrency: 'EUR', availability: 'https://schema.org/InStock', itemCondition: 'https://schema.org/NewCondition',
@@ -134,6 +134,9 @@ const cert = p.type === 'tote' ? 'GOTS · OEKO-TEX' : p.type === 'mug' ? 'Food-s
         <p class="tn-pdp__delivery"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg><span>Made for you after you order. Order today and it arrives <strong class="tn-price" {...winAttrs}>{winAttrs['data-eur']}</strong>.</span></p>
         <p class="tn-pdp__shipfrom">Shipping from <span class="tn-price" {...shipAttrs}>{shipAttrs['data-eur']}</span> per parcel. <a class="tn-link" href="/shipping-returns">Shipping &amp; returns</a></p>
 
+        {p.soon ? (
+          <div class="tn-note tn-note--sky tn-pdp__soon"><h3 class="tn-h3">Coming soon</h3><p class="tn-p">The pictures of this design are on their way. You cannot order it yet.</p></div>
+        ) : (
         <form class="tn-buy" method="post" action="/api/checkout" data-sku={p.sku} data-max={p.maxQty}>
           <input type="hidden" name="sku" value={p.sku} />
           <input type="hidden" name="currency" value="EUR" />
@@ -168,6 +171,7 @@ const cert = p.type === 'tote' ? 'GOTS · OEKO-TEX' : p.type === 'mug' ? 'Food-s
           </div>
           <CurrencySelect id="cur-pdp" class="tn-buy__cur" />
         </form>
+        )}
 
         <ul class="tn-pdp__facts">{t.facts.map((f: string) => <li>{f}</li>)}</ul>
         {pimLine && <PimNote line={pimLine} size="sm" class="tn-pdp__pim" />}
@@ -259,11 +263,13 @@ const cert = p.type === 'tote' ? 'GOTS · OEKO-TEX' : p.type === 'mug' ? 'Food-s
 
     <section class="tn-section tn-section--tight" aria-label="Our promises"><div class="tn-wrap"><TrustBar /></div></section>
 
+    {!p.soon && (
     <div class="tn-buybar" aria-hidden="true">
       <span class="tn-buybar__name">{h1}</span>
       <Price p={p} class="tn-buybar__price" />
       <button class="tn-btn tn-btn--buy" type="button" tabindex="-1" data-buybar>Add to basket</button>
     </div>
+    )}
   </main>
   <Footer />
 </Base>

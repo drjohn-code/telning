@@ -1,5 +1,5 @@
 ---
-/* /send — Send Pim your ending: how it works, the sample card, the form (brief 5.1), privacy in plain words
+/* /send — Send Pim your ending: how it works, the sample card, the form (brief 5.1; no photo upload since 12 Oct 2026, per the v2 plan), privacy in plain words
    (the real flow of src/server/story-card.ts), FAQ. Printed in the books as a QR code: the address never changes;
    no shop links, no prices, none of the words gift, reward, prize, win, free. Copy: src/data/pages/send.json (draft). */
 import Base from '../layouts/Base.astro';
@@ -28,7 +28,7 @@ const bookOptions = booksOut.length ? booksOut : isStaging ? site.series.map((s)
 const ages = Array.from({ length: 10 }, (_, i) => i + 1);
 const faq = t.faq.items.map((it) => ({ q: it.q, a: fill(it.a) }));
 const jsonld = [{ '@type': 'FAQPage', '@id': `${url}#faq`, mainEntity: faq.map((it) => ({ '@type': 'Question', name: it.q, acceptedAnswer: { '@type': 'Answer', text: it.a } })) }];
-const jsStrings = { errors: t.form.errors, stepError: t.form.stepError, sending: t.form.sending, thanksH: t.form.thanksH, thanks: fill(t.form.thanks), submit: t.form.submit, change: t.form.photoChange, maxMb: 10 };
+const jsStrings = { errors: t.form.errors, stepError: t.form.stepError, sending: t.form.sending, thanksH: t.form.thanksH, thanks: fill(t.form.thanks), submit: t.form.submit };
 ---
 <Base page={PAGE} jsonld={jsonld}>
   <Header />
@@ -72,7 +72,6 @@ const jsStrings = { errors: t.form.errors, stepError: t.form.stepError, sending:
         <ol class="tn-progress" aria-label={t.form.progressLabel}>{t.form.progress.map((p, i) => <li><a class="tn-progress__tab" href={`#part-${i + 1}`} data-goto={i + 1} aria-current={i === 0 ? 'step' : undefined}><span class="tn-progress__n" aria-hidden="true">{i + 1}</span><span class="tn-progress__l">{p}</span></a></li>)}</ol>
         <input type="hidden" name="form" value="story-card">
         <input type="hidden" name="lang" value="en">
-        <input type="hidden" name="photoCropped" value="">
 
         <fieldset class="tn-form__part" id="part-1" data-step="1" tabindex="-1">
           <legend class="tn-form__legend"><span class="tn-form__num" aria-hidden="true">1</span>{t.form.part1} <span class="tn-form__note">{t.form.part1Note}</span></legend>
@@ -82,10 +81,6 @@ const jsStrings = { errors: t.form.errors, stepError: t.form.stepError, sending:
           {bookOptions.length > 0 ? (
             <div class="tn-field"><label class="tn-label" for="f-book">{t.form.book}</label><select class="tn-input tn-select" id="f-book" name="book">{bookOptions.map((b) => <option value={b.key}>{b.name}</option>)}<option value="other">{t.form.bookOther}</option></select></div>
           ) : <input type="hidden" name="book" value="other">}
-          <div class="tn-field tn-field--photo"><label class="tn-label" for="f-photo">{t.form.photo}</label><p class="tn-hint" id="f-photo-hint">{t.form.photoHint}</p>
-            <div class="tn-photo"><input class="tn-photo__input" id="f-photo" name="photo" type="file" accept="image/jpeg,image/png,image/heic,image/heif,image/webp,.heic,.heif" required aria-describedby="f-photo-hint f-photo-err"><label class="tn-btn tn-btn--light tn-photo__btn" for="f-photo" data-choose={t.form.photoChoose} data-change={t.form.photoChange}>{t.form.photoChoose}</label></div>
-            <div class="tn-crop" hidden><p class="tn-hint">{t.form.cropHint}</p><div class="tn-crop__frame"><canvas class="tn-crop__canvas" width="640" height="640"></canvas></div><div class="tn-crop__tools"><button class="tn-btn tn-btn--light" type="button" data-rotate>{t.form.rotate} ↻</button><label class="tn-crop__zoom">{t.form.zoom} <input type="range" min="1" max="3" step="0.01" value="1" data-zoom></label></div></div>
-            <p class="tn-error" id="f-photo-err" aria-live="polite"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M10 5.5v5.5M10 14.2v.3"/></svg><span class="tn-error-text"></span></p></div>
           <div class="tn-form__nav" data-nav hidden><button class="tn-btn" type="button" data-goto="2">{t.form.next2}</button></div>
         </fieldset>
 

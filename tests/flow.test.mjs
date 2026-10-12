@@ -14,8 +14,8 @@ const SECRET = 'whsec_flow';
 const sign = (raw) => { const t = Math.floor(Date.now() / 1000); return `t=${t},v1=${createHmac('sha256', SECRET).update(`${t}.${raw}`).digest('hex')}`; };
 
 test('browse → basket → checkout → webhook → database → confirmation email → admin rows', async () => {
-  // 1. the basket from the browser: a book, its Story Wall and a mug with a variant
-  const items = [{ sku: 'book-star-hoppers-3-5', qty: 1 }, { sku: 'poster-star-hoppers-3-5', qty: 1 }, { sku: 'mug-the-moon', variant: 'colour', qty: 2 }];
+  // 1. the basket from the browser: a book, its Story Wall and two mugs
+  const items = [{ sku: 'book-star-hoppers-3-5', qty: 1 }, { sku: 'poster-star-hoppers-3-5', qty: 1 }, { sku: 'mug-the-moon', qty: 2 }];
   for (const it of items) assert.ok(catalog.bySku.get(it.sku), it.sku);
 
   // 2. checkout: our server builds the Stripe session from server prices only
@@ -39,7 +39,7 @@ test('browse → basket → checkout → webhook → database → confirmation e
   };
   const co = await handleCheckout({ body: { currency: 'EUR', items }, origin: 'https://telning.com' }, { catalog, stripe, open: true, tax: true, terms: true });
   assert.equal(co.status, 200);
-  assert.equal(session.amount_total, 1290 + 1990 + 2 * 1890 + 490 + 690 + 590 + 100);   // items + 3 parcels (+ 1 extra mug)
+  assert.equal(session.amount_total, 1290 + 1990 + 2 * 1690 + 490 + 690 + 590 + 100);   // items + 3 parcels (+ 1 extra mug)
 
   // 3. the database: a fake PostgREST behind fetch, remembering what the server writes
   const tables = {};

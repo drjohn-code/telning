@@ -19,7 +19,7 @@ export const giftPath = (type) => `/gifts/${GIFT_PATH[type]}`;
 export const VIEWS = {
   book: ['table', 'cover', 'spread', 'last-page', 'back'],
   poster: ['wall', 'progress', 'detail', 'scale', 'art'],
-  mug: ['breakfast', 'white', 'colour', 'detail', 'scale'],
+  mug: ['breakfast', 'white', 'detail', 'scale'],   // white mugs only (12 Oct 2026)
   tote: ['hook', 'natural', 'black', 'detail', 'bench'],
   postcards: ['desk', 'front', 'back', 'pack', 'detail'],
   cards: ['flatlay', 'front', 'open', 'pack', 'detail'],
@@ -29,13 +29,17 @@ export const VIEWS = {
 export const imageSlug = (p) => ({
   book: `${p.series}-colouring-book-ages-${p.age}`,
   poster: `${p.series}-story-wall-colouring-poster-ages-${p.age}`,
-  mug: `${p.key}-pim-mug`, tote: `${p.key}-tote-bag`, postcards: `${p.key}-postcards`, cards: `${p.key}-greeting-cards`,
+  mug: p.pim === false ? `${p.key}-mug` : `${p.key}-pim-mug`, tote: `${p.key}-tote-bag`, postcards: `${p.key}-postcards`, cards: `${p.key}-greeting-cards`,
   pack: `story-${p.key}-pack`,
 })[p.type];
-const imagesFor = (p) => { const slug = imageSlug(p); return VIEWS[p.type].map((v) => ({ view: v, src: `/shop/img/${slug}/${slug}-${v}` })); };
+const imagesFor = (p) => {
+  const slug = imageSlug(p);
+  if (p.placeholder) return [{ view: 'placeholder', src: `/shop/img/${slug}/${slug}-placeholder` }];   // no photos yet (scripts/shop/placeholders.mjs)
+  return VIEWS[p.type].map((v) => ({ view: v, src: `/shop/img/${slug}/${slug}-${v}` }));
+};
 export const DESCRIPTOR = {
   book: (p) => `${p.seriesName} colouring book · Ages ${ageLabel(p.age)}`,
-  poster: () => 'Colouring poster · 70 × 100 cm',
+  poster: () => 'Story Wall · 70 × 100 cm',
   mug: () => 'Ceramic mug · 330 ml',
   tote: () => 'Organic cotton tote bag · 41 × 36 cm',
   postcards: () => 'Pack of 10 · A6, FSC-certified card',
@@ -66,7 +70,7 @@ export function buildCatalog({ site, shop, books, gifts }) {
         sku: `poster-${s.key}-${age}`, type: 'poster', category: 'books', parcel: T.poster.parcel, partner: T.poster.partner,
         series: s.key, seriesName: s.name, age,
         url: `/books/${s.key}/story-wall-${age}`, oldUrl: `/books/${s.key}/giant-poster-${age}`,
-        name: `${s.name} Story Wall`, short: 'Story Wall', title: `${s.name} Story Wall`, descriptor: 'Colouring poster · 70 × 100 cm',
+        name: `${s.name} Story Wall`, short: 'Story Wall', title: `${s.name} Story Wall`, descriptor: 'Story Wall · 70 × 100 cm',
         price: cents(T.poster.price), maxQty: T.poster.maxQty,
         poster: b.posters[age], book, theme: s.theme, colour: s.colour, print: `art/print/story-walls/${s.key}-${age}.svg`,
         images: imagesFor({ type: 'poster', series: s.key, age }),
@@ -84,10 +88,10 @@ export function buildCatalog({ site, shop, books, gifts }) {
         url: `${giftPath(type)}/${d.key}`,
         name: label, short: t.tile, title: d.name, design: d, descriptor: DESCRIPTOR[type](),
         story: d.story ? { series: d.story, seriesName: seriesName(d.story) } : null,
-        occasion: d.occasion || null,
+        occasion: d.occasion || null, animal: d.animal || null, soon: !!d.placeholder,   // soon: pictures still to come, not for sale yet
         price: variants ? variants[0].price : cents(t.price), variants, variantLabel: t.variantLabel, maxQty: t.maxQty,
         print: `art/print/${GIFT_PATH[type]}/${d.key}.svg`,
-        images: imagesFor({ type, key: d.key }),
+        images: imagesFor({ type, key: d.key, pim: !d.animal, placeholder: !!d.placeholder }),
       });
     }
   }
@@ -139,7 +143,7 @@ export function resolveLines(catalog, items) {
   const out = [];
   for (const it of items) {
     const product = catalog.bySku.get(String(it && it.sku));
-    if (!product) throw new Error('sku');
+    if (!product || product.soon) throw new Error('sku');
     const qty = Math.floor(Number(it.qty));
     if (!(qty >= 1 && qty <= product.maxQty)) throw new Error('qty');
     let variant = null;
@@ -163,7 +167,7 @@ export function packChoice(catalog, product, raw) {
   const keys = [...new Set(titles.split(',').filter(Boolean))];
   if (!keys.length || keys.length > product.pack.titles || !keys.every((k) => /^book-[a-z-]+-\d-\d$/.test(k) && catalog.bySku.has(k))) return null;
   const [design, colour] = tote.split('~');
-  if (!catalog.bySku.has(`tote-${design}`) || !['natural', 'black'].includes(colour)) return null;
+  if (!catalog.bySku.has(`tote-${design}`) || catalog.bySku.get(`tote-${design}`).soon || !['natural', 'black'].includes(colour)) return null;
   return `${keys.join(',')}|${design}~${colour}`;
 }
 

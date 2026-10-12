@@ -53,8 +53,7 @@ export function validate(fields, file) {
   if (!EMAIL_RE.test(email)) return 'emailInvalid';
   if (!name) return 'name';
   if (!(age >= 1 && age <= 10)) return 'age';
-  if (!file || !file.buffer || !file.buffer.length) return 'photo';
-  if (file.buffer.length > MAX_BYTES) return 'photoSize';
+  if (file && file.buffer && file.buffer.length > MAX_BYTES) return 'photoSize';   // a photo is optional since 12 Oct 2026 (the form has no upload)
   if (fields.consentGuardian !== 'yes') return 'c1';
   if (fields.consentCard !== 'yes') return 'c2';
   const { filled } = readAnswers(fields);
@@ -119,11 +118,11 @@ export function buildPrompt({ childName, childAge, book, answers }) {
   return lines.join('\n');
 }
 
-/** The email to the team (manual mode, and the auto-mode draft). Plain text; the drawing is attached. */
-export function teamEmail({ fields, answers, filled, generated, replyTime, keepDays }) {
+/** The email to the team (manual mode, and the auto-mode draft). Plain text; the drawing is attached when there is one. */
+export function teamEmail({ fields, answers, filled, generated, replyTime, keepDays, hasDrawing = false }) {
   const name = String(fields.childName || '').trim().slice(0, 40);
   const age = parseInt(fields.childAge, 10);
-  const share = fields.consentShare === 'yes' ? 'YES (first name, age and drawing only)' : 'no';
+  const share = fields.consentShare === 'yes' ? `YES (first name and age${hasDrawing ? ' and drawing' : ''} only)` : 'no';
   const list = (arr) => (arr && arr.length ? arr.join(', ') : '-');
   const a = answers;
   const parts = [
@@ -133,6 +132,7 @@ export function teamEmail({ fields, answers, filled, generated, replyTime, keepD
     `Child: ${name}, ${age}`,
     `Book: ${fields.book || 'other'}`,
     `May share the card on Instagram/TikTok: ${share}`,
+    hasDrawing ? 'Drawing: attached.' : 'Drawing: none (the form has no photo upload).',
     '',
     filled ? 'ANSWERS (use once to write the tips; delete this email after you reply, and within ' + keepDays + ' days in every case):' : 'The parent skipped part 2 (no answers).',
     filled ? `- Place of the story: ${a.world.text || '-'}` : '',
@@ -142,7 +142,7 @@ export function teamEmail({ fields, answers, filled, generated, replyTime, keepD
     filled ? `- Real life: ${a.life.text || '-'}` : '',
     filled ? `- Anything else: ${a.else.text || '-'}` : '',
     '',
-    'TO DO: make the card (drawing in the frame, "A TADA ending by ' + name + ', ' + age + '", two lines from Pim, lockup, @telning.pub #TADAstory, colour strip).',
+    'TO DO: make the card (' + (hasDrawing ? 'drawing in the frame, ' : '') + '"A TADA ending by ' + name + ', ' + age + '", two lines from Pim, lockup, @telning.pub #TADAstory, colour strip).',
     'Then the talk-next note under the card:',
     '1. One line about what the child did (no big praise).',
     '2. "Next time, try asking:" three questions: Talk (easy), Ask (feeling or why), Decide ("What if…?"). Easy first. For a ' + age + '-year-old.',
@@ -186,12 +186,12 @@ export async function handleStoryCard(input, deps) {
   if (err) return done(400, { ok: false, error: err });
   if (!deps.inbox || !deps.sendEmail) return done(503, { ok: false, error: 'notReady' });
 
-  let image;
-  try { image = await deps.processImage(input.file.buffer); } catch (e) { return done(400, { ok: false, error: 'photoType' }); }
+  let image = null;
+  if (input.file) { try { image = await deps.processImage(input.file.buffer); } catch (e) { return done(400, { ok: false, error: 'photoType' }); } }
   const { answers, filled } = readAnswers(fields);
 
   let generated = null;
-  if (deps.mode === 'auto' && deps.generate) {
+  if (deps.mode === 'auto' && deps.generate && image) {           // the AI draft needs the drawing
     const b64 = image.buffer.toString('base64');
     try {
       if (deps.checkPhoto && (await deps.checkPhoto(b64))) return done(400, { ok: false, error: 'person' });
@@ -200,10 +200,10 @@ export async function handleStoryCard(input, deps) {
     } catch (e) { generated = null; }
   }
 
-  const mail = teamEmail({ fields, answers, filled, generated, replyTime: deps.replyTime || '24 hours', keepDays: deps.keepDays || 30 });
+  const mail = teamEmail({ fields, answers, filled, generated, replyTime: deps.replyTime || '24 hours', keepDays: deps.keepDays || 30, hasDrawing: !!image });
   try {
     await deps.sendEmail({ to: deps.inbox, from: deps.from, replyTo: String(fields.email).trim(), subject: mail.subject, text: mail.text,
-      attachments: [{ filename: 'drawing.jpg', content: image.buffer, type: image.type }] });
+      attachments: image ? [{ filename: 'drawing.jpg', content: image.buffer, type: image.type }] : [] });
   } catch (e) { return done(502, { ok: false, error: 'failed' }); }
   return done(200, { ok: true }, { answers: filled ? 'used' : 'none', ai: generated ? 'draft' : 'no' });
 }

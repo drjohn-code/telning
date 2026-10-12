@@ -1,7 +1,7 @@
 // A5: after any anchor link, the top edge of the section sits at the bottom edge of the sticky header (±1 px),
 // or 24 px under it for a section with no top padding of its own (#ages, #skills),
-// at 375, 768 and 1280 px, for the header, the footer and the hero button. (The header's "Books & posters" and the
-// hero's "Gifts" go to the shop pages; "Series" stays in the header only on the QR pages /guide and /send.)
+// at 375, 768 and 1280 px, for the header, the footer and the hero button. (The header's "Books & Story Walls" and the
+// hero's "Gifts" go to the shop pages; the header is the same on every page.)
 import { test, expect, type Page } from '@playwright/test';
 
 const WIDTHS = [375, 768, 1280];

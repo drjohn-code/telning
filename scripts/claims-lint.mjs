@@ -47,20 +47,24 @@ for (const file of htmlFiles(DIST)) {
   const page = pagePath(file);
   if (page.startsWith('/admin')) continue;   // private, noindex
   const allowed = Object.entries(ALLOW).filter(([p]) => page.startsWith(p)).flatMap(([, l]) => l);
-  let text = textOf(readFileSync(file, 'utf8'));
+  const html = readFileSync(file, 'utf8');
+  let text = textOf(html);
+  const mainText = textOf((html.match(/<main[\s\S]*?<\/main>/) || [html])[0]);   // page bans: the content only (the header and footer are shared)
   for (const src of allowed) text = text.replace(new RegExp(`(?<![\\w-])(?:${src})(?![\\w-])`, 'gi'), ' ');
   const list = [
     ...BANNED,
     ...BANNED_UNLESS_ALLOWED.filter((w) => !allowed.includes(w)),
     ...Object.entries(PAGE_BANS).filter(([p]) => page.startsWith(p)).flatMap(([, l]) => l),
   ];
+  const pageBans = new Set(Object.entries(PAGE_BANS).filter(([p]) => page.startsWith(p)).flatMap(([, l]) => l));
   for (const src of list) {
     const re = new RegExp(`(?<![\\w-])(?:${src})(?![\\w-])`, 'gi');
+    const hay = pageBans.has(src) ? mainText : text;
     let m;
-    while ((m = re.exec(text))) {
+    while ((m = re.exec(hay))) {
       hits++;
       const at = Math.max(0, m.index - 50);
-      console.error(`claims-lint: ${page}  "${m[0]}"  …${text.slice(at, m.index + m[0].length + 50)}…`);
+      console.error(`claims-lint: ${page}  "${m[0]}"  …${hay.slice(at, m.index + m[0].length + 50)}…`);
     }
   }
 }

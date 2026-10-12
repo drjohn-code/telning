@@ -81,7 +81,7 @@ test('validation: honeypot, consent for answers, required fields', async () => {
   assert.equal((await handleStoryCard({ fields: { ...base, website: 'spam' }, file, ip: '1' }, deps)).body.ok, true);   // pretends
   assert.equal((await handleStoryCard({ fields: { ...base, email: '' }, file, ip: '2' }, deps)).body.error, 'email');
   assert.equal((await handleStoryCard({ fields: { ...base, q_choice: 'because' }, file, ip: '3' }, deps)).body.error, 'c3');
-  assert.equal((await handleStoryCard({ fields: base, file: null, ip: '4' }, deps)).body.error, 'photo');
+  assert.equal((await handleStoryCard({ fields: base, file: null, ip: '4' }, deps)).body.ok, true);   // no photo since 12 Oct 2026: fine
   assert.equal((await handleStoryCard({ fields: base, file, ip: '5' }, { ...deps, inbox: '' })).status, 503);
   assert.equal((await handleStoryCard({ fields: base, file, ip: '6' }, deps)).body.ok, true);
 });

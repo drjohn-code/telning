@@ -1,5 +1,5 @@
 ---
-/* /books — Books & posters: every colouring book and Story Wall (large colouring poster), filtered by age, type and series.
+/* /books — Books & Story Walls: every colouring book and Story Wall (large colouring picture for the wall), filtered by age, type and series.
    All 48 cards are in the HTML (search engines and no-JS see everything); the filters only hide cards. */
 import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
@@ -13,7 +13,7 @@ import { catalog, site, view } from '../../lib/shop';
 
 const PAGE = '/books';
 const products = site.series.flatMap((s: any) => ['3-5', '5-7'].flatMap((a) => [`book-${s.key}-${a}`, `poster-${s.key}-${a}`])).map((k: string) => catalog.bySku.get(k)).filter(Boolean);
-const ld = [{ '@type': 'CollectionPage', '@id': 'https://telning.com/books#collection', name: 'Books & posters', url: 'https://telning.com/books', mainEntity: { '@type': 'ItemList', numberOfItems: products.length, itemListElement: products.map((p: any, i: number) => ({ '@type': 'ListItem', position: i + 1, url: `https://telning.com${p.url}`, name: p.name })) } }];
+const ld = [{ '@type': 'CollectionPage', '@id': 'https://telning.com/books#collection', name: 'Books & Story Walls', url: 'https://telning.com/books', mainEntity: { '@type': 'ItemList', numberOfItems: products.length, itemListElement: products.map((p: any, i: number) => ({ '@type': 'ListItem', position: i + 1, url: `https://telning.com${p.url}`, name: p.name })) } }];
 const STEPS = [
   { h: 'Colour the story', t: 'Fourteen drawings, one on each right-hand page. The pictures tell the story without words.' },
   { h: 'Talk about it', t: 'Facing every drawing, one question or one good word for the grown-up: “How does the bunny feel here?”' },
@@ -28,8 +28,8 @@ const STEPS = [
       <Breadcrumbs page={PAGE} />
       <div class="tn-shophero__in">
         <div class="tn-shophero__text">
-          <h1 class="tn-h1" id="page-h" tabindex="-1">Books &amp; posters</h1>
-          <p class="tn-lead">Colouring story books and Story Walls, large colouring posters for the wall, sorted by series and age. Your child colours the story, chooses the ending and draws it.</p>
+          <h1 class="tn-h1" id="page-h" tabindex="-1">Books &amp; Story Walls</h1>
+          <p class="tn-lead">Colouring story books and Story Walls, our large colouring pictures for the wall, sorted by series and age. Your child colours the story, chooses the ending and draws it.</p>
           <p class="tn-shophero__line">Designed in Sweden · Premium FSC-certified paper · 14-day returns</p>
         </div>
         <div class="tn-shophero__art" aria-hidden="true">
@@ -72,7 +72,7 @@ const STEPS = [
       <div class="tn-split__img"><Picture src={view('poster-star-hoppers-5-7', 'wall')} alt="The Star Hoppers Story Wall, coloured in and framed in light oak on a child’s bedroom wall" sizes="(min-width: 1024px) 560px, 100vw" /></div>
       <div class="tn-split__text">
         <h2 class="tn-h2" id="poster-h">Story Walls</h2>
-        <p class="tn-lead">A large colouring poster, 100 × 70 cm, one world per series. About a third is printed in colour; the rest is waiting for your child. Wall art first.</p>
+        <p class="tn-lead">A large colouring picture for the wall, 100 × 70 cm, one world per series. About a third is printed in colour; the rest is waiting for your child. Wall art first.</p>
         <ul class="tn-ticks"><li>Ages 3–5: big shapes and thick outlines for small hands</li><li>Ages 5–7: smaller shapes and lots to find and count</li><li>Premium matte paper, shipped rolled in a tube; 70 × 100 cm is a standard frame size</li><li>Pim is hiding in every picture</li></ul>
         <p class="tn-p">Colour it together over many days, then frame it and hang it on the wall.</p>
       </div>

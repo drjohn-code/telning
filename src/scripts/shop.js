@@ -268,7 +268,7 @@
         var out = document.querySelector(bar.getAttribute('data-count'));
         if (out) out.textContent = shown + (shown === 1 ? ' item' : ' items');
         var u = new URL(location.href);
-        ['series', 'age', 'type', 'occasion'].forEach(function (g) { if (state[g]) u.searchParams.set(g, state[g]); else u.searchParams.delete(g); });
+        ['series', 'age', 'type', 'occasion', 'animal'].forEach(function (g) { if (state[g]) u.searchParams.set(g, state[g]); else u.searchParams.delete(g); });
         history.replaceState(null, '', u.pathname + (u.search ? u.search : '') + u.hash);
       }
       each(bar, '[data-group]', function (b) {

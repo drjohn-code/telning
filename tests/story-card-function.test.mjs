@@ -39,7 +39,16 @@ test('answers without the answers consent are refused', async () => {
   assert.equal(r.status, 400); assert.equal((await r.json()).error, 'c3');
 });
 
-test('a good submission sends one email with the re-encoded drawing attached', async () => {
+test('a submission without a photo sends one email with no attachment', async () => {
+  sent.length = 0;
+  const r = await POST(req({ ...base, q_choice: 'because', consentAnswers: 'yes' }));
+  assert.equal(r.status, 200); assert.equal((await r.json()).ok, true);
+  assert.equal(sent.length, 1);
+  assert.match(sent[0].text, /Drawing: none/);
+  assert.ok(!sent[0].attachments || sent[0].attachments.length === 0, 'no attachment without a photo');
+});
+
+test('a submission with a photo still sends the re-encoded drawing attached', async () => {
   sent.length = 0;
   const r = await POST(req({ ...base, q_choice: 'because', consentAnswers: 'yes' }, png, 'd.png'));
   assert.equal(r.status, 200); assert.equal((await r.json()).ok, true);
@@ -55,6 +64,6 @@ test('a good submission sends one email with the re-encoded drawing attached', a
 test('without JS the form gets an HTML thank-you page; GET is not allowed', async () => {
   const r = await POST(req(base, png, 'd.png', 'text/html'));
   assert.equal(r.status, 200); assert.match(r.headers.get('content-type'), /text\/html/);
-  assert.match(await r.text(), /Pim has your drawing/);
+  assert.match(await r.text(), /Thank you/);
   assert.equal((await GET()).status, 405);
 });

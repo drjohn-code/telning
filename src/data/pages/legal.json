@@ -80,7 +80,7 @@
         "id": "children",
         "h": "Children",
         "p": [
-          "This website is for grown-ups. We do not knowingly collect data from children. The story-card form asks a parent for a child's first name, age and drawing, with the parent's consent, and never for a photo of a child. How we handle that is in <a href=\"/childrens-privacy\">the children's privacy notice</a>."
+          "This website is for grown-ups. We do not knowingly collect data from children. The story-card form asks a parent for a child's first name and age, with the parent's consent, and never for a photo of a child. How we handle that is in <a href=\"/childrens-privacy\">the children's privacy notice</a>."
         ]
       },
       {
@@ -94,7 +94,7 @@
   },
   "childrens": {
     "h1": "Children's privacy notice",
-    "lead": "For parents who send a drawing for a story card: what we collect, why, how long we keep it, who processes it, and your rights.",
+    "lead": "For parents who use the story-card form: what we collect, why, how long we keep it, who processes it, and your rights.",
     "sections": [
       {
         "id": "who",
@@ -110,8 +110,7 @@
         "list": [
           "your email address, to send the story card",
           "your child's first name and age, to write on the card",
-          "a photo of the drawing page (we ask for no people in the photo; if a photo shows a person, we do not use it and ask you for a new one)",
-          "which book the drawing comes from",
+          "which book the ending comes from",
           "your optional answers about the talk you had (feelings in the story, why your child chose the ending, real life)",
           "your consents, and the time of sending",
           "your IP address, used only for a few minutes to stop spam, not stored with your form"
@@ -121,7 +120,7 @@
         "id": "why",
         "h": "Why, and on what basis",
         "p": [
-          "We use the name, age and drawing to make the story card, and your answers to write ideas for your next talk. Nothing else.",
+          "We use the name and age to make the story card, and your answers to write ideas for your next talk. Nothing else.",
           "The legal basis is your consent, which you give on the form. Your answers can say something about your child's feelings, which the law protects specially, so we ask for explicit consent for them and never use them for anything else. We never use anything you send to test, judge or diagnose your child."
         ]
       },
@@ -131,14 +130,14 @@
         "p": [
           "Your form goes in one email to our small team. A person makes the card and writes your tips. We delete that email after we reply, and within {keepDays} days in every case.",
           "Your answers are not saved in any database, file, log or statistics. They are read once, for your tips, and are gone.",
-          "The drawing is deleted right after we send your card. If you ticked the box that lets us share the card on Instagram or TikTok, we keep only the finished story card image (first name, age and drawing), never your answers or your email. You can ask us to take it down at any time."
+          "If you ticked the box that lets us share the card on Instagram or TikTok, we keep only the finished story card image (first name and age), never your answers or your email. You can ask us to take it down at any time."
         ]
       },
       {
         "id": "who-processes",
         "h": "Who processes the data",
         "list": [
-          "our website host, {host}, which receives the form, removes the photo's hidden data (camera, date, place) and sends it on",
+          "our website host, {host}, which receives the form and sends it on",
           "{emailService}, which carries the email to our team and the card to you",
           "{aiLine}"
         ]
@@ -195,8 +194,8 @@
         "h": "The story-card service",
         "list": [
           "The form is for a parent or guardian over 18.",
-          "You own your child's drawing. By sending it you let us use the first name, age and drawing to make one story card and send it to you. If you tick the sharing box, you also let us show that card on Telning's Instagram and TikTok; you can withdraw this at any time.",
-          "We do not accept photos that show a person. We may refuse a submission that breaks these terms.",
+          "By sending the form you let us use the first name and age to make one story card and send it to you. If you tick the sharing box, you also let us show that card on Telning's Instagram and TikTok; you can withdraw this at any time.",
+          "We may refuse a submission that breaks these terms.",
           "We aim to reply within the time shown on the form. This is a service we offer with care, not a promise of a reply at a fixed time.",
           "The ideas in the talk-next note are general ideas, not advice about your child's health or development."
         ]

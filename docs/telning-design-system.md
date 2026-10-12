@@ -28,7 +28,7 @@ A parent sees in one second: for small children, about a feeling, a colouring bo
 4. **Pim is white.** The child gives Pim a colour. On covers, Pim is half coloured to show this.
 5. **Text only on cream or white.** Never on a book colour.
 6. **Design the page for a 3-year-old, tell the story for a 5-year-old.** Big areas, few things, one change per page.
-7. **Human-made.** Every line, letter and word in the book is made by a person. No AI images, no AI text, anywhere in the printed book.
+7. **Human + AI.** (Changed by John, Oct 2026: illustrations are human-AI works.) Pictures and words are made by a person together with AI tools. A person directs, selects, edits and signs off every picture and every word. Say "hand-drawn" or "drawn by a person" only about work that is.
 8. **Calm and honest.** Flat colour, no effects. Only the claims allowed in the guideline, section 4.
 
 ---
@@ -376,7 +376,7 @@ Order: cover; a coloured sample page; the "you decide" spread; the parent page; 
 | Pages | 56–64, even, at least 24 | — |
 | Interior PDF | 300 dpi minimum (we supply 600 dpi line art), pure black, fonts embedded, under 650 MB | — |
 | Cover PDF | Exact spine for the final page count, barcode area empty | — |
-| AI disclosure at upload | No (all human) | — |
+| AI disclosure at upload | Decide per book: Amazon asks you to disclose AI-generated images; AI-assisted work does not need it | — |
 | Price | $9.99, €9.99, £7.99, 99 SEK, 40 PLN, CAD/AUD 13.99, JPY 1,000 | — |
 
 Marker tip on the parent page: "Crayons and pencils work best. If you use markers, put a sheet of paper behind the page."
@@ -415,10 +415,10 @@ One review call a week. Feedback in writing, page by page, against sections 6, 7
 
 ---
 
-## 18. Rights and the human-made rule
+## 18. Rights and the human + AI rule
 
 - Under Swedish law the illustrator keeps copyright unless the contract says otherwise. The contract must give WelloWork AB: ownership of the Pim character, the model sheet and the Telning logo; an exclusive worldwide licence (or transfer) for all series art in all media, languages and formats, including merchandise and the story card; and the right to hire other illustrators for later books using the model sheet. Pay fairly for this. Start from Svenska Tecknare's templates and have a Swedish lawyer read it. Moral rights stay with the illustrator: credit "Illustrated by [name]" everywhere.
-- No AI images or AI text in any printed book, cover, Amazon image or Swedish submission. Claude is used for research, planning, checking and code (website, SVG tracing of the logo, file assembly), never for a drawing or a sentence that goes into the book.
+- AI tools may help make pictures and text (John, Oct 2026). A person directs, selects and edits all of it. Check each shop before you submit: Amazon asks you to disclose AI-generated images, and Rabén & Sjögren does not accept AI-generated or AI-assisted work (see the research guideline). Claude is used for research, planning, checking and code.
 - Keep the authorship record: scripts, thumbnails, dated sketches, drafts of the parent-page text with the writer's name, the contract. This is our proof for Amazon, for Swedish publishers and for copyright.
 
 ---
@@ -454,7 +454,7 @@ One review call a week. Feedback in writing, page by page, against sections 6, 7
 - [ ] QR codes scanned on the proof with two phones
 - [ ] Colours judged on the proof copy
 - [ ] "Illustrated by [name]" on the back cover and title page
-- [ ] AI disclosure set to "no", and the authorship record is complete
+- [ ] AI disclosure answered correctly for this book (AI-generated or AI-assisted), and the authorship record is complete
 - [ ] Claims checked against the guideline, section 4
 - [ ] Price at the 60% floor in every shop
 
@@ -553,7 +553,7 @@ German and Swedish titles above are drafts for a native editor.
 | Age | 4–8 | 3–7, with thicker lines, bigger areas, fewer elements |
 | Line weight inside | 4.5 pt | 5–6 pt |
 | Smallest area | 4 mm | 6 mm |
-| Human-made rule | — | Added (rule 7, section 18) |
+| Human-made rule | — | Added (rule 7, section 18); changed in Oct 2026 to "Human + AI" |
 | Language editions | — | Added (art layer + text layer, section 10.1 and 9.6) |
 | Paper and price | Open | Decided (section 16) |
 | Illustrator brief | — | Added (section 17) |

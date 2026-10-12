@@ -4,14 +4,15 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createHmac } from 'node:crypto';
 import { catalog, shopPages } from '../server/catalog-data.js';
-import { shippingFor, resolveLines, CURRENCIES } from '../server/catalog.js';
+import { shippingFor, resolveLines, CURRENCIES, VIEWS } from '../server/catalog.js';
 import { handleCheckout, sessionParams } from '../server/checkout.js';
 import { handleWebhook, orderFrom, teamText, customerText } from '../server/orders.js';
 import { verifySignature, formEncode } from '../server/stripe.js';
 
-test('catalogue: 12 series × 4 + 30 gifts, every product priced in every currency', () => {
+test('catalogue: 12 series × 4 + 46 gifts (30 Pim + 16 Halloween, coming soon), every product priced in every currency', () => {
   assert.equal(catalog.products.filter((p) => p.category === 'books').length, 48);
-  assert.equal(catalog.products.filter((p) => p.category === 'gifts').length, 30);
+  assert.equal(catalog.products.filter((p) => p.category === 'gifts').length, 46);
+  assert.equal(catalog.products.filter((p) => p.soon).length, 16);
   for (const p of catalog.products) {
     const prices = p.variants ? p.variants.map((v) => v.price) : [p.price];
     for (const pr of prices) for (const c of CURRENCIES) assert.ok(Number.isInteger(pr[c]) && pr[c] > 0, `${p.sku} ${c}`);
@@ -39,7 +40,7 @@ test('names and links: Story Wall, no partner names in customer-facing text, 301
     const page = shopPages[p.url];
     assert.ok(page.title.length <= 60, `${p.url} title ${page.title.length}`);
     assert.doesNotMatch(`${page.title} ${page.description} ${p.name}`, /lulu|gelato|printful|giant poster/i);
-    assert.equal(p.images.length, 5, `${p.sku} has five photos`);
+    assert.equal(p.images.length, p.soon ? 1 : VIEWS[p.type].length, `${p.sku} has all its photos`);
     assert.ok(!p.images.some((im) => /lulu|gelato|printful|mockup/i.test(im.src)));
   }
 });
@@ -55,18 +56,19 @@ test('shipping: one fee per parcel, plus the extra-item fee', () => {
 test('resolveLines refuses unknown skus, bad quantities and missing variants', () => {
   assert.throws(() => resolveLines(catalog, [{ sku: 'nope', qty: 1 }]));
   assert.throws(() => resolveLines(catalog, [{ sku: 'book-home-hearts-3-5', qty: 0 }]));
-  assert.throws(() => resolveLines(catalog, [{ sku: 'mug-the-moon', qty: 1 }]));
-  assert.equal(resolveLines(catalog, [{ sku: 'mug-the-moon', variant: 'colour', qty: 2 }])[0].qty, 2);
+  assert.throws(() => resolveLines(catalog, [{ sku: 'tote-library-day', qty: 1 }]));   // a tote needs its colour
+  assert.throws(() => resolveLines(catalog, [{ sku: 'mug-cocoa-cat', qty: 1 }]));      // coming soon: not for sale
+  assert.equal(resolveLines(catalog, [{ sku: 'mug-the-moon', qty: 2 }])[0].qty, 2);
 });
 
 test('checkout: prices come from the server; region follows the currency; no key → notReady', async () => {
   const calls = [];
   const stripe = async (method, path, params) => { calls.push({ method, path, params }); return { status: 200, json: { url: 'https://checkout.stripe.com/c/pay/x' } }; };
-  const body = { currency: 'GBP', items: [{ sku: 'mug-the-moon', variant: 'colour', qty: 1, price: 1 }, { sku: 'book-star-hoppers-5-7', qty: 1 }] };
+  const body = { currency: 'GBP', items: [{ sku: 'mug-the-moon', qty: 1, price: 1 }, { sku: 'book-star-hoppers-5-7', qty: 1 }] };
   const r = await handleCheckout({ body, origin: 'https://telning.com' }, { catalog, stripe, open: true });
   assert.equal(r.status, 200);
   const p = calls[0].params;
-  assert.equal(p.line_items[0].price_data.unit_amount, 1690);
+  assert.equal(p.line_items[0].price_data.unit_amount, 1490);
   assert.equal(p.line_items[0].price_data.currency, 'gbp');
   assert.deepEqual(p.shipping_address_collection.allowed_countries, ['GB']);
   assert.equal(p.shipping_options[0].shipping_rate_data.fixed_amount.amount, 490 + 390);

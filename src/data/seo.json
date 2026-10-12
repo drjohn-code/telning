@@ -97,7 +97,7 @@
     "/404": {
       "name": "Page not found",
       "title": "Page not found | Telning",
-      "description": "This page is not here. Go back to the home page, open Books & posters or Gifts, or read about the TADA way: Talk, Ask, Decide, Act, with Pim.",
+      "description": "This page is not here. Go back to the home page, open Books & Story Walls or Gifts, or read about the TADA way: Talk, Ask, Decide, Act, with Pim.",
       "type": "WebPage",
       "sitemap": false,
       "noindex": true,

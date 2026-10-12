@@ -224,7 +224,7 @@
         "USD": 21.9,
         "CAD": 28.9
       },
-      "scene": "A rainy Saturday, the poster taped to the hallway wall: your child, a friend and Grandma each take a corner of the picture. About a third is already in colour; the rest is theirs. Then frame it and hang it.",
+      "scene": "A rainy Saturday, the Story Wall taped to the hallway wall: your child, a friend and Grandma each take a corner of the picture. About a third is already in colour; the rest is theirs. Then frame it and hang it.",
       "tag": "Premium matte paper",
       "facts": [
         "100 × 70 cm, landscape",
@@ -234,9 +234,9 @@
         "Shipped rolled in a tube"
       ],
       "materials": "Premium matte paper, 189 g/m² and 0.26 mm thick, with no shine, so it is easy to frame. Made for you after you order and shipped rolled in a tube. 70 × 100 cm is a standard frame size.",
-      "care": "Colour with pencils, crayons or felt-tips. Put a sheet of card under the poster when you use felt-tips. Lay it flat under a few books for a day after unrolling.",
+      "care": "Colour with pencils, crayons or felt-tips. Put a sheet of card under the Story Wall when you use felt-tips. Lay it flat under a few books for a day after unrolling.",
       "safety": "Keep the tube and the packaging away from small children.",
-      "descriptor": "Colouring poster · 70 × 100 cm"
+      "descriptor": "Story Wall · 70 × 100 cm"
     },
     "mug": {
       "category": "gifts",
@@ -252,29 +252,6 @@
         "USD": 17.9,
         "CAD": 23.9
       },
-      "variants": [
-        {
-          "key": "white",
-          "name": "White",
-          "price": {
-            "EUR": 16.9,
-            "GBP": 14.9,
-            "USD": 17.9,
-            "CAD": 23.9
-          }
-        },
-        {
-          "key": "colour",
-          "name": "Colour inside",
-          "price": {
-            "EUR": 18.9,
-            "GBP": 16.9,
-            "USD": 19.9,
-            "CAD": 26.9
-          }
-        }
-      ],
-      "variantLabel": "Mug",
       "scene": "Seven o’clock, warm milk in Pim’s mug, while Dad asks which ending she chose today. For the grown-up who reads the story every night.",
       "tag": "Dishwasher safe",
       "facts": [
@@ -282,7 +259,7 @@
         "9.6 cm tall, 8.3 cm across",
         "Dishwasher and microwave safe"
       ],
-      "materials": "White glazed ceramic, 330 ml, made for you after you order. The print wraps around the mug. The colour-inside version has a glazed coloured inside and handle.",
+      "materials": "White glazed ceramic, 330 ml, made for you after you order. The print wraps around the mug.",
       "care": "Dishwasher and microwave safe. Hand washing keeps the print bright for longer.",
       "safety": "For hot drinks: take care with small children nearby."
     },

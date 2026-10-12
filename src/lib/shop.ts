@@ -51,8 +51,16 @@ export const view = (sku: string, v: string) => { const p: any = catalog.bySku.g
 export function sceneLine(p: any): string {
   if (p.type === 'book') return `${p.age === '3-5' ? 'Bedtime, one page a night' : 'After school, at the kitchen table'}: your child colours ${p.book.hook.replace(/\.$/, '').charAt(0).toLowerCase()}${p.book.hook.replace(/\.$/, '').slice(1)}, you talk about it, and ${p.age === '3-5' ? 'they' : 'they'} decide how it ends.`;
   if (p.type === 'poster') return `A rainy Saturday, the ${p.seriesName} world taped to the hallway wall: your child, a friend and Grandma each take a corner. About a third is already in colour; the rest is theirs.`;
+  if (p.animal) return HALLOWEEN_SCENE[p.type];
   return p.design.scene || (shop.types as any)[p.type].scene;
 }
+/* The Halloween cats and dogs are not Pim scenes (DRAFT, 12 Oct 2026). */
+const HALLOWEEN_SCENE: Record<string, string> = {
+  mug: 'A dark October evening, cocoa in the cat-and-dog mug, while you ask which ending she chose today. For the grown-up who reads the story every night.',
+  tote: 'Lantern walk on the 31st: the book, the crayons and the sweets all go in the grown-up’s bag, and the story comes along.',
+  postcards: 'Sunday evening at the kitchen table: your child tells you what to write, you write it, and Grandma gets a Halloween card.',
+  cards: 'A Halloween card from Grandpa, blank inside for his own words, and an envelope your child insists on licking shut.',
+};
 
 /** "Thu 16 – Thu 23 Oct" per currency region, from today plus the region's working days (the page shows it; the shop
     script swaps the currency). Working days skip weekends. */

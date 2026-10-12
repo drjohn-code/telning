@@ -10,3 +10,4 @@ art/print/
 .admin-credentials.local
 .env*.local
 supabase/.temp/
+assets/telning-products/

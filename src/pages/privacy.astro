@@ -17,7 +17,7 @@ const ph = (s: string) => s
   .replace(/\{keepDays\}/g, String(sc.keepDays || 30))
   .replace(/\{rights\}/g, legal.common.rights)
   .replace(/\{aiLine\}/g, sc.mode === 'auto'
-    ? 'an AI helper (the Claude API by Anthropic) that reads the drawing and your answers once to draft the two lines and the tips; a person checks the draft; Anthropic does not use API data to train its models'
+    ? 'an AI helper (the Claude API by Anthropic) that reads your answers once to draft the two lines and the tips; a person checks the draft; Anthropic does not use API data to train its models'
     : 'nobody else: a person on our team reads the email, makes the card and writes the tips')
   .replace(/\{contact\}/g, contact);
 const sections = t.sections.map((s) => ({ ...s, p: (s.p || []).map(ph), list: s.list ? s.list.map(ph) : undefined, after: (s.after || []).map(ph) }));

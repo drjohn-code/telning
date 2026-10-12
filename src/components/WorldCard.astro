@@ -12,7 +12,7 @@ const { key } = Astro.props;
 const s = site.series.find((x) => x.key === key);
 if (!s) throw new Error(`WorldCard: there is no series "${key}" in site-data.json`);
 const items = catalog.products.filter((p: any) => p.series === key);
-const tags = [items.some((p: any) => p.type === 'book') && 'Book', items.some((p: any) => p.type === 'poster') && 'Poster'].filter(Boolean) as string[];
+const tags = [items.some((p: any) => p.type === 'book') && 'Book', items.some((p: any) => p.type === 'poster') && 'Story Wall'].filter(Boolean) as string[];
 const out = tags.length > 0;
 ---
 <li class="tn-reveal">

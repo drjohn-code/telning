@@ -1,9 +1,8 @@
 // The forms in a real browser, with the server endpoints mocked (the Vercel functions have their own node tests).
 // 1. /send: three steps, tabs and Next/Back work, step 1 is checked before moving on, no "which ending" question,
-//    the right fields and the re-encoded drawing are posted, the thank-you shows.
+//    the right fields are posted (no photo since 12 Oct 2026), the thank-you shows.
 // 2. The three email sign-ups post to /api/subscribe with their list tag, show "thank you" only on success.
 import { test, expect } from '@playwright/test';
-import sharp from 'sharp';
 
 test('send form: steps, tabs, validation and submit', async ({ page }) => {
   let posted: Buffer | null = null;
@@ -20,15 +19,12 @@ test('send form: steps, tabs, validation and submit', async ({ page }) => {
   await page.locator('.tn-progress__tab[data-goto="3"]').click();
   await expect(p1).toBeVisible(); await expect(p3).toBeHidden();
   await expect(page.locator('#f-email-err')).toContainText('Please write your email');
-  await expect(page.locator('#f-photo-err')).toContainText('Please add a photo');
+  await expect(page.locator('#f-photo')).toHaveCount(0);
 
   // step 1
   await page.fill('#f-email', 'parent@example.com');
   await page.fill('#f-name', 'Noa');
   await page.selectOption('#f-age', '5');
-  const png = await sharp({ create: { width: 400, height: 500, channels: 3, background: '#ffd27e' } }).png().toBuffer();
-  await page.setInputFiles('#f-photo', { name: 'drawing.png', mimeType: 'image/png', buffer: png });
-  await expect(page.locator('.tn-crop')).toBeVisible();
   await page.locator('#part-1 [data-goto="2"]').click();
   await expect(p2).toBeVisible(); await expect(p1).toBeHidden();
   await expect(page.locator('.tn-progress__tab[data-goto="2"]')).toHaveAttribute('aria-current', 'step');
@@ -49,7 +45,7 @@ test('send form: steps, tabs, validation and submit', async ({ page }) => {
   // step 3: consents are checked in words, and the answers consent is needed because step 2 has answers
   await page.locator('#part-3 button[type="submit"]').click();
   await expect(page.locator('#f-c1-err')).toContainText('parent or guardian');
-  await expect(page.locator('#f-c2-err')).toContainText('first name, age and drawing');
+  await expect(page.locator('#f-c2-err')).toContainText('first name and age');
   await expect(page.locator('#f-c3-err')).toContainText('use your answers');
   await expect(page.locator('.tn-form__thanks')).toBeHidden();
   for (const n of ['consentGuardian', 'consentCard', 'consentAnswers']) await page.locator(`input[name="${n}"]`).check();
@@ -62,8 +58,7 @@ test('send form: steps, tabs, validation and submit', async ({ page }) => {
   expect(body).toContain('name="childName"');
   expect(body).toContain('name="childAge"');
   expect(body).toContain('Because sharing felt good.');
-  expect(body).toMatch(/name="photo"; filename="drawing\.jpg"/);
-  expect(body).toContain('Content-Type: image/jpeg');
+  expect(body).not.toContain('name="photo"');
   expect(body).not.toContain('name="ending"');
 });
 

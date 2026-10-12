@@ -94,7 +94,6 @@ async function giftPhotos() {
     const hero = await shot(PH.mugBreakfast(W, await pagesFor(d.story), { side: 57.15, handle: 'right' }));
     await save(slug, 'breakfast', hero); firstPhoto[p.sku] = hero;
     await save(slug, 'white', await shot(PH.mugClean(W, { side: 57.15, handle: 'right' })));
-    await save(slug, 'colour', await shot(PH.mugClean(W, { side: 57.15, handle: 'right', inside: d.insideHex, tilt: 0.24, top: 360 })));
     await save(slug, 'detail', await shot(PH.mugDetail(W, { side: 57.15, handle: 'right' })));
     await save(slug, 'scale', await shot(PH.mugScale(W, await coverFor(d.story), { side: 171.45, handle: 'left' })));
     console.log(`photos ${slug}`);

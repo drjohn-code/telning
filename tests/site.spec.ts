@@ -70,10 +70,9 @@ test('keyboard only: the send form, step by step, with a visible focus ring', as
     return seen;
   }
   // step 1 by keyboard: the fields, then the Next button
-  let seen = await tabUntil((id) => id === 'f-photo');
-  for (const id of ['f-email', 'f-name', 'f-age', 'f-photo']) expect(seen.has(id), `reached ${id}`).toBe(true);
+  let seen = await tabUntil((id) => id === 'f-age');
+  for (const id of ['f-email', 'f-name', 'f-age']) expect(seen.has(id), `reached ${id}`).toBe(true);
   await page.fill('#f-email', 'parent@example.com'); await page.fill('#f-name', 'Noa'); await page.selectOption('#f-age', '4');
-  await page.setInputFiles('#f-photo', { name: 'd.png', mimeType: 'image/png', buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==', 'base64') });
   await page.locator('#part-1 [data-goto="2"]').focus();
   await page.keyboard.press('Enter');
   await expect(page.locator('#part-2')).toBeVisible();

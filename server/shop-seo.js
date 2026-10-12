@@ -24,8 +24,8 @@ export function shopSeo(catalog, site) {
   const pages = {};
   const add = (path, e) => { pages[path] = { type: 'WebPage', published: DATE, lastmod: DATE, og: e.og || '/og/books.jpg', ...e }; };
 
-  add('/books', { name: 'Books & posters', title: 'Colouring books and Story Wall posters, ages 3–7 | Telning',
-    description: 'Telning colouring story books and Story Walls, large 100 × 70 cm colouring posters, sorted by series and age. Your child colours and chooses the ending.', og: '/og/books.jpg' });
+  add('/books', { name: 'Books & Story Walls', title: 'Colouring books and Story Walls, ages 3–7 | Telning',
+    description: 'Telning colouring story books and Story Walls, large 100 × 70 cm colouring pictures for the wall, sorted by series and age. Your child chooses the ending.', og: '/og/books.jpg' });
   add('/gifts', { name: 'Gifts', title: 'Gifts that keep the story going: mugs, totes, cards',
     description: 'Telning gifts for the grown-ups: Pim mugs, GOTS-certified cotton tote bags, postcards and greeting cards for birthdays and holidays. Designed in Sweden.', og: '/og/gifts.jpg' });
   add('/basket', { name: 'Basket', title: 'Your basket | Telning', noindex: true, sitemap: false,
@@ -33,7 +33,7 @@ export function shopSeo(catalog, site) {
   add('/order/thanks', { name: 'Thank you', title: 'Thank you for your order | Telning', noindex: true, sitemap: false,
     description: 'Thank you for your Telning order. Every item is made for you after you order and may arrive in its own parcel. We email the tracking link when it ships.' });
   add('/organisations', { name: 'For organisations', title: 'Book packs for kindergartens, schools, libraries | Telning', og: '/og/organisations.jpg',
-    description: 'Story packs for groups: 10, 30 or 50 Telning books with Story Wall posters, tote bags and a free group guide for the teacher. Pay by card or by invoice.' });
+    description: 'Story packs for groups: 10, 30 or 50 Telning books with Story Walls, tote bags and a free group guide for the teacher. Pay by card or by invoice.' });
   add('/materials', { name: 'Our materials', title: 'Our materials: paper, cotton, inks, certificates | Telning', og: '/og/materials.jpg',
     description: 'What every Telning book, Story Wall and gift is made of: premium FSC-certified paper, GOTS-certified organic cotton and OEKO-TEX fabric, with the certificates.' });
   add('/shipping-returns', { name: 'Shipping & returns', title: 'Shipping and returns | Telning', og: '/og/shipping-returns.jpg',
@@ -45,9 +45,9 @@ export function shopSeo(catalog, site) {
     add(`/books/${s.key}`, { name: s.name, og: `/og/books-${s.key}.jpg`,
       title: len(`${s.name}: colouring books and Story Walls | Telning`) <= 60 ? `${s.name}: colouring books and Story Walls | Telning` : `${s.name}: books and Story Walls | Telning`,
       description: fit([
-        `${s.name} (${s.theme.toLowerCase()}): two colouring story books and two Story Wall colouring posters for ages 3–5 and 5–7. Your child colours and chooses the ending.`,
-        `${s.name} (${s.theme.toLowerCase()}): two colouring story books and two large colouring posters, for ages 3–5 and 5–7. Your child chooses the ending.`,
-        `${s.name}: two colouring story books and two Story Wall colouring posters for ages 3–5 and 5–7. Your child colours the story and chooses the ending.`,
+        `${s.name} (${s.theme.toLowerCase()}): two colouring story books and two Story Walls for ages 3–5 and 5–7. Your child colours and chooses the ending.`,
+        `${s.name} (${s.theme.toLowerCase()}): two colouring story books and two large colouring pictures for the wall, for ages 3–5 and 5–7. Your child chooses the ending.`,
+        `${s.name}: two colouring story books and two Story Walls for ages 3–5 and 5–7. Your child colours the story and chooses the ending.`,
       ]) });
   }
 
@@ -64,16 +64,16 @@ export function shopSeo(catalog, site) {
     } else if (p.type === 'poster') {
       const al = ageLabel(p.age);
       add(p.url, { name: `Story Wall ${al}`, parent: `/books/${p.series}`, og: `/og/p/${p.sku}.jpg`,
-        title: len(`${p.seriesName} Story Wall: large colouring poster, ages ${al}`) <= 60 ? `${p.seriesName} Story Wall: large colouring poster, ages ${al}` : `${p.seriesName} Story Wall: colouring poster, ${al}`,
+        title: len(`${p.seriesName} Story Wall: large colouring picture, ages ${al}`) <= 60 ? `${p.seriesName} Story Wall: large colouring picture, ages ${al}` : `${p.seriesName} Story Wall, ages ${al}`,
         description: fit([
-          `The ${p.seriesName} Story Wall, a large colouring poster for ages ${al}: 100 × 70 cm, part printed in colour, the rest for your child to finish. Then frame it.`,
-          `${p.seriesName} Story Wall, ages ${al}: a large 100 × 70 cm coloring poster, about a third in colour and the rest to colour together. Frame it and hang it.`,
-          `${p.seriesName} Story Wall, ages ${al}. A large colouring poster, 100 × 70 cm, part in colour, part to colour. Then frame it and hang it on the wall.`,
+          `The ${p.seriesName} Story Wall, a large colouring picture for the wall, ages ${al}: 100 × 70 cm, part printed in colour, the rest for your child to finish. Then frame it.`,
+          `${p.seriesName} Story Wall, ages ${al}: a large 100 × 70 cm coloring picture for the wall, about a third in colour and the rest to colour together. Frame it and hang it.`,
+          `${p.seriesName} Story Wall, ages ${al}. A large colouring picture for the wall, 100 × 70 cm, part in colour, part to colour. Then frame it and hang it on the wall.`,
         ]) });
     } else {
       const noun = { mug: 'Kids’ story mug for grown-ups', tote: 'Organic cotton tote bag', postcards: 'Children’s postcards, pack of 10', cards: 'Children’s greeting cards, pack of 10 with envelopes' }[p.type];
       add(p.url, { name: p.title, parent: giftPath(p.type), og: `/og/p/${p.sku}.jpg`,
-        title: len(`${p.name} with Pim | Telning`) <= 60 ? `${p.name} with Pim | Telning` : `${p.name} | Telning`.slice(0, 60),
+        title: p.animal ? `${p.name}, Halloween | Telning`.slice(0, 60) : len(`${p.name} with Pim | Telning`) <= 60 ? `${p.name} with Pim | Telning` : `${p.name} | Telning`.slice(0, 60),
         description: fit([
           `${noun}: ${p.design.about} Designed in Sweden by Telning, made for you after you order.`,
           `${noun}: ${p.design.about} Designed in Sweden, made for you.`,
