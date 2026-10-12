@@ -21,6 +21,7 @@ const STEPS = [
   { h: 'Draw it', t: 'The last page is empty. Your child draws the ending they chose, then you can send it to Pim.' },
 ];
 import SeriesWorlds from '../../components/SeriesWorlds.astro';
+import FilterSheet from '../../components/shop/FilterSheet.astro';
 ---
 <Base page={PAGE} jsonld={ld} preload={{ src: view('book-star-hoppers-3-5', 'table'), sizes: '(min-width: 1024px) 520px, 100vw' }}>
   <Header />
@@ -42,7 +43,7 @@ import SeriesWorlds from '../../components/SeriesWorlds.astro';
 
     <section class="tn-wrap tn-shopgrid" aria-labelledby="all-h">
       <h2 class="tn-sr" id="all-h">All colouring books and Story Walls</h2>
-      <div class="tn-filters" data-filters="#grid" data-count="#count">
+      <FilterSheet id="f-books" count={products.length}>
         <div class="tn-filters__g" role="group" aria-label="Age"><span class="tn-filters__l">Age</span>
           <button type="button" class="tn-chip" data-group="age" data-value="">All</button>
           <button type="button" class="tn-chip" data-group="age" data-value="3-5">3–5</button>
@@ -58,8 +59,7 @@ import SeriesWorlds from '../../components/SeriesWorlds.astro';
           <button type="button" class="tn-chip" data-group="series" data-value="">All</button>
           {site.series.map((s: any) => <button type="button" class="tn-chip" data-group="series" data-value={s.key}>{s.name}</button>)}
         </div>
-        <div class="tn-filters__end"><output id="count" class="tn-filters__count">{products.length} items</output><CurrencySelect id="cur-books" /></div>
-      </div>
+        </FilterSheet>
       <ul class="tn-pgrid" id="grid">{products.map((p: any, i: number) => <ProductCard p={p} eager={i < 4} />)}</ul>
     </section>
 

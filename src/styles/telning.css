@@ -457,7 +457,7 @@ html.tn-menu-open { overflow: hidden; }
 .tn-pagehero__text { display: grid; gap: var(--s3); position: relative; z-index: 2; }
 .tn-pagehero__text .tn-h1 { font-size: 32px; }
 .tn-h1__line { display: block; }
-.tn-h1__line--sub { font-size: 0.66em; line-height: 1.1; margin-top: 0.12em; }
+.tn-h1__line--sub { font-size: 0.66em; line-height: 1.1; margin-top: 0.2em; }
 .tn-pagehero__scene { position: relative; height: 260px; border-radius: var(--radius-l); overflow: hidden; background: var(--c, var(--sky-light)); box-shadow: var(--shadow-2); }
 .tn-pagehero__scene .tn-layer { pointer-events: none; }
 .tn-updated { margin: 0; font-size: 14px; color: var(--ink-soft); }
@@ -847,7 +847,7 @@ picture.tn-shophero__a { aspect-ratio: auto; }
 .tn-filters__g--scroll::-webkit-scrollbar { display: none; }
 .tn-filters__g .tn-chip { flex: none; min-height: var(--chip-h); font-size: 14px; padding: 0 14px; box-shadow: inset 0 0 0 1px rgb(22 20 15 / 0.14); background: var(--paper); }
 .tn-filters__g .tn-chip[aria-pressed="true"] { background: var(--ink); color: var(--cream); box-shadow: none; }
-.tn-filters__l { flex: none; width: 84px; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.tn-filters__l { flex: none; width: auto; min-width: 104px; padding-right: var(--s2); white-space: nowrap; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
 .tn-filters__end { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); flex-wrap: wrap; padding-top: var(--s2); border-top: 1px solid rgb(22 20 15 / 0.08); }
 .tn-filters__count { font-weight: 600; font-size: 14px; color: var(--ink-soft); }
 .tn-pgrid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s5) var(--s3); }
@@ -1267,3 +1267,120 @@ picture.tn-shophero__b img { border: 6px solid var(--paper); }
 @media (min-width: 768px) { .tn-totepick { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .tn-pdp__regions { margin: 0; font-size: 14px; font-weight: 600; color: var(--red-deep); }
 .tn-picks__all { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3); }
+.tn-nowrap { white-space: nowrap; }   /* keeps an age range like "Ages 3–5" on one line */
+
+/* Filters: one bar above the grid on a computer; on a phone a "Filter" button opens them as a bottom sheet */
+.tn-filterbar { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); margin-bottom: var(--s4); }
+.tn-filterbar[hidden] { display: none; }
+.tn-filterbtn { display: inline-flex; align-items: center; gap: var(--s2); min-height: var(--control-h); padding: 0 var(--s4) 0 var(--s3); border: 0; border-radius: var(--radius-pill); background: var(--cream); color: var(--ink); font-family: var(--font-text); font-weight: 600; font-size: var(--control-font); box-shadow: inset 0 0 0 1.5px var(--ink); cursor: pointer; }
+.tn-filterbtn:hover { background: var(--forest); color: var(--cream); box-shadow: none; }
+.tn-filterbtn:focus-visible { outline: 3px solid var(--sea-deep); outline-offset: 3px; }
+.tn-filterbtn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.tn-filterbtn__n { display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 6px; border-radius: var(--radius-pill); background: var(--red); color: var(--cream); font-size: 12px; line-height: 1; }
+.tn-filterbtn__n[hidden] { display: none; }
+.tn-filters__top, .tn-filters__foot, .tn-filterscrim { display: none; }
+@media (min-width: 768px) { .tn-filterbar { display: none; } }
+@media (max-width: 767px) {
+  .tn-filters { position: fixed; left: 0; right: 0; bottom: 0; z-index: 70; margin: 0; max-height: 86dvh; overflow-y: auto; overscroll-behavior: contain; gap: var(--s5); padding: 0 var(--s5); border-radius: var(--radius-l) var(--radius-l) 0 0; box-shadow: 0 -12px 40px rgb(22 20 15 / 0.22); transform: translateY(105%); visibility: hidden; transition: transform 0.3s var(--ease), visibility 0s 0.3s; }
+  .tn-filters.is-open { transform: none; visibility: visible; transition: transform 0.3s var(--ease); }
+  .tn-filters__top { display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1; padding: var(--s4) 0 var(--s2); background: var(--cream); }
+  .tn-filters__title { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 22px; }
+  .tn-filters__close { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: var(--paper); cursor: pointer; }
+  .tn-filters__close svg { width: 20px; height: 20px; fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; }
+  .tn-filters__g, .tn-filters__g--scroll { flex-wrap: wrap; overflow: visible; margin-inline: 0; padding: 0; gap: var(--s2); }
+  .tn-filters__l { flex: 0 0 100%; min-width: 0; padding: 0 0 2px; }
+  .tn-filters__end { padding-top: var(--s4); }
+  .tn-filters__end .tn-filters__count { display: none; }
+  .tn-filters__foot { display: grid; grid-template-columns: 1fr 1.6fr; gap: var(--s3); position: sticky; bottom: 0; padding: var(--s3) 0 calc(var(--s3) + env(safe-area-inset-bottom)); background: var(--cream); border-top: 1px solid var(--paper-deep); }
+  .tn-filters__foot .tn-btn { width: 100%; padding-inline: var(--s3); }
+  .tn-filterscrim:not([hidden]) { display: block; position: fixed; inset: 0; z-index: 69; background: rgb(22 20 15 / 0.35); }
+  html.tn-sheet-open { overflow: hidden; }
+}
+
+/* ---------- Phone scale (under 600 px, 14 Oct 2026): smaller type, controls and boxes, tighter spacing.
+   Desktop and tablet keep their sizes (every rule below lives in this one block). Form fields stay at 16 px text,
+   because iPhones zoom into smaller fields. Buttons keep at least 40 px height for touch. ---------- */
+@media (max-width: 599px) {
+  :root { --s5: 20px; --s6: 28px; --s7: 40px; --s8: 52px; --radius-l: 20px; --radius-m: 14px; --control-h: 44px; --control-pad: 18px; --chip-h: 34px; --control-font: 15px; }
+  body { font-size: 15px; line-height: 1.55; }
+  /* header */
+  .tn-header__in { padding-block: 6px; }
+  .tn-home { min-height: 44px; }
+  .tn-home .tn-lockup { height: 32px; }
+  .tn-menu-btn, .tn-basketlink { width: 44px; height: 44px; }
+  .tn-menu-btn__bars { width: 22px; height: 16px; }
+  .tn-nav a { min-height: 50px; font-size: 16px; }
+  /* type */
+  .tn-h1 { font-size: 30px; line-height: 1.04; }
+  .tn-pagehero__text .tn-h1, .tn-shophero__text .tn-h1, .tn-legal__text .tn-h1 { font-size: 27px; }
+  .tn-h2 { font-size: 21px; line-height: 1.12; }
+  .tn-h2--s { font-size: 20px; }
+  .tn-h3 { font-size: 16px; }
+  .tn-lead, .tn-hero__text .tn-lead { font-size: 15px; line-height: 1.5; }
+  .tn-hero__line { font-size: 16px; }
+  .tn-small { font-size: 13px; }
+  .tn-kicker, .tn-pdp__kick { font-size: 11.5px; letter-spacing: 0.14em; }
+  .tn-card .tn-p { font-size: 15px; }
+  /* buttons, chips, fields */
+  .tn-btn { font-size: 15px; }
+  .tn-hero .tn-actions .tn-btn { padding-inline: var(--s3); }
+  .tn-chip { font-size: 14px; padding: 0 var(--s3); }
+  .tn-filters__g .tn-chip, .tn-opt .tn-chip, .tn-packages .tn-chip, .tn-packcolour .tn-chip { font-size: 13.5px; padding: 0 12px; }
+  .tn-filterbtn { min-height: 40px; font-size: 15px; }
+  .tn-input { min-height: 44px; }
+  .tn-pill { font-size: 10.5px; padding: 4px 8px; }
+  .tn-details summary { min-height: 44px; font-size: 15.5px; }
+  .tn-details summary::after { font-size: 20px; }
+  /* boxes: less padding, smaller corners, lighter shadow */
+  .tn-card, .tn-buy, .tn-pack, .tn-packstep, .tn-packsum, .tn-form__part, .tn-note, .tn-pimmail, .tn-buying li, .tn-quote, .tn-email, .tn-form__thanks { padding: 18px; }
+  .tn-filters { padding: 0 18px; }
+  .tn-card, .tn-pack, .tn-packsum, .tn-form__part, .tn-pimmail, .tn-buy { box-shadow: var(--shadow-1); }
+  .tn-section { padding-block: var(--s7); }
+  .tn-head { margin-bottom: var(--s4); }
+  .tn-head.tn-orghead { margin-bottom: var(--s5); }
+  .tn-pagehero__scene { height: 210px; }
+  .tn-legal__scene { height: 150px; }
+  /* home */
+  .tn-agechip { min-height: 56px; }
+  .tn-agechip__n { width: 38px; height: 38px; font-size: 14px; }
+  .tn-agechip__l { font-size: 15px; }
+  .tn-ages__h { font-size: 18px; }
+  .tn-world__name { font-size: 15px; }
+  .tn-world__theme { font-size: 12px; }
+  .tn-skillmain__h { font-size: 22px; }
+  .tn-pim__bubble { font-size: 15px; }
+  .tn-trust__pt strong { font-size: 15px; }
+  .tn-trust__pt strong + span { font-size: 14px; }
+  .tn-gifttile__name { font-size: 17px; }
+  .tn-tada-step__letter { width: 32px; height: 32px; font-size: 19px; }
+  /* shop */
+  .tn-pcard__name { font-size: 15px; }
+  .tn-pcard__sub { font-size: 12.5px; }
+  .tn-pcard__price { font-size: 14px; }
+  .tn-picks .tn-pcard__name { font-size: 17px; }
+  .tn-pdp__h1 { font-size: 26px; }
+  .tn-pdp__sub { font-size: 14px; }
+  .tn-pdp__story { font-size: 15.5px; line-height: 1.55; }
+  .tn-pdp__amount { font-size: 26px; }
+  .tn-pdp__spec { grid-template-columns: 96px 1fr; gap: var(--s2); font-size: 14px; padding: 8px 0; }
+  .tn-pdp__spec dt { font-size: 11px; }
+  .tn-empty__h { font-size: 19px; }
+  /* organisations */
+  .tn-pack__name { font-size: 22px; }
+  .tn-pack__in li { grid-template-columns: 36px 1fr; font-size: 15px; }
+  .tn-pack__n { width: 36px; height: 36px; font-size: 15px; }
+  .tn-pack__now .tn-price { font-size: 28px; }
+  .tn-packstep__h { font-size: 18px; }
+  .tn-packstep__n { width: 28px; height: 28px; font-size: 13px; }
+  .tn-packopt__price { font-size: 17px; }
+  .tn-packsum__h { font-size: 20px; }
+  .tn-packsum__price .tn-price { font-size: 28px; }
+  .tn-packoffers { padding: 14px 18px; font-size: 14px; }
+  .tn-buying__ic, .tn-packoffers__ic { width: 36px; height: 36px; }
+  /* forms */
+  .tn-form__legend { font-size: 18px; }
+  .tn-form__num { width: 30px; height: 30px; font-size: 15px; }
+  .tn-progress__tab { min-height: 40px; font-size: 13px; }
+  .tn-pimmail__h { font-size: 19px; }
+  .tn-filters__title { font-size: 20px; }
+}

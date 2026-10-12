@@ -24,6 +24,7 @@ const products = GIFT_TYPES.flatMap((t: string) => catalog.products.filter((p: a
 const from = (t: string) => { const p: any = products.find((x: any) => x.type === t); const pr = p.variants ? p.variants[0].price : p.price; return Object.fromEntries(['EUR', 'GBP', 'USD', 'CAD'].map((c) => [`data-${c.toLowerCase()}`, money(pr[c], c, (shop.currencies as any)[c].locale)])); };
 const occasions = [...new Set(products.map((p: any) => p.occasion).filter(Boolean))] as string[];
 const animals = products.some((p: any) => p.animal);   // the Halloween cats and dogs
+import FilterSheet from '../../components/shop/FilterSheet.astro';
 ---
 <Base page={PAGE} preload={{ src: '/shop/img/gift-set/gift-set-halloween-gift-set', sizes: '(min-width: 1024px) 520px, 100vw' }}>
   <Header />
@@ -53,7 +54,7 @@ const animals = products.some((p: any) => p.animal);   // the Halloween cats and
 
     <section class="tn-wrap tn-shopgrid" aria-labelledby="all-h">
       <h2 class="tn-h2 tn-h2--s" id="all-h">Every design</h2>
-      <div class="tn-filters" data-filters="#grid" data-count="#count">
+      <FilterSheet id="f-gifts" count={products.length}>
         <div class="tn-filters__g" role="group" aria-label="Product"><span class="tn-filters__l">Product</span>
           <button type="button" class="tn-chip" data-group="type" data-value="">All</button>
           {GIFT_TYPES.map((t: string) => <button type="button" class="tn-chip" data-group="type" data-value={t}>{(shop.types as any)[t].tile}</button>)}
@@ -67,8 +68,7 @@ const animals = products.some((p: any) => p.animal);   // the Halloween cats and
           <button type="button" class="tn-chip" data-group="animal" data-value="cat">Cats</button>
           <button type="button" class="tn-chip" data-group="animal" data-value="dog">Dogs</button>
         </div>)}
-        <div class="tn-filters__end"><output id="count" class="tn-filters__count">{products.length} items</output><CurrencySelect id="cur-gifts" /></div>
-      </div>
+        </FilterSheet>
       <ul class="tn-pgrid" id="grid">{products.map((p: any) => <ProductCard p={p} />)}</ul>
     </section>
 

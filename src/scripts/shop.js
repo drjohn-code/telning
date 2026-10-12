@@ -257,6 +257,7 @@
       var grid = document.querySelector(bar.getAttribute('data-filters'));
       if (!grid) return;
       var state = {};
+      var tools = document.querySelector('[data-filterbar="' + bar.id + '"]');
       var qs = new URLSearchParams(location.search);
       each(bar, '[data-group]', function (b) { var g = b.getAttribute('data-group'); if (qs.get(g) === b.getAttribute('data-value')) state[g] = b.getAttribute('data-value'); });
       function apply() {
@@ -266,8 +267,17 @@
           card.hidden = !ok; if (ok) shown++;
         });
         each(bar, '[data-group]', function (b) { var g = b.getAttribute('data-group'); b.setAttribute('aria-pressed', String((state[g] || '') === (b.getAttribute('data-value') || ''))); });
+        var label = shown + (shown === 1 ? ' item' : ' items');
         var out = document.querySelector(bar.getAttribute('data-count'));
-        if (out) out.textContent = shown + (shown === 1 ? ' item' : ' items');
+        if (out) out.textContent = label;
+        /* the phone toolbar: the same count, and how many filters are on */
+        var active = Object.keys(state).filter(function (g) { return state[g]; }).length;
+        if (tools) {
+          each(tools, '[data-count-mirror]', function (m) { m.textContent = label; });
+          var n = tools.querySelector('[data-filter-n]'); if (n) { n.textContent = String(active); n.hidden = !active; }
+          var ob = tools.querySelector('[data-filter-open]'); if (ob) ob.setAttribute('aria-label', active ? 'Filter, ' + active + ' on' : 'Filter');
+        }
+        each(bar, '[data-filter-show]', function (x) { x.textContent = 'Show ' + label; });
         var u = new URL(location.href);
         ['series', 'age', 'type', 'occasion', 'animal'].forEach(function (g) { if (state[g]) u.searchParams.set(g, state[g]); else u.searchParams.delete(g); });
         history.replaceState(null, '', u.pathname + (u.search ? u.search : '') + u.hash);
@@ -275,9 +285,56 @@
       each(bar, '[data-group]', function (b) {
         b.addEventListener('click', function () { state[b.getAttribute('data-group')] = b.getAttribute('data-value') || ''; apply(); });
       });
+      each(bar, '[data-filter-clear]', function (c) { c.addEventListener('click', function () { state = {}; apply(); }); });
+      if (tools) { initSheet(bar, tools, grid); tools.hidden = false; }
       bar.hidden = false;
       apply();
     });
+  }
+
+  /* On a phone the filters open as a bottom sheet: a dialog with focus inside, Escape and the dim layer close it. */
+  function initSheet(sheet, tools, grid) {
+    var openBtn = tools.querySelector('[data-filter-open]');
+    var scrim = sheet.nextElementSibling && sheet.nextElementSibling.hasAttribute('data-filter-scrim') ? sheet.nextElementSibling : null;
+    var phone = window.matchMedia('(max-width: 767px)');
+    function focusables() { return Array.prototype.filter.call(sheet.querySelectorAll('button, select, a[href], input'), function (x) { return !x.disabled && x.offsetParent !== null; }); }
+    function onKey(e) {
+      if (e.key === 'Escape') { e.preventDefault(); close(true); return; }
+      if (e.key !== 'Tab') return;
+      var f = focusables(); if (!f.length) return;
+      if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+      else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+    }
+    function open() {
+      if (!phone.matches) return;
+      sheet.classList.add('is-open');
+      sheet.setAttribute('role', 'dialog'); sheet.setAttribute('aria-modal', 'true'); sheet.setAttribute('aria-labelledby', sheet.id + '-h');
+      openBtn.setAttribute('aria-expanded', 'true');
+      if (scrim) scrim.hidden = false;
+      document.documentElement.classList.add('tn-sheet-open');
+      document.addEventListener('keydown', onKey);
+      var c = sheet.querySelector('.tn-filters__close'); if (c) c.focus();
+    }
+    function close(refocus) {
+      if (!sheet.classList.contains('is-open')) return;
+      sheet.classList.remove('is-open');
+      sheet.removeAttribute('role'); sheet.removeAttribute('aria-modal'); sheet.removeAttribute('aria-labelledby');
+      openBtn.setAttribute('aria-expanded', 'false');
+      if (scrim) scrim.hidden = true;
+      document.documentElement.classList.remove('tn-sheet-open');
+      document.removeEventListener('keydown', onKey);
+      if (refocus) openBtn.focus();
+    }
+    openBtn.addEventListener('click', open);
+    each(sheet, '[data-filter-close]', function (b) {
+      b.addEventListener('click', function () {
+        var show = b.hasAttribute('data-filter-show');
+        close(!show);
+        if (show && grid) { if (window.Telning && window.Telning.scrollToEl) window.Telning.scrollToEl(tools); else tools.scrollIntoView({ block: 'start' }); }
+      });
+    });
+    if (scrim) scrim.addEventListener('click', function () { close(true); });
+    if (phone.addEventListener) phone.addEventListener('change', function () { if (!phone.matches) close(false); });
   }
 
   /* ---------- /organisations: the pack builder and the quote form ---------- */

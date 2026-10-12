@@ -1,0 +1,32 @@
+---
+/* FilterSheet: the filters above a product grid. On a computer they sit in one bar above the grid. On a phone a
+   "Filter" button (with the number of active filters) and the item count sit above the grid, and the button opens
+   the same filters as a bottom sheet with "Clear all" and "Show N items" (src/scripts/shop.js, initFilters).
+   The filter groups (.tn-filters__g with the chips) go in the slot. Without JavaScript the filters stay hidden and
+   every product shows. */
+import CurrencySelect from './CurrencySelect.astro';
+
+interface Props { id: string; count: number; grid?: string }
+const { id, count, grid = '#grid' } = Astro.props;
+const items = (n: number) => `${n} ${n === 1 ? 'item' : 'items'}`;
+---
+<div class="tn-filterbar" data-filterbar={id} hidden>
+  <button type="button" class="tn-filterbtn" aria-controls={id} aria-expanded="false" data-filter-open>
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M7 12h10M10 17h4"/></svg>
+    Filter<span class="tn-filterbtn__n" data-filter-n hidden></span>
+  </button>
+  <span class="tn-filters__count" data-count-mirror>{items(count)}</span>
+</div>
+<div class="tn-filters" id={id} data-filters={grid} data-count={`#${id}-count`}>
+  <div class="tn-filters__top">
+    <p class="tn-filters__title" id={`${id}-h`}>Filter</p>
+    <button type="button" class="tn-filters__close" data-filter-close aria-label="Close the filters"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <slot />
+  <div class="tn-filters__end"><output id={`${id}-count`} class="tn-filters__count">{items(count)}</output><CurrencySelect id={`cur-${id}`} /></div>
+  <div class="tn-filters__foot">
+    <button type="button" class="tn-btn tn-btn--secondary" data-filter-clear>Clear all</button>
+    <button type="button" class="tn-btn" data-filter-close data-filter-show>Show {items(count)}</button>
+  </div>
+</div>
+<div class="tn-filterscrim" data-filter-scrim hidden></div>

@@ -26,6 +26,7 @@ const HERO: Record<string, string> = { mug: view('mug-cocoa-cat', 'placeholder')
 const animals = products.some((p: any) => p.animal);
 const others = GIFT_TYPES.filter((x: string) => x !== t);
 const COVER: Record<string, string> = HERO;
+import FilterSheet from '../../../components/shop/FilterSheet.astro';
 ---
 <Base page={PAGE} preload={{ src: HERO[t], sizes: '(min-width: 1024px) 520px, 100vw' }}>
   <Header />
@@ -49,7 +50,7 @@ const COVER: Record<string, string> = HERO;
     <section class="tn-wrap tn-shopgrid" aria-labelledby="all-h">
       <h2 class="tn-h2 tn-h2--s" id="all-h">The designs</h2>
       {(occasions.length > 1 || animals) && (
-        <div class="tn-filters" data-filters="#grid" data-count="#count">
+        <FilterSheet id="f-type" count={products.length}>
           {occasions.length > 1 && (<div class="tn-filters__g tn-filters__g--scroll" role="group" aria-label="Occasion"><span class="tn-filters__l">Occasion</span>
             <button type="button" class="tn-chip" data-group="occasion" data-value="">All</button>
             {occasions.map((o) => <button type="button" class="tn-chip" data-group="occasion" data-value={o}>{(gifts.occasions as any)[o]}</button>)}
@@ -59,8 +60,7 @@ const COVER: Record<string, string> = HERO;
             <button type="button" class="tn-chip" data-group="animal" data-value="cat">Cats</button>
             <button type="button" class="tn-chip" data-group="animal" data-value="dog">Dogs</button>
           </div>)}
-          <div class="tn-filters__end"><output id="count" class="tn-filters__count">{products.length} items</output><CurrencySelect id="cur-type" /></div>
-        </div>
+        </FilterSheet>
       )}
       <ul class="tn-pgrid" id="grid">{products.map((p: any, i: number) => <ProductCard p={p} eager={i < 4} />)}</ul>
     </section>

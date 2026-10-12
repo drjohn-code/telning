@@ -113,7 +113,7 @@ const BUYING = [
             <div class="tn-titlegrid">{bookList.map((b: any, i: number) => (
               <label class="tn-titlepick" data-age={b.age}><input type="checkbox" name="pack_titles" value={b.sku} checked={i === 0} />
                 <span class="tn-titlepick__img"><Picture src={b.images.find((x: any) => x.view === 'cover').src} alt="" widths={[600]} sizes="(min-width: 1024px) 160px, 45vw" /><span class="tn-titlepick__tick" aria-hidden="true"></span></span>
-                <span class="tn-titlepick__t">{b.title}</span><span class="tn-titlepick__s">{b.seriesName} · Ages {b.age.replace('-', '–')}</span></label>))}
+                <span class="tn-titlepick__t">{b.title}</span><span class="tn-titlepick__s">{b.seriesName} · <span class="tn-nowrap">Ages {b.age.replace('-', '–')}</span></span></label>))}
             </div>
           </fieldset>
 
