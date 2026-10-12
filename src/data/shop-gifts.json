@@ -1,45 +1,262 @@
 {
-  "_draft": "Gift designs: names, lines and art briefs are DRAFTS (12 Oct 2026). Gifts carry their own designs and are not tied to a series; `story` only links to a book that shares the idea. Postcards and greeting cards: one design per pack of 10, no mixed packs.",
+  "_draft": "Gift designs: names, lines and art briefs are DRAFTS (12 Oct 2026). Gifts carry their own designs and are not tied to a series; `story` only links to a book that shares the idea. Every design is one small, quiet Pim scene. Postcards and greeting cards: one design per pack of 10, no mixed packs.",
   "mug": [
-    { "key": "the-moon", "name": "The moon", "words": "I chose the moon.", "inside": "Dark Blue", "insideHex": "#2F5C88", "story": "star-hoppers", "about": "Pim on a crescent moon among the stars, and the words “I chose the moon.” on the other side." },
-    { "key": "the-garden", "name": "The garden", "words": "I chose the garden.", "inside": "Dark Green", "insideHex": "#1E4A3B", "story": "little-gardeners", "about": "A row of tulips with a bee and a snail, and the words “I chose the garden.”" },
-    { "key": "the-red-balloon", "name": "The red balloon", "words": "I chose the red balloon.", "inside": "Red", "insideHex": "#CE4029", "story": "home-hearts", "about": "One red balloon over a little house, and the words “I chose the red balloon.”" },
-    { "key": "the-train", "name": "The train", "words": "I chose the train.", "inside": "Golden Yellow", "insideHex": "#E8B23A", "story": "on-the-move", "about": "A little train with one wagon going round the mug, and the words “I chose the train.”" },
-    { "key": "snow-day", "name": "Snow day", "words": "I chose the snowman.", "inside": "Blue", "insideHex": "#4F7FAE", "story": "round-the-year", "about": "A snowman with a red scarf in falling snowflakes, and the words “I chose the snowman.”" },
-    { "key": "one-more-page", "name": "One more page", "words": "One more page.", "inside": "Pink", "insideHex": "#E59A82", "story": null, "about": "Pim beside a stack of books, and the words every grown-up hears at bedtime: “One more page.”" }
+    {
+      "key": "the-moon",
+      "name": "The Moon",
+      "words": "I chose the moon.",
+      "inside": "Dark Blue",
+      "insideHex": "#2F5C88",
+      "story": "star-hoppers",
+      "about": "Pim sits on the crescent moon among three small stars. On the other side: “I chose the moon.”"
+    },
+    {
+      "key": "the-garden",
+      "name": "The Garden",
+      "words": "I chose the garden.",
+      "inside": "Dark Green",
+      "insideHex": "#1E4A3B",
+      "story": "little-gardeners",
+      "about": "Pim waters two tulips while a bee looks on. On the other side: “I chose the garden.”"
+    },
+    {
+      "key": "the-red-balloon",
+      "name": "The Red Balloon",
+      "words": "I chose the red balloon.",
+      "inside": "Red",
+      "insideHex": "#CE4029",
+      "story": "home-hearts",
+      "about": "Pim holds one red balloon in front of a little house. On the other side: “I chose the red balloon.”"
+    },
+    {
+      "key": "the-train",
+      "name": "The Train",
+      "words": "I chose the train.",
+      "inside": "Golden Yellow",
+      "insideHex": "#E8B23A",
+      "story": "on-the-move",
+      "about": "Pim rides in the wagon behind a little train. On the other side: “I chose the train.”"
+    },
+    {
+      "key": "snow-day",
+      "name": "Snow Day",
+      "words": "I chose the snowman.",
+      "inside": "Blue",
+      "insideHex": "#4F7FAE",
+      "story": "round-the-year",
+      "about": "Pim stands beside a snowman with a red scarf, snow falling. On the other side: “I chose the snowman.”"
+    },
+    {
+      "key": "one-more-page",
+      "name": "One More Page",
+      "words": "One more page.",
+      "inside": "Pink",
+      "insideHex": "#E59A82",
+      "story": null,
+      "about": "Pim reads on top of a stack of books. On the other side, the words every grown-up hears at bedtime: “One more page.”"
+    }
   ],
   "tote": [
-    { "key": "library-day", "name": "Library day", "words": "Carry the story.", "story": null, "about": "A stack of books and a crayon, with the words “Carry the story.”" },
-    { "key": "crayons", "name": "Five crayons", "words": "Colour the ending.", "story": null, "about": "Five crayons in a row, with the words “Colour the ending.”" },
-    { "key": "little-stories", "name": "Little stories", "words": "Little stories, growing minds.", "story": null, "about": "The Telning colophon, a small open book that forms a T, with the line “Little stories, growing minds.”" },
-    { "key": "to-the-moon", "name": "To the moon", "words": "To the moon and back.", "story": "star-hoppers", "about": "A little rocket on its way to the moon, with stars and the words “To the moon and back.”" },
-    { "key": "grow-slowly", "name": "Grow slowly", "words": "Grow slowly.", "story": "little-gardeners", "about": "Three tulips of different heights and a bee, with the words “Grow slowly.”" },
-    { "key": "what-would-you-choose", "name": "What would you choose?", "words": "What would you choose?", "story": null, "about": "Pim sitting and smiling, with Pim’s favourite question: “What would you choose?”" }
+    {
+      "key": "library-day",
+      "name": "Library Day",
+      "words": "Carry the story.",
+      "story": null,
+      "about": "Pim carries a stack of books, a crayon tucked on top, with the words “Carry the story.”"
+    },
+    {
+      "key": "crayons",
+      "name": "Five Crayons",
+      "words": "Colour the ending.",
+      "story": null,
+      "about": "Pim lines up five crayons, ready to choose, with the words “Colour the ending.”"
+    },
+    {
+      "key": "little-stories",
+      "name": "Little Stories",
+      "words": "Little stories, growing minds.",
+      "story": null,
+      "about": "The Telning colophon, the small open book that forms a T, with Pim beside it and the line “Little stories, growing minds.”"
+    },
+    {
+      "key": "to-the-moon",
+      "name": "To the Moon",
+      "words": "To the moon and back.",
+      "story": "star-hoppers",
+      "about": "Pim in a little rocket on the way to the moon, with the words “To the moon and back.”"
+    },
+    {
+      "key": "grow-slowly",
+      "name": "Grow Slowly",
+      "words": "Grow slowly.",
+      "story": "little-gardeners",
+      "about": "Pim waters three tulips of different heights, a bee nearby, with the words “Grow slowly.”"
+    },
+    {
+      "key": "what-would-you-choose",
+      "name": "What Would You Choose?",
+      "words": "What would you choose?",
+      "story": null,
+      "about": "Pim sits and smiles under a question bubble, with Pim’s favourite question: “What would you choose?”"
+    }
   ],
   "postcards": [
-    { "key": "hello-grandma", "name": "Hello, Grandma", "words": "Hello, Grandma!", "occasion": "everyday", "story": "home-hearts", "about": "A little house with a heart over the roof and a mailbox, for a line to Grandma." },
-    { "key": "happy-birthday", "name": "Happy birthday", "words": "Happy birthday!", "occasion": "birthday", "story": "big-days", "about": "A bunch of balloons and a flag garland for a birthday hello." },
-    { "key": "happy-halloween", "name": "Happy Halloween", "words": "Happy Halloween!", "occasion": "halloween", "story": "big-days", "about": "Smiling pumpkin lanterns, a friendly bat and a little ghost under the moon." },
-    { "key": "happy-new-year", "name": "Happy New Year", "words": "Happy New Year!", "occasion": "new-year", "story": "big-days", "about": "Fireworks over a sleepy town and a crescent moon." },
-    { "key": "merry-christmas", "name": "Merry Christmas", "words": "Merry Christmas!", "occasion": "christmas", "story": "big-days", "about": "A fir tree with a gold star, presents and a penguin in the snow." },
-    { "key": "happy-easter", "name": "Happy Easter", "words": "Happy Easter!", "occasion": "easter", "story": "big-days", "about": "A bunny with painted eggs and spring tulips." },
-    { "key": "happy-midsummer", "name": "Happy Midsummer", "words": "Happy Midsummer!", "occasion": "midsummer", "story": "big-days", "about": "Daisies, a flag garland and a bee on a long light summer evening, the Swedish way." },
-    { "key": "under-the-same-sky", "name": "Under the same sky", "words": "Under the same sky.", "occasion": "everyday", "story": "star-hoppers", "about": "An owl on a branch, the moon and the stars: for someone far away." }
+    {
+      "key": "hello-grandma",
+      "name": "Hello, Grandma",
+      "words": "Hello, Grandma!",
+      "occasion": "everyday",
+      "story": "home-hearts",
+      "about": "Pim posts a letter in the mailbox by a little house with a heart over the roof."
+    },
+    {
+      "key": "happy-birthday",
+      "name": "Happy Birthday",
+      "words": "Happy birthday!",
+      "occasion": "birthday",
+      "story": "big-days",
+      "about": "Pim holds a bunch of balloons under a flag garland."
+    },
+    {
+      "key": "happy-halloween",
+      "name": "Happy Halloween",
+      "words": "Happy Halloween!",
+      "occasion": "halloween",
+      "story": "big-days",
+      "about": "Pim carries a pumpkin lantern past a friendly bat and a little ghost under the moon."
+    },
+    {
+      "key": "happy-new-year",
+      "name": "Happy New Year",
+      "words": "Happy New Year!",
+      "occasion": "new-year",
+      "story": "big-days",
+      "about": "Pim watches fireworks over a sleepy town."
+    },
+    {
+      "key": "merry-christmas",
+      "name": "Merry Christmas",
+      "words": "Merry Christmas!",
+      "occasion": "christmas",
+      "story": "big-days",
+      "about": "Pim and a penguin by a fir tree with a gold star, presents in the snow."
+    },
+    {
+      "key": "happy-easter",
+      "name": "Happy Easter",
+      "words": "Happy Easter!",
+      "occasion": "easter",
+      "story": "big-days",
+      "about": "Pim and a bunny with painted eggs among spring tulips."
+    },
+    {
+      "key": "happy-midsummer",
+      "name": "Happy Midsummer",
+      "words": "Happy Midsummer!",
+      "occasion": "midsummer",
+      "story": "big-days",
+      "about": "Pim among daisies under a flag garland on a long light summer evening."
+    },
+    {
+      "key": "under-the-same-sky",
+      "name": "Under the Same Sky",
+      "words": "Under the same sky.",
+      "occasion": "everyday",
+      "story": "star-hoppers",
+      "about": "Pim and an owl on a branch under the moon and the stars: for someone far away."
+    }
   ],
   "cards": [
-    { "key": "birthday-balloons", "name": "Birthday balloons", "words": "Happy birthday!", "occasion": "birthday", "story": "big-days", "about": "A bear floating up with a big bunch of balloons." },
-    { "key": "make-a-wish", "name": "Make a wish", "words": "Make a wish!", "occasion": "birthday", "story": "big-days", "about": "A birthday cake with three candles and a bunny waiting to blow them out." },
-    { "key": "around-the-sun", "name": "Around the sun", "words": "Another trip around the sun!", "occasion": "birthday", "story": "star-hoppers", "about": "A little rocket flying round the sun: one more year, one more trip." },
-    { "key": "boo", "name": "Boo!", "words": "Boo!", "occasion": "halloween", "story": "big-days", "about": "A friendly little ghost and a smiling pumpkin lantern." },
-    { "key": "merry-christmas", "name": "Merry Christmas", "words": "Merry Christmas!", "occasion": "christmas", "story": "big-days", "about": "A fir tree with a gold star and a pile of presents." },
-    { "key": "happy-new-year", "name": "Happy New Year", "words": "Happy New Year!", "occasion": "new-year", "story": "big-days", "about": "Three fireworks over the night sky." },
-    { "key": "happy-easter", "name": "Happy Easter", "words": "Happy Easter!", "occasion": "easter", "story": "big-days", "about": "Painted eggs in the grass, tulips and a bunny." },
-    { "key": "thank-you", "name": "Thank you", "words": "Thank you!", "occasion": "everyday", "story": "little-gardeners", "about": "A bunch of tulips and daisies tied with a ribbon." },
-    { "key": "welcome-little-one", "name": "Welcome, little one", "words": "Welcome, little one.", "occasion": "new-baby", "story": null, "about": "A duck asleep on a crescent moon, with soft stars: for a new baby." },
-    { "key": "to-the-moon", "name": "To the moon", "words": "Love you to the moon and back.", "occasion": "love", "story": "star-hoppers", "about": "A heart-shaped balloon floating up to the moon: for Valentine’s, Mother’s or Father’s Day." }
+    {
+      "key": "birthday-balloons",
+      "name": "Birthday Balloons",
+      "words": "Happy birthday!",
+      "occasion": "birthday",
+      "story": "big-days",
+      "about": "Pim floats up with a big bunch of balloons."
+    },
+    {
+      "key": "make-a-wish",
+      "name": "Make a Wish",
+      "words": "Make a wish!",
+      "occasion": "birthday",
+      "story": "big-days",
+      "about": "Pim leans in to blow out three candles on a birthday cake."
+    },
+    {
+      "key": "around-the-sun",
+      "name": "Around the Sun",
+      "words": "Another trip around the sun!",
+      "occasion": "birthday",
+      "story": "star-hoppers",
+      "about": "Pim flies a little rocket round the sun: one more year, one more trip."
+    },
+    {
+      "key": "boo",
+      "name": "Boo!",
+      "words": "Boo!",
+      "occasion": "halloween",
+      "story": "big-days",
+      "about": "Pim peeks out beside a friendly little ghost and a smiling pumpkin lantern."
+    },
+    {
+      "key": "merry-christmas",
+      "name": "Merry Christmas",
+      "words": "Merry Christmas!",
+      "occasion": "christmas",
+      "story": "big-days",
+      "about": "Pim hangs a gold star on a fir tree, presents piled below."
+    },
+    {
+      "key": "happy-new-year",
+      "name": "Happy New Year",
+      "words": "Happy New Year!",
+      "occasion": "new-year",
+      "story": "big-days",
+      "about": "Pim looks up at three fireworks in the night sky."
+    },
+    {
+      "key": "happy-easter",
+      "name": "Happy Easter",
+      "words": "Happy Easter!",
+      "occasion": "easter",
+      "story": "big-days",
+      "about": "Pim finds painted eggs in the grass beside a bunny and tulips."
+    },
+    {
+      "key": "thank-you",
+      "name": "Thank You",
+      "words": "Thank you!",
+      "occasion": "everyday",
+      "story": "little-gardeners",
+      "about": "Pim holds out a bunch of tulips and daisies tied with a ribbon."
+    },
+    {
+      "key": "welcome-little-one",
+      "name": "Welcome, Little One",
+      "words": "Welcome, little one.",
+      "occasion": "new-baby",
+      "story": null,
+      "about": "A duck sleeps on a crescent moon while Pim keeps watch among soft stars: for a new baby."
+    },
+    {
+      "key": "to-the-moon",
+      "name": "To the Moon",
+      "words": "Love you to the moon and back.",
+      "occasion": "love",
+      "story": "star-hoppers",
+      "about": "Pim holds a heart-shaped balloon floating up to the moon: for Valentine’s, Mother’s or Father’s Day."
+    }
   ],
   "occasions": {
-    "birthday": "Birthday", "halloween": "Halloween", "christmas": "Christmas", "new-year": "New Year", "easter": "Easter",
-    "midsummer": "Midsummer", "new-baby": "New baby", "love": "Love", "everyday": "Every day"
+    "birthday": "Birthday",
+    "halloween": "Halloween",
+    "christmas": "Christmas",
+    "new-year": "New Year",
+    "easter": "Easter",
+    "midsummer": "Midsummer",
+    "new-baby": "New baby",
+    "love": "Love",
+    "everyday": "Every day"
   }
 }

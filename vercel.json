@@ -46,6 +46,19 @@
           "value": "public, max-age=604800"
         }
       ]
+    },
+    {
+      "source": "/admin/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
     }
   ],
   "functions": {
@@ -53,5 +66,27 @@
       "memory": 1024,
       "maxDuration": 30
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/books/:series/giant-poster-:age",
+      "destination": "/books/:series/story-wall-:age",
+      "permanent": true
+    },
+    {
+      "source": "/cart",
+      "destination": "/basket",
+      "permanent": true
+    },
+    {
+      "source": "/checkout",
+      "destination": "/basket",
+      "permanent": true
+    },
+    {
+      "source": "/shop",
+      "destination": "/books",
+      "permanent": true
+    }
+  ]
 }

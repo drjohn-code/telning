@@ -10,7 +10,7 @@ import { studio, page, savePng } from './lib/render.mjs';
 import { fillRatios, colouredShare } from './lib/measure.mjs';
 import { POSTERS } from './scenes/posters.mjs';
 import { COVERS } from './scenes/covers.mjs';
-import { frontCover, backCover, spread, COVER } from './lib/cover.mjs';
+import { frontCover, backCover, spread, guidePage, drawingPage, lastPage, COVER } from './lib/cover.mjs';
 import { cardFront, cardBack, cardInside, postcardFront, postcardBack, mugWrap, totePrint, CARD, PC, MUG, TOTE } from './lib/giftart.mjs';
 import gifts from '../../src/data/shop-gifts.json' with { type: 'json' };
 import site from '../../src/data/site-data.json' with { type: 'json' };
@@ -57,8 +57,11 @@ export async function buildCover(key, age) {
   const s = site.series.find((x) => x.key === key);
   const b = books.series[key].books[age];
   const seed = [...`${key}${age}cover`].reduce((a, c) => a * 31 + c.charCodeAt(0), 7) >>> 0;
-  const front = frontCover({ seriesName: s.name, title: b.title, age, scene: COVERS[key][age], seed });
+  const front = frontCover({ seriesName: s.name, title: b.title, age, kit: COVERS[key], seed });
   const back = backCover({ seriesName: s.name, title: b.title, age, hook: b.hook });
+  const guide = guidePage({ question: b.talk[0], word: b.talk[1] });
+  const drawing = drawingPage({ kit: COVERS[key], seed: seed + 5 });
+  const last = lastPage({});
   const dir = join(ROOT, 'art/print/books');
   mkdirSync(dir, { recursive: true });
   writeFileSync(join(dir, `${key}-${age}-front.svg`), front);
@@ -69,7 +72,7 @@ export async function buildCover(key, age) {
     savePng(png, join(ROOT, `review/shop/covers/${key}-${age}-${n}.png`));
   }
   console.log(`cover ${key} ${age}`);
-  return { front, back };
+  return { front, back, guide, drawing, last };
 }
 
 /** Gift print files (art/print/<type>/…) and one review sheet per gift type. */

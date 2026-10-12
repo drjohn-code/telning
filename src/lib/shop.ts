@@ -40,5 +40,29 @@ export function crumbs(path: string) {
   return [{ name: 'Home', path: '/' }, ...chain];
 }
 
-/** Image URL for a view at a width (the photo script writes 600 and 1200; posters' art also 2000). */
+/** Image URL for a view at a width (the photo script writes 600 and 1200; Story Wall art also 2000). */
 export const img = (src: string, w = 1200) => `${src}-${w}.webp`;
+/** The image path of one product view (falls back to the first photo). */
+export const view = (sku: string, v: string) => { const p: any = catalog.bySku.get(sku); const im = p && (p.images.find((i: any) => i.view === v) || p.images[0]); return im ? im.src : ''; };
+
+/** The one scene line at the top of every product page: who, where, with whom, the moment (the research formula).
+    Books and Story Walls get a line built from their own story; gifts carry their own line in shop-gifts.json
+    (`scene`) or fall back to the type's line. */
+export function sceneLine(p: any): string {
+  if (p.type === 'book') return `${p.age === '3-5' ? 'Bedtime, one page a night' : 'After school, at the kitchen table'}: your child colours ${p.book.hook.replace(/\.$/, '').charAt(0).toLowerCase()}${p.book.hook.replace(/\.$/, '').slice(1)}, you talk about it, and ${p.age === '3-5' ? 'they' : 'they'} decide how it ends.`;
+  if (p.type === 'poster') return `A rainy Saturday, the ${p.seriesName} world taped to the hallway wall: your child, a friend and Grandma each take a corner. About a third is already in colour; the rest is theirs.`;
+  return p.design.scene || (shop.types as any)[p.type].scene;
+}
+
+/** "Thu 16 – Thu 23 Oct" per currency region, from today plus the region's working days (the page shows it; the shop
+    script swaps the currency). Working days skip weekends. */
+export function deliveryWindow(from = new Date()): Record<string, string> {
+  const add = (d: Date, n: number) => { const x = new Date(d); let k = 0; while (k < n) { x.setDate(x.getDate() + 1); if (x.getDay() !== 0 && x.getDay() !== 6) k++; } return x; };
+  const fmt = (d: Date) => d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+  const out: Record<string, string> = {};
+  for (const [c, cur] of Object.entries(shop.currencies as Record<string, any>)) {
+    const r = (shop.regions as any)[cur.region];
+    out[c] = `${fmt(add(from, r.delivery[0]))} – ${fmt(add(from, r.delivery[1]))}`;
+  }
+  return out;
+}

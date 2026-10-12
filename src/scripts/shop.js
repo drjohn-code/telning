@@ -96,8 +96,8 @@
       var unit = (v ? v.p : p.p)[c];
       var src = (v ? v.i : p.i) + '-600.webp';
       if (p.t === 'pack' && l.variant) {
-        var parts = l.variant.split('|'), tote = (parts[2] || '').split('~');
-        v = { n: 'Ages ' + parts[0].replace('-', '–') + ' · ' + parts[1].split(',').map(function (k) { return cat.names.series[k] || k; }).join(', ') + ' · tote: ' + (cat.names.totes[tote[0]] || tote[0]) + ' (' + tote[1] + ')' };
+        var parts = l.variant.split('|'), tote = (parts[1] || '').split('~');
+        v = { n: parts[0].split(',').map(function (k) { return (cat.names.books && cat.names.books[k]) || k; }).join(', ') + ' · tote: ' + (cat.names.totes[tote[0]] || tote[0]) + ' (' + (tote[1] === 'natural' ? 'undyed' : tote[1]) + ')' };
       }
       return '<li class="tn-line" data-i="' + i + '">' +
         '<a class="tn-line__img" href="' + p.u + '" tabindex="-1" aria-hidden="true"><img src="' + src + '" alt="" width="96" height="96" loading="lazy"></a>' +
@@ -124,7 +124,7 @@
     Object.keys(groups).forEach(function (k) {
       var pc = cat.parcels[k];
       var a = Math.round(pc.first[c] * 100) + Math.max(0, groups[k] - 1) * Math.round(pc.extra[c] * 100);
-      ship += a; parcels.push({ name: pc.name, partner: pc.partner, qty: groups[k], amount: a });
+      ship += a; parcels.push({ name: pc.name, qty: groups[k], amount: a });
     });
     return { sub: sub, ship: ship, parcels: parcels, total: sub + ship };
   }
@@ -132,10 +132,10 @@
     var cur = cat.currencies[c], reg = cat.regions[cur.region];
     return '<dl class="tn-sum">' +
       '<div><dt>Items</dt><dd>' + fmt(t.sub, c) + '</dd></div>' +
-      t.parcels.map(function (p) { return '<div class="tn-sum__parcel"><dt>Shipping: ' + esc(p.name.toLowerCase()) + ' <span>(' + esc(p.partner) + ', ' + p.qty + ' item' + (p.qty > 1 ? 's' : '') + ')</span></dt><dd>' + fmt(p.amount, c) + '</dd></div>'; }).join('') +
+      t.parcels.map(function (p) { return '<div class="tn-sum__parcel"><dt>Shipping: ' + esc(p.name.toLowerCase()) + ' <span>(' + p.qty + ' item' + (p.qty > 1 ? 's' : '') + ', one parcel)</span></dt><dd>' + fmt(p.amount, c) + '</dd></div>'; }).join('') +
       '<div class="tn-sum__total"><dt>Total</dt><dd>' + fmt(t.total, c) + '</dd></div></dl>' +
       '<p class="tn-sum__note">' + esc(cur.taxNote) + ' Delivery to the ' + esc(reg.name.replace(/^United/, 'United')) + ' in ' + reg.delivery[0] + '–' + reg.delivery[1] + ' working days. ' +
-      (t.parcels.length > 1 ? 'Your order comes in ' + t.parcels.length + ' parcels, one from each printer.' : '') + '</p>';
+      (t.parcels.length > 1 ? 'Your order comes in ' + t.parcels.length + ' parcels: each kind of item is made in its own workshop.' : '') + '</p>';
   }
   function render() {
     var n = count();
@@ -305,7 +305,7 @@
         var titles = Array.prototype.filter.call(f.querySelectorAll('input[name="pack_titles"]'), function (b) { return b.checked; }).map(function (b) { return b.value; });
         if (!titles.length) { msg.textContent = 'Please choose at least one title.'; msg.hidden = false; return; }
         msg.hidden = true;
-        T.addToBasket([{ sku: val('sku'), variant: val('pack_age') + '|' + titles.join(',') + '|' + val('pack_tote') + '~' + val('pack_colour'), qty: 1, max: 5 }]);
+        T.addToBasket([{ sku: val('sku'), variant: titles.join(',') + '|' + val('pack_tote') + '~' + val('pack_colour'), qty: 1, max: 5 }]);
       });
     }
     var q = root.querySelector('form[data-quote]');

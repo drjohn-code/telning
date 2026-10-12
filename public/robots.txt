@@ -3,6 +3,11 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /admin
+Disallow: /cart
+Disallow: /checkout
+Disallow: /basket
+Disallow: /order/
 
 # Search and answer bots (names checked October 2026; re-check each company's docs once a year)
 User-agent: Googlebot
@@ -16,6 +21,11 @@ User-agent: Claude-SearchBot
 User-agent: Claude-User
 Allow: /
 Disallow: /api/
+Disallow: /admin
+Disallow: /cart
+Disallow: /checkout
+Disallow: /basket
+Disallow: /order/
 
 # Training bots: allowed (owner's decision, see docs/seo-launch.md). Blocking Google-Extended would not remove
 # us from Google Search or AI Overviews.
@@ -26,5 +36,10 @@ User-agent: Applebot-Extended
 User-agent: CCBot
 Allow: /
 Disallow: /api/
+Disallow: /admin
+Disallow: /cart
+Disallow: /checkout
+Disallow: /basket
+Disallow: /order/
 
 Sitemap: https://telning.com/sitemap.xml

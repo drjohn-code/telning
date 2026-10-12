@@ -19,7 +19,7 @@ test('add to basket, change the currency, remove the line', async ({ page }) => 
   await expect(drawer.locator('[data-basket-empty]')).toBeVisible();
 });
 
-test('mug variant changes the price; a pack goes into the basket with its choice', async ({ page }) => {
+test('mug variant changes the price; a pack goes into the basket with its titles (no age step)', async ({ page }) => {
   await page.goto('/gifts/mugs/the-moon');
   await page.evaluate(() => { localStorage.clear(); localStorage.setItem('tn-currency', 'EUR'); });
   await page.reload();
@@ -27,7 +27,7 @@ test('mug variant changes the price; a pack goes into the basket with its choice
   await expect(page.locator('.tn-pdp__amount')).toHaveText('€18.90');
   await page.goto('/organisations');
   await page.locator('form.tn-packform button[type="submit"]').click();
-  await expect(page.locator('#tn-drawer .tn-line__var')).toContainText('Ages 3–5');
+  await expect(page.locator('#tn-drawer .tn-line__var')).toContainText('(3–5)');   // the title carries its own age; no age step
 });
 
 test('filters on /books hide the cards that do not match', async ({ page }) => {
@@ -37,6 +37,18 @@ test('filters on /books hide the cards that do not match', async ({ page }) => {
   await page.locator('[data-group="age"][data-value="5-7"]').click();
   await expect(page.locator('#grid > li:visible')).toHaveCount(12);
   await expect(page).toHaveURL(/type=poster/);
+});
+
+test('a Story Wall page: name, descriptor, trust row, delivery estimate, five photos, no partner names', async ({ page }) => {
+  await page.goto('/books/star-hoppers/story-wall-3-5');
+  await expect(page.locator('h1')).toHaveText('Star Hoppers Story Wall');
+  await expect(page.locator('.tn-pdp__sub')).toContainText('Colouring poster · 70 × 100 cm');
+  await expect(page.locator('.tn-trustrow li')).toHaveCount(3);
+  await expect(page.locator('.tn-pdp__delivery')).toContainText('arrives');
+  await expect(page.locator('.tn-gallery__thumb')).toHaveCount(5);
+  const html = await page.content();
+  expect(html).not.toMatch(/lulu|gelato|printful|giant poster/i);
+  // the old URL is redirected by Vercel (vercel.json); the static preview has no such page
 });
 
 test('QR pages have no shop links and no basket', async ({ page }) => {

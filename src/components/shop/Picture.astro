@@ -1,0 +1,17 @@
+---
+/* One product photo: AVIF + WebP sources at 600 and 1200 px (Story Wall art also 2000), width and height set,
+   a tiny blur placeholder as the background while it loads (no layout shift), lazy below the fold,
+   fetchpriority="high" for the first photo on a page. Data: src/data/shop-images.json (written by build-photos). */
+import images from '../../data/shop-images.json';
+interface Props { src: string; alt: string; sizes?: string; widths?: number[]; eager?: boolean; class?: string; width?: number; height?: number; zoomable?: boolean }
+const { src, alt, sizes = '(min-width: 1024px) 600px, 100vw', widths = [600, 1200], eager = false, class: cls = '', width, height } = Astro.props;
+const meta = (images as Record<string, { w: number; h: number; b: string }>)[src];
+const w = width || meta?.w || 1200, h = height || meta?.h || 1200;
+const set = (ext: string) => widths.map((x) => `${src}-${x}.${ext} ${x}w`).join(', ');
+const style = meta ? `background:url(${meta.b}) center/cover` : undefined;
+---
+<picture class={cls}>
+  <source type="image/avif" srcset={set('avif')} sizes={sizes} />
+  <source type="image/webp" srcset={set('webp')} sizes={sizes} />
+  <img src={`${src}-1200.webp`} alt={alt} width={w} height={h} loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : undefined} decoding="async" style={style} />
+</picture>

@@ -9,7 +9,8 @@ import PimNote from '../../components/PimNote.astro';
 import ProductCard from '../../components/shop/ProductCard.astro';
 import TrustBar from '../../components/shop/TrustBar.astro';
 import CurrencySelect from '../../components/shop/CurrencySelect.astro';
-import { catalog, shop, gifts, img, giftPath, GIFT_TYPES, money } from '../../lib/shop';
+import Picture from '../../components/shop/Picture.astro';
+import { catalog, shop, gifts, view, giftPath, GIFT_TYPES, money } from '../../lib/shop';
 
 const PAGE = '/gifts';
 const LINES: Record<string, string> = {
@@ -18,7 +19,7 @@ const LINES: Record<string, string> = {
   postcards: 'Ten cards to write and send to Grandma.',
   cards: 'Ten cards for birthdays and holidays, blank inside.',
 };
-const COVER: Record<string, string> = { mug: 'mug-the-moon/table', tote: 'tote-library-day/scene', postcards: 'postcards-hello-grandma/pack', cards: 'cards-birthday-balloons/envelope' };
+const COVER: Record<string, string> = { mug: view('mug-the-moon', 'breakfast'), tote: view('tote-library-day', 'hook'), postcards: view('postcards-hello-grandma', 'desk'), cards: view('cards-birthday-balloons', 'flatlay') };
 const products = GIFT_TYPES.flatMap((t: string) => catalog.products.filter((p: any) => p.type === t));
 const from = (t: string) => { const p: any = products.find((x: any) => x.type === t); const pr = p.variants ? p.variants[0].price : p.price; return Object.fromEntries(['EUR', 'GBP', 'USD', 'CAD'].map((c) => [`data-${c.toLowerCase()}`, money(pr[c], c, (shop.currencies as any)[c].locale)])); };
 const occasions = [...new Set(products.map((p: any) => p.occasion).filter(Boolean))] as string[];
@@ -31,12 +32,12 @@ const occasions = [...new Set(products.map((p: any) => p.occasion).filter(Boolea
       <div class="tn-shophero__in">
         <div class="tn-shophero__text">
           <h1 class="tn-h1" id="page-h" tabindex="-1">Gifts</h1>
-          <p class="tn-lead">Mugs, tote bags, postcards and greeting cards, each with its own quiet Telning design. Keepsakes that keep the story going, after the last page.</p>
+          <p class="tn-lead">Mugs, tote bags, postcards and greeting cards, each with one small, quiet Pim scene. Keepsakes that keep the story going, after the last page.</p>
           <PimNote line="The grown-ups get something too." size="sm" />
         </div>
         <div class="tn-shophero__art" aria-hidden="true">
-          <img class="tn-shophero__a" src={img('/shop/img/mug-the-moon/table', 1200)} alt="" width="1200" height="1200" fetchpriority="high" />
-          <img class="tn-shophero__b" src={img('/shop/img/cards-make-a-wish/envelope', 600)} alt="" width="600" height="600" />
+          <Picture class="tn-shophero__a" src={view('mug-the-moon', 'breakfast')} alt="" eager sizes="(min-width: 1024px) 520px, 100vw" />
+          <Picture class="tn-shophero__b" src={view('cards-make-a-wish', 'flatlay')} alt="" widths={[600]} sizes="200px" />
         </div>
       </div>
     </section>
@@ -45,14 +46,14 @@ const occasions = [...new Set(products.map((p: any) => p.occasion).filter(Boolea
       <h2 class="tn-sr" id="tiles-h">The four gifts</h2>
       <ul class="tn-gifttiles">{GIFT_TYPES.map((t: string) => { const ty = (shop.types as any)[t]; const a = from(t); return (
         <li><a class="tn-gifttile" href={giftPath(t)}>
-          <img src={img(`/shop/img/${COVER[t]}`, 600)} alt="" width="600" height="600" loading="eager" />
+          <Picture src={COVER[t]} alt="" widths={[600]} sizes="(min-width: 1024px) 280px, 50vw" eager />
           <span class="tn-gifttile__body"><span class="tn-gifttile__name">{ty.tile}</span><span class="tn-gifttile__line">{LINES[t]}</span><span class="tn-gifttile__from">From <span class="tn-price" {...a}>{a['data-eur']}</span></span></span>
         </a></li>); })}</ul>
     </section>
 
     <section class="tn-wrap tn-shopgrid" aria-labelledby="all-h">
       <h2 class="tn-h2 tn-h2--s" id="all-h">Every design</h2>
-      <div class="tn-filters" data-filters="#grid" data-count="#count" hidden>
+      <div class="tn-filters" data-filters="#grid" data-count="#count">
         <div class="tn-filters__g" role="group" aria-label="Product"><span class="tn-filters__l">Product</span>
           <button type="button" class="tn-chip" data-group="type" data-value="">All</button>
           {GIFT_TYPES.map((t: string) => <button type="button" class="tn-chip" data-group="type" data-value={t}>{(shop.types as any)[t].tile}</button>)}
@@ -67,7 +68,7 @@ const occasions = [...new Set(products.map((p: any) => p.occasion).filter(Boolea
     </section>
 
     <section class="tn-section tn-section--tight" aria-labelledby="keep-h"><div class="tn-wrap tn-split">
-      <div class="tn-split__img"><img src={img('/shop/img/tote-library-day/scene', 1200)} alt="The Library day tote bag with a book and crayons" width="1200" height="1200" loading="lazy" /></div>
+      <div class="tn-split__img"><Picture src={view('tote-library-day', 'hook')} alt="The Library Day tote bag on an oak hook, a Telning book peeking out" sizes="(min-width: 1024px) 560px, 100vw" /></div>
       <div class="tn-split__text">
         <h2 class="tn-h2" id="keep-h">A keepsake, after the last page</h2>
         <p class="tn-lead">Your child chose the ending and drew it. A mug at breakfast or a card on the fridge keeps that story in daily life, so it gets told again.</p>

@@ -79,7 +79,7 @@ for (const { path, html } of pages) {
   } else if (sitemap.includes(`<loc>${expected}</loc>`)) fail(path, 'must not be in sitemap.xml');
   if (outbound.size < 2) fail(path, `only ${outbound.size} internal link(s) out`);
   if (path !== '/404' && !entry.noindex && (inbound[path] || 0) < 2) fail(path, `only ${inbound[path] || 0} internal link(s) in`);
-  for (const img of imgs) if (!/\balt=/.test(img)) fail(path, `<img> without alt: ${img.slice(0, 80)}`);
+  for (const img of imgs) if (!/\balt(=|[\s>\/])/.test(img)) fail(path, `<img> without alt: ${img.slice(0, 80)}`);   // alt="" renders as a bare `alt` (decorative)
   if (main.length < (path === '/404' ? 60 : 300)) fail(path, `main text is only ${main.length} characters in the HTML`);
 }
 if (fails) { console.error(`seo-check: ${fails} problem(s)`); process.exit(1); }

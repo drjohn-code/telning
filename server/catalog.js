@@ -14,14 +14,32 @@ const GIFT_PATH = { mug: 'mugs', tote: 'tote-bags', postcards: 'postcards', card
 export const GIFT_TYPES = ['mug', 'tote', 'postcards', 'cards'];
 export const giftPath = (type) => `/gifts/${GIFT_PATH[type]}`;
 
-/** Image views per product type (files in public/shop/img/<sku>/<view>-<width>.webp). */
+/** Image views per product type, in gallery order: the in-scene hero first, then the clean shot, a close-up, a scale
+    shot and an in-use moment. Files: public/shop/img/<slug>/<slug>-<view>-<width>.{avif,webp}. */
 export const VIEWS = {
-  book: ['front', 'table', 'back', 'stand'],
-  poster: ['art', 'wall', 'detail', 'tube'],
-  mug: ['white', 'colour', 'back', 'table'],
-  tote: ['natural', 'black', 'scene', 'detail'],
-  postcards: ['front', 'back', 'pack', 'scene'],
-  cards: ['front', 'open', 'envelope', 'scene'],
+  book: ['table', 'cover', 'spread', 'last-page', 'back'],
+  poster: ['wall', 'progress', 'detail', 'scale', 'art'],
+  mug: ['breakfast', 'white', 'colour', 'detail', 'scale'],
+  tote: ['hook', 'natural', 'black', 'detail', 'bench'],
+  postcards: ['desk', 'front', 'back', 'pack', 'detail'],
+  cards: ['flatlay', 'front', 'open', 'pack', 'detail'],
+  pack: ['pack'],
+};
+/** Descriptive image folder and file stem per product (search engines read file names). */
+export const imageSlug = (p) => ({
+  book: `${p.series}-colouring-book-ages-${p.age}`,
+  poster: `${p.series}-story-wall-colouring-poster-ages-${p.age}`,
+  mug: `${p.key}-pim-mug`, tote: `${p.key}-tote-bag`, postcards: `${p.key}-postcards`, cards: `${p.key}-greeting-cards`,
+  pack: `story-${p.key}-pack`,
+})[p.type];
+const imagesFor = (p) => { const slug = imageSlug(p); return VIEWS[p.type].map((v) => ({ view: v, src: `/shop/img/${slug}/${slug}-${v}` })); };
+export const DESCRIPTOR = {
+  book: (p) => `${p.seriesName} colouring book · Ages ${ageLabel(p.age)}`,
+  poster: () => 'Colouring poster · 70 × 100 cm',
+  mug: () => 'Ceramic mug · 330 ml',
+  tote: () => 'Organic cotton tote bag · 41 × 36 cm',
+  postcards: () => 'Pack of 10 · A6, FSC-certified card',
+  cards: () => 'Pack of 10 with envelopes · 14 × 14 cm',
 };
 
 export function buildCatalog({ site, shop, books, gifts }) {
@@ -39,19 +57,19 @@ export function buildCatalog({ site, shop, books, gifts }) {
         sku: `book-${s.key}-${age}`, type: 'book', category: 'books', parcel: T.book.parcel, partner: T.book.partner,
         series: s.key, seriesName: s.name, age,
         url: `/books/${s.key}/colouring-book-${age}`,
-        name: `${s.name} colouring book, ages ${al}`, short: 'Colouring book', title: book.title,
+        name: book.title, short: 'Colouring book', title: book.title, descriptor: `${s.name} colouring book · Ages ${al}`,
         price: cents(T.book.price), maxQty: T.book.maxQty,
         book, theme: s.theme, colour: s.colour, print: `art/print/books/${s.key}-${age}-cover.svg (cover); interior from the illustrator`,
-        images: VIEWS.book.map((v) => ({ view: v, src: `/shop/img/book-${s.key}-${age}/${v}` })),
+        images: imagesFor({ type: 'book', series: s.key, age }),
       });
       products.push({
         sku: `poster-${s.key}-${age}`, type: 'poster', category: 'books', parcel: T.poster.parcel, partner: T.poster.partner,
         series: s.key, seriesName: s.name, age,
-        url: `/books/${s.key}/giant-poster-${age}`,
-        name: `${s.name} giant colouring poster, ages ${al}`, short: 'Giant colouring poster', title: `${s.name} giant poster`,
+        url: `/books/${s.key}/story-wall-${age}`, oldUrl: `/books/${s.key}/giant-poster-${age}`,
+        name: `${s.name} Story Wall`, short: 'Story Wall', title: `${s.name} Story Wall`, descriptor: 'Colouring poster · 70 × 100 cm',
         price: cents(T.poster.price), maxQty: T.poster.maxQty,
-        poster: b.posters[age], book, theme: s.theme, colour: s.colour, print: `art/print/posters/${s.key}-${age}.svg`,
-        images: VIEWS.poster.map((v) => ({ view: v, src: `/shop/img/poster-${s.key}-${age}/${v}` })),
+        poster: b.posters[age], book, theme: s.theme, colour: s.colour, print: `art/print/story-walls/${s.key}-${age}.svg`,
+        images: imagesFor({ type: 'poster', series: s.key, age }),
       });
     }
   }
@@ -60,29 +78,30 @@ export function buildCatalog({ site, shop, books, gifts }) {
     const t = T[type];
     for (const d of gifts[type]) {
       const variants = t.variants ? t.variants.map((v) => ({ key: v.key, name: v.name, price: cents(v.price || t.price) })) : null;
-      const label = { mug: `Pim mug: ${d.name}`, tote: `Tote bag: ${d.name}`, postcards: `Postcards: ${d.name}`, cards: `Greeting cards: ${d.name}` }[type];
+      const label = { mug: `${d.name} mug`, tote: `${d.name} tote bag`, postcards: `${d.name} postcards`, cards: `${d.name} greeting cards` }[type];
       products.push({
         sku: `${type}-${d.key}`, type, category: 'gifts', parcel: t.parcel, partner: t.partner,
         url: `${giftPath(type)}/${d.key}`,
-        name: label, short: t.tile, title: d.name, design: d,
+        name: label, short: t.tile, title: d.name, design: d, descriptor: DESCRIPTOR[type](),
         story: d.story ? { series: d.story, seriesName: seriesName(d.story) } : null,
         occasion: d.occasion || null,
         price: variants ? variants[0].price : cents(t.price), variants, variantLabel: t.variantLabel, maxQty: t.maxQty,
         print: `art/print/${GIFT_PATH[type]}/${d.key}.svg`,
-        images: VIEWS[type].map((v) => ({ view: v, src: `/shop/img/${type}-${d.key}/${v}` })),
+        images: imagesFor({ type, key: d.key }),
       });
     }
   }
 
-  // packs for organisations: books, giant posters and tote bags at a pack price; the buyer picks one age, the titles
-  // and the tote design. The choice travels as the line's variant: "<age>|<series,series>|<tote design>~<colour>".
+  // packs for organisations: books, Story Walls and tote bags at a pack price; the buyer picks the titles (each title
+  // is one book, 3–5 or 5–7) and the tote design. The choice travels as the line's variant:
+  // "book-<series>-<age>,book-<series>-<age>|<tote design>~<colour>". No age step: every title carries its own age.
   const packs = [];
   for (const k of (shop.packs?.items || [])) {
     packs.push({
       sku: `pack-${k.key}`, type: 'pack', category: 'packs', parcel: null, partner: 'mixed', url: '/organisations',
       name: `${k.name} pack`, short: 'Pack', title: k.name, pack: k, price: cents(k.price), maxQty: 5,
       ship: [{ parcel: 'books', per: k.books }, { parcel: 'posters', per: k.posters }, { parcel: 'totes', per: k.totes }],
-      images: [{ view: 'pack', src: `/shop/img/pack-${k.key}/pack` }],
+      images: imagesFor({ type: 'pack', key: k.key }),
       print: 'books, posters and tote bags: see the pack choice',
     });
   }
@@ -136,27 +155,28 @@ export function resolveLines(catalog, items) {
   return out;
 }
 
-/** Check a pack choice "<age>|<series,…>|<design>~<colour>" and return it cleaned, or null. */
+/** Check a pack choice "book-…,book-…|<design>~<colour>" and return it cleaned, or null. */
 export function packChoice(catalog, product, raw) {
-  const [age, titles = '', tote = ''] = String(raw || '').split('|');
-  if (!AGES.includes(age)) return null;
+  const parts = String(raw || '').split('|');
+  if (parts.length !== 2) return null;
+  const [titles, tote] = parts;
   const keys = [...new Set(titles.split(',').filter(Boolean))];
-  if (!keys.length || keys.length > product.pack.titles || !keys.every((k) => catalog.bySku.has(`book-${k}-${age}`))) return null;
+  if (!keys.length || keys.length > product.pack.titles || !keys.every((k) => /^book-[a-z-]+-\d-\d$/.test(k) && catalog.bySku.has(k))) return null;
   const [design, colour] = tote.split('~');
   if (!catalog.bySku.has(`tote-${design}`) || !['natural', 'black'].includes(colour)) return null;
-  return `${age}|${keys.join(',')}|${design}~${colour}`;
+  return `${keys.join(',')}|${design}~${colour}`;
 }
 
 /** What a pack holds, for the order email: [{ sku, variant, qty, name }]. Books and posters are split evenly over the titles. */
 export function packContents(catalog, product, choice) {
-  const [age, titles, tote] = choice.split('|');
+  const [titles, tote] = choice.split('|');
   const keys = titles.split(',');
   const [design, colour] = tote.split('~');
   const k = product.pack;
   const out = [];
   const split = (n) => keys.map((_, i) => Math.floor(n / keys.length) + (i < n % keys.length ? 1 : 0));
-  split(k.books).forEach((q, i) => q && out.push({ sku: `book-${keys[i]}-${age}`, qty: q }));
-  split(k.posters).forEach((q, i) => q && out.push({ sku: `poster-${keys[i]}-${age}`, qty: q }));
+  split(k.books).forEach((q, i) => q && out.push({ sku: keys[i], qty: q }));
+  split(k.posters).forEach((q, i) => q && out.push({ sku: keys[i].replace(/^book-/, 'poster-'), qty: q }));
   out.push({ sku: `tote-${design}`, variant: colour, qty: k.totes });
   return out.map((x) => ({ ...x, name: catalog.bySku.get(x.sku).name + (x.variant ? ` (${x.variant})` : '') }));
 }

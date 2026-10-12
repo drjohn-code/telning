@@ -18,8 +18,8 @@ export async function POST(request) {
     else {
       const fd = await request.formData();
       // a pack from /organisations without JavaScript: build its choice from the fields
-      const variant = fd.get('pack_age')
-        ? `${fd.get('pack_age')}|${fd.getAll('pack_titles').join(',')}|${fd.get('pack_tote')}~${fd.get('pack_colour')}`
+      const variant = fd.getAll('pack_titles').length
+        ? `${fd.getAll('pack_titles').join(',')}|${fd.get('pack_tote')}~${fd.get('pack_colour')}`
         : fd.get('variant') ? String(fd.get('variant')) : undefined;
       body = { currency: String(fd.get('currency') || 'EUR'), items: [{ sku: String(fd.get('sku') || ''), variant, qty: Number(fd.get('qty') || 1) }] };
     }

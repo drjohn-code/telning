@@ -3,19 +3,20 @@
    cards), one line each, one button, one Pim line. No grid, no cart here: the shop does that. */
 import strings from '../data/strings.en.json';
 import PimNote from './PimNote.astro';
-import { shop, img, giftPath, GIFT_TYPES } from '../lib/shop';
+import Picture from './shop/Picture.astro';
+import { shop, view, giftPath, GIFT_TYPES } from '../lib/shop';
 const TILES: Record<string, { line: string; photo: string }> = {
-  mug: { line: 'For the grown-up who reads the story every night.', photo: '/shop/img/mug-the-moon/table' },
-  tote: { line: 'The book, the crayons, the library trip.', photo: '/shop/img/tote-library-day/scene' },
-  postcards: { line: 'Ten cards to write and send to Grandma.', photo: '/shop/img/postcards-hello-grandma/pack' },
-  cards: { line: 'Ten birthday cards with Pim’s world, blank inside.', photo: '/shop/img/cards-birthday-balloons/envelope' },
+  mug: { line: 'For the grown-up who reads the story every night.', photo: view('mug-the-moon', 'breakfast') },
+  tote: { line: 'The book, the crayons, the library trip.', photo: view('tote-library-day', 'hook') },
+  postcards: { line: 'Ten cards to write and send to Grandma.', photo: view('postcards-hello-grandma', 'desk') },
+  cards: { line: 'Ten birthday cards with Pim, blank inside.', photo: view('cards-birthday-balloons', 'flatlay') },
 };
 ---
 <section class="tn-section" id="gifts" aria-labelledby="gifts-h"><div class="tn-wrap">
   <div class="tn-head tn-reveal"><h2 class="tn-h2" id="gifts-h" tabindex="-1">{strings['gifts.h2']}</h2></div>
   <ul class="tn-gifttiles">{GIFT_TYPES.map((t: string) => (
     <li class="tn-reveal"><a class="tn-gifttile" href={giftPath(t)}>
-      <img src={img(TILES[t].photo, 600)} alt="" width="600" height="600" loading="lazy" decoding="async" />
+      <Picture src={TILES[t].photo} alt="" widths={[600]} sizes="(min-width: 1024px) 280px, 50vw" />
       <span class="tn-gifttile__body"><span class="tn-gifttile__name">{(shop.types as any)[t].tile}</span><span class="tn-gifttile__line">{TILES[t].line}</span></span>
     </a></li>))}</ul>
   <div class="tn-giftsband__foot tn-reveal"><a class="tn-btn" href="/gifts">{strings['gifts.button']}</a><PimNote line={strings['gifts.pim']} size="sm" /></div>

@@ -23,7 +23,28 @@ test('catalogue: 12 series × 4 + 30 gifts, every product priced in every curren
   assert.equal(catalog.bySku.get('poster-star-hoppers-5-7').price.EUR, 1990);
 });
 
-test('shipping: one fee per printer parcel, plus the extra-item fee', () => {
+test('names and links: Story Wall, no partner names in customer-facing text, 301 for the old poster URLs', async () => {
+  const wall = catalog.bySku.get('poster-star-hoppers-3-5');
+  assert.equal(wall.name, 'Star Hoppers Story Wall');
+  assert.equal(wall.url, '/books/star-hoppers/story-wall-3-5');
+  assert.equal(wall.oldUrl, '/books/star-hoppers/giant-poster-3-5');
+  assert.equal(catalog.bySku.get('mug-the-moon').name, 'The Moon mug');
+  const { readFileSync } = await import('node:fs');
+  const vercel = JSON.parse(readFileSync(new URL('../vercel.json', import.meta.url), 'utf8'));
+  assert.ok(vercel.redirects.some((r) => r.source === '/books/:series/giant-poster-:age' && r.permanent));
+  const shopJson = readFileSync(new URL('../src/data/shop.json', import.meta.url), 'utf8');
+  const customerText = JSON.stringify({ ...JSON.parse(shopJson), parcels: undefined, types: Object.fromEntries(Object.entries(JSON.parse(shopJson).types).map(([k, v]) => [k, { ...v, partner: undefined }])), partnerRefs: undefined });
+  assert.doesNotMatch(customerText, /lulu|gelato|printful|printify|prodigi|giant poster|print on demand|France, the UK/i);
+  for (const p of catalog.products) {
+    const page = shopPages[p.url];
+    assert.ok(page.title.length <= 60, `${p.url} title ${page.title.length}`);
+    assert.doesNotMatch(`${page.title} ${page.description} ${p.name}`, /lulu|gelato|printful|giant poster/i);
+    assert.equal(p.images.length, 5, `${p.sku} has five photos`);
+    assert.ok(!p.images.some((im) => /lulu|gelato|printful|mockup/i.test(im.src)));
+  }
+});
+
+test('shipping: one fee per parcel, plus the extra-item fee', () => {
   const book = catalog.bySku.get('book-home-hearts-3-5');
   const poster = catalog.bySku.get('poster-home-hearts-3-5');
   const s = shippingFor(catalog.shop, [{ product: book, qty: 2 }, { product: poster, qty: 1 }], 'EUR');
@@ -95,7 +116,7 @@ test('order: split by printer, team sheet has the address and print files, custo
   const team = teamText(o);
   assert.match(team, /TEST ORDER/);
   assert.match(team, /Storgatan 1/);
-  assert.match(team, /art\/print\/posters\/star-hoppers-3-5\.svg/);
+  assert.match(team, /art\/print\/story-walls\/star-hoppers-3-5\.svg/);
   const cust = customerText(o, { contact: 'info@telning.com' });
   assert.match(cust, /2 parcels/);
   assert.doesNotMatch(cust, /art\/print/);
@@ -116,19 +137,21 @@ test('webhook: paid session → team and customer emails; unpaid → ignored; ba
   assert.equal((await handleWebhook({ raw, signature: sign(raw) }, { ...deps, secret: '' })).status, 503);
 });
 
-test('packs: choice checked, contents split over the titles, shipping per parcel, order split by printer', async () => {
+test('packs: choice checked (no age step), contents split over the titles, shipping per parcel, order split by partner', async () => {
   const { packChoice, packContents } = await import('../server/catalog.js');
   const pack = catalog.bySku.get('pack-classroom');
-  assert.equal(packChoice(catalog, pack, '3-5|star-hoppers,home-hearts|library-day~natural'), '3-5|star-hoppers,home-hearts|library-day~natural');
-  assert.equal(packChoice(catalog, pack, '3-5|a,b,c,d|library-day~natural'), null);
-  assert.equal(packChoice(catalog, pack, '1-3|star-hoppers|library-day~natural'), null);
-  const c = packContents(catalog, pack, '5-7|star-hoppers,home-hearts|crayons~black');
+  assert.equal(packChoice(catalog, pack, 'book-star-hoppers-3-5,book-home-hearts-5-7|library-day~natural'), 'book-star-hoppers-3-5,book-home-hearts-5-7|library-day~natural');
+  assert.equal(packChoice(catalog, pack, 'book-a-3-5,book-b-3-5,book-c-3-5,book-d-3-5|library-day~natural'), null);
+  assert.equal(packChoice(catalog, pack, 'book-star-hoppers-1-3|library-day~natural'), null);
+  assert.equal(packChoice(catalog, pack, '3-5|star-hoppers|library-day~natural'), null, 'the old format with an age step is refused');
+  assert.equal(packChoice(catalog, pack, 'poster-star-hoppers-3-5|library-day~natural'), null, 'only books are titles');
+  const c = packContents(catalog, pack, 'book-star-hoppers-5-7,book-home-hearts-3-5|crayons~black');
   assert.equal(c.filter((x) => x.sku.startsWith('book-')).reduce((a, x) => a + x.qty, 0), 30);
   assert.equal(c.filter((x) => x.sku.startsWith('poster-')).reduce((a, x) => a + x.qty, 0), 3);
-  const lines = resolveLines(catalog, [{ sku: 'pack-circle', variant: '3-5|paws-claws|crayons~natural', qty: 1 }]);
+  const lines = resolveLines(catalog, [{ sku: 'pack-circle', variant: 'book-paws-claws-3-5|crayons~natural', qty: 1 }]);
   const ship = shippingFor(catalog.shop, lines, 'EUR');
   assert.equal(ship.parcels.length, 3);
-  const o = orderFrom({ ...SESSION, line_items: { data: [{ description: 'Story Circle pack', quantity: 1, amount_total: 15600, price: { product: { metadata: { sku: 'pack-circle', variant: '3-5|paws-claws|crayons~natural' } } } }] } }, catalog);
+  const o = orderFrom({ ...SESSION, line_items: { data: [{ description: 'Story Circle pack', quantity: 1, amount_total: 15600, price: { product: { metadata: { sku: 'pack-circle', variant: 'book-paws-claws-3-5|crayons~natural' } } } }] } }, catalog);
   assert.deepEqual(Object.keys(o.parts).sort(), ['lulu', 'printful']);
   assert.equal(o.parts.lulu[0].qty, 10);
 });

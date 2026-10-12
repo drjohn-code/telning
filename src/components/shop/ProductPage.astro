@@ -1,9 +1,9 @@
 ---
-/* One product page, for every product (books, posters, mugs, tote bags, postcards, greeting cards).
-   The seven parts of the website plan, in order: 1 photos, 2 name and price (with the scene line), 3 choose,
-   4 keep the story going, 5 material and care, 6 delivery, 7 safety. Then "Keep the story going" (books) and
-   "Complete the set". The buy form posts to /api/checkout without JavaScript; the shop script turns it into
-   "Add to basket". */
+/* One product page, for every product (books, Story Walls, mugs, tote bags, postcards, greeting cards).
+   The seven parts of the website plan, in order: 1 photos, 2 name, descriptor and price (with the scene line and a
+   trust row), 3 choose, 4 keep the story going, 5 material and care, 6 delivery, 7 safety. Then "Keep the story going"
+   (max 3 items) and "Complete the set". The buy form posts to /api/checkout without JavaScript; the shop script turns
+   it into "Add to basket". No partner names anywhere on this page. */
 import Base from '../../layouts/Base.astro';
 import Header from '../Header.astro';
 import Footer from '../Footer.astro';
@@ -11,9 +11,11 @@ import Breadcrumbs from '../Breadcrumbs.astro';
 import Gallery from './Gallery.astro';
 import Price from './Price.astro';
 import ProductCard from './ProductCard.astro';
+import Picture from './Picture.astro';
 import TrustBar from './TrustBar.astro';
 import CurrencySelect from './CurrencySelect.astro';
-import { catalog, shop, gifts, ageLabel, priceAttrs, giftPath, money } from '../../lib/shop';
+import PimNote from '../PimNote.astro';
+import { catalog, shop, gifts, ageLabel, priceAttrs, giftPath, money, sceneLine, deliveryWindow } from '../../lib/shop';
 
 interface Props { p: any }
 const { p } = Astro.props;
@@ -23,43 +25,49 @@ const isSeries = p.category === 'books';
 const al = p.age ? ageLabel(p.age) : '';
 const find = (sku: string) => catalog.bySku.get(sku) as any;
 
-/* photos: alt text per view */
+/* photos: alt text per view, describing the scene */
 const ALT: Record<string, (p: any) => string> = {
-  front: (p) => p.type === 'book' ? `Front cover of “${p.title}”, the ${p.seriesName} colouring book for ages ${al}` : p.type === 'postcards' ? `The front of the “${p.title}” postcard` : `The front of the “${p.title}” greeting card`,
-  table: (p) => `The ${p.seriesName} colouring book on a table with crayons`,
-  back: (p) => p.type === 'book' ? `Back cover with the story in six languages, the age and page badges and the QR code` : p.type === 'postcards' ? 'The back of the postcard, with space for a message and an address' : `The other side of the “${p.title}” mug`,
-  stand: (p) => `The ${p.seriesName} book standing, showing the plain green spine`,
-  art: (p) => `The full ${p.seriesName} giant colouring poster for ages ${al}: part in colour, part to colour`,
-  wall: (p) => `The ${p.seriesName} poster coloured in and framed on a child’s wall`,
-  detail: (p) => p.type === 'poster' ? `Close-up of the poster lines with crayons, half coloured in` : `Close-up of the print on the organic cotton`,
-  tube: (p) => `The poster rolled in its tube for delivery`,
-  white: (p) => `The white “${p.title}” mug`,
-  colour: (p) => `The “${p.title}” mug with ${p.design.inside.toLowerCase()} inside`,
-  natural: (p) => `The “${p.title}” tote bag in natural organic cotton`,
-  black: (p) => `The “${p.title}” tote bag in black organic cotton`,
-  scene: (p) => p.type === 'tote' ? `The “${p.title}” tote bag with a book and crayons` : p.type === 'postcards' ? 'A postcard being written at the kitchen table' : `The “${p.title}” card standing on a shelf`,
-  pack: (p) => `The pack of ten “${p.title}” postcards`,
+  table: (p) => `“${p.title}”, the ${p.seriesName} colouring book, on a light oak kitchen table with three crayons and a plant`,
+  cover: (p) => `Front cover of “${p.title}”: Telning green, the ${p.seriesName} scene in a window, Pim in the corner, ages ${al}`,
+  spread: (p) => `The book open: the conversation guide on the left page, a black-and-white drawing to colour on the right`,
+  'last-page': () => `The empty last page, where your child draws the ending`,
+  back: () => `Back cover with the story in six languages, the age and page badges and the QR code`,
+  wall: (p) => `The ${p.seriesName} Story Wall coloured in and framed in light oak on a child’s bedroom wall`,
+  progress: (p) => `The ${p.seriesName} Story Wall half coloured on a table, crayons around it`,
+  detail: (p) => p.type === 'poster' ? `Close-up of the edge between the printed colour and the open line art, with the paper texture` : p.type === 'tote' ? `Close-up of the print on the organic cotton weave` : p.type === 'mug' ? `Close-up of the print on the glazed ceramic` : `Close-up of the matte card and its texture`,
+  scale: (p) => p.type === 'poster' ? `The Story Wall on a wall next to a child’s chair: 100 cm wide` : `The ${p.title} mug next to a Telning book, to show the size`,
+  art: (p) => `The whole ${p.seriesName} Story Wall picture: about a third in flat colour, the rest to colour`,
+  breakfast: (p) => `The ${p.title} mug on a breakfast table in morning light, next to an open Telning book`,
+  white: (p) => `The white ${p.title} mug`,
+  colour: (p) => `The ${p.title} mug with a ${p.design.inside.toLowerCase()} inside and handle`,
+  hook: (p) => `The ${p.title} tote bag on an oak hook, a Telning book peeking out`,
+  natural: (p) => `The ${p.title} tote bag in undyed organic cotton`,
+  black: (p) => `The ${p.title} tote bag in black organic cotton`,
+  bench: (p) => `The ${p.title} tote bag on a park bench`,
+  desk: (p) => `A written “${p.title}” postcard on a desk with a pen, the front beside it`,
+  front: (p) => p.type === 'postcards' ? `The front of the “${p.title}” postcard` : `The front of the “${p.title}” greeting card`,
+  pack: (p) => p.type === 'postcards' ? `The pack of ten “${p.title}” postcards` : `Ten “${p.title}” cards and ten envelopes`,
+  flatlay: (p) => `The “${p.title}” card with its envelope on linen`,
   open: (p) => `The “${p.title}” card open: blank inside for your own words`,
-  envelope: (p) => `The “${p.title}” card with its envelope`,
 };
 const images = p.images.map((im: any) => ({ ...im, alt: (ALT[im.view] || (() => p.name))(p), zoom: p.type === 'poster' && im.view === 'art' }));
 
-/* the age and format switches for books and posters */
+/* the age and format switches for books and Story Walls */
 const sibling = (type: string, age: string) => find(`${type}-${p.series}-${age}`);
 const keepBook = isSeries ? find(`book-${p.series}-${p.age}`) : p.story ? find(`book-${p.story.series}-3-5`) : null;
 const keepLine = isSeries ? p.book.keep : null;
 
-/* Keep the story going (book pages): the poster of the same series first, then postcards, then the tote bag */
-const keep = p.type === 'book' ? [sibling('poster', p.age), find('postcards-hello-grandma'), find('tote-library-day')].filter(Boolean) : [];
+/* Keep the story going (max 3): the Story Wall of the same series first, then postcards, then the tote bag */
+const keep = p.type === 'book' ? [sibling('poster', p.age), find('postcards-hello-grandma'), find('tote-library-day')].filter(Boolean).slice(0, 3) : [];
 /* Complete the set: the matching book and one more item from the same series; for gifts, more of the same kind */
 let more: any[] = [];
-if (p.type === 'book') more = [sibling('book', p.age === '3-5' ? '5-7' : '3-5'), sibling('poster', p.age === '3-5' ? '5-7' : '3-5')];
+if (p.type === 'book') more = [sibling('book', p.age === '3-5' ? '5-7' : '3-5'), sibling('poster', p.age === '3-5' ? '5-7' : '3-5'), find('mug-one-more-page')];
 else if (p.type === 'poster') more = [sibling('book', p.age), sibling('poster', p.age === '3-5' ? '5-7' : '3-5'), find('postcards-under-the-same-sky')];
 else more = [...catalog.products.filter((x: any) => x.type === p.type && x.sku !== p.sku).slice(0, 3), ...(keepBook ? [keepBook] : [])].slice(0, 4);
 more = more.filter(Boolean);
 
-/* bundles with this product */
-const bundle = p.type === 'book' ? { name: 'Book + giant poster', items: [p, sibling('poster', p.age)] }
+/* the bundle with this product */
+const bundle = p.type === 'book' ? { name: 'Book + Story Wall', items: [p, sibling('poster', p.age)] }
   : p.type === 'poster' ? { name: 'After the last page', items: [sibling('book', p.age), p, find('postcards-under-the-same-sky')] } : null;
 const bundleTotal = bundle ? Object.fromEntries(['EUR', 'GBP', 'USD', 'CAD'].map((c) => [c, bundle.items.reduce((a: number, x: any) => a + (x.variants ? x.variants[0].price : x.price)[c], 0)])) : null;
 const bundleAttrs = bundleTotal ? Object.fromEntries(Object.entries(bundleTotal).map(([c, v]) => [`data-${c.toLowerCase()}`, money(v as number, c, (shop.currencies as any)[c].locale)])) : {};
@@ -70,23 +78,31 @@ const ld: Record<string, unknown> = {
   '@type': p.type === 'book' ? ['Product', 'Book'] : 'Product',
   '@id': `${HOST}${p.url}#product`, name: p.name, sku: p.sku, url: `${HOST}${p.url}`,
   image: p.images.map((im: any) => `${HOST}${im.src}-1200.webp`),
-  description: p.type === 'book' ? `${p.book.hook} ${p.book.story}` : p.type === 'poster' ? `${t.scene} ${p.poster.scene}` : `${t.scene} ${p.design.about}`,
+  description: p.type === 'book' ? `${p.book.hook} ${p.book.story}` : p.type === 'poster' ? `${p.seriesName} Story Wall: a large colouring poster, 100 × 70 cm. ${p.poster.scene}` : `${sceneLine(p)} ${p.design.about}`,
   brand: { '@type': 'Brand', name: 'Telning' }, manufacturer: { '@id': `${HOST}/#organization` },
   category: p.category === 'books' ? 'Books & posters' : 'Gifts',
-  ...(p.type === 'book' ? { bookFormat: 'https://schema.org/Paperback', numberOfPages: 32, author: { '@id': `${HOST}/#organization` }, publisher: { '@id': `${HOST}/#organization` }, typicalAgeRange: p.age, alternateName: p.title } : {}),
+  material: p.type === 'tote' ? 'GOTS-certified organic cotton' : p.type === 'mug' ? 'Ceramic' : 'FSC-certified paper',
+  ...(p.type === 'book' ? { bookFormat: 'https://schema.org/Paperback', numberOfPages: 32, author: { '@id': `${HOST}/#organization` }, publisher: { '@id': `${HOST}/#organization` }, typicalAgeRange: p.age, alternateName: `${p.seriesName} colouring book, ages ${al}` } : {}),
+  ...(p.type === 'poster' ? { alternateName: `${p.seriesName} large colouring poster, ages ${al}`, size: '100 × 70 cm' } : {}),
   ...(p.age ? { audience: { '@type': 'PeopleAudience', suggestedMinAge: Number(p.age.split('-')[0]), suggestedMaxAge: Number(p.age.split('-')[1]) } } : {}),
   offers: {
     '@type': 'Offer', url: `${HOST}${p.url}`, price: priceOf(p), priceCurrency: 'EUR', availability: 'https://schema.org/InStock', itemCondition: 'https://schema.org/NewCondition',
     seller: { '@id': `${HOST}/#organization` },
+    shippingDetails: { '@type': 'OfferShippingDetails', shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'SE' }, deliveryTime: { '@type': 'ShippingDeliveryTime', handlingTime: { '@type': 'QuantitativeValue', minValue: 1, maxValue: 4, unitCode: 'DAY' }, transitTime: { '@type': 'QuantitativeValue', minValue: 2, maxValue: 6, unitCode: 'DAY' } } },
     hasMerchantReturnPolicy: { '@type': 'MerchantReturnPolicy', applicableCountry: 'SE', returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow', merchantReturnDays: 14, returnMethod: 'https://schema.org/ReturnByMail', returnFees: 'https://schema.org/ReturnShippingFees' },
   },
 };
 const taxAttrs = Object.fromEntries(Object.entries(shop.currencies).map(([c, v]: [string, any]) => [`data-taxnote-${c.toLowerCase()}`, v.taxNote]));
 const firstShip = (shop.parcels as any)[p.parcel].first;
 const shipAttrs = Object.fromEntries(Object.entries(firstShip).map(([c, v]) => [`data-${c.toLowerCase()}`, money(Math.round((v as number) * 100), c, (shop.currencies as any)[c].locale)]));
+const windows = deliveryWindow();
+const winAttrs = Object.fromEntries(Object.entries(windows).map(([c, v]) => [`data-${c.toLowerCase()}`, v]));
 const kicker = isSeries ? `${p.seriesName} · Ages ${al}` : p.occasion ? `${t.plural} · ${(gifts.occasions as any)[p.occasion]}` : t.plural;
-const h1 = isSeries ? (p.type === 'book' ? p.title : `${p.seriesName} giant colouring poster`) : p.name;
-const sub = isSeries ? (p.type === 'book' ? `${p.seriesName} colouring book, ages ${al}` : `Ages ${al} · 70 × 100 cm`) : t.noun.charAt(0).toUpperCase() + t.noun.slice(1);
+const h1 = p.name;
+const sub = p.descriptor;
+const scene = sceneLine(p);
+const pimLine = p.type === 'book' ? 'I can’t wait to see which ending you choose.' : p.type === 'poster' ? 'Can you find me on the wall?' : null;
+const cert = p.type === 'tote' ? 'GOTS · OEKO-TEX' : p.type === 'mug' ? 'Food-safe ceramic' : 'FSC-certified paper';
 ---
 <Base page={p.url} jsonld={[ld]}>
   <Header />
@@ -99,8 +115,23 @@ const sub = isSeries ? (p.type === 'book' ? `${p.seriesName} colouring book, age
         <p class="tn-pdp__kick">{kicker}</p>
         <h1 class="tn-pdp__h1" id="page-h" tabindex="-1">{h1}</h1>
         <p class="tn-pdp__sub">{sub}</p>
-        <p class="tn-pdp__scene">{t.scene}</p>
-        <p class="tn-pdp__price"><Price p={p} class="tn-pdp__amount" /><span class="tn-pdp__tax" {...taxAttrs}>Price includes VAT.</span></p>
+        <p class="tn-pdp__scene">{scene}</p>
+        {(keepLine || p.story) && (
+          <p class="tn-pdp__from">
+            {isSeries
+              ? <>From the book <a href={keepBook.url}><em>{p.book.title}</em></a>: {keepLine}.</>
+              : <>A cousin of the book <a href={`/books/${p.story.series}`}><em>{p.story.seriesName}</em></a>.</>}
+          </p>
+        )}
+        <div class="tn-pdp__pricerow">
+          <p class="tn-pdp__price"><Price p={p} class="tn-pdp__amount" /><span class="tn-pdp__tax" {...taxAttrs}>Price includes VAT.</span></p>
+          <ul class="tn-trustrow" aria-label="Our promises">
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Secure payment</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v4h4"/></svg>14-day returns</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>{cert}</li>
+          </ul>
+        </div>
+        <p class="tn-pdp__delivery"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg><span>Made for you after you order. Order today and it arrives <strong class="tn-price" {...winAttrs}>{winAttrs['data-eur']}</strong>.</span></p>
         <p class="tn-pdp__shipfrom">Shipping from <span class="tn-price" {...shipAttrs}>{shipAttrs['data-eur']}</span> per parcel. <a class="tn-link" href="/shipping-returns">Shipping &amp; returns</a></p>
 
         <form class="tn-buy" method="post" action="/api/checkout" data-sku={p.sku} data-max={p.maxQty}>
@@ -113,7 +144,7 @@ const sub = isSeries ? (p.type === 'book' ? `${p.seriesName} colouring book, age
                 <span class="tn-chip is-off" aria-disabled="true">Ages 1–3 <small>coming soon</small></span>
               </div></fieldset>
               <fieldset class="tn-opt"><legend>Format</legend><div class="tn-opt__row">
-                {['book', 'poster'].map((ty) => { const x = sibling(ty, p.age); return <a class={`tn-chip${ty === p.type ? ' is-on' : ''}`} href={x.url} aria-current={ty === p.type ? 'page' : undefined}>{ty === 'book' ? 'Colouring book' : 'Giant poster'}</a>; })}
+                {['book', 'poster'].map((ty) => { const x = sibling(ty, p.age); return <a class={`tn-chip${ty === p.type ? ' is-on' : ''}`} href={x.url} aria-current={ty === p.type ? 'page' : undefined}>{ty === 'book' ? 'Colouring book' : 'Story Wall'}</a>; })}
               </div></fieldset>
             </>
           )}
@@ -139,19 +170,7 @@ const sub = isSeries ? (p.type === 'book' ? `${p.seriesName} colouring book, age
         </form>
 
         <ul class="tn-pdp__facts">{t.facts.map((f: string) => <li>{f}</li>)}</ul>
-        <ul class="tn-pdp__promise">
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>Made to order and printed in your region</li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v4h4"/></svg>Unused items can be returned within 14 days</li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Secure payment with Stripe</li>
-        </ul>
-
-        {(keepLine || p.story) && (
-          <p class="tn-pdp__keep"><span class="tn-pdp__keepk">Keep the story going</span>
-            {isSeries
-              ? <>From the book <a href={keepBook.url}><em>{p.seriesName}</em></a>: {keepLine}.</>
-              : <>A cousin of the book <a href={`/books/${p.story.series}`}><em>{p.story.seriesName}</em></a>. {p.design.about}</>}
-          </p>
-        )}
+        {pimLine && <PimNote line={pimLine} size="sm" class="tn-pdp__pim" />}
       </div>
     </section>
 
@@ -176,7 +195,7 @@ const sub = isSeries ? (p.type === 'book' ? `${p.seriesName} colouring book, age
               <ul>{t.inside.map((x: string) => <li>{x}</li>)}</ul>
               <p>From the conversation guide:</p>
               <ul class="tn-talk">{p.book.talk.map((x: string) => <li>“{x}”</li>)}</ul>
-              <p>We show the cover only. The pages inside stay a surprise until the book is on your table.</p>
+              <p>Every drawing inside is black-and-white line art, made for pencils and crayons. The photos above show the real pages: the guide on the left, the drawing on the right, and the empty last page.</p>
             </div>
           </details>
         )}
@@ -185,8 +204,8 @@ const sub = isSeries ? (p.type === 'book' ? `${p.seriesName} colouring book, age
             <summary>The picture</summary>
             <div class="tn-prose">
               <p class="tn-lead">{p.poster.scene}</p>
-              <p>{p.age === '3-5' ? 'For ages 3–5 the shapes are big and the lines are thick, so small hands can stay inside them with a crayon.' : 'For ages 5–7 the shapes are smaller and there is more to find, for steady hands and long afternoons.'} About a third of the picture is already in flat Telning colours, spread over the sheet, to help your child choose their own. The rest is clear line drawing, waiting to be coloured.</p>
-              <p>It is the world of <a href={`/books/${p.series}`}>{p.seriesName}</a>, the series of the book <a href={keepBook.url}>“{p.book.title}”</a>. Colour it alone or with friends, over many days. Then put it in a 70 × 100 cm frame and hang it on the wall.</p>
+              <p>{p.age === '3-5' ? 'For ages 3–5 the shapes are big and the outlines are thick, so small hands can stay inside them with a crayon.' : 'For ages 5–7 the shapes are smaller and there is more to find and count, for steady hands and long afternoons.'} About a third of the picture is printed in flat Telning colours, spread over the sheet to guide your child’s own colour choices. The rest is clear line art, waiting to be coloured. Somewhere in the picture, Pim is hiding.</p>
+              <p>It is the world of <a href={`/books/${p.series}`}>{p.seriesName}</a>, the series of the book <a href={keepBook.url}>“{p.book.title}”</a>. Colour it alone or with friends, over many days. Then put it in a 70 × 100 cm frame and hang it: it is wall art first.</p>
             </div>
           </details>
         )}
@@ -195,8 +214,8 @@ const sub = isSeries ? (p.type === 'book' ? `${p.seriesName} colouring book, age
             <summary>The design</summary>
             <div class="tn-prose">
               <p class="tn-lead">{p.design.about}</p>
-              <p>{p.type === 'mug' ? 'A quiet design, one small scene on a white glazed mug. Choose plain white, or a coloured inside and handle that matches the design.' : p.type === 'tote' ? 'One small print on the front of the bag, in natural or black organic cotton. The back is plain.' : p.type === 'postcards' ? 'Ten postcards of this one design in a pack. The back has a line for your message, an address box and a small Telning colophon.' : 'Ten folded cards of this one design in a pack, with ten envelopes. Blank inside, so the words are yours. A small Telning colophon on the back.'}</p>
-              <p>Designed in Sweden by Telning Publishing House.</p>
+              <p>{p.type === 'mug' ? 'One small, quiet Pim scene on a white glazed mug. Choose plain white, or a coloured inside and handle that matches the design.' : p.type === 'tote' ? 'One small print on the front of the bag, in undyed or black organic cotton. The back is plain.' : p.type === 'postcards' ? 'Ten postcards of this one design in a pack. The back has a line for your message, an address box and a small Telning colophon.' : 'Ten folded cards of this one design in a pack, with ten envelopes. Blank inside, so the words are yours. A small Telning colophon on the back.'}</p>
+              <p>Designed in Sweden by Telning Publishing House. Made for you, with care.</p>
             </div>
           </details>
         )}
@@ -218,9 +237,9 @@ const sub = isSeries ? (p.type === 'book' ? `${p.seriesName} colouring book, age
         <aside class="tn-bundle" aria-labelledby="bundle-h">
           <p class="tn-pdp__keepk">Together</p>
           <h2 class="tn-h3" id="bundle-h">{bundle.name}</h2>
-          <ul class="tn-bundle__items">{bundle.items.map((x: any) => <li><img src={`${x.images[0].src}-600.webp`} alt="" width="120" height="120" loading="lazy" /><span><a href={x.url}>{x.name}</a><Price p={x} /></span></li>)}</ul>
+          <ul class="tn-bundle__items">{bundle.items.map((x: any) => <li><Picture src={x.images[0].src} alt="" widths={[600]} sizes="56px" width={120} height={120} /><span><a href={x.url}>{x.name}</a><Price p={x} /></span></li>)}</ul>
           <p class="tn-bundle__total">Together <span class="tn-price" {...bundleAttrs}>{bundleAttrs['data-eur']}</span></p>
-          <button class="tn-btn tn-btn--ghost" type="button" data-add={JSON.stringify(bundle.items.map((x: any) => ({ sku: x.sku, variant: x.variants ? x.variants[0].key : '', qty: 1, max: x.maxQty })))}>Add all {bundle.items.length} to basket</button>
+          <button class="tn-btn tn-btn--secondary" type="button" data-add={JSON.stringify(bundle.items.map((x: any) => ({ sku: x.sku, variant: x.variants ? x.variants[0].key : '', qty: 1, max: x.maxQty })))}>Add all {bundle.items.length} to basket</button>
         </aside>
       )}
     </section>

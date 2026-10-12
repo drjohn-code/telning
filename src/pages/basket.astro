@@ -7,7 +7,8 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import CurrencySelect from '../components/shop/CurrencySelect.astro';
 import TrustBar from '../components/shop/TrustBar.astro';
 import Pim from '../components/Pim.astro';
-import { shop, img } from '../lib/shop';
+import Picture from '../components/shop/Picture.astro';
+import { shop, view } from '../lib/shop';
 const PAGE = '/basket';
 ---
 <Base page={PAGE}>
@@ -22,8 +23,8 @@ const PAGE = '/basket';
           <p class="tn-empty__h">Nothing in here yet.</p>
           <p class="tn-p">Your basket lives on this device until you pay. Start with a book, or find something for the grown-up who reads it.</p>
           <ul class="tn-empty__tiles">
-            <li><a href="/books"><img src={img('/shop/img/book-star-hoppers-3-5/table', 600)} alt="" width="600" height="600" loading="lazy" />Books &amp; posters<small>12 series, ages 3–7</small></a></li>
-            <li><a href="/gifts"><img src={img('/shop/img/mug-the-moon/table', 600)} alt="" width="600" height="600" loading="lazy" />Gifts<small>Mugs, totes, cards</small></a></li>
+            <li><a href="/books"><Picture src={view('book-star-hoppers-3-5', 'table')} alt="" widths={[600]} sizes="160px" />Books &amp; posters<small>12 series, ages 3–7</small></a></li>
+            <li><a href="/gifts"><Picture src={view('mug-the-moon', 'breakfast')} alt="" widths={[600]} sizes="160px" />Gifts<small>Mugs, totes, cards</small></a></li>
           </ul>
         </div>
         <noscript><p class="tn-p">The basket needs JavaScript. Without it, use “Add to basket” on a product page to pay for that one item straight away.</p></noscript>

@@ -1,5 +1,5 @@
 {
-  "_draft": "Shop facts. Prices (except book €12.90 and poster €19.90), shipping fees and texts are DRAFTS agreed on 12 Oct 2026. Change them here only: pages, the basket and Stripe Checkout all read this file. Amounts are in major units (12.90).",
+  "_draft": "Shop facts. Prices (except book €12.90 and Story Wall €19.90), shipping fees and texts are DRAFTS agreed on 12 Oct 2026; premium copy rewritten 12–13 Oct 2026. Change them here only: pages, the basket and Stripe Checkout all read this file. Amounts are in major units (12.90). Partner names never appear here: they live in server code.",
   "open": true,
   "currencies": {
     "EUR": {
@@ -114,7 +114,7 @@
       }
     },
     "posters": {
-      "name": "Giant posters",
+      "name": "Story Walls",
       "partner": "Printful",
       "first": {
         "EUR": 6.9,
@@ -192,14 +192,15 @@
         "USD": 13.9,
         "CAD": 18.9
       },
-      "scene": "Fourteen drawings, a few words to talk about on every page, and one empty page for the ending your child draws. One page a night at the kitchen table.",
-      "tag": "FSC paper",
+      "scene": "One page a night at the kitchen table. Fourteen drawings to colour, a few words to talk about on every page, and one empty page for the ending your child draws.",
+      "tag": "Premium FSC-certified paper",
       "facts": [
         "21.6 × 21.6 cm (8.5 × 8.5 in)",
         "32 pages",
-        "Black-and-white inside, for colouring"
+        "Black-and-white inside, for colouring",
+        "Premium FSC-certified paper"
       ],
-      "materials": "Printed on FSC-certified, acid-free, uncoated paper with a light texture made for pencils and crayons. Matte laminated cover. Glued spine with PUR, the strong, flexible glue used in bookshop paperbacks. Printed to order near you, in France, the UK, the US or Canada.",
+      "materials": "Premium FSC-certified, acid-free, uncoated paper with a light texture made for pencils and crayons. Matte laminated cover. Glued spine with PUR, the strong, flexible glue used in bookshop paperbacks. Made for you after you order.",
       "inside": [
         "A welcome page with a QR code to send Pim your child’s ending",
         "14 drawings to colour, each on a right-hand page",
@@ -215,25 +216,27 @@
       "parcel": "posters",
       "partner": "printful",
       "maxQty": 20,
-      "noun": "giant colouring poster",
-      "plural": "Giant colouring posters",
+      "noun": "Story Wall",
+      "plural": "Story Walls",
       "price": {
         "EUR": 19.9,
         "GBP": 17.9,
         "USD": 21.9,
         "CAD": 28.9
       },
-      "scene": "Some of the picture is already in colour; the rest is waiting for your child. Finish it together, then frame it and hang it on the wall.",
-      "tag": "Printed in your region",
+      "scene": "A rainy Saturday, the poster taped to the hallway wall: your child, a friend and Grandma each take a corner of the picture. About a third is already in colour; the rest is theirs. Then frame it and hang it.",
+      "tag": "Premium matte paper",
       "facts": [
-        "70 × 100 cm",
-        "Matte paper, 189 g/m²",
-        "About 30% in colour, 70% to colour",
+        "100 × 70 cm, landscape",
+        "Premium matte paper, 189 g/m²",
+        "About 30% in flat colour, 70% to colour",
+        "Thick, clean outlines for small hands",
         "Shipped rolled in a tube"
       ],
-      "materials": "Printed on matte paper, 189 g/m² and 0.26 mm thick, with no shine, so it is easy to frame. Printed to order near you and shipped rolled in a tube. 70 × 100 cm is a standard frame size.",
+      "materials": "Premium matte paper, 189 g/m² and 0.26 mm thick, with no shine, so it is easy to frame. Made for you after you order and shipped rolled in a tube. 70 × 100 cm is a standard frame size.",
       "care": "Colour with pencils, crayons or felt-tips. Put a sheet of card under the poster when you use felt-tips. Lay it flat under a few books for a day after unrolling.",
-      "safety": "Keep the tube and the packaging away from small children."
+      "safety": "Keep the tube and the packaging away from small children.",
+      "descriptor": "Colouring poster · 70 × 100 cm"
     },
     "mug": {
       "category": "gifts",
@@ -272,14 +275,14 @@
         }
       ],
       "variantLabel": "Mug",
-      "scene": "For the grown-up who reads the story every night. Pim’s cup for the morning coffee.",
-      "tag": "Printed in your region",
+      "scene": "Seven o’clock, warm milk in Pim’s mug, while Dad asks which ending she chose today. For the grown-up who reads the story every night.",
+      "tag": "Dishwasher safe",
       "facts": [
         "Ceramic, 11 oz (330 ml)",
         "9.6 cm tall, 8.3 cm across",
         "Dishwasher and microwave safe"
       ],
-      "materials": "White glazed ceramic, 330 ml. The print wraps around the mug. The colour-inside version has a glazed coloured inside and handle. Made to order in Europe or the US, near you.",
+      "materials": "White glazed ceramic, 330 ml, made for you after you order. The print wraps around the mug. The colour-inside version has a glazed coloured inside and handle.",
       "care": "Dishwasher and microwave safe. Hand washing keeps the print bright for longer.",
       "safety": "For hot drinks: take care with small children nearby."
     },
@@ -300,7 +303,7 @@
       "variants": [
         {
           "key": "natural",
-          "name": "Natural"
+          "name": "Undyed"
         },
         {
           "key": "black",
@@ -308,14 +311,15 @@
         }
       ],
       "variantLabel": "Colour",
-      "scene": "The grown-up’s bag: the book, the crayons, the spare socks, the library trip. Carry the story.",
-      "tag": "GOTS organic cotton",
+      "scene": "Library day. The book, the crayons, the spare socks and a snack all go in the grown-up’s bag, and the story comes along.",
+      "tag": "GOTS-certified organic cotton",
       "facts": [
         "41 × 36 × 13 cm",
-        "Organic cotton twill, 272 g/m²",
-        "Straps 62 cm, fits on the shoulder"
+        "GOTS-certified organic cotton twill, 272 g/m²",
+        "Straps 62 cm, fits on the shoulder",
+        "Undyed or black"
       ],
-      "materials": "100% organic cotton twill, 272 g/m², with GOTS and OCS certified organic cotton, and OEKO-TEX certified fabric. Printed with water-based inks. Made to order in Printful’s own sewing and print shops in Latvia, Spain, the UK, the US or Canada.",
+      "materials": "100% organic cotton twill, 272 g/m², GOTS and OCS certified, with OEKO-TEX certified fabric. Printed with water-based inks. Made for you after you order, in Europe or North America.",
       "care": "Wash at 30°C inside out. Do not iron on the print. Do not tumble dry.",
       "safety": "Not a toy. Keep the straps away from small children."
     },
@@ -333,14 +337,15 @@
         "USD": 13.9,
         "CAD": 18.9
       },
-      "scene": "Ten cards, one design. Write a line on the back and send it to Grandma.",
-      "tag": "FSC paper",
+      "scene": "Sunday evening at the kitchen table: your child tells you what to write, you write it, and Grandma gets a card with Pim on the front.",
+      "tag": "Premium FSC-certified card",
       "facts": [
         "Pack of 10, one design",
         "A6, 10.5 × 14.8 cm",
-        "Matte card, 300 g/m², rounded corners"
+        "Premium matte card, 300 g/m², rounded corners",
+        "Premium FSC-certified paper"
       ],
-      "materials": "Matte uncoated card, 300 g/m², FSC certified. Rounded corners. The back has space for a message and an address. Printed to order near you.",
+      "materials": "Premium matte uncoated card, 300 g/m², FSC certified, with rounded corners. The back has space for a message and an address. Made for you after you order.",
       "care": "Write with a pen or a pencil. Ballpoint and felt-tip both work on the matte back.",
       "safety": "Keep the packaging away from small children."
     },
@@ -358,38 +363,38 @@
         "USD": 21.9,
         "CAD": 28.9
       },
-      "scene": "Ten cards with Pim’s world on the front, with envelopes. Blank inside, for your own words.",
-      "tag": "FSC paper",
+      "scene": "A birthday card from Grandpa with Pim on the front, blank inside for his own words, and an envelope your child insists on licking shut.",
+      "tag": "Premium FSC-certified card",
       "facts": [
         "Pack of 10, one design, with envelopes",
         "Folded, 14.1 × 14.1 cm",
-        "Matte card, FSC certified, blank inside"
+        "Premium matte card, FSC certified, blank inside"
       ],
-      "materials": "Folded matte card, FSC certified, square corners. Comes with 10 envelopes: premium recycled envelopes in the EU, standard envelopes elsewhere. Printed to order near you.",
+      "materials": "Folded premium matte card, FSC certified, square corners. Comes with 10 envelopes: premium recycled envelopes in the EU, standard envelopes elsewhere. Made for you after you order.",
       "care": "Blank inside for your own words. Write with any pen.",
       "safety": "Keep the packaging away from small children."
     }
   },
-  "delivery": "Made to order and printed in your region. EU 3–10 working days, US, UK and Canada 3–7 working days. Unused items can be returned within 14 days. If it arrives damaged or wrong, we replace it.",
-  "separateParcel": "Each printer sends its own parcel, so an order with a book and a poster arrives in two parcels.",
+  "delivery": "Made for you after you order. EU 3–10 working days, US/UK/Canada 3–7 working days. Items may arrive in separate parcels. Unused items can be returned within 14 days. If it arrives damaged or wrong, we replace it.",
+  "separateParcel": "Items may arrive in separate parcels: books, Story Walls and gifts are each made in their own workshop.",
   "trust": [
     {
-      "h": "Printed in your region",
-      "t": "Made to order near you: France, the UK, the US or Canada for books; Europe or North America for everything else."
+      "h": "Made for you, with care",
+      "t": "Nothing waits in a warehouse. Every book, Story Wall and gift is made after you order it, as close to you as we can."
     },
     {
-      "h": "Certified paper and cotton",
-      "t": "FSC paper, GOTS organic cotton, OEKO-TEX fabric. Each claim sits next to its certificate on Our materials."
+      "h": "Premium, certified materials",
+      "t": "Premium FSC-certified paper, GOTS-certified organic cotton, OEKO-TEX certified fabric. Each claim sits next to its certificate on Our materials."
     },
     {
-      "h": "Made by scientists for play",
+      "h": "Designed in Sweden by scientists",
       "t": "Every story is created by the Telning team of cognitive and behavioural scientists, and designed in Sweden."
     }
   ],
   "bundles": [
     {
       "key": "book-poster",
-      "name": "Book + giant poster",
+      "name": "Book + Story Wall",
       "line": "Colour the story in the book, then the whole world on the wall.",
       "items": [
         "book",
@@ -417,7 +422,7 @@
     {
       "key": "after-the-last-page",
       "name": "After the last page",
-      "line": "The book, its giant poster and a pack of postcards: keep the story going.",
+      "line": "The book, its Story Wall and a pack of postcards: keep the story going.",
       "items": [
         "book",
         "poster",
@@ -426,10 +431,10 @@
     }
   ],
   "partnerRefs": {
-    "_": "Printer product IDs per sku (or sku~variant), filled when each product is set up at Lulu, Printful or Gelato. They go into the order email and, later, the printer APIs."
+    "_": "Partner product IDs per sku (or sku~variant), filled when each product is set up at the partner. They go into the order email and, later, the partner APIs. Server use only."
   },
   "packs": {
-    "_draft": "Pack prices: EUR from the product plan (10%, 12%, 18% off the full price); GBP, USD and CAD worked out the same way from the draft prices. Shipping uses the normal parcel fees for the books, posters and tote bags inside.",
+    "_draft": "Pack prices: EUR from the product plan (10%, 12%, 18% off the full price); GBP, USD and CAD worked out the same way from the draft prices. Shipping uses the normal parcel fees for the books, Story Walls and tote bags inside. No age step: the buyer picks titles directly.",
     "items": [
       {
         "key": "circle",
@@ -481,7 +486,7 @@
       }
     ],
     "offers": [
-      "One extra giant poster for the first 20 organisations.",
+      "One extra Story Wall for the first 20 organisations.",
       "One sample book at print cost for a teacher who wants to see it first."
     ]
   }

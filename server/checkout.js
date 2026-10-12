@@ -9,8 +9,11 @@ const CURS = ['EUR', 'GBP', 'USD', 'CAD'];
 
 export function lineName(l, catalog = {}) {
   if (l.product.type === 'pack') {
-    const [age, titles, tote] = l.variant.split('|');
-    return `${l.product.name}, ages ${ageLabel(age)}: ${titles.split(',').map((k) => seriesName(catalog, k)).join(', ')}; tote ${tote.replace('~', ', ')}`;
+    const [titles, tote] = l.variant.split('|');
+    const names = titles.split(',').map((sku) => { const b = catalog.bySku && catalog.bySku.get(sku); return b ? `${b.title} (${ageLabel(b.age)})` : sku; });
+    const [design, colour] = tote.split('~');
+    const t = catalog.bySku && catalog.bySku.get(`tote-${design}`);
+    return `${l.product.name}: ${names.join(', ')}; tote ${t ? t.title : design}, ${colour === 'natural' ? 'undyed' : colour}`;
   }
   const v = l.variant && l.product.variants && l.product.variants.find((x) => x.key === l.variant);
   return v ? `${l.product.name} (${v.name})` : l.product.name;
@@ -45,7 +48,7 @@ export function sessionParams(catalog, lines, currency, opts) {
         product_data: {
           name: lineName(l, catalog).slice(0, 250),
           ...(l.product.type === 'book' ? { description: `${l.product.title}. Softcover, 32 pages, ages ${ageLabel(l.product.age)}.` } : {}),
-          ...(l.product.type === 'pack' ? { description: `${l.product.pack.books} books, ${l.product.pack.posters} giant poster(s), ${l.product.pack.totes} tote bag(s) and the group guide.` } : {}),
+          ...(l.product.type === 'pack' ? { description: `${l.product.pack.books} books, ${l.product.pack.posters} Story Wall${l.product.pack.posters > 1 ? 's' : ''}, ${l.product.pack.totes} tote bag${l.product.pack.totes > 1 ? 's' : ''} and the group guide.` } : {}),
           images: [`${opts.imageBase || opts.origin}${(l.product.images.find((i) => i.view === l.variant) || l.product.images[0]).src}-600.webp`],
           metadata: { sku: l.product.sku, variant: l.variant || '', partner: l.product.partner },
         },
@@ -55,7 +58,7 @@ export function sessionParams(catalog, lines, currency, opts) {
     shipping_options: [{
       shipping_rate_data: {
         type: 'fixed_amount',
-        display_name: `Made to order, ${ship.parcels.length} parcel${ship.parcels.length > 1 ? 's' : ''} (${parcelNames})`.slice(0, 100),
+        display_name: `Made for you after you order · ${ship.parcels.length} parcel${ship.parcels.length > 1 ? 's' : ''} (${parcelNames})`.slice(0, 100),
         fixed_amount: { amount: ship.total, currency: currency.toLowerCase() },
         delivery_estimate: { minimum: { unit: 'business_day', value: region.delivery[0] }, maximum: { unit: 'business_day', value: region.delivery[1] } },
         ...taxBehavior,
@@ -66,7 +69,7 @@ export function sessionParams(catalog, lines, currency, opts) {
     allow_promotion_codes: true,
     ...(opts.tax ? { automatic_tax: { enabled: true } } : {}),
     ...(opts.terms ? { consent_collection: { terms_of_service: 'required' } } : {}),
-    custom_text: { submit: { message: 'Made to order and printed in your region. Each printer sends its own parcel. Unused items can be returned within 14 days.' } },
+    custom_text: { submit: { message: 'Made for you after you order. Items may arrive in separate parcels. Unused items can be returned within 14 days.' } },
     metadata: { basket: code.slice(0, 500), currency, region: cur.region, parcels: ship.parcels.map((p) => `${p.key}:${p.qty}`).join(',') },
     payment_intent_data: { description: `Telning order: ${lines.reduce((a, l) => a + l.qty, 0)} item(s)`, metadata: { basket: code.slice(0, 500) } },
     success_url: `${opts.origin}/order/thanks?session_id={CHECKOUT_SESSION_ID}`,

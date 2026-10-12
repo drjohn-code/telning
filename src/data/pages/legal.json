@@ -56,9 +56,9 @@
         "id": "shop",
         "h": "Buying in the shop",
         "p": [
-          "When you buy, we need your name, email address, delivery address, phone number (printers need it for delivery) and what you ordered. We use them to make and deliver your order, to send you the order emails, to handle returns, and to keep the records that Swedish accounting law asks for.",
+          "When you buy, we need your name, email address, delivery address, phone number (the delivery partners need it) and what you ordered. We use them to make and deliver your order, to send you the order emails, to handle returns, and to keep the records that Swedish accounting law asks for.",
           "Payment is handled by Stripe. You enter your card or other payment details on Stripe’s page; we never see or store your card number. Stripe tells us that the payment went through.",
-          "Your order goes to the printing partner that makes it: Lulu (books), Printful (giant posters, mugs, tote bags) or Gelato (postcards, greeting cards). They receive your name, delivery address, phone number and the items, only to print and deliver them. Order emails are sent with Resend.",
+          "Your order goes to our trusted printing and delivery partners, the companies that make and deliver books, Story Walls and gifts for us. They receive your name, delivery address, phone number and the items, only to make and deliver them. Order emails are sent with Resend.",
           "Some of these companies are outside the EU or use servers outside the EU. They do so under the safeguards the GDPR requires, such as the EU standard contractual clauses. The legal basis is the contract with you, and our legal duty to keep accounts."
         ]
       },
@@ -215,7 +215,7 @@
           "The seller is WelloWork AB, Sweden ({orgNumber}), trading as Telning Publishing House.",
           "Prices in euros and pounds include VAT. Prices in US and Canadian dollars do not include sales tax; where it applies, it is added at checkout. Shipping is shown in the basket before you pay.",
           "Your order is accepted when the payment goes through and we send the order confirmation by email.",
-          "Everything is made to order. Our printing partners (Lulu, Printful and Gelato) print and deliver on our behalf, in your region. Delivery times are on <a href=\"/shipping-returns\">Shipping &amp; returns</a>.",
+          "Everything is made for you after you order. Our trusted printing and delivery partners make and deliver on our behalf, as close to you as they can. Delivery times are on <a href=\"/shipping-returns\">Shipping &amp; returns</a>.",
           "You can cancel within 14 days of delivery and return unused items, as described on <a href=\"/shipping-returns\">Shipping &amp; returns</a>. Damaged, faulty or wrong items are replaced or refunded at our cost.",
           "Many product photos on the site are pictures made from our print files, not photographs. Printed colours can differ a little from your screen.",
           "Organisations can pay by invoice: the details are agreed by email with the offer."

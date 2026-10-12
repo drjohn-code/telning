@@ -15,6 +15,8 @@ export function GET() {
     products[p.sku] = { n: p.name, u: p.url, t: 'pack', pa: null, sh: p.ship, p: p.price, m: p.maxQty, i: p.images[0].src, v: null };
   }
   const names = { series: Object.fromEntries(site.series.map((s: any) => [s.key, s.name])), totes: Object.fromEntries((gifts as any).tote.map((d: any) => [d.key, d.name])) };
-  const body = { currencies: shop.currencies, parcels: shop.parcels, regions: shop.regions, products, names, open: shop.open !== false };
+  const parcels = Object.fromEntries(Object.entries(shop.parcels as Record<string, any>).map(([k, v]) => [k, { name: v.name, first: v.first, extra: v.extra }]));   // never the partner
+  const books = Object.fromEntries((catalog.products as any[]).filter((p) => p.type === 'book').map((p) => [p.sku, `${p.title} (${p.age.replace('-', '–')})`]));
+  const body = { currencies: shop.currencies, parcels, regions: shop.regions, products, names: { ...names, books }, open: shop.open !== false };
   return new Response(JSON.stringify(body), { headers: { 'Content-Type': 'application/json' } });
 }

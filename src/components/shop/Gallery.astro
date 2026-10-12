@@ -1,20 +1,24 @@
 ---
 /* Product photos: a main photo, thumbnails and a zoom view (<dialog>). Without JavaScript the first photo shows
-   and every photo is a link in the thumbnail row. */
-import { img } from '../../lib/shop';
-interface Props { images: { src: string; alt: string; view: string; zoom?: boolean; ratio?: string }[] }
+   and every photo is a link in the thumbnail row. The first photo is the LCP element (eager, high priority). */
+import Picture from './Picture.astro';
+interface Props { images: { src: string; alt: string; view: string; zoom?: boolean }[] }
 const { images } = Astro.props;
 const first = images[0];
 ---
 <div class="tn-gallery" data-view={first.view}>
-  <div class="tn-gallery__main" style={first.ratio ? `--ratio:${first.ratio}` : undefined}>
-    <img src={img(first.src, 1200)} srcset={`${img(first.src, 600)} 600w, ${img(first.src, 1200)} 1200w`} sizes="(min-width: 1024px) 600px, 100vw" width="1200" height="1200" alt={first.alt} fetchpriority="high" decoding="async" />
-    <button class="tn-gallery__zoom" type="button" aria-label="Zoom in on this photo"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5M11 8v6M8 11h6"/></svg></button>
+  <div class="tn-gallery__main">
+    <Picture src={first.src} alt={first.alt} eager sizes="(min-width: 1024px) 640px, 100vw" />
+    <button class="tn-gallery__zoom" type="button" aria-label="Zoom in on the photo"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16 16l5 5M11 8v6M8 11h6"/></svg></button>
   </div>
   <ul class="tn-gallery__thumbs" aria-label="Photos">
     {images.map((im, i) => (
-      <li><a class="tn-gallery__thumb" href={img(im.src, 1200)} role="button" aria-pressed={i === 0 ? 'true' : 'false'} data-view={im.view} data-src={img(im.src, 1200)} data-srcset={`${img(im.src, 600)} 600w, ${img(im.src, 1200)} 1200w`} data-zoom={im.zoom ? img(im.src, 2000) : img(im.src, 1200)} data-alt={im.alt} onclick="event.preventDefault()"><img src={img(im.src, 600)} width="120" height="120" alt={`Photo ${i + 1}: ${im.alt}`} loading="lazy" decoding="async" /></a></li>
+      <li><a class="tn-gallery__thumb" href={`${im.src}-1200.webp`} role="button" aria-pressed={i === 0 ? 'true' : 'false'} data-view={im.view} data-src={`${im.src}-1200.webp`} data-srcset={`${im.src}-600.webp 600w, ${im.src}-1200.webp 1200w`} data-zoom={im.zoom ? `${im.src}-2000.webp` : `${im.src}-1200.webp`} data-alt={im.alt} onclick="event.preventDefault()">
+        <Picture src={im.src} alt="" widths={[600]} sizes="100px" />
+      </a></li>
     ))}
   </ul>
-  <dialog class="tn-zoom" aria-label="Zoomed photo"><button class="tn-zoom__x" type="button" data-close aria-label="Close the zoom"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button><div class="tn-zoom__scroll"><img alt="" /></div></dialog>
+  <dialog class="tn-zoom" aria-label="Photo, zoomed in">
+    <div class="tn-zoom__scroll"><button class="tn-zoom__x" type="button" data-close aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button><img src="" alt="" /></div>
+  </dialog>
 </div>
