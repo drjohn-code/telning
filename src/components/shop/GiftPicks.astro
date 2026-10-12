@@ -1,0 +1,26 @@
+---
+/* GiftPicks: the last section on series and product pages. One band across the screen with three gifts to look at:
+   a tote bag, a mug and a Story Wall (of the same series when there is one). Title "Best sellers" by John's decision
+   (13 Oct 2026); lead DRAFT. The tote bag and the mug come from the current shop list, so the band follows the shop. */
+import ProductCard from './ProductCard.astro';
+import { catalog, site } from '../../lib/shop';
+
+interface Props { series?: string; age?: string; not?: string }
+const { series, age = '3-5', not } = Astro.props;
+const all = catalog.products as any[];
+const seed = [...String(not || series || 'telning')].reduce((a, c) => a + c.charCodeAt(0), 0);
+const pick = (type: string) => { const list = all.filter((p) => p.type === type && p.sku !== not); return list.length ? list[seed % list.length] : null; };
+const wallSeries = series || (site.series as any[])[seed % site.series.length].key;
+const other = age === '3-5' ? '5-7' : '3-5';
+let wall: any = catalog.bySku.get(`poster-${wallSeries}-${age}`);
+if (!wall || wall.sku === not) wall = catalog.bySku.get(`poster-${wallSeries}-${other}`);
+const items = [pick('tote'), pick('mug'), wall].filter(Boolean);
+---
+<section class="tn-picks" aria-labelledby="picks-h"><div class="tn-wrap">
+  <div class="tn-head tn-picks__head">
+    <h2 class="tn-h2 tn-h2--s" id="picks-h">Best sellers</h2>
+    <p class="tn-lead">A tote bag for the library trip, a mug for the grown-up who reads every night, and the whole world on the wall.</p>
+  </div>
+  <ul class="tn-pgrid tn-picks__grid">{items.map((x: any) => <ProductCard p={x} />)}</ul>
+  <p class="tn-picks__all"><a class="tn-btn tn-btn--secondary" href="/gifts">See all gifts</a><a class="tn-btn tn-btn--text" href="/books">Books &amp; Story Walls</a></p>
+</div></section>

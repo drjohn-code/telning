@@ -1,7 +1,7 @@
 // Placeholder pictures for products that have no photos yet (design.placeholder in shop-gifts.json) and for the
 // Halloween gift-set picture on /gifts: a calm paper card with the name and "Photo coming soon", in the site fonts.
 // Writes AVIF + WebP at 600 and 1200 px to public/shop/img/<slug>/<slug>-placeholder-<w>.<ext> and the blur entry in
-// src/data/shop-images.json, like build-photos. Re-run `npm run photos` (or the real mockups) to replace them.
+// src/data/shop-images.json, like build-photos, and the share image public/og/p/<sku>.jpg. Re-run `npm run photos` (or the real mockups) to replace them.
 //   node scripts/shop/placeholders.mjs
 import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
@@ -45,8 +45,12 @@ let n = 0;
 for (const p of catalog.products) {
   if (!p.soon) continue;
   const slug = imageSlug({ type: p.type, key: p.design.key, pim: false });
-  const png = await S.shoot(card({ kicker: `${shop.types[p.type].tile} · Halloween`, title: p.title, line: p.design.line || p.design.about }), { width: 1200, height: 1200 });
+  const kicker = `${shop.types[p.type].tile}${p.colourName ? ` · ${p.colourName}` : ''} · Halloween`;
+  const png = await S.shoot(card({ kicker, title: p.title, line: p.design.line || p.design.about }), { width: 1200, height: 1200 });
   await save(slug, 'placeholder', png);
+  const og = await S.shoot(card({ kicker, title: p.title, line: p.design.line || p.design.about }).replace('height:1200px', 'height:630px').replace('width:880px;padding:72px 80px', 'width:880px;padding:40px 80px'), { width: 1200, height: 630 });
+  mkdirSync(join(ROOT, 'public/og/p'), { recursive: true });
+  await sharp(og).jpeg({ quality: 82, mozjpeg: true }).toFile(join(ROOT, 'public/og/p', `${p.sku}.jpg`));
   n++;
 }
 const set = await S.shoot(card({ kicker: 'Gifts · Halloween', title: 'The Halloween gift set', line: 'A mug, a tote bag, a postcard and a greeting card, with our cats and dogs.' }), { width: 1200, height: 1200 });

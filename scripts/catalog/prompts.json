@@ -1,8 +1,8 @@
 {
-  "_note": "DRAFT prompts (12 Oct 2026) for scripts/catalog/generate_mockups.py. Every product has its own four designs (one cat, one dog, many cats, many dogs). The style is written from the Telning design system, not from any reference image. Printed words: a design has none unless its `words` field is filled in by John. Nothing is added by the script.",
+  "_note": "DRAFT prompts (12 Oct 2026) for scripts/catalog/generate_mockups.py. Every product has its own four designs (tote bags: four undyed and four black, eight in all) (one cat, one dog, many cats, many dogs). The style is written from the Telning design system, not from any reference image. Printed words: a design has none unless its `words` field is filled in by John. Nothing is added by the script.",
   "style": "Children's picture-book illustration in flat gouache colour with a bold, slightly uneven black hand-drawn outline and soft paper grain. Simple rounded animals with friendly faces. Calm and warm. Autumn palette: pumpkin orange, cream, teal, mustard and deep charcoal.",
   "no_text": "No text, no letters, no words, no numbers, no logo, no watermark, no border, no frame.",
-  "art_template": "{style} Subject: {subject}.{words} Centred on a plain warm cream paper background with a wide empty margin. Flat 2D artwork for printing. Friendly and cozy, not scary. {no_text}",
+  "art_template": "{style}{extra} Subject: {subject}.{words} Centred on {background} with a wide empty margin. Flat 2D artwork for printing. Friendly and cozy, not scary. {no_text}",
   "mockup_template": "{scene} The attached image is the artwork. Print it exactly as it is, with the same drawing, colours and proportions, nothing added and nothing removed. {place} Do not add any other print, text or logo. Autumn and Halloween mood only, no Christmas items, no snow.",
   "themes": {
     "halloween": {
@@ -109,6 +109,28 @@
           "subject": "two puppies in tiny pumpkin hats sitting close together among autumn leaves",
           "words": ""
         }
+      },
+      "tote-black": {
+        "cat": {
+          "title": "One cat",
+          "subject": "a white cat in an orange witch hat flying past a big round moon on a broom, small stars around",
+          "words": ""
+        },
+        "dog": {
+          "title": "One dog",
+          "subject": "a small dog in a white ghost sheet floating among the stars, holding a pumpkin lantern",
+          "words": ""
+        },
+        "cats": {
+          "title": "Many cats",
+          "subject": "three cats sitting on a garden wall, singing at a big orange moon, with small bats around",
+          "words": ""
+        },
+        "dogs": {
+          "title": "Many dogs",
+          "subject": "three dogs in simple costumes walking in a row with glowing pumpkin lanterns through the night",
+          "words": ""
+        }
       }
     }
   },
@@ -122,21 +144,20 @@
       "note": "Mug is white ceramic, 11 oz, only (John, 12 Oct 2026)."
     },
     "tote": {
-      "label": "Tote bag",
+      "label": "Tote bag, undyed",
       "ratio": "4:5",
       "art_ratio": "1:1",
-      "colours": {
-        "natural": {
-          "label": "Tote bag, undyed",
-          "scene": "High-end studio product photograph of a natural unbleached organic cotton canvas tote bag hanging flat and straight on a pale plaster wall from a wooden peg, visible fabric weave, stitched handles, soft natural folds, soft daylight, a few autumn leaves on a shelf below.",
-          "place": "The artwork is centred on the front panel, about two thirds of the panel width, printed into the fabric so the weave shows through."
-        },
-        "black": {
-          "label": "Tote bag, black",
-          "scene": "High-end studio product photograph of a black organic cotton canvas tote bag hanging flat and straight on a pale plaster wall from a wooden peg, visible fabric weave, stitched handles, soft natural folds, soft daylight, a few autumn leaves on a shelf below.",
-          "place": "Print only the drawing of the artwork, without its cream paper background, directly on the black canvas, centred on the front panel, about two thirds of the panel width. Keep the drawing's own colours; where the drawing has dark charcoal outlines on black fabric, keep them readable."
-        }
-      }
+      "scene": "High-end studio product photograph of a natural unbleached organic cotton canvas tote bag hanging flat and straight on a pale plaster wall from a wooden peg, visible fabric weave, stitched handles, soft natural folds, soft daylight, a few autumn leaves on a shelf below.",
+      "place": "The artwork is centred on the front panel, about two thirds of the panel width, printed into the fabric so the weave shows through."
+    },
+    "tote-black": {
+      "label": "Tote bag, black",
+      "ratio": "4:5",
+      "art_ratio": "1:1",
+      "art_background": "a plain solid black background",
+      "art_extra": " Made to print on black fabric: cream outlines instead of black ones, bright warm colours, no black areas.",
+      "scene": "High-end studio product photograph of a black organic cotton canvas tote bag hanging flat and straight on a pale plaster wall from a wooden peg, visible fabric weave, stitched handles, soft natural folds, soft daylight, a few autumn leaves on a shelf below.",
+      "place": "Print only the drawing of the artwork, without its cream paper background, directly on the black canvas, centred on the front panel, about two thirds of the panel width. Keep the drawing's own colours; where the drawing has dark charcoal outlines on black fabric, keep them readable."
     },
     "postcard": {
       "label": "Postcard",

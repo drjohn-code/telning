@@ -34,10 +34,10 @@
     "/send": {
       "name": "Send Pim your ending",
       "title": "Send Pim your child's ending, get a story card | Telning",
-      "description": "Take a photo of your child's drawing and fill in a short form. Pim sends back a story card with ideas for your next talk. First name and age only, no photos.",
+      "description": "Tell Pim about the ending your child chose in a short form. Pim sends back a story card and ideas for your next talk. First name and age only, no photos.",
       "type": "WebPage",
       "published": "2026-10-08",
-      "lastmod": "2026-10-08",
+      "lastmod": "2026-10-13",
       "og": "/og/send.png"
     },
     "/about": {
@@ -82,7 +82,7 @@
       "description": "What we collect when a parent sends a drawing for a story card, why, how long we keep it, who processes it, your rights, and how to contact us. For parents.",
       "type": "WebPage",
       "published": "2026-10-08",
-      "lastmod": "2026-10-12",
+      "lastmod": "2026-10-13",
       "og": "/og/childrens-privacy.png"
     },
     "/terms": {
@@ -91,7 +91,7 @@
       "description": "The terms for using telning.com and the Telning story-card service, from WelloWork AB, the company behind Telning Publishing House. Short and in plain English.",
       "type": "WebPage",
       "published": "2026-10-08",
-      "lastmod": "2026-10-12",
+      "lastmod": "2026-10-13",
       "og": "/og/terms.png"
     },
     "/404": {

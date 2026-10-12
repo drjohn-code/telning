@@ -9,7 +9,7 @@
   "who": {
     "h2": "Who is Pim?",
     "cards": [
-      { "icon": "bubble", "c": "sky-light", "h": "Pim listens", "t": "Pim never tells a child what to think. Pim waits for the child's own story." },
+      { "icon": "bubble", "c": "paper-deep", "h": "Pim listens", "t": "Pim never tells a child what to think. Pim waits for the child's own story." },
       { "icon": "bulb", "c": "gold-light", "h": "Pim wonders", "t": "Why did she do that? What happens next? Pim's favourite word is why." },
       { "icon": "signpost", "c": "blush", "h": "Pim chooses", "t": "At every fork, Pim asks: what would you choose? And there is never a wrong answer." }
     ],

@@ -20,6 +20,7 @@ const STEPS = [
   { h: 'Choose the ending', t: 'At the end the story stops at a choice. Two endings to choose from, and no wrong answer.' },
   { h: 'Draw it', t: 'The last page is empty. Your child draws the ending they chose, then you can send it to Pim.' },
 ];
+import SeriesWorlds from '../../components/SeriesWorlds.astro';
 ---
 <Base page={PAGE} jsonld={ld} preload={{ src: view('book-star-hoppers-3-5', 'table'), sizes: '(min-width: 1024px) 520px, 100vw' }}>
   <Header />
@@ -80,11 +81,7 @@ const STEPS = [
 
     <section class="tn-section tn-section--tight" aria-labelledby="series-h"><div class="tn-wrap">
       <div class="tn-head"><h2 class="tn-h2" id="series-h">Shop by series</h2></div>
-      <ul class="tn-serieslist">{site.series.map((s: any) => (
-        <li><a class="tn-seriestile" href={`/books/${s.key}`} style={`--c:var(--${s.colour})`}>
-          <Picture src={view(`book-${s.key}-3-5`, 'cover')} alt="" widths={[600]} sizes="(min-width: 1024px) 180px, 45vw" />
-          <span class="tn-seriestile__name">{s.name}</span><span class="tn-seriestile__theme">{s.theme}</span>
-        </a></li>))}</ul>
+      <SeriesWorlds />
     </div></section>
 
     <section class="tn-section tn-section--tight" aria-labelledby="org-h"><div class="tn-wrap">

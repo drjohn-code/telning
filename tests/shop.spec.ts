@@ -19,14 +19,16 @@ test('add to basket, change the currency, remove the line', async ({ page }) => 
   await expect(drawer.locator('[data-basket-empty]')).toBeVisible();
 });
 
-test('mugs are white only; a tote has two colours; a pack goes into the basket with its titles (no age step)', async ({ page }) => {
-  await page.goto('/gifts/mugs/the-moon');
+test('gifts are the Halloween line, coming soon; a black tote is black only; a pack goes into the basket with its titles', async ({ page }) => {
+  await page.goto('/gifts/mugs');
   await page.evaluate(() => { localStorage.clear(); localStorage.setItem('tn-currency', 'EUR'); });
   await page.reload();
-  await expect(page.locator('label.tn-chip--radio')).toHaveCount(0);
-  await expect(page.locator('.tn-pdp__amount')).toHaveText('€16.90');
-  await page.goto('/gifts/tote-bags/library-day');
-  await expect(page.locator('label.tn-chip--radio')).toHaveCount(2);
+  await expect(page.locator('#grid > li')).toHaveCount(4);
+  await expect(page.locator('a[href="/gifts/mugs/the-moon"]')).toHaveCount(0);
+  await page.goto('/gifts/tote-bags');
+  await expect(page.locator('#grid > li')).toHaveCount(8);
+  await page.goto('/gifts/tote-bags/ghost-pup');
+  await expect(page.locator('.tn-pdp__sub')).toContainText('Black');
   await page.goto('/gifts/mugs/cocoa-cat');
   await expect(page.locator('.tn-pdp__soon')).toContainText('Coming soon');
   await expect(page.locator('form.tn-buy')).toHaveCount(0);

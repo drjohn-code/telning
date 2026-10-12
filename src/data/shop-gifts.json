@@ -2,60 +2,6 @@
   "_draft": "Gift designs: names, lines and art briefs are DRAFTS (12 Oct 2026). Gifts carry their own designs and are not tied to a series; `story` only links to a book that shares the idea. Every design is one small, quiet Pim scene. Postcards and greeting cards: one design per pack of 10, no mixed packs.",
   "mug": [
     {
-      "key": "the-moon",
-      "name": "The Moon",
-      "words": "I chose the moon.",
-      "inside": "Dark Blue",
-      "insideHex": "#2F5C88",
-      "story": "star-hoppers",
-      "about": "Pim sits on the crescent moon among three small stars. On the other side: “I chose the moon.”"
-    },
-    {
-      "key": "the-garden",
-      "name": "The Garden",
-      "words": "I chose the garden.",
-      "inside": "Dark Green",
-      "insideHex": "#1E4A3B",
-      "story": "little-gardeners",
-      "about": "Pim waters two tulips while a bee looks on. On the other side: “I chose the garden.”"
-    },
-    {
-      "key": "the-red-balloon",
-      "name": "The Red Balloon",
-      "words": "I chose the red balloon.",
-      "inside": "Red",
-      "insideHex": "#CE4029",
-      "story": "home-hearts",
-      "about": "Pim holds one red balloon in front of a little house. On the other side: “I chose the red balloon.”"
-    },
-    {
-      "key": "the-train",
-      "name": "The Train",
-      "words": "I chose the train.",
-      "inside": "Golden Yellow",
-      "insideHex": "#E8B23A",
-      "story": "on-the-move",
-      "about": "Pim rides in the wagon behind a little train. On the other side: “I chose the train.”"
-    },
-    {
-      "key": "snow-day",
-      "name": "Snow Day",
-      "words": "I chose the snowman.",
-      "inside": "Blue",
-      "insideHex": "#4F7FAE",
-      "story": "round-the-year",
-      "about": "Pim stands beside a snowman with a red scarf, snow falling. On the other side: “I chose the snowman.”"
-    },
-    {
-      "key": "one-more-page",
-      "name": "One More Page",
-      "words": "One more page.",
-      "inside": "Pink",
-      "insideHex": "#E59A82",
-      "story": null,
-      "about": "Pim reads on top of a stack of books. On the other side, the words every grown-up hears at bedtime: “One more page.”"
-    },
-    {
       "key": "cocoa-cat",
       "name": "Cocoa Cat",
       "words": "",
@@ -106,48 +52,6 @@
   ],
   "tote": [
     {
-      "key": "library-day",
-      "name": "Library Day",
-      "words": "Carry the story.",
-      "story": null,
-      "about": "Pim carries a stack of books, a crayon tucked on top, with the words “Carry the story.”"
-    },
-    {
-      "key": "crayons",
-      "name": "Five Crayons",
-      "words": "Colour the ending.",
-      "story": null,
-      "about": "Pim lines up five crayons, ready to choose, with the words “Colour the ending.”"
-    },
-    {
-      "key": "little-stories",
-      "name": "Little Stories",
-      "words": "Little stories, growing minds.",
-      "story": null,
-      "about": "The Telning colophon, the small open book that forms a T, with Pim beside it and the line “Little stories, growing minds.”"
-    },
-    {
-      "key": "to-the-moon",
-      "name": "To the Moon",
-      "words": "To the moon and back.",
-      "story": "star-hoppers",
-      "about": "Pim in a little rocket on the way to the moon, with the words “To the moon and back.”"
-    },
-    {
-      "key": "grow-slowly",
-      "name": "Grow Slowly",
-      "words": "Grow slowly.",
-      "story": "little-gardeners",
-      "about": "Pim waters three tulips of different heights, a bee nearby, with the words “Grow slowly.”"
-    },
-    {
-      "key": "what-would-you-choose",
-      "name": "What Would You Choose?",
-      "words": "What would you choose?",
-      "story": null,
-      "about": "Pim sits and smiles under a question bubble, with Pim’s favourite question: “What would you choose?”"
-    },
-    {
       "key": "moon-cat",
       "name": "Moon Cat",
       "words": "",
@@ -157,7 +61,8 @@
       "placeholder": true,
       "line": "A tall cat in a witch hat under the crescent moon.",
       "about": "A tall black cat in a pointy witch hat sitting under a big crescent moon, with three small bats and a few stars.",
-      "prompt": "halloween/tote/cat"
+      "prompt": "halloween/tote/cat",
+      "colour": "natural"
     },
     {
       "key": "lantern-dog",
@@ -169,7 +74,8 @@
       "placeholder": true,
       "line": "A mummy dog walks proudly with a pumpkin lantern.",
       "about": "A floppy-eared dog dressed as a mummy in white bandages, walking proudly with a small pumpkin lantern.",
-      "prompt": "halloween/tote/dog"
+      "prompt": "halloween/tote/dog",
+      "colour": "natural"
     },
     {
       "key": "cat-parade",
@@ -181,7 +87,8 @@
       "placeholder": true,
       "line": "Four cats in costume, in a row under the moon.",
       "about": "Four cats of different colours in simple witch and mummy costumes sitting in a row under a crescent moon, with small bats above.",
-      "prompt": "halloween/tote/cats"
+      "prompt": "halloween/tote/cats",
+      "colour": "natural"
     },
     {
       "key": "dog-parade",
@@ -193,74 +100,63 @@
       "placeholder": true,
       "line": "Four dogs in costume, out with their pumpkin buckets.",
       "about": "Four dogs of different sizes in simple ghost, mummy and witch-hat costumes walking together with small pumpkin buckets.",
-      "prompt": "halloween/tote/dogs"
+      "prompt": "halloween/tote/dogs",
+      "colour": "natural"
+    },
+    {
+      "key": "broom-cat",
+      "name": "Broom Cat",
+      "words": "",
+      "animal": "cat",
+      "colour": "black",
+      "occasion": "halloween",
+      "story": null,
+      "placeholder": true,
+      "line": "A white cat on a broom, flying past the moon.",
+      "about": "A white cat in an orange witch hat flying past a big round moon on a broom, small stars around.",
+      "prompt": "halloween/tote-black/cat"
+    },
+    {
+      "key": "ghost-pup",
+      "name": "Ghost Pup",
+      "words": "",
+      "animal": "dog",
+      "colour": "black",
+      "occasion": "halloween",
+      "story": null,
+      "placeholder": true,
+      "line": "A little ghost dog floats past with a lantern.",
+      "about": "A small dog in a white ghost sheet floating among the stars, holding a pumpkin lantern.",
+      "prompt": "halloween/tote-black/dog"
+    },
+    {
+      "key": "cat-choir",
+      "name": "Cat Choir",
+      "words": "",
+      "animal": "cats",
+      "colour": "black",
+      "occasion": "halloween",
+      "story": null,
+      "placeholder": true,
+      "line": "Three cats sing to the moon on the garden wall.",
+      "about": "Three cats sitting on a garden wall, singing at a big orange moon, with small bats around.",
+      "prompt": "halloween/tote-black/cats"
+    },
+    {
+      "key": "lantern-patrol",
+      "name": "Lantern Patrol",
+      "words": "",
+      "animal": "dogs",
+      "colour": "black",
+      "occasion": "halloween",
+      "story": null,
+      "placeholder": true,
+      "line": "Three dogs walk the night with their lanterns.",
+      "about": "Three dogs in simple costumes walking in a row with glowing pumpkin lanterns through the night.",
+      "prompt": "halloween/tote-black/dogs"
     }
   ],
   "postcards": [
-    {
-      "key": "hello-grandma",
-      "name": "Hello, Grandma",
-      "words": "Hello, Grandma!",
-      "occasion": "everyday",
-      "story": "home-hearts",
-      "about": "Pim posts a letter in the mailbox by a little house with a heart over the roof."
-    },
-    {
-      "key": "happy-birthday",
-      "name": "Happy Birthday",
-      "words": "Happy birthday!",
-      "occasion": "birthday",
-      "story": "big-days",
-      "about": "Pim holds a bunch of balloons under a flag garland."
-    },
-    {
-      "key": "happy-halloween",
-      "name": "Happy Halloween",
-      "words": "Happy Halloween!",
-      "occasion": "halloween",
-      "story": "big-days",
-      "about": "Pim carries a pumpkin lantern past a friendly bat and a little ghost under the moon."
-    },
-    {
-      "key": "happy-new-year",
-      "name": "Happy New Year",
-      "words": "Happy New Year!",
-      "occasion": "new-year",
-      "story": "big-days",
-      "about": "Pim watches fireworks over a sleepy town."
-    },
-    {
-      "key": "merry-christmas",
-      "name": "Merry Christmas",
-      "words": "Merry Christmas!",
-      "occasion": "christmas",
-      "story": "big-days",
-      "about": "Pim and a penguin by a fir tree with a gold star, presents in the snow."
-    },
-    {
-      "key": "happy-easter",
-      "name": "Happy Easter",
-      "words": "Happy Easter!",
-      "occasion": "easter",
-      "story": "big-days",
-      "about": "Pim and a bunny with painted eggs among spring tulips."
-    },
-    {
-      "key": "happy-midsummer",
-      "name": "Happy Midsummer",
-      "words": "Happy Midsummer!",
-      "occasion": "midsummer",
-      "story": "big-days",
-      "about": "Pim among daisies under a flag garland on a long light summer evening."
-    },
-    {
-      "key": "under-the-same-sky",
-      "name": "Under the Same Sky",
-      "words": "Under the same sky.",
-      "occasion": "everyday",
-      "story": "star-hoppers",
-      "about": "Pim and an owl on a branch under the moon and the stars: for someone far away."
-    },
     {
       "key": "moonlight-cat",
       "name": "Moonlight Cat",
@@ -311,86 +207,6 @@
     }
   ],
   "cards": [
-    {
-      "key": "birthday-balloons",
-      "name": "Birthday Balloons",
-      "words": "Happy birthday!",
-      "occasion": "birthday",
-      "story": "big-days",
-      "about": "Pim floats up with a big bunch of balloons."
-    },
-    {
-      "key": "make-a-wish",
-      "name": "Make a Wish",
-      "words": "Make a wish!",
-      "occasion": "birthday",
-      "story": "big-days",
-      "about": "Pim leans in to blow out three candles on a birthday cake."
-    },
-    {
-      "key": "around-the-sun",
-      "name": "Around the Sun",
-      "words": "Another trip around the sun!",
-      "occasion": "birthday",
-      "story": "star-hoppers",
-      "about": "Pim flies a little rocket round the sun: one more year, one more trip."
-    },
-    {
-      "key": "boo",
-      "name": "Boo!",
-      "words": "Boo!",
-      "occasion": "halloween",
-      "story": "big-days",
-      "about": "Pim peeks out beside a friendly little ghost and a smiling pumpkin lantern."
-    },
-    {
-      "key": "merry-christmas",
-      "name": "Merry Christmas",
-      "words": "Merry Christmas!",
-      "occasion": "christmas",
-      "story": "big-days",
-      "about": "Pim hangs a gold star on a fir tree, presents piled below."
-    },
-    {
-      "key": "happy-new-year",
-      "name": "Happy New Year",
-      "words": "Happy New Year!",
-      "occasion": "new-year",
-      "story": "big-days",
-      "about": "Pim looks up at three fireworks in the night sky."
-    },
-    {
-      "key": "happy-easter",
-      "name": "Happy Easter",
-      "words": "Happy Easter!",
-      "occasion": "easter",
-      "story": "big-days",
-      "about": "Pim finds painted eggs in the grass beside a bunny and tulips."
-    },
-    {
-      "key": "thank-you",
-      "name": "Thank You",
-      "words": "Thank you!",
-      "occasion": "everyday",
-      "story": "little-gardeners",
-      "about": "Pim holds out a bunch of tulips and daisies tied with a ribbon."
-    },
-    {
-      "key": "welcome-little-one",
-      "name": "Welcome, Little One",
-      "words": "Welcome, little one.",
-      "occasion": "new-baby",
-      "story": null,
-      "about": "A duck sleeps on a crescent moon while Pim keeps watch among soft stars: for a new baby."
-    },
-    {
-      "key": "to-the-moon",
-      "name": "To the Moon",
-      "words": "Love you to the moon and back.",
-      "occasion": "love",
-      "story": "star-hoppers",
-      "about": "Pim holds a heart-shaped balloon floating up to the moon: for Valentine’s, Mother’s or Father’s Day."
-    },
     {
       "key": "boo-cat",
       "name": "Boo Cat",
@@ -451,5 +267,5 @@
     "love": "Love",
     "everyday": "Every day"
   },
-  "_halloween": "DRAFT (12 Oct 2026): the Halloween line of cats and dogs, four designs per product (one cat, one dog, many cats, many dogs). `placeholder: true` = no photos yet (a placeholder picture, cannot be ordered). `prompt` points to scripts/catalog/prompts.json; `about` is the picture brief, `line` the one-line card text. No printed words unless John writes them in `words`."
+  "_halloween": "DRAFT (12 Oct 2026): the Halloween line of cats and dogs, four designs per product (one cat, one dog, many cats, many dogs). `placeholder: true` = no photos yet (a placeholder picture, cannot be ordered). `prompt` points to scripts/catalog/prompts.json; `about` is the picture brief, `line` the one-line card text. No printed words unless John writes them in `words`. Tote bags: 8 designs, each on one colour (4 undyed, 4 black). The older Pim designs were removed on 13 Oct 2026 (John); their URLs 301 to the category pages (vercel.json)."
 }

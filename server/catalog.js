@@ -42,7 +42,7 @@ export const DESCRIPTOR = {
   poster: () => 'Story Wall · 70 × 100 cm',
   mug: () => 'Ceramic mug · 330 ml',
   tote: () => 'Organic cotton tote bag · 41 × 36 cm',
-  postcards: () => 'Pack of 10 · A6, FSC-certified card',
+  postcards: () => 'Pack of 10 · A6, FSC/PEFC-certified card',
   cards: () => 'Pack of 10 with envelopes · 14 × 14 cm',
 };
 
@@ -50,6 +50,7 @@ export function buildCatalog({ site, shop, books, gifts }) {
   const T = shop.types;
   const seriesName = (k) => site.series.find((s) => s.key === k)?.name || k;
   const products = [];
+  const retired = [];   // older designs: no page, not sold alone; kept for the organisation packs and for old orders
 
   for (const s of site.series) {
     const b = books.series[s.key];
@@ -81,14 +82,17 @@ export function buildCatalog({ site, shop, books, gifts }) {
   for (const type of GIFT_TYPES) {
     const t = T[type];
     for (const d of gifts[type]) {
-      const variants = t.variants ? t.variants.map((v) => ({ key: v.key, name: v.name, price: cents(v.price || t.price) })) : null;
+      // a design printed on one colour only (the Halloween tote bags) keeps just that colour
+      const variants = t.variants ? t.variants.filter((v) => !d.colour || v.key === d.colour).map((v) => ({ key: v.key, name: v.name, price: cents(v.price || t.price) })) : null;
+      const colourName = d.colour ? (t.variants || []).find((v) => v.key === d.colour)?.name : null;
       const label = { mug: `${d.name} mug`, tote: `${d.name} tote bag`, postcards: `${d.name} postcards`, cards: `${d.name} greeting cards` }[type];
-      products.push({
-        sku: `${type}-${d.key}`, type, category: 'gifts', parcel: t.parcel, partner: t.partner,
+      (d.retired ? retired : products).push({
+        sku: `${type}-${d.key}`, type, category: 'gifts', parcel: t.parcel, partner: t.partner, retired: !!d.retired, colour: d.colour || null, colourName,
         url: `${giftPath(type)}/${d.key}`,
-        name: label, short: t.tile, title: d.name, design: d, descriptor: DESCRIPTOR[type](),
+        name: label, short: t.tile, title: d.name, design: d, descriptor: colourName ? DESCRIPTOR[type]().replace(' · ', ` · ${colourName} · `) : DESCRIPTOR[type](),
         story: d.story ? { series: d.story, seriesName: seriesName(d.story) } : null,
-        occasion: d.occasion || null, animal: d.animal || null, soon: !!d.placeholder,   // soon: pictures still to come, not for sale yet
+        occasion: d.occasion || null, animal: d.animal || null, regions: t.regions || null,   // regions: where this type can be delivered (null = everywhere)
+        soon: !!d.placeholder,   // soon: pictures still to come, not for sale yet
         price: variants ? variants[0].price : cents(t.price), variants, variantLabel: t.variantLabel, maxQty: t.maxQty,
         print: `art/print/${GIFT_PATH[type]}/${d.key}.svg`,
         images: imagesFor({ type, key: d.key, pim: !d.animal, placeholder: !!d.placeholder }),
@@ -109,8 +113,8 @@ export function buildCatalog({ site, shop, books, gifts }) {
       print: 'books, posters and tote bags: see the pack choice',
     });
   }
-  const bySku = new Map([...products, ...packs].map((p) => [p.sku, p]));
-  return { products, packs, bySku, shop, types: T, series: site.series, gifts };
+  const bySku = new Map([...products, ...retired, ...packs].map((p) => [p.sku, p]));
+  return { products, packs, retired, bySku, shop, types: T, series: site.series, gifts };
 }
 
 /** Price of one line in minor units: the variant's price when it has one. */
@@ -143,7 +147,7 @@ export function resolveLines(catalog, items) {
   const out = [];
   for (const it of items) {
     const product = catalog.bySku.get(String(it && it.sku));
-    if (!product || product.soon) throw new Error('sku');
+    if (!product || product.soon || product.retired) throw new Error('sku');   // retired designs come only inside a pack
     const qty = Math.floor(Number(it.qty));
     if (!(qty >= 1 && qty <= product.maxQty)) throw new Error('qty');
     let variant = null;
@@ -167,7 +171,8 @@ export function packChoice(catalog, product, raw) {
   const keys = [...new Set(titles.split(',').filter(Boolean))];
   if (!keys.length || keys.length > product.pack.titles || !keys.every((k) => /^book-[a-z-]+-\d-\d$/.test(k) && catalog.bySku.has(k))) return null;
   const [design, colour] = tote.split('~');
-  if (!catalog.bySku.has(`tote-${design}`) || catalog.bySku.get(`tote-${design}`).soon || !['natural', 'black'].includes(colour)) return null;
+  const bag = catalog.bySku.get(`tote-${design}`);   // any tote in the shop, the Halloween ones too (John, 13 Oct 2026)
+  if (!bag || bag.type !== 'tote' || !['natural', 'black'].includes(colour) || (bag.colour && bag.colour !== colour)) return null;
   return `${keys.join(',')}|${design}~${colour}`;
 }
 

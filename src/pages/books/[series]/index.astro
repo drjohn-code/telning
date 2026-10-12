@@ -18,10 +18,9 @@ const PAGE = `/books/${s.key}`;
 const b = (books.series as any)[s.key];
 const get = (k: string) => catalog.bySku.get(k) as any;
 const items = ['3-5', '5-7'].flatMap((a) => [get(`book-${s.key}-${a}`), get(`poster-${s.key}-${a}`)]);
-const sets = ['3-5', '5-7'].map((a) => ({ age: a, title: b.books[a].title, name: a === '3-5' ? 'Book + Story Wall' : 'After the last page', items: a === '3-5' ? [get(`book-${s.key}-${a}`), get(`poster-${s.key}-${a}`)] : [get(`book-${s.key}-${a}`), get(`poster-${s.key}-${a}`), get('postcards-under-the-same-sky')] }));
-const totalAttrs = (list: any[]) => Object.fromEntries(['EUR', 'GBP', 'USD', 'CAD'].map((c) => [`data-${c.toLowerCase()}`, money(list.reduce((a, x) => a + (x.variants ? x.variants[0].price : x.price)[c], 0), c, (shop.currencies as any)[c].locale)]));
-const others = site.series.filter((x: any) => x.key !== s.key);
 const ld = [{ '@type': 'CollectionPage', '@id': `https://telning.com${PAGE}#collection`, name: s.name, url: `https://telning.com${PAGE}`, about: s.theme, mainEntity: { '@type': 'ItemList', itemListElement: items.map((p: any, i: number) => ({ '@type': 'ListItem', position: i + 1, url: `https://telning.com${p.url}`, name: p.name })) } }];
+import SeriesWorlds from '../../../components/SeriesWorlds.astro';
+import GiftPicks from '../../../components/shop/GiftPicks.astro';
 ---
 <Base page={PAGE} jsonld={ld} preload={{ src: view(`poster-${s.key}-5-7`, 'wall'), sizes: '(min-width: 1024px) 520px, 100vw' }}>
   <Header />
@@ -61,27 +60,14 @@ const ld = [{ '@type': 'CollectionPage', '@id': `https://telning.com${PAGE}#coll
         </li>); })}</ul>
     </div></section>
 
-    <section class="tn-section tn-section--tight" aria-labelledby="sets-h"><div class="tn-wrap">
-      <div class="tn-head"><h2 class="tn-h2 tn-h2--s" id="sets-h">Sets</h2><p class="tn-lead">Colour the story in the book, then the whole world on the wall.</p></div>
-      <ul class="tn-sets">{sets.map((st) => (
-        <li class="tn-bundle">
-          <p class="tn-pdp__keepk">{st.title}</p>
-          <h3 class="tn-h3">{st.name}</h3>
-          <ul class="tn-bundle__items">{st.items.map((x: any) => <li><Picture src={x.images[0].src} alt="" widths={[600]} sizes="56px" width={120} height={120} /><span><a href={x.url}>{x.name}</a><Price p={x} /></span></li>)}</ul>
-          <p class="tn-bundle__total">Together <span class="tn-price" {...totalAttrs(st.items)}>{totalAttrs(st.items)['data-eur']}</span></p>
-          <button class="tn-btn tn-btn--secondary" type="button" data-add={JSON.stringify(st.items.map((x: any) => ({ sku: x.sku, variant: '', qty: 1, max: x.maxQty })))}>Add all {st.items.length} to basket</button>
-        </li>))}</ul>
-    </div></section>
 
     <section class="tn-section tn-section--tight" aria-labelledby="other-h"><div class="tn-wrap">
       <div class="tn-head"><h2 class="tn-h2 tn-h2--s" id="other-h">More series</h2></div>
-      <ul class="tn-serieslist tn-serieslist--small">{others.map((x: any) => (
-        <li><a class="tn-seriestile" href={`/books/${x.key}`} style={`--c:var(--${x.colour})`}>
-          <Picture src={view(`book-${x.key}-3-5`, 'cover')} alt="" widths={[600]} sizes="(min-width: 1024px) 180px, 45vw" />
-          <span class="tn-seriestile__name">{x.name}</span><span class="tn-seriestile__theme">{x.theme}</span>
-        </a></li>))}</ul>
-      <p class="tn-p" style="margin-top:var(--s5)"><a class="tn-link tn-link--solo" href="/books">All books &amp; posters</a></p>
+      <SeriesWorlds exclude={s.key} />
+      <p class="tn-p" style="margin-top:var(--s5)"><a class="tn-link tn-link--solo" href="/books">All books &amp; Story Walls</a></p>
     </div></section>
+
+    <GiftPicks series={s.key} age="3-5" />
 
     <section class="tn-section tn-section--tight" aria-label="Our promises"><div class="tn-wrap"><TrustBar /></div></section>
   </main>

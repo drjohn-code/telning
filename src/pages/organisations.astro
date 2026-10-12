@@ -1,39 +1,55 @@
 ---
 /* /organisations — For organisations: three story packs (books, Story Walls, tote bags, the group guide), a pack
-   builder (pack → titles → tote design and colour → pay or invoice; no age step), and a quote form for bigger orders.
-   Linked from the footer, /teachers and /books; not in the main menu. Copy and pack prices: DRAFT (product plan). */
+   builder (pack → titles → tote bags → summary with the price; no age step), how buying works, the group guide and a
+   quote form for bigger orders. Linked from the footer, /teachers and /books; not in the main menu.
+   Copy and pack prices: DRAFT (product plan). Redesigned 13 Oct 2026: calmer cards, a sticky summary, a trust grid. */
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import CurrencySelect from '../components/shop/CurrencySelect.astro';
 import TrustBar from '../components/shop/TrustBar.astro';
-import { shop, site, gifts, money, img, view, catalog } from '../lib/shop';
+import { shop, money, view, catalog } from '../lib/shop';
 import Picture from '../components/shop/Picture.astro';
-const bookList = (catalog.products as any[]).filter((p) => p.type === 'book');
 
 const PAGE = '/organisations';
 const packs = (shop as any).packs.items;
 const T = shop.types as any;
-const attrs = (pr: Record<string, number>) => Object.fromEntries(Object.entries(pr).map(([c, v]) => [`data-${c.toLowerCase()}`, money(Math.round(v * 100), c, (shop.currencies as any)[c].locale)]));
+const bookList = (catalog.products as any[]).filter((p) => p.type === 'book');
+/* tote bags in a pack: the shop's own tote list, so the builder changes when the shop changes. Each design comes in one colour. */
+const packTotes = (catalog.products as any[]).filter((p) => p.type === 'tote');
+const toteColour = (d: any) => d.colour || 'natural';
+const colourName = (d: any) => (d.colourName || 'Undyed').toLowerCase();
+const attrs = (pr: Record<string, number>, prefix = 'data-') => Object.fromEntries(Object.entries(pr).map(([c, v]) => [`${prefix}${c.toLowerCase()}`, money(Math.round(v * 100), c, (shop.currencies as any)[c].locale)]));
 const full = (k: any) => Object.fromEntries(['EUR', 'GBP', 'USD', 'CAD'].map((c) => [c, k.books * T.book.price[c] + k.posters * T.poster.price[c] + k.totes * T.tote.price[c]]));
-const STEPS = [
-  { h: 'Build the pack', t: 'Choose the pack, then the titles (each title has its own age) and the tote bag design and colour.' },
-  { h: 'Pay by card, or ask for an invoice', t: 'Pay by card at checkout. For an invoice with your VAT number, a reference and 30 days to pay, use the form below.' },
-  { h: 'Three parcels, one address', t: 'The books, the Story Walls and the tote bags arrive in three parcels, to one address.' },
+const perChild = (k: any) => Object.fromEntries(Object.entries(k.price).map(([c, v]) => [c, (v as number) / k.books]));
+const IC = {
+  card: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/>',
+  box: '<path d="M3 8l9-5 9 5v8l-9 5-9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/>',
+  book: '<path d="M4 4h6a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4zM20 4h-6a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h7z"/>',
+  chat: '<path d="M4 5h16v11H9l-5 4z"/>',
+  star: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+};
+const icon = (d: string) => `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">${d}</svg>`;
+const BUYING = [
+  { ic: IC.card, h: 'Card or invoice', t: 'Pay by card at checkout, or ask for an invoice with your VAT number, your reference and 30 days to pay.' },
+  { ic: IC.box, h: 'One address', t: 'The books, the Story Walls and the tote bags come in three parcels, to the same address.' },
+  { ic: IC.book, h: 'A sample first', t: 'A teacher can get one sample book at print cost before you order the pack.' },
+  { ic: IC.chat, h: 'A person answers', t: 'Questions and quotes: we answer within two working days. Telning is WelloWork AB, Uppsala, Sweden.' },
 ];
 ---
 <Base page={PAGE} preload={{ src: view('pack-classroom', 'pack'), sizes: '(min-width: 1024px) 520px, 100vw' }}>
   <Header />
   <main id="main" tabindex="-1">
-    <section class="tn-wrap tn-shophero" aria-labelledby="page-h">
+    <section class="tn-wrap tn-shophero tn-orghero" aria-labelledby="page-h">
       <Breadcrumbs page={PAGE} />
       <div class="tn-shophero__in">
         <div class="tn-shophero__text">
-          <p class="tn-pdp__kick">For kindergartens, schools, libraries and companies</p>
+          <p class="tn-kicker">For kindergartens, schools, libraries and companies</p>
           <h1 class="tn-h1" id="page-h" tabindex="-1">One story, many children.</h1>
           <p class="tn-lead">Packs of books, Story Walls and tote bags for groups, with a guide for the teacher on how to run one story with many children.</p>
-          <ul class="tn-shophero__pts"><li>10, 30 or 50 books</li><li>Save 10–18%</li><li>Card or invoice</li></ul>
+          <ul class="tn-orghero__pts"><li>10, 30 or 50 books</li><li>Save 10–18%</li><li>Card or invoice</li></ul>
+          <p class="tn-orghero__cta"><a class="tn-btn" href="#packs">See the packs</a><a class="tn-btn tn-btn--secondary" href="#quote">Ask for a quote</a></p>
         </div>
         <div class="tn-shophero__art" aria-hidden="true">
           <Picture class="tn-shophero__a" src={view('pack-classroom', 'pack')} alt="" eager sizes="(min-width: 1024px) 520px, 100vw" />
@@ -41,59 +57,113 @@ const STEPS = [
       </div>
     </section>
 
-    <section class="tn-wrap" aria-labelledby="packs-h">
-      <h2 class="tn-h2 tn-h2--s" id="packs-h">The packs</h2>
-      <ul class="tn-packs">{packs.map((k: any) => (
+    <section class="tn-section" id="packs" aria-labelledby="packs-h"><div class="tn-wrap">
+      <div class="tn-head tn-orghead">
+        <p class="tn-kicker">Story packs</p>
+        <h2 class="tn-h2" id="packs-h">One story for the whole group</h2>
+        <p class="tn-lead">Every pack has colouring books, Story Walls of the same world, organic cotton tote bags and the group guide for the teacher.</p>
+      </div>
+      <ul class="tn-packs">{packs.map((k: any) => { const was = full(k), pc = perChild(k); return (
         <li class="tn-pack">
-          <p class="tn-pdp__kick">{k.for}</p>
-          <h3 class="tn-h3 tn-pack__name">{k.name}</h3>
-          <ul class="tn-ticks"><li>{k.books} colouring books, {k.titles === 1 ? 'one title' : `up to ${k.titles} titles`}</li><li>{k.posters} Story Wall{k.posters > 1 ? 's' : ''} (70 × 100 cm colouring poster{k.posters > 1 ? 's' : ''})</li><li>{k.totes} organic cotton tote bag{k.totes > 1 ? 's' : ''}</li><li>The group guide for the teacher (PDF)</li></ul>
-          <p class="tn-pack__price"><span class="tn-price" {...attrs(k.price)}>{attrs(k.price)['data-eur']}</span> <s class="tn-price" {...attrs(full(k))}>{attrs(full(k))['data-eur']}</s> <span class="tn-pill tn-pack__save">Save {k.saving}%</span></p>
-          <a class="tn-btn" href={`#build`} data-pack-start={`pack-${k.key}`}>Start this pack</a>
-        </li>))}</ul>
-      <ul class="tn-packs__offers">{(shop as any).packs.offers.map((o: string) => <li>{o}</li>)}</ul>
-    </section>
+          <div class="tn-pack__top">
+            <h3 class="tn-pack__name">{k.name}</h3>
+            <p class="tn-pack__for">{k.for}</p>
+          </div>
+          <ul class="tn-pack__in">
+            <li><span class="tn-pack__n">{k.books}</span><span>colouring books<small>{k.titles === 1 ? 'one title' : `up to ${k.titles} titles, each with its own age`}</small></span></li>
+            <li><span class="tn-pack__n">{k.posters}</span><span>{k.posters > 1 ? 'Story Walls' : 'Story Wall'}<small>70 × 100 cm, to colour together</small></span></li>
+            <li><span class="tn-pack__n">{k.totes}</span><span>organic cotton {k.totes > 1 ? 'tote bags' : 'tote bag'}<small>undyed or black</small></span></li>
+            <li><span class="tn-pack__n tn-pack__n--ic" set:html={icon('<path d="M5 12l4 4 10-10"/>')}></span><span>The group guide<small>a PDF for the teacher</small></span></li>
+          </ul>
+          <div class="tn-pack__price">
+            <p class="tn-pack__now"><span class="tn-price" {...attrs(k.price)}>{attrs(k.price)['data-eur']}</span></p>
+            <p class="tn-pack__was">Full price <s class="tn-price" {...attrs(was)}>{attrs(was)['data-eur']}</s> · <strong>you save {k.saving}%</strong></p>
+            <p class="tn-pack__per">That is <span class="tn-price" {...attrs(pc)}>{attrs(pc)['data-eur']}</span> a child, before shipping.</p>
+          </div>
+          <a class="tn-btn tn-btn--block" href="#build" data-pack-start={`pack-${k.key}`}>Choose {k.name}</a>
+        </li>); })}</ul>
+      <ul class="tn-packoffers">{(shop as any).packs.offers.map((o: string, i: number) => <li><span class="tn-packoffers__ic" set:html={icon(i === 0 ? IC.star : IC.book)}></span>{o}</li>)}</ul>
+    </div></section>
 
-    <section class="tn-section" id="build" aria-labelledby="build-h"><div class="tn-wrap">
-      <div class="tn-head"><h2 class="tn-h2 tn-h2--s" id="build-h">Build your pack</h2><p class="tn-lead">Pick the titles you want; each title carries its own age. Every 10 books bring one Story Wall of the same world and one tote bag.</p></div>
-      <form class="tn-buy tn-packform" method="post" action="/api/checkout">
+    <section class="tn-section tn-buildband" id="build" aria-labelledby="build-h"><div class="tn-wrap">
+      <div class="tn-head tn-orghead">
+        <p class="tn-kicker">Build your pack</p>
+        <h2 class="tn-h2" id="build-h">Choose the titles and the tote bags</h2>
+        <p class="tn-lead">Each title has its own age. Every 10 books bring one Story Wall of the same world and one tote bag.</p>
+      </div>
+      <form class="tn-packform" method="post" action="/api/checkout">
         <input type="hidden" name="currency" value="EUR" />
         <input type="hidden" name="qty" value="1" />
-        <fieldset class="tn-opt"><legend>1. The pack</legend><div class="tn-opt__row">
-          {packs.map((k: any, i: number) => <label class="tn-chip tn-chip--radio"><input type="radio" name="sku" value={`pack-${k.key}`} checked={i === 0} data-titles={k.titles} />{k.name}</label>)}
-        </div></fieldset>
-        <fieldset class="tn-opt tn-opt--titles"><legend>2. Titles <span class="tn-packform__max" data-max-label>(choose 1)</span></legend><div class="tn-titlegrid">
-          {bookList.map((b: any, i: number) => <label class="tn-titlepick"><input type="checkbox" name="pack_titles" value={b.sku} checked={i === 0} /><Picture src={b.images.find((x: any) => x.view === 'cover').src} alt="" widths={[600]} sizes="80px" /><span class="tn-titlepick__t">{b.title}</span><span class="tn-titlepick__s">{b.seriesName} · Ages {b.age.replace('-', '–')}</span></label>)}
-        </div></fieldset>
-        <fieldset class="tn-opt"><legend>3. Tote bag</legend><div class="tn-opt__row">
-          <label class="tn-sel"><span class="tn-sr">Tote bag design</span><select class="tn-cur" name="pack_tote">{(gifts as any).tote.map((d: any) => <option value={d.key}>{d.name}</option>)}</select></label>
-          <label class="tn-chip tn-chip--radio"><input type="radio" name="pack_colour" value="natural" checked /><span class="tn-swatch" style="--sw:#efe6d4" aria-hidden="true"></span>Undyed</label>
-          <label class="tn-chip tn-chip--radio"><input type="radio" name="pack_colour" value="black" /><span class="tn-swatch" style="--sw:#1d1c1a" aria-hidden="true"></span>Black</label>
-        </div></fieldset>
-        <p class="tn-basketmsg" data-pack-msg role="alert" hidden></p>
-        <p class="tn-small">4. Pay by card at checkout, or <a class="tn-link" href="#quote">ask for an invoice</a>.</p>
-        <div class="tn-buy__row tn-packform__row"><CurrencySelect id="cur-pack" /><button class="tn-btn tn-btn--buy" type="submit">Add pack to basket</button></div>
+        <div class="tn-packform__steps">
+          <fieldset class="tn-packstep">
+            <legend class="tn-packstep__h"><span class="tn-packstep__n" aria-hidden="true">1</span>The pack</legend>
+            <div class="tn-packpick">{packs.map((k: any, i: number) => (
+              <label class="tn-packopt"><input type="radio" name="sku" value={`pack-${k.key}`} checked={i === 0} data-titles={k.titles} data-name={k.name} data-books={k.books} data-posters={k.posters} data-totes={k.totes} {...attrs(k.price, 'data-p-')} />
+                <span class="tn-packopt__name">{k.name}</span><span class="tn-packopt__sub">{k.books} books · {k.titles === 1 ? '1 title' : `up to ${k.titles} titles`}</span><span class="tn-packopt__price tn-price" {...attrs(k.price)}>{attrs(k.price)['data-eur']}</span></label>))}
+            </div>
+          </fieldset>
+
+          <fieldset class="tn-packstep">
+            <legend class="tn-packstep__h"><span class="tn-packstep__n" aria-hidden="true">2</span>The titles <span class="tn-packstep__note" data-max-label>(choose 1)</span></legend>
+            <div class="tn-packages" role="group" aria-label="Show ages">
+              <button type="button" class="tn-chip" data-agefilter="" aria-pressed="true">All ages</button>
+              <button type="button" class="tn-chip" data-agefilter="3-5" aria-pressed="false">Ages 3–5</button>
+              <button type="button" class="tn-chip" data-agefilter="5-7" aria-pressed="false">Ages 5–7</button>
+            </div>
+            <div class="tn-titlegrid">{bookList.map((b: any, i: number) => (
+              <label class="tn-titlepick" data-age={b.age}><input type="checkbox" name="pack_titles" value={b.sku} checked={i === 0} />
+                <span class="tn-titlepick__img"><Picture src={b.images.find((x: any) => x.view === 'cover').src} alt="" widths={[600]} sizes="(min-width: 1024px) 160px, 45vw" /><span class="tn-titlepick__tick" aria-hidden="true"></span></span>
+                <span class="tn-titlepick__t">{b.title}</span><span class="tn-titlepick__s">{b.seriesName} · Ages {b.age.replace('-', '–')}</span></label>))}
+            </div>
+          </fieldset>
+
+          <fieldset class="tn-packstep">
+            <legend class="tn-packstep__h"><span class="tn-packstep__n" aria-hidden="true">3</span>The tote bags <span class="tn-packstep__note">(one design for every bag in the pack)</span></legend>
+            <div class="tn-totepick">{packTotes.map((d: any, i: number) => (
+              <label class="tn-toteopt"><input type="radio" name="pack_tote" value={`${d.design.key}~${toteColour(d)}`} checked={i === 0} data-name={d.title} data-colour={colourName(d)} />
+                <Picture src={(d.images.find((x: any) => x.view === 'natural') || d.images[0]).src} alt="" widths={[600]} sizes="(min-width: 1024px) 130px, 30vw" /><span>{d.title}<small><span class="tn-swatch" style={`--sw:${toteColour(d) === 'black' ? '#1d1c1a' : '#efe6d4'}`} aria-hidden="true"></span>{colourName(d)}</small></span></label>))}
+            </div>
+          </fieldset>
+        </div>
+
+        <aside class="tn-packsum" aria-labelledby="sum-h">
+          <h3 class="tn-packsum__h" id="sum-h">Your pack</h3>
+          <dl class="tn-packsum__list">
+            <div><dt>Pack</dt><dd data-sum="name">{packs[0].name}</dd></div>
+            <div><dt>Books</dt><dd data-sum="books">{packs[0].books} colouring books</dd></div>
+            <div><dt>Titles</dt><dd data-sum="titles">{bookList[0].title}</dd></div>
+            <div><dt>Story Walls</dt><dd data-sum="posters">{packs[0].posters}, from the worlds of your titles</dd></div>
+            <div><dt>Tote bags</dt><dd data-sum="totes">{packs[0].totes} × {packTotes[0]?.title}, {packTotes[0] ? colourName(packTotes[0]) : ''}</dd></div>
+            <div><dt>Guide</dt><dd>The group guide (PDF)</dd></div>
+          </dl>
+          <p class="tn-packsum__price"><span class="tn-price" data-sum="price" {...attrs(packs[0].price)}>{attrs(packs[0].price)['data-eur']}</span><small>Shipping is shown in the basket.</small></p>
+          <p class="tn-basketmsg" data-pack-msg role="alert" hidden></p>
+          <button class="tn-btn tn-btn--buy tn-btn--block" type="submit">Add pack to basket</button>
+          <CurrencySelect id="cur-pack" class="tn-packsum__cur" />
+          <p class="tn-small">Prefer an invoice with your VAT number? <a class="tn-link" href="#quote">Ask for one</a>.</p>
+        </aside>
       </form>
+    </div></section>
+
+    <section class="tn-section" aria-labelledby="how-h"><div class="tn-wrap">
+      <div class="tn-head tn-orghead"><p class="tn-kicker">For your purchasing</p><h2 class="tn-h2" id="how-h">How buying works</h2></div>
+      <ul class="tn-buying">{BUYING.map((b) => <li><span class="tn-buying__ic" set:html={icon(b.ic)}></span><h3 class="tn-h3">{b.h}</h3><p class="tn-p">{b.t}</p></li>)}</ul>
     </div></section>
 
     <section class="tn-section tn-section--tight" aria-labelledby="guide-h"><div class="tn-wrap tn-split">
       <div class="tn-split__text">
+        <p class="tn-kicker">In every pack</p>
         <h2 class="tn-h2" id="guide-h">The group guide</h2>
         <p class="tn-lead">What makes a pack more than a discount: a short PDF for the teacher, sent by email with every pack.</p>
-        <ul class="tn-ticks"><li>How to run one story with many children: one drawing a day, everyone talks, everyone chooses</li><li>The four TADA steps for a group: Talk, Ask, Decide, Act</li><li>The conversation questions for every page of the book</li><li>How to show the endings the children drew, and send them to Pim</li></ul>
+        <ul class="tn-ticks"><li>How to run one story with many children: one drawing a day, everyone talks, everyone chooses</li><li>The four TADA steps for a group: Talk, Ask, Decide, Act</li><li>The conversation questions for every page of the book</li><li>How to show the endings the children drew, and tell Pim about them</li></ul>
         <p class="tn-p"><a class="tn-link tn-link--solo" href="/teachers">For teachers</a></p>
       </div>
       <div class="tn-split__img"><Picture src={view('poster-paws-claws-3-5', 'wall')} alt="The Paws & Claws Story Wall, coloured in and framed on a wall" sizes="(min-width: 1024px) 560px, 100vw" /></div>
     </div></section>
 
-    <section class="tn-section tn-section--tight" aria-labelledby="how-h"><div class="tn-wrap">
-      <div class="tn-head"><h2 class="tn-h2 tn-h2--s" id="how-h">How it works</h2></div>
-      <ol class="tn-cards tn-cards--3 tn-steps3">{STEPS.map((s) => <li class="tn-card"><h3 class="tn-h3">{s.h}</h3><p class="tn-p">{s.t}</p></li>)}</ol>
-    </div></section>
-
     <section class="tn-section" id="quote" aria-labelledby="quote-h"><div class="tn-wrap">
       <div class="tn-email tn-quote">
-        <div class="tn-head"><h2 class="tn-h2 tn-h2--s" id="quote-h">A bigger order, a company gift, or an invoice</h2><p class="tn-p">For 100 books or more, a book and a mug or tote bag for every family, payment by invoice, or one sample book at print cost. We answer within two working days.</p></div>
+        <div class="tn-head tn-orghead"><p class="tn-kicker">Quote</p><h2 class="tn-h2 tn-h2--s" id="quote-h">A bigger order, a company gift, or an invoice</h2><p class="tn-p">For 100 books or more, a book and a tote bag for every family, payment by invoice, or one sample book at print cost. We answer within two working days.</p></div>
         <form class="tn-quote__form" method="post" action="/api/quote" data-quote>
           <div class="tn-quote__grid">
             <label class="tn-field"><span>Organisation</span><input class="tn-input" name="organisation" required maxlength="140" autocomplete="organization" /></label>

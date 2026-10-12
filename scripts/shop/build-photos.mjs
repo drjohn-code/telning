@@ -88,6 +88,7 @@ async function giftPhotos() {
   const coverFor = async (series) => uri(await art((await buildCover(series || 'star-hoppers', '3-5')).front, 900, 900));
   const pagesFor = async (series) => { const c = await buildCover(series || 'star-hoppers', '3-5'); return [uri(await art(c.guide, 800, 800)), uri(await art(c.drawing, 800, 800))]; };
   for (const d of gifts.mug) {
+    if (d.placeholder) continue;   // no art yet: scripts/shop/placeholders.mjs
     const p = catalog.bySku.get(`mug-${d.key}`); const slug = slugOf(p);
     if (!want(p.sku)) continue;
     const W = uri(await art(all[p.sku].wrap, 2400, 933));
@@ -99,6 +100,7 @@ async function giftPhotos() {
     console.log(`photos ${slug}`);
   }
   for (const d of gifts.tote) {
+    if (d.placeholder) continue;   // no art yet: scripts/shop/placeholders.mjs
     const p = catalog.bySku.get(`tote-${d.key}`); const slug = slugOf(p);
     if (!want(p.sku)) continue;
     const Nn = uri(await art(all[p.sku].natural, 1600, 1600, true)), B = uri(await art(all[p.sku].black, 1600, 1600, true));
@@ -111,6 +113,7 @@ async function giftPhotos() {
     console.log(`photos ${slug}`);
   }
   for (const d of gifts.postcards) {
+    if (d.placeholder) continue;   // no art yet: scripts/shop/placeholders.mjs
     const p = catalog.bySku.get(`postcards-${d.key}`); const slug = slugOf(p);
     if (!want(p.sku)) continue;
     const F = uri(await art(all[p.sku].front, 1200, 865)), B = uri(await art(all[p.sku].back, 1200, 865));
@@ -124,6 +127,7 @@ async function giftPhotos() {
     console.log(`photos ${slug}`);
   }
   for (const d of gifts.cards) {
+    if (d.placeholder) continue;   // no art yet: scripts/shop/placeholders.mjs
     const p = catalog.bySku.get(`cards-${d.key}`); const slug = slugOf(p);
     if (!want(p.sku)) continue;
     const F = uri(await art(all[p.sku].front, 1100, 1100));
@@ -140,7 +144,9 @@ async function giftPhotos() {
 
 async function packPhotos() {
   const all = await buildGifts();
-  const tote = uri(await art(all['tote-library-day'].natural, 1200, 1200, true));
+  const toteKey = Object.keys(all).find((k) => k.startsWith('tote-'));
+  if (!toteKey) { console.log('pack photos kept as they are: no tote art yet'); return; }
+  const tote = uri(await art(all[toteKey].natural, 1200, 1200, true));
   const keys = ['star-hoppers', 'paws-claws', 'home-hearts', 'little-gardeners', 'on-the-move'];
   const covers = [];
   for (const k of keys) covers.push(uri(await art((await buildCover(k, '3-5')).front, 800, 800)));
@@ -157,8 +163,8 @@ async function ogImages() {
   mkdirSync(join(dir, 'p'), { recursive: true });
   const jpg = async (html, file) => { const png = await S.shoot(html, { width: 1200, height: 630 }); await sharp(png).jpeg({ quality: 82, mozjpeg: true }).toFile(join(dir, file)); };
   const photoOf = async (src) => uri(await sharp(join(ROOT, 'public', `${src}-1200.webp`)).png().toBuffer());
-  for (const p of catalog.products) {
-    if (!want(p.sku)) continue;
+  for (const p of [...catalog.products, ...catalog.retired]) {
+    if (!want(p.sku) || p.soon) continue;
     const kicker = p.category === 'books' ? `${p.seriesName} · Ages ${p.age.replace('-', '–')}` : shop.types[p.type].plural;
     const pr = (p.variants ? p.variants[0].price : p.price).EUR;
     await jpg(PH.og(await photoOf(p.images[0].src), { kicker, title: p.name, price: money(pr, 'EUR', 'en-IE') }), `p/${p.sku}.jpg`);
@@ -166,12 +172,12 @@ async function ogImages() {
   const img = (sku, view) => { const p = catalog.bySku.get(sku); return p.images.find((i) => i.view === view).src; };
   const coll = [
     ['books.jpg', 'Telning Publishing House', 'Books & posters', img('book-star-hoppers-3-5', 'table')],
-    ['gifts.jpg', 'Telning Publishing House', 'Gifts that keep the story going', img('mug-the-moon', 'breakfast')],
+    ['gifts.jpg', 'Telning Publishing House', 'Gifts that keep the story going', '/shop/img/gift-set/gift-set-halloween-gift-set'],
     ['organisations.jpg', 'For kindergartens, schools, libraries', 'Story packs for groups', img('poster-paws-claws-3-5', 'wall')],
-    ['materials.jpg', 'Telning Publishing House', 'Our materials', img('tote-library-day', 'detail')],
-    ['shipping-returns.jpg', 'Telning Publishing House', 'Shipping & returns', img('postcards-hello-grandma', 'desk')],
+    ['materials.jpg', 'Telning Publishing House', 'Our materials', img('book-star-hoppers-3-5', 'spread')],
+    ['shipping-returns.jpg', 'Telning Publishing House', 'Shipping & returns', img('poster-star-hoppers-3-5', 'wall')],
     ...site.series.map((s) => [`books-${s.key}.jpg`, `Series · ${s.theme}`, `${s.name}: books and Story Walls`, img(`poster-${s.key}-5-7`, 'wall')]),
-    ...['mug', 'tote', 'postcards', 'cards'].map((t) => [`gifts-${t}.jpg`, 'Gifts', shop.types[t].plural, { mug: img('mug-the-garden', 'breakfast'), tote: img('tote-to-the-moon', 'hook'), postcards: img('postcards-happy-birthday', 'pack'), cards: img('cards-thank-you', 'flatlay') }[t]]),
+    ...['mug', 'tote', 'postcards', 'cards'].map((t) => [`gifts-${t}.jpg`, 'Gifts', shop.types[t].plural, { mug: img('mug-cocoa-cat', 'placeholder'), tote: img('tote-cat-parade', 'placeholder'), postcards: img('postcards-pumpkin-pup', 'placeholder'), cards: img('cards-pumpkin-puppies', 'placeholder') }[t]]),
   ];
   for (const [file, kicker, title, src] of coll) await jpg(PH.og(await photoOf(src), { kicker, title, price: '' }), file);
   console.log('og images');

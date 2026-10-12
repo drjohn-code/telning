@@ -62,6 +62,22 @@ const HALLOWEEN_SCENE: Record<string, string> = {
   cards: 'A Halloween card from Grandpa, blank inside for his own words, and an envelope your child insists on licking shut.',
 };
 
+/** The short story after the title on a product page (DRAFT copy in shop.json): the reader can see themselves using it. */
+export function storyOf(p: any): string {
+  const t = (shop.types as any)[p.type];
+  if (p.type === 'book') {
+    const first = String(p.book.story || '').split(/(?<=\.)\s/)[0];
+    return String(t.story[p.age] || t.story['3-5']).replace('{first}', first).replace('{choice}', p.book.choice || '');
+  }
+  if (p.type === 'poster') {
+    return String(t.story).replace('{series}', p.seriesName).replace('{third}', t.storyThird[p.age] || '').replace('{theme}', String(p.theme || '').toLowerCase());
+  }
+  if (p.design?.storyText) return p.design.storyText;   // a design can carry its own story (design.story is the linked series)
+  if (p.animal) return String(t.storyHalloween || t.story).replace('{line}', p.design.line || '').replace(/\s{2,}/g, ' ');
+  const words = p.design?.words ? `“${p.design.words}”` : '';
+  return String(t.story).replace('{words}', words).replace(/\s{2,}/g, ' ').replace(' .', '.');
+}
+
 /** "Thu 16 – Thu 23 Oct" per currency region, from today plus the region's working days (the page shows it; the shop
     script swaps the currency). Working days skip weekends. */
 export function deliveryWindow(from = new Date()): Record<string, string> {

@@ -113,7 +113,8 @@
           "which book the ending comes from",
           "your optional answers about the talk you had (feelings in the story, why your child chose the ending, real life)",
           "your consents, and the time of sending",
-          "your IP address, used only for a few minutes to stop spam, not stored with your form"
+          "your IP address, used only for a few minutes to stop spam, not stored with your form",
+          "only if you send it to us on Instagram or TikTok: a photo of your child's drawing, and a first name and age if you add them (see “Drawings on Instagram and TikTok” below)"
         ]
       },
       {
@@ -151,6 +152,18 @@
           "share your answers or your email with anyone",
           "add you to the email list unless you ask for that separately",
           "use cookies, trackers or advertising"
+        ]
+      },
+      {
+        "id": "social",
+        "h": "Drawings on Instagram and TikTok",
+        "p": [
+          "The story-card form takes no photos. If you would like Pim to share your child's drawing, you can send a photo of it to @telning.pub on Instagram or TikTok, or post it and tag us.",
+          "We share only photos that the law lets us publish. So the photo must show only the drawing: no people or faces, no full names, and no addresses, schools or anything else that shows who or where your child is. A first name and an age are fine if you add them.",
+          "By sending the photo, you confirm that you are the child's parent or guardian and over 18, and you agree that we may share the drawing on Telning's Instagram and TikTok in Pim's story-card format. The legal basis is this consent.",
+          "We may crop the photo so that only the drawing shows. We do not share a photo that breaks these rules. We keep the photo only as long as we need it to make the post.",
+          "You can take your consent back at any time: write to info@telning.com or send us a message, and we take the post down and delete the photo.",
+          "Instagram (Meta) and TikTok run their own services, under their own privacy rules. What you send there is handled by them too."
         ]
       },
       {
@@ -195,6 +208,7 @@
         "list": [
           "The form is for a parent or guardian over 18.",
           "By sending the form you let us use the first name and age to make one story card and send it to you. If you tick the sharing box, you also let us show that card on Telning's Instagram and TikTok; you can withdraw this at any time.",
+          "Drawings you send on Instagram or TikTok: you confirm that you may send the photo and that it shows only the drawing (no people or faces, no full names, addresses or schools). You keep the rights to the drawing; you let us show it on Telning's Instagram and TikTok in Pim's format until you ask us to take it down.",
           "We may refuse a submission that breaks these terms.",
           "We aim to reply within the time shown on the form. This is a service we offer with care, not a promise of a reply at a fixed time.",
           "The ideas in the talk-next note are general ideas, not advice about your child's health or development."

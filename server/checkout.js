@@ -89,6 +89,8 @@ export async function handleCheckout({ body, origin }, deps) {
   if (!currency) return { status: 400, body: { ok: false, error: 'currency' } };
   let lines;
   try { lines = resolveLines(catalog, body.items); } catch (e) { return { status: 400, body: { ok: false, error: e.message } }; }
+  const region = catalog.shop.currencies[currency].region;   // postcards go to Europe and the UK only
+  if (lines.some((l) => l.product.regions && !l.product.regions.includes(region))) return { status: 400, body: { ok: false, error: 'region' } };
   if (!stripe) return { status: 503, body: { ok: false, error: 'notReady' } };
   const params = sessionParams(catalog, lines, currency, { origin, tax: deps.tax, terms: deps.terms, imageBase: deps.imageBase });
   const r = await stripe('POST', '/checkout/sessions', params);

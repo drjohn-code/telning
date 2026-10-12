@@ -10,7 +10,7 @@
   "before": {
     "h2": "What do you need before you start?",
     "items": [
-      { "icon": "calendar", "c": "sky-light", "h": "10 to 15 minutes", "t": "Short and often works better than long and rare." },
+      { "icon": "calendar", "c": "paper-deep", "h": "10 to 15 minutes", "t": "Short and often works better than long and rare." },
       { "icon": "crayon-red", "c": "blush", "h": "Crayons or pencils", "t": "Markers can come through the paper. See the tip below." },
       { "icon": "chair", "c": "gold-light", "h": "Sit side by side", "t": "You both see the page. Your child sees you listening." },
       { "icon": "book", "c": "moss", "h": "Let your child hold the book", "t": "The child turns the pages and sets the pace." }

@@ -2,8 +2,8 @@
 """Telning gift mockups with Google AI Studio (google-genai).
 
 Every product has its own four designs (Halloween: one cat, one dog, many cats,
-many dogs), so 16 artworks. Tote bags come in two colours (undyed, black), so 8 tote
-mockups; mugs are white 11 oz only. For each design it makes:
+many dogs). Tote bags have eight: four on undyed and four on black cotton (product
+`tote-black`), so 20 artworks; mugs are white 11 oz only. For each design it makes:
   1. the artwork                              -> assets/telning-products/_art/...   (print master, git-ignored)
   2. a photo of that artwork on its product (mug, tote bag, postcard, greeting card)
                                               -> public/products/{product}/{theme}/{design}/...webp
@@ -22,7 +22,7 @@ Setup (once):   pip3 install --user google-genai Pillow
 Free checks:    python3 scripts/catalog/generate_mockups.py --list-models
                 python3 scripts/catalog/generate_mockups.py --dry-run
 Try one image:  python3 scripts/catalog/generate_mockups.py --stage art --products mug --designs cat --limit 1
-Everything:     python3 scripts/catalog/generate_mockups.py   (37 images)
+Everything:     python3 scripts/catalog/generate_mockups.py   (41 images)
 
 Images are paid per image. Existing files are skipped; use --force to redo them.
 """
@@ -125,6 +125,7 @@ def build_jobs(cfg, theme, stages, designs, products, public_dir, masters_dir):
                     "ratio": pr["art_ratio"], "inputs": [], "out": art_path(p, d),
                     "prompt": cfg["art_template"].format(
                         style=cfg["style"], subject=design["subject"], no_text=cfg["no_text"],
+                        background=pr.get("art_background", "a plain warm cream paper background"), extra=pr.get("art_extra", ""),
                         words=(f' The picture includes the words "{words}", drawn by hand in the same style.' if words else "")),
                 })
             if "mockups" in stages:

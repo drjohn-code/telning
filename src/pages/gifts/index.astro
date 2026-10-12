@@ -17,9 +17,9 @@ const LINES: Record<string, string> = {
   mug: 'For the grown-up who reads the story every night.',
   tote: 'The book, the crayons, the library trip.',
   postcards: 'Ten cards to write and send to Grandma.',
-  cards: 'Ten cards for birthdays and holidays, blank inside.',
+  cards: 'Ten Halloween cards, blank inside for your own words.',
 };
-const COVER: Record<string, string> = { mug: view('mug-the-moon', 'breakfast'), tote: view('tote-library-day', 'hook'), postcards: view('postcards-hello-grandma', 'desk'), cards: view('cards-birthday-balloons', 'flatlay') };
+const COVER: Record<string, string> = { mug: view('mug-cocoa-cat', 'placeholder'), tote: view('tote-cat-parade', 'placeholder'), postcards: view('postcards-pumpkin-pup', 'placeholder'), cards: view('cards-pumpkin-puppies', 'placeholder') };
 const products = GIFT_TYPES.flatMap((t: string) => catalog.products.filter((p: any) => p.type === t));
 const from = (t: string) => { const p: any = products.find((x: any) => x.type === t); const pr = p.variants ? p.variants[0].price : p.price; return Object.fromEntries(['EUR', 'GBP', 'USD', 'CAD'].map((c) => [`data-${c.toLowerCase()}`, money(pr[c], c, (shop.currencies as any)[c].locale)])); };
 const occasions = [...new Set(products.map((p: any) => p.occasion).filter(Boolean))] as string[];
@@ -33,7 +33,7 @@ const animals = products.some((p: any) => p.animal);   // the Halloween cats and
       <div class="tn-shophero__in">
         <div class="tn-shophero__text">
           <h1 class="tn-h1" id="page-h" tabindex="-1">Gifts</h1>
-          <p class="tn-lead">Mugs, tote bags, postcards and greeting cards: small, quiet Pim scenes, and this autumn a Halloween line of cats and dogs. Keepsakes that keep the story going, after the last page.</p>
+          <p class="tn-lead">Mugs, tote bags, postcards and greeting cards with our Halloween cats and dogs. Keepsakes that keep the story going, after the last page.</p>
           <PimNote line="The grown-ups get something too." size="sm" />
         </div>
         <div class="tn-shophero__art" aria-hidden="true">
@@ -58,10 +58,10 @@ const animals = products.some((p: any) => p.animal);   // the Halloween cats and
           <button type="button" class="tn-chip" data-group="type" data-value="">All</button>
           {GIFT_TYPES.map((t: string) => <button type="button" class="tn-chip" data-group="type" data-value={t}>{(shop.types as any)[t].tile}</button>)}
         </div>
-        <div class="tn-filters__g tn-filters__g--scroll" role="group" aria-label="Occasion"><span class="tn-filters__l">Occasion</span>
+        {occasions.length > 1 && (        <div class="tn-filters__g tn-filters__g--scroll" role="group" aria-label="Occasion"><span class="tn-filters__l">Occasion</span>
           <button type="button" class="tn-chip" data-group="occasion" data-value="">All</button>
           {occasions.map((o) => <button type="button" class="tn-chip" data-group="occasion" data-value={o}>{(gifts.occasions as any)[o]}</button>)}
-        </div>
+        </div>)}
         {animals && (<div class="tn-filters__g" role="group" aria-label="Characters"><span class="tn-filters__l">Characters</span>
           <button type="button" class="tn-chip" data-group="animal" data-value="">All</button>
           <button type="button" class="tn-chip" data-group="animal" data-value="cat">Cats</button>
@@ -73,7 +73,7 @@ const animals = products.some((p: any) => p.animal);   // the Halloween cats and
     </section>
 
     <section class="tn-section tn-section--tight" aria-labelledby="keep-h"><div class="tn-wrap tn-split">
-      <div class="tn-split__img"><Picture src={view('tote-library-day', 'hook')} alt="The Library Day tote bag on an oak hook, a Telning book peeking out" sizes="(min-width: 1024px) 560px, 100vw" /></div>
+      <div class="tn-split__img"><Picture src={view('book-star-hoppers-3-5', 'last-page')} alt="The last page of a Telning colouring book, open on a table, where the child draws the ending" sizes="(min-width: 1024px) 560px, 100vw" /></div>
       <div class="tn-split__text">
         <h2 class="tn-h2" id="keep-h">A keepsake, after the last page</h2>
         <p class="tn-lead">Your child chose the ending and drew it. A mug at breakfast or a card on the fridge keeps that story in daily life, so it gets told again.</p>

@@ -13,9 +13,10 @@ import Price from './Price.astro';
 import ProductCard from './ProductCard.astro';
 import Picture from './Picture.astro';
 import TrustBar from './TrustBar.astro';
+import GiftPicks from './GiftPicks.astro';
 import CurrencySelect from './CurrencySelect.astro';
 import PimNote from '../PimNote.astro';
-import { catalog, shop, gifts, ageLabel, priceAttrs, giftPath, money, sceneLine, deliveryWindow } from '../../lib/shop';
+import { catalog, shop, gifts, ageLabel, priceAttrs, giftPath, money, sceneLine, storyOf, deliveryWindow } from '../../lib/shop';
 
 interface Props { p: any }
 const { p } = Astro.props;
@@ -57,20 +58,13 @@ const sibling = (type: string, age: string) => find(`${type}-${p.series}-${age}`
 const keepBook = isSeries ? find(`book-${p.series}-${p.age}`) : p.story ? find(`book-${p.story.series}-3-5`) : null;
 const keepLine = isSeries ? p.book.keep : null;
 
-/* Keep the story going (max 3): the Story Wall of the same series first, then postcards, then the tote bag */
-const keep = p.type === 'book' ? [sibling('poster', p.age), find('postcards-hello-grandma'), find('tote-library-day')].filter(Boolean).slice(0, 3) : [];
-/* Complete the set: the matching book and one more item from the same series; for gifts, more of the same kind */
+/* Complete the set: for books and Story Walls the other format and the other age of the same series; for gifts, more of
+   the same kind. The gift band at the end (GiftPicks) shows a tote bag, a mug and a Story Wall. */
 let more: any[] = [];
-if (p.type === 'book') more = [sibling('book', p.age === '3-5' ? '5-7' : '3-5'), sibling('poster', p.age === '3-5' ? '5-7' : '3-5'), find('mug-one-more-page')];
-else if (p.type === 'poster') more = [sibling('book', p.age), sibling('poster', p.age === '3-5' ? '5-7' : '3-5'), find('postcards-under-the-same-sky')];
-else more = [...catalog.products.filter((x: any) => x.type === p.type && x.sku !== p.sku).slice(0, 3), ...(keepBook ? [keepBook] : [])].slice(0, 4);
+if (p.type === 'book') more = [sibling('poster', p.age), sibling('book', p.age === '3-5' ? '5-7' : '3-5'), sibling('poster', p.age === '3-5' ? '5-7' : '3-5')];
+else if (p.type === 'poster') more = [sibling('book', p.age), sibling('poster', p.age === '3-5' ? '5-7' : '3-5'), sibling('book', p.age === '3-5' ? '5-7' : '3-5')];
+else more = [...catalog.products.filter((x: any) => x.type === p.type && x.sku !== p.sku).slice(0, 4), ...(keepBook ? [keepBook] : [])].slice(0, 4);
 more = more.filter(Boolean);
-
-/* the bundle with this product */
-const bundle = p.type === 'book' ? { name: 'Book + Story Wall', items: [p, sibling('poster', p.age)] }
-  : p.type === 'poster' ? { name: 'After the last page', items: [sibling('book', p.age), p, find('postcards-under-the-same-sky')] } : null;
-const bundleTotal = bundle ? Object.fromEntries(['EUR', 'GBP', 'USD', 'CAD'].map((c) => [c, bundle.items.reduce((a: number, x: any) => a + (x.variants ? x.variants[0].price : x.price)[c], 0)])) : null;
-const bundleAttrs = bundleTotal ? Object.fromEntries(Object.entries(bundleTotal).map(([c, v]) => [`data-${c.toLowerCase()}`, money(v as number, c, (shop.currencies as any)[c].locale)])) : {};
 
 /* product structured data */
 const priceOf = (x: any) => ((x.variants ? x.variants[0].price : x.price).EUR / 100).toFixed(2);
@@ -81,7 +75,7 @@ const ld: Record<string, unknown> = {
   description: p.type === 'book' ? `${p.book.hook} ${p.book.story}` : p.type === 'poster' ? `${p.seriesName} Story Wall: a large colouring picture for the wall, 100 × 70 cm. ${p.poster.scene}` : `${sceneLine(p)} ${p.design.about}`,
   brand: { '@type': 'Brand', name: 'Telning' }, manufacturer: { '@id': `${HOST}/#organization` },
   category: p.category === 'books' ? 'Books & posters' : 'Gifts',
-  material: p.type === 'tote' ? 'GOTS-certified organic cotton' : p.type === 'mug' ? 'Ceramic' : 'FSC-certified paper',
+  material: p.type === 'tote' ? 'GOTS-certified organic cotton' : p.type === 'mug' ? 'Glazed ceramic' : p.type === 'poster' ? 'Matte paper, 189 g/m²' : 'FSC-certified paper',
   ...(p.type === 'book' ? { bookFormat: 'https://schema.org/Paperback', numberOfPages: 32, author: { '@id': `${HOST}/#organization` }, publisher: { '@id': `${HOST}/#organization` }, typicalAgeRange: p.age, alternateName: `${p.seriesName} colouring book, ages ${al}` } : {}),
   ...(p.type === 'poster' ? { alternateName: `${p.seriesName} Story Wall, ages ${al}`, size: '100 × 70 cm' } : {}),
   ...(p.age ? { audience: { '@type': 'PeopleAudience', suggestedMinAge: Number(p.age.split('-')[0]), suggestedMaxAge: Number(p.age.split('-')[1]) } } : {}),
@@ -100,9 +94,9 @@ const winAttrs = Object.fromEntries(Object.entries(windows).map(([c, v]) => [`da
 const kicker = isSeries ? `${p.seriesName} · Ages ${al}` : p.occasion ? `${t.plural} · ${(gifts.occasions as any)[p.occasion]}` : t.plural;
 const h1 = p.name;
 const sub = p.descriptor;
-const scene = sceneLine(p);
+const story = storyOf(p);
 const pimLine = p.type === 'book' ? 'I can’t wait to see which ending you choose.' : p.type === 'poster' ? 'Can you find me on the wall?' : null;
-const cert = p.type === 'tote' ? 'GOTS · OEKO-TEX' : p.type === 'mug' ? 'Food-safe ceramic' : 'FSC-certified paper';
+const cert = p.type === 'tote' ? 'GOTS · OEKO-TEX' : p.type === 'mug' ? 'Dishwasher safe' : p.type === 'poster' ? 'Acid-free matte paper' : p.type === 'postcards' ? 'FSC/PEFC-certified paper' : 'FSC-certified paper';
 ---
 <Base page={p.url} jsonld={[ld]} preload={{ src: images[0].src }}>
   <Header />
@@ -115,7 +109,7 @@ const cert = p.type === 'tote' ? 'GOTS · OEKO-TEX' : p.type === 'mug' ? 'Food-s
         <p class="tn-pdp__kick">{kicker}</p>
         <h1 class="tn-pdp__h1" id="page-h" tabindex="-1">{h1}</h1>
         <p class="tn-pdp__sub">{sub}</p>
-        <p class="tn-pdp__scene">{scene}</p>
+        <p class="tn-pdp__story">{story}</p>
         {(keepLine || p.story) && (
           <p class="tn-pdp__from">
             {isSeries
@@ -132,6 +126,7 @@ const cert = p.type === 'tote' ? 'GOTS · OEKO-TEX' : p.type === 'mug' ? 'Food-s
           </ul>
         </div>
         <p class="tn-pdp__delivery"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg><span>Made for you after you order. Order today and it arrives <strong class="tn-price" {...winAttrs}>{winAttrs['data-eur']}</strong>.</span></p>
+        {p.regions && <p class="tn-pdp__regions">Delivered to Europe and the UK only. Not available in the US and Canada.</p>}
         <p class="tn-pdp__shipfrom">Shipping from <span class="tn-price" {...shipAttrs}>{shipAttrs['data-eur']}</span> per parcel. <a class="tn-link" href="/shipping-returns">Shipping &amp; returns</a></p>
 
         {p.soon ? (
@@ -151,7 +146,10 @@ const cert = p.type === 'tote' ? 'GOTS · OEKO-TEX' : p.type === 'mug' ? 'Food-s
               </div></fieldset>
             </>
           )}
-          {p.variants && (
+          {p.variants && p.variants.length === 1 && (
+            <p class="tn-opt__fixed"><span class="tn-opt__k">{p.variantLabel}</span>{p.type === 'tote' && <span class="tn-swatch" style={`--sw:${p.variants[0].key === 'black' ? '#1d1c1a' : '#efe6d4'}`} aria-hidden="true"></span>}{p.variants[0].name}<input type="radio" name="variant" value={p.variants[0].key} checked hidden /></p>
+          )}
+          {p.variants && p.variants.length > 1 && (
             <fieldset class="tn-opt"><legend>{p.variantLabel}</legend><div class="tn-opt__row">
               {p.variants.map((v: any, i: number) => (
                 <label class="tn-chip tn-chip--radio"><input type="radio" name="variant" value={v.key} checked={i === 0} data-view={v.key} {...priceAttrs(p, v.key)} />
@@ -173,7 +171,7 @@ const cert = p.type === 'tote' ? 'GOTS · OEKO-TEX' : p.type === 'mug' ? 'Food-s
         </form>
         )}
 
-        <ul class="tn-pdp__facts">{t.facts.map((f: string) => <li>{f}</li>)}</ul>
+        <dl class="tn-pdp__specs" aria-label="Details">{t.specs.map(([k, v]: [string, string]) => <div class="tn-pdp__spec"><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
         {pimLine && <PimNote line={pimLine} size="sm" class="tn-pdp__pim" />}
       </div>
     </section>
@@ -237,29 +235,16 @@ const cert = p.type === 'tote' ? 'GOTS · OEKO-TEX' : p.type === 'mug' ? 'Food-s
         </details>
       </div>
 
-      {bundle && (
-        <aside class="tn-bundle" aria-labelledby="bundle-h">
-          <p class="tn-pdp__keepk">Together</p>
-          <h2 class="tn-h3" id="bundle-h">{bundle.name}</h2>
-          <ul class="tn-bundle__items">{bundle.items.map((x: any) => <li><Picture src={x.images[0].src} alt="" widths={[600]} sizes="56px" width={120} height={120} /><span><a href={x.url}>{x.name}</a><Price p={x} /></span></li>)}</ul>
-          <p class="tn-bundle__total">Together <span class="tn-price" {...bundleAttrs}>{bundleAttrs['data-eur']}</span></p>
-          <button class="tn-btn tn-btn--secondary" type="button" data-add={JSON.stringify(bundle.items.map((x: any) => ({ sku: x.sku, variant: x.variants ? x.variants[0].key : '', qty: 1, max: x.maxQty })))}>Add all {bundle.items.length} to basket</button>
-        </aside>
-      )}
     </section>
 
-    {keep.length > 0 && (
-      <section class="tn-section tn-section--tight" aria-labelledby="keep-h"><div class="tn-wrap">
-        <div class="tn-head"><h2 class="tn-h2 tn-h2--s" id="keep-h">Keep the story going</h2><p class="tn-lead">After the last page: the same world on the wall, a card to send, a bag for the next library trip.</p></div>
-        <ul class="tn-pgrid tn-pgrid--3">{keep.map((x: any) => <ProductCard p={x} />)}</ul>
-      </div></section>
-    )}
 
     <section class="tn-section tn-section--tight" aria-labelledby="more-h"><div class="tn-wrap">
       <div class="tn-head"><h2 class="tn-h2 tn-h2--s" id="more-h">{isSeries ? 'Complete the set' : `More ${t.plural.toLowerCase()}`}</h2></div>
       <ul class="tn-pgrid tn-pgrid--4">{more.map((x: any) => <ProductCard p={x} />)}</ul>
       <p class="tn-p" style="margin-top:var(--s5)">{isSeries ? <a class="tn-link tn-link--solo" href={`/books/${p.series}`}>Everything in {p.seriesName}</a> : <a class="tn-link tn-link--solo" href={giftPath(p.type)}>All {t.plural.toLowerCase()}</a>}</p>
     </div></section>
+
+    <GiftPicks series={isSeries ? p.series : undefined} age={p.age || '3-5'} not={p.sku} />
 
     <section class="tn-section tn-section--tight" aria-label="Our promises"><div class="tn-wrap"><TrustBar /></div></section>
 

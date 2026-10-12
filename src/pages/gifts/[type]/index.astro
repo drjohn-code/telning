@@ -21,9 +21,11 @@ const occasions = [...new Set(products.map((p: any) => p.occasion).filter(Boolea
 const p0: any = products[0];
 const pr = p0.variants ? p0.variants[0].price : p0.price;
 const fromAttrs = Object.fromEntries(['EUR', 'GBP', 'USD', 'CAD'].map((c) => [`data-${c.toLowerCase()}`, money(pr[c], c, (shop.currencies as any)[c].locale)]));
-const HERO: Record<string, string> = { mug: view('mug-the-garden', 'breakfast'), tote: view('tote-to-the-moon', 'hook'), postcards: view('postcards-happy-birthday', 'desk'), cards: view('cards-thank-you', 'flatlay') };
+/* Halloween only for now (John, 13 Oct 2026): placeholder pictures until the mockups exist */
+const HERO: Record<string, string> = { mug: view('mug-cocoa-cat', 'placeholder'), tote: view('tote-cat-parade', 'placeholder'), postcards: view('postcards-pumpkin-pup', 'placeholder'), cards: view('cards-pumpkin-puppies', 'placeholder') };
+const animals = products.some((p: any) => p.animal);
 const others = GIFT_TYPES.filter((x: string) => x !== t);
-const COVER: Record<string, string> = { mug: view('mug-the-moon', 'white'), tote: view('tote-library-day', 'natural'), postcards: view('postcards-hello-grandma', 'front'), cards: view('cards-birthday-balloons', 'front') };
+const COVER: Record<string, string> = HERO;
 ---
 <Base page={PAGE} preload={{ src: HERO[t], sizes: '(min-width: 1024px) 520px, 100vw' }}>
   <Header />
@@ -35,6 +37,7 @@ const COVER: Record<string, string> = { mug: view('mug-the-moon', 'white'), tote
           <h1 class="tn-h1" id="page-h" tabindex="-1">{ty.plural}</h1>
           <p class="tn-lead">{ty.scene}</p>
           <p class="tn-shophero__line">{ty.facts.slice(0, 3).join(' · ')}</p>
+          {ty.regions && <p class="tn-shophero__line">Delivered to Europe and the UK only. Not available in the US and Canada.</p>}
           <p class="tn-shophero__from">From <span class="tn-price" {...fromAttrs}>{fromAttrs['data-eur']}</span> · {products.length} designs</p>
         </div>
         <div class="tn-shophero__art" aria-hidden="true">
@@ -45,12 +48,17 @@ const COVER: Record<string, string> = { mug: view('mug-the-moon', 'white'), tote
 
     <section class="tn-wrap tn-shopgrid" aria-labelledby="all-h">
       <h2 class="tn-h2 tn-h2--s" id="all-h">The designs</h2>
-      {occasions.length > 1 && (
+      {(occasions.length > 1 || animals) && (
         <div class="tn-filters" data-filters="#grid" data-count="#count">
-          <div class="tn-filters__g tn-filters__g--scroll" role="group" aria-label="Occasion"><span class="tn-filters__l">Occasion</span>
+          {occasions.length > 1 && (<div class="tn-filters__g tn-filters__g--scroll" role="group" aria-label="Occasion"><span class="tn-filters__l">Occasion</span>
             <button type="button" class="tn-chip" data-group="occasion" data-value="">All</button>
             {occasions.map((o) => <button type="button" class="tn-chip" data-group="occasion" data-value={o}>{(gifts.occasions as any)[o]}</button>)}
-          </div>
+          </div>)}
+          {animals && (<div class="tn-filters__g" role="group" aria-label="Characters"><span class="tn-filters__l">Characters</span>
+            <button type="button" class="tn-chip" data-group="animal" data-value="">All</button>
+            <button type="button" class="tn-chip" data-group="animal" data-value="cat">Cats</button>
+            <button type="button" class="tn-chip" data-group="animal" data-value="dog">Dogs</button>
+          </div>)}
           <div class="tn-filters__end"><output id="count" class="tn-filters__count">{products.length} items</output><CurrencySelect id="cur-type" /></div>
         </div>
       )}

@@ -14,6 +14,8 @@ import Faq from '../components/Faq.astro';
 import site from '../data/site-data.json';
 import seo from '../data/seo.json';
 import t from '../data/pages/send.json';
+import strings from '../data/strings.en.json';
+import PimNote from '../components/PimNote.astro';
 
 const PAGE = '/send';
 const entry = seo.pages[PAGE];
@@ -62,12 +64,28 @@ const jsStrings = { errors: t.form.errors, stepError: t.form.stepError, sending:
     <section class="tn-section" id="example" aria-labelledby="example-h" style="padding-top:0"><div class="tn-wrap">
       <div class="tn-send">
         <div class="tn-reveal" style="display:grid;gap:16px"><h2 class="tn-h2" id="example-h" tabindex="-1">{t.example.h2}</h2><p class="tn-lead">{t.example.text}</p></div>
+        <div class="tn-send__mail"><div class="tn-pimmail tn-reveal">
+          <p class="tn-pimmail__k">{t.example.letterKicker}</p>
+          <p class="tn-pimmail__h">{strings['card.title'].replace('{name}', t.example.cardName).replace('{age}', String(t.example.cardAge))}</p>
+          <PimNote line={(t.example.cardLines as string[]).join(' ')} size="sm" />
+          <p class="tn-pimmail__q">{t.example.askH}</p>
+          <ol class="tn-pimmail__list">{t.example.questions.map((q: string) => <li>{q}</li>)}</ol>
+          <p class="tn-pimmail__q">{t.example.tryH}</p>
+          <p class="tn-p">{t.example.tryIt}</p>
+        </div></div>
+      </div>
+    </div></section>
+
+    <section class="tn-section" id="share" aria-labelledby="share-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-send">
+        <div class="tn-reveal" style="display:grid;gap:16px"><h2 class="tn-h2" id="share-h" tabindex="-1">{t.share.h2}</h2><p class="tn-lead">{t.share.lead}</p><p class="tn-p">{t.share.text.replace('{handle}', site.social.handle)} <a class="tn-link" href="/childrens-privacy#social">{t.share.rules}</a>.</p>
+          <p class="tn-sharebtns"><a class="tn-btn tn-btn--secondary" href={site.social.instagram} rel="noopener">{t.share.instagram}</a><a class="tn-btn tn-btn--secondary" href={site.social.tiktok} rel="noopener">{t.share.tiktok}</a></p></div>
         <div class="tn-send__art tn-scene" data-depth-area><StoryCard name={t.example.cardName} age={t.example.cardAge} lines={t.example.cardLines as [string, string]} colour="sea-deep" sample label={t.example.cardLabel} class="tn-tilt" /></div>
       </div>
     </div></section>
 
     <section class="tn-section" id="form" aria-labelledby="form-h" style="padding-top:0"><div class="tn-wrap">
-      <div class="tn-head tn-reveal"><h2 class="tn-h2" id="form-h" tabindex="-1">{t.form.h2}</h2><p class="tn-lead">{t.form.lead}</p></div>
+      <div class="tn-head tn-reveal"><h2 class="tn-h2" id="form-h" tabindex="-1">{t.form.h2}</h2></div>
       <form class="tn-form" id="story-form" action="/api/story-card" method="post" enctype="multipart/form-data" novalidate data-mode={sc.mode || 'manual'}>
         <ol class="tn-progress" aria-label={t.form.progressLabel}>{t.form.progress.map((p, i) => <li><a class="tn-progress__tab" href={`#part-${i + 1}`} data-goto={i + 1} aria-current={i === 0 ? 'step' : undefined}><span class="tn-progress__n" aria-hidden="true">{i + 1}</span><span class="tn-progress__l">{p}</span></a></li>)}</ol>
         <input type="hidden" name="form" value="story-card">

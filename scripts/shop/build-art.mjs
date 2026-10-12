@@ -79,21 +79,23 @@ export async function buildCover(key, age) {
 export async function buildGifts() {
   const out = {};
   const save = (dir, name, svg) => { mkdirSync(join(ROOT, 'art/print', dir), { recursive: true }); writeFileSync(join(ROOT, 'art/print', dir, name), svg); return svg; };
-  for (const d of gifts.cards) out[`cards-${d.key}`] = { front: save('greeting-cards', `${d.key}.svg`, cardFront(d.key)), back: save('greeting-cards', `${d.key}-back.svg`, cardBack(d.key, d.name)), inside: cardInside() };
-  for (const d of gifts.postcards) out[`postcards-${d.key}`] = { front: save('postcards', `${d.key}.svg`, postcardFront(d.key)), back: save('postcards', `${d.key}-back.svg`, postcardBack(d.key, d.name)) };
-  for (const d of gifts.mug) out[`mug-${d.key}`] = { wrap: save('mugs', `${d.key}.svg`, mugWrap(d.key, d.words)) };
-  for (const d of gifts.tote) out[`tote-${d.key}`] = { natural: save('tote-bags', `${d.key}.svg`, totePrint(d.key, d.words, 'natural')), black: save('tote-bags', `${d.key}-black.svg`, totePrint(d.key, d.words, 'black')) };
+  for (const d of gifts.cards.filter((d) => !d.placeholder)) out[`cards-${d.key}`] = { front: save('greeting-cards', `${d.key}.svg`, cardFront(d.key)), back: save('greeting-cards', `${d.key}-back.svg`, cardBack(d.key, d.name)), inside: cardInside() };
+  for (const d of gifts.postcards.filter((d) => !d.placeholder)) out[`postcards-${d.key}`] = { front: save('postcards', `${d.key}.svg`, postcardFront(d.key)), back: save('postcards', `${d.key}-back.svg`, postcardBack(d.key, d.name)) };
+  for (const d of gifts.mug.filter((d) => !d.placeholder)) out[`mug-${d.key}`] = { wrap: save('mugs', `${d.key}.svg`, mugWrap(d.key, d.words)) };
+  for (const d of gifts.tote.filter((d) => !d.placeholder)) out[`tote-${d.key}`] = { natural: save('tote-bags', `${d.key}.svg`, totePrint(d.key, d.words, 'natural')), black: save('tote-bags', `${d.key}-black.svg`, totePrint(d.key, d.words, 'black')) };
   // review sheets
   const sheet = async (name, items, w, h, cols) => {
+    if (!items.length) return;   // nothing to show yet
     const rows = Math.ceil(items.length / cols);
     const html = `<div style="display:grid;grid-template-columns:repeat(${cols},${w}px);gap:12px;padding:12px;background:#ccc">${items.map((s) => `<div style="width:${w}px;height:${h}px;background:#fff">${s.replace('<svg ', `<svg style="width:${w}px;height:${h}px;display:block" `)}</div>`).join('')}</div>`;
     const W = cols * (w + 12) + 12, H = rows * (h + 12) + 12;
     savePng(await S.shoot(page(html, { width: W, height: H }), { width: W, height: H }), join(ROOT, `review/shop/gifts/${name}.png`));
   };
-  await sheet('cards', gifts.cards.map((d) => out[`cards-${d.key}`].front), 300, 300, 5);
-  await sheet('postcards', gifts.postcards.map((d) => out[`postcards-${d.key}`].front).concat([out['postcards-hello-grandma'].back]), 360, 260, 3);
-  await sheet('mugs', gifts.mug.map((d) => out[`mug-${d.key}`].wrap), 640, 249, 2);
-  await sheet('totes', gifts.tote.flatMap((d) => [out[`tote-${d.key}`].natural.replace('<svg ', '<svg style="background:#efe6d4" '), out[`tote-${d.key}`].black.replace('<svg ', '<svg style="background:#1d1c1a" ')]), 240, 240, 6);
+  const real = (list) => list.filter((d) => !d.placeholder);
+  await sheet('cards', real(gifts.cards).map((d) => out[`cards-${d.key}`].front), 300, 300, 5);
+  await sheet('postcards', real(gifts.postcards).map((d) => out[`postcards-${d.key}`].front).concat(real(gifts.postcards).slice(0, 1).map((d) => out[`postcards-${d.key}`].back)), 360, 260, 3);
+  await sheet('mugs', real(gifts.mug).map((d) => out[`mug-${d.key}`].wrap), 640, 249, 2);
+  await sheet('totes', real(gifts.tote).flatMap((d) => [out[`tote-${d.key}`].natural.replace('<svg ', '<svg style="background:#efe6d4" '), out[`tote-${d.key}`].black.replace('<svg ', '<svg style="background:#1d1c1a" ')]), 240, 240, 6);
   console.log('gifts: print files and review sheets');
   return out;
 }

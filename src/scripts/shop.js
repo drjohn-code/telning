@@ -177,6 +177,7 @@
   /* ---------- checkout ---------- */
   var MSG = {
     notReady: 'The shop opens very soon. Your basket is saved on this device.',
+    region: 'Postcards are delivered to Europe and the UK only. Please remove them, or pay in euros or pounds.',
     closed: 'The shop opens very soon. Your basket is saved on this device.',
     stripe: 'Sorry, the payment page did not open. Please try again in a minute.',
     basket: 'Your basket is empty.',
@@ -290,14 +291,43 @@
         var boxes = f.querySelectorAll('input[name="pack_titles"]');
         var on = Array.prototype.filter.call(boxes, function (b) { return b.checked; });
         while (on.length > max) { on.pop().checked = false; }
-        Array.prototype.forEach.call(boxes, function (b) { b.disabled = !b.checked && on.length >= max; });
+        Array.prototype.forEach.call(boxes, function (b) { b.disabled = max > 1 && !b.checked && on.length >= max; });   // with one title, a click swaps it
         var lab = f.querySelector('[data-max-label]');
-        if (lab) lab.textContent = max === 1 ? '(choose 1)' : '(choose up to ' + max + ')';
+        if (lab) lab.textContent = max === 1 ? '(choose 1)' : '(' + on.length + ' of up to ' + max + ' chosen)';
       };
-      f.addEventListener('change', limit);
-      limit();
+      /* the summary on the right: pack, books, titles, Story Walls, tote bags and the price */
+      var sum = function (k) { return f.querySelector('[data-sum="' + k + '"]'); };
+      var update = function () {
+        var pack = f.querySelector('input[name="sku"]:checked'); if (!pack) return;
+        var titles = Array.prototype.filter.call(f.querySelectorAll('input[name="pack_titles"]'), function (b) { return b.checked; })
+          .map(function (b) { var t = b.closest('label').querySelector('.tn-titlepick__t'); return t ? t.textContent : b.value; });
+        var tote = f.querySelector('input[name="pack_tote"]:checked');
+        var set = function (k, v) { var el = sum(k); if (el) el.textContent = v; };
+        set('name', pack.getAttribute('data-name'));
+        set('books', pack.getAttribute('data-books') + ' colouring books');
+        set('titles', titles.length ? titles.join(', ') : 'none yet');
+        set('posters', pack.getAttribute('data-posters') + ', from the worlds of your titles');
+        set('totes', pack.getAttribute('data-totes') + ' × ' + (tote ? tote.getAttribute('data-name') + ', ' + tote.getAttribute('data-colour') : ''));
+        var price = sum('price');
+        if (price) { CURS.forEach(function (c) { var k = c.toLowerCase(); price.setAttribute('data-' + k, pack.getAttribute('data-p-' + k)); }); applyPrices(); }
+      };
+      f.addEventListener('change', function (e) {
+        /* one title allowed: a new choice replaces the old one, like a radio button */
+        var x = e.target, pack = f.querySelector('input[name="sku"]:checked');
+        if (x && x.name === 'pack_titles' && x.checked && pack && pack.getAttribute('data-titles') === '1') each(f, 'input[name="pack_titles"]', function (b) { if (b !== x) b.checked = false; });
+        limit(); update();
+      });
+      limit(); update();
+      /* show one age at a time in the title grid; the choices stay */
+      each(f, '[data-agefilter]', function (btn) {
+        btn.addEventListener('click', function () {
+          var age = btn.getAttribute('data-agefilter');
+          each(f, '[data-agefilter]', function (x) { x.setAttribute('aria-pressed', String(x === btn)); });
+          each(f, '.tn-titlepick', function (l) { l.hidden = !!age && l.getAttribute('data-age') !== age; });
+        });
+      });
       each(root, '[data-pack-start]', function (a) {
-        a.addEventListener('click', function () { var r = f.querySelector('input[name="sku"][value="' + a.getAttribute('data-pack-start') + '"]'); if (r) { r.checked = true; limit(); } });
+        a.addEventListener('click', function () { var r = f.querySelector('input[name="sku"][value="' + a.getAttribute('data-pack-start') + '"]'); if (r) { r.checked = true; limit(); update(); } });
       });
       f.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -305,7 +335,7 @@
         var titles = Array.prototype.filter.call(f.querySelectorAll('input[name="pack_titles"]'), function (b) { return b.checked; }).map(function (b) { return b.value; });
         if (!titles.length) { msg.textContent = 'Please choose at least one title.'; msg.hidden = false; return; }
         msg.hidden = true;
-        T.addToBasket([{ sku: val('sku'), variant: titles.join(',') + '|' + val('pack_tote') + '~' + val('pack_colour'), qty: 1, max: 5 }]);
+        T.addToBasket([{ sku: val('sku'), variant: titles.join(',') + '|' + val('pack_tote'), qty: 1, max: 5 }]);   // pack_tote is "design~colour"
       });
     }
     var q = root.querySelector('form[data-quote]');

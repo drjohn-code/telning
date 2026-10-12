@@ -5,7 +5,7 @@ import { layout, button, h1, h2, p, small, pim, product, rows, img, BRAND as B }
 
 const host = B.host;
 const orderRows = `{{#items}}<tr><td style="padding:6px 0;border-bottom:1px solid #e9dfcf">{{qty}} × {{name}}</td><td align="right" style="padding:6px 0;border-bottom:1px solid #e9dfcf">{{amount}}</td></tr>{{/items}}<tr><td style="padding:8px 0 0">Shipping</td><td align="right" style="padding:8px 0 0">{{shipping}}</td></tr><tr><td style="padding:4px 0;font-weight:600">Total paid</td><td align="right" style="padding:4px 0;font-weight:600">{{total}}</td></tr>`;
-const keepGoing = `${h2('Keep the story going')}${product(host + '/shop/img/hello-grandma-postcards/hello-grandma-postcards-desk-600.webp', 'Hello, Grandma postcards', 'Ten cards to write and send after the last page.', host + '/gifts/postcards/hello-grandma', '')}${product(host + '/shop/img/the-moon-pim-mug/the-moon-pim-mug-breakfast-600.webp', 'The Moon mug', 'For the grown-up who reads the story every night.', host + '/gifts/mugs/the-moon', '')}`;
+const keepGoing = `${h2('Keep the story going')}${product(host + '/shop/img/star-hoppers-story-wall-colouring-poster-ages-3-5/star-hoppers-story-wall-colouring-poster-ages-3-5-wall-600.webp', 'Story Walls', 'The whole world of the story on the wall, to colour together.', host + '/books', '')}${product(host + '/shop/img/gift-set/gift-set-halloween-gift-set-600.webp', 'Halloween gifts', 'Mugs, tote bags and cards with our cats and dogs.', host + '/gifts', '')}`;
 
 export const TEMPLATES = {
   /* ---------- transactional ---------- */
@@ -106,10 +106,10 @@ ${button('{{series_url}}', 'See the series')}
 ${pim('I’m hiding somewhere on the wall. Can you find me?')}` }) },
   'gift-guide': { subject: 'Gifts that keep the story going', kind: 'marketing', build: () => layout({ marketing: true, title: 'Gift guide', preheader: '{{season}}: four quiet gifts for the grown-ups who read.', body: `
 ${h1('{{season}} gifts, the Telning way.')}
-${p('Four things for the grown-ups who read the story every night. Each one carries a small Pim scene, and each one is made for you after you order, so order a little early.')}
-${product(host + '/shop/img/the-moon-pim-mug/the-moon-pim-mug-breakfast-600.webp', 'The Moon mug', 'For the morning after the moon was chosen.', host + '/gifts/mugs/the-moon', '')}
-${product(host + '/shop/img/library-day-tote-bag/library-day-tote-bag-hook-600.webp', 'Library Day tote bag', 'GOTS-certified organic cotton. The book, the crayons, the library trip.', host + '/gifts/tote-bags/library-day', '')}
-${product(host + '/shop/img/merry-christmas-greeting-cards/merry-christmas-greeting-cards-flatlay-600.webp', 'Merry Christmas cards', 'Ten cards with envelopes, blank inside.', host + '/gifts/greeting-cards/merry-christmas', '')}
+${p('For the grown-ups who read the story every night: this autumn, our Halloween cats and dogs. Each one is made for you after you order, so order a little early.')}
+${product(host + '/shop/img/cocoa-cat-mug/cocoa-cat-mug-placeholder-600.webp', 'Cocoa Cat mug', 'A witch-hat cat and a warm cup of cocoa.', host + '/gifts/mugs/cocoa-cat', '')}
+${product(host + '/shop/img/moon-cat-tote-bag/moon-cat-tote-bag-placeholder-600.webp', 'Moon Cat tote bag', 'GOTS-certified organic cotton. A tall cat in a witch hat under the moon.', host + '/gifts/tote-bags/moon-cat', '')}
+${product(host + '/shop/img/boo-cat-greeting-cards/boo-cat-greeting-cards-placeholder-600.webp', 'Boo Cat greeting cards', 'Ten cards with envelopes, blank inside.', host + '/gifts/greeting-cards/boo-cat', '')}
 ${button(host + '/gifts', 'See all gifts')}
 ${pim('The grown-ups get something too.')}` }) },
   'abandoned-checkout': { subject: 'Your basket is still here', kind: 'marketing', build: () => layout({ marketing: true, title: 'Your basket', preheader: 'Nothing is reserved; we just kept it for you.', body: `

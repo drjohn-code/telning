@@ -1,46 +1,54 @@
 {
   "_draft": true,
-  "_note": "All text on /send is a draft for a person to check (STRINGS_DRAFT). /send is a QR page: no shop links, no prices, none of the words gift, reward, prize, win, free. The privacy words describe the real flow in server/story-card.js; if the code changes, these words change. Changed 12 Oct 2026: no photo upload (step 1 is 'Intro'); the card is made from the first name, the age and the book.",
+  "_note": "All text on /send is a draft for a person to check (STRINGS_DRAFT). /send is a QR page: no shop links, no prices, none of the words gift, reward, prize, win, free. The privacy words describe the real flow in server/story-card.js; if the code changes, these words change. Changed 12 Oct 2026: no photo upload (step 1 is 'Intro'); the card is made from the first name, the age and the book. Changed 13 Oct 2026 (John): the form takes the story, not the drawing; parents who want to show the drawing send it on Instagram or TikTok, and Telning may share it in Pim's story-card format.",
   "h1": "Send Pim your ending",
-  "lead": "Your child drew the ending. Pim sends back a story card.",
-  "intro": "Fill in a short form. Within {time}, a story card and ideas for your next talk come back by email. This is for grown-ups. We ask for a first name and an age, never a photo of your child.",
+  "lead": "Tell Pim about the ending your child chose. Pim writes back.",
+  "intro": "Fill in a short form about the story you read together: the ending your child chose and what you talked about. Within {time}, Pim answers by email with a story card and ideas for your next talk. This is for grown-ups. We ask for a first name and an age, never a photo of your child.",
   "how": {
     "h2": "How does it work?",
     "steps": [
       {
         "icon": "book",
-        "c": "sky-light",
+        "c": "paper-deep",
         "h": "Read the story together",
         "t": "Your child colours the pages and chooses the ending."
       },
       {
         "icon": "clipboard",
         "c": "gold-light",
-        "h": "Fill in the short form",
-        "t": "Your email, your child's first name and age, and a few optional questions about your talk."
+        "h": "Tell Pim about it",
+        "t": "Your email, your child's first name and age, and a few short questions about the story you shared."
       },
       {
         "icon": "plane",
         "c": "blush",
-        "h": "Get the story card by email",
-        "t": "Within {time}: the card, two lines from Pim, and ideas for your next talk."
+        "h": "Get Pim's answer by email",
+        "t": "Within {time}: a story card, two lines from Pim, and ideas for your next talk."
       }
     ]
   },
   "example": {
     "h2": "What comes back",
-    "text": "A story card like this one, with your child's first name and age, and two lines from Pim. Under it, in the email: three questions for your next talk and one small thing to try in real life.",
+    "text": "An email from Pim: a story card with your child's first name and age and two lines about the ending they chose. Under it: three questions for your next talk and one small thing to try in real life.",
     "cardName": "Noa",
     "cardAge": 5,
     "cardLines": [
       "You chose the ending where they share.",
       "I would choose that one too!"
     ],
-    "cardLabel": "Sample story card: a child's crayon drawing of a house, a sun and flowers, with the words A TADA ending by Noa, 5, and two lines from Pim."
+    "cardLabel": "Sample story card: a child's crayon drawing of a house, a sun and flowers, with the words A TADA ending by Noa, 5, and two lines from Pim.",
+    "letterKicker": "Pim's answer, by email",
+    "askH": "Next time, try asking:",
+    "questions": [
+      "Who was in the story?",
+      "How did they feel when they shared?",
+      "What if there was only one left?"
+    ],
+    "tryH": "Try it in real life:",
+    "tryIt": "At snack time, let your child decide how to share the last piece."
   },
   "form": {
     "h2": "The form",
-    "lead": "Three short steps. Only the first one is required; you can skip the questions in step 2.",
     "progress": [
       "Intro",
       "Tell the story",
@@ -150,6 +158,10 @@
     "h2": "Questions parents ask",
     "items": [
       {
+        "q": "Can Pim see my child's drawing?",
+        "a": "Not through this form: it has no photo upload. If you would like to show the drawing, send a photo of the drawing page to @telning.pub on Instagram or TikTok. Only the drawing, please: no people or faces, no full names, addresses or school names."
+      },
+      {
         "q": "How long does it take?",
         "a": "A person makes every card. You get an email within {time}."
       },
@@ -176,5 +188,13 @@
     "text": "The parent guide has questions that work, by age.",
     "button": "Read the parent guide",
     "link": "Why TADA works"
+  },
+  "share": {
+    "h2": "Want to show the drawing?",
+    "lead": "The drawing stays with you. If you would like Pim to see it, send it on Instagram or TikTok.",
+    "text": "Take a photo of the drawing page and send it to {handle}, or post it and tag us. Only the drawing, please: no people or faces, no full names, addresses or school names. We may share it on Telning's Instagram and TikTok in Pim's story-card format, like this one.",
+    "instagram": "Send it on Instagram",
+    "tiktok": "Send it on TikTok",
+    "rules": "How we handle these photos"
   }
 }

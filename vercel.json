@@ -87,6 +87,156 @@
       "source": "/shop",
       "destination": "/books",
       "permanent": true
+    },
+    {
+      "source": "/gifts/mugs/the-moon",
+      "destination": "/gifts/mugs",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/mugs/the-garden",
+      "destination": "/gifts/mugs",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/mugs/the-red-balloon",
+      "destination": "/gifts/mugs",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/mugs/the-train",
+      "destination": "/gifts/mugs",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/mugs/snow-day",
+      "destination": "/gifts/mugs",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/mugs/one-more-page",
+      "destination": "/gifts/mugs",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/tote-bags/library-day",
+      "destination": "/gifts/tote-bags",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/tote-bags/crayons",
+      "destination": "/gifts/tote-bags",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/tote-bags/little-stories",
+      "destination": "/gifts/tote-bags",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/tote-bags/to-the-moon",
+      "destination": "/gifts/tote-bags",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/tote-bags/grow-slowly",
+      "destination": "/gifts/tote-bags",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/tote-bags/what-would-you-choose",
+      "destination": "/gifts/tote-bags",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/postcards/hello-grandma",
+      "destination": "/gifts/postcards",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/postcards/happy-birthday",
+      "destination": "/gifts/postcards",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/postcards/happy-halloween",
+      "destination": "/gifts/postcards",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/postcards/happy-new-year",
+      "destination": "/gifts/postcards",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/postcards/merry-christmas",
+      "destination": "/gifts/postcards",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/postcards/happy-easter",
+      "destination": "/gifts/postcards",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/postcards/happy-midsummer",
+      "destination": "/gifts/postcards",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/postcards/under-the-same-sky",
+      "destination": "/gifts/postcards",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/greeting-cards/birthday-balloons",
+      "destination": "/gifts/greeting-cards",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/greeting-cards/make-a-wish",
+      "destination": "/gifts/greeting-cards",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/greeting-cards/around-the-sun",
+      "destination": "/gifts/greeting-cards",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/greeting-cards/boo",
+      "destination": "/gifts/greeting-cards",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/greeting-cards/merry-christmas",
+      "destination": "/gifts/greeting-cards",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/greeting-cards/happy-new-year",
+      "destination": "/gifts/greeting-cards",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/greeting-cards/happy-easter",
+      "destination": "/gifts/greeting-cards",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/greeting-cards/thank-you",
+      "destination": "/gifts/greeting-cards",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/greeting-cards/welcome-little-one",
+      "destination": "/gifts/greeting-cards",
+      "permanent": true
+    },
+    {
+      "source": "/gifts/greeting-cards/to-the-moon",
+      "destination": "/gifts/greeting-cards",
+      "permanent": true
     }
   ]
 }
