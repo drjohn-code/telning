@@ -13,7 +13,7 @@ const first = images[0];
   </div>
   <ul class="tn-gallery__thumbs" aria-label="Photos">
     {images.map((im, i) => (
-      <li><a class="tn-gallery__thumb" href={`${im.src}-1200.webp`} role="button" aria-pressed={i === 0 ? 'true' : 'false'} aria-label={`Photo ${i + 1} of ${images.length}: ${im.alt}`} data-view={im.view} data-src={`${im.src}-1200.webp`} data-srcset={`${im.src}-600.webp 600w, ${im.src}-1200.webp 1200w`} data-zoom={im.zoom ? `${im.src}-2000.webp` : `${im.src}-1200.webp`} data-alt={im.alt} onclick="event.preventDefault()">
+      <li><a class="tn-gallery__thumb" href={`${im.src}-1200.webp`} role="button" aria-pressed={i === 0 ? 'true' : 'false'} aria-label={`Photo ${i + 1} of ${images.length}: ${im.alt}`} data-view={im.view} data-base={im.src} data-src={`${im.src}-1200.webp`} data-srcset={`${im.src}-600.webp 600w, ${im.src}-1200.webp 1200w`} data-zoom={im.zoom ? `${im.src}-2000.webp` : `${im.src}-1200.webp`} data-alt={im.alt} onclick="event.preventDefault()">
         <Picture src={im.src} alt="" widths={[600]} sizes="100px" />
       </a></li>
     ))}

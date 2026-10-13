@@ -38,6 +38,18 @@ test('gifts are the Halloween line, coming soon; a black tote is black only; a p
   await expect(page.locator('#tn-drawer .tn-line__var')).toContainText('(3–5)');   // the title carries its own age; no age step
 });
 
+test('product gallery: a thumbnail changes the big photo', async ({ page }) => {
+  await page.goto('/gifts/mugs/cocoa-cat');
+  const big = page.locator('.tn-gallery__main img');
+  await expect(big).toHaveJSProperty('complete', true);
+  expect(await big.evaluate((i: HTMLImageElement) => i.currentSrc)).toContain('-table-');
+  for (const view of ['home', 'hand', 'table']) {
+    await page.locator(`.tn-gallery__thumb[data-view="${view}"]`).click();
+    await expect.poll(() => big.evaluate((i: HTMLImageElement) => i.currentSrc)).toContain(`-${view}-`);
+    await expect(page.locator(`.tn-gallery__thumb[data-view="${view}"]`)).toHaveAttribute('aria-pressed', 'true');
+  }
+});
+
 test('filters on /books hide the cards that do not match', async ({ page }) => {
   await page.goto('/books');
   await expect(page.locator('#grid > li:visible')).toHaveCount(48);

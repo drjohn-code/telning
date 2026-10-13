@@ -118,7 +118,7 @@ def build_jobs(cfg, theme, stages, designs, products, public_dir, masters_dir, s
                 words = design.get("words", "").strip()
                 jobs.append({
                     "stage": "art", "id": f"{theme}-{d}-{p}-art", "label": f"artwork, {pr['label']}: {design['title']}",
-                    "ratio": pr["art_ratio"], "inputs": [], "out": art_path(p, d),
+                    "ratio": pr["art_ratio"], "inputs": [], "out": art_path(p, d), "print_mm": pr.get("print_mm"),
                     "prompt": cfg["art_template"].format(
                         style=own.get("style", cfg["style"]), subject=design["subject"], no_text=cfg["no_text"],
                         layout=own.get("layout", "Centred on {background}.").format(
@@ -226,10 +226,25 @@ def need_pillow():
         sys.exit("Pillow is not installed. Run: pip3 install --user Pillow")
 
 
-def save_image(data, path):
+def fit_print(im, print_mm):
+    """Centre-crop to the printer's file shape (trim size plus bleed, in mm), e.g. A6 postcard 156 x 113."""
+    w, h = im.size
+    want = print_mm[0] / print_mm[1]
+    if abs(w / h - want) < 0.005:
+        return im
+    if w / h > want:
+        nw = round(h * want); x = (w - nw) // 2
+        return im.crop((x, 0, x + nw, h))
+    nh = round(w / want); y = (h - nh) // 2
+    return im.crop((0, y, w, y + nh))
+
+
+def save_image(data, path, print_mm=None):
     Image = need_pillow()
     path.parent.mkdir(parents=True, exist_ok=True)
     with Image.open(io.BytesIO(data)) as im:
+        if print_mm:
+            im = fit_print(im, print_mm)
         size = im.size
         if path.suffix.lower() == ".webp":
             im.convert("RGB").save(path, "WEBP", quality=WEBP_QUALITY, method=6)
@@ -294,7 +309,7 @@ def run(args):
         started = time.time()
         try:
             data, _mime = generate(client, types, key, args.model, contents, j["ratio"], args.size)
-            w, h = save_image(data, j["out"])
+            w, h = save_image(data, j["out"], j.get("print_mm"))
         except BillingError as exc:
             stop.append(str(exc)); return
         except (ValueError, RuntimeError) as exc:

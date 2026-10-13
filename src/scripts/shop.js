@@ -213,6 +213,12 @@
       var thumbs = g.querySelectorAll('.tn-gallery__thumb');
       function show(btn) {
         each(g, '.tn-gallery__thumb', function (t) { t.setAttribute('aria-pressed', String(t === btn)); });
+        // the main photo is a <picture>: its AVIF and WebP <source>s win over the <img>, so change them too
+        var base = btn.getAttribute('data-base');
+        each(g.querySelector('.tn-gallery__main'), 'source', function (s) {
+          var ext = s.type === 'image/avif' ? 'avif' : 'webp';
+          if (base) s.srcset = base + '-600.' + ext + ' 600w, ' + base + '-1200.' + ext + ' 1200w';
+        });
         main.src = btn.getAttribute('data-src'); main.srcset = btn.getAttribute('data-srcset') || '';
         main.alt = btn.getAttribute('data-alt') || '';
         g.setAttribute('data-view', btn.getAttribute('data-view') || '');

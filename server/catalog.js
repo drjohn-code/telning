@@ -47,7 +47,7 @@ export const DESCRIPTOR = {
   mug: () => 'Ceramic mug · 330 ml',
   tote: () => 'Organic cotton tote bag · 41 × 36 cm',
   postcards: () => 'Pack of 10 · A6, FSC/PEFC-certified card',
-  cards: () => 'Pack of 10 with envelopes · 14 × 14 cm',
+  cards: () => 'Pack of 10 with envelopes · 14.1 × 14.1 cm',
 };
 
 export function buildCatalog({ site, shop, books, gifts }) {

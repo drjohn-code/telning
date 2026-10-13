@@ -164,7 +164,7 @@
       "animal": "cat",
       "occasion": "halloween",
       "story": null,
-      "placeholder": true,
+      "placeholder": false,
       "line": "A ginger cat on a stone wall in the moonlight.",
       "about": "A ginger cat in a striped witch hat sitting on a low stone wall in the moonlight, three small pumpkins at its feet, a crescent moon and small stars.",
       "prompt": "halloween/postcard/cat"
