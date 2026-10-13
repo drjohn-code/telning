@@ -91,7 +91,6 @@ const firstShip = (shop.parcels as any)[p.parcel].first;
 const shipAttrs = Object.fromEntries(Object.entries(firstShip).map(([c, v]) => [`data-${c.toLowerCase()}`, money(Math.round((v as number) * 100), c, (shop.currencies as any)[c].locale)]));
 const windows = deliveryWindow();
 const winAttrs = Object.fromEntries(Object.entries(windows).map(([c, v]) => [`data-${c.toLowerCase()}`, v]));
-const kicker = isSeries ? `${p.seriesName} · Ages ${al}` : p.occasion ? `${t.plural} · ${(gifts.occasions as any)[p.occasion]}` : t.plural;
 const h1 = p.name;
 const sub = p.descriptor;
 const story = storyOf(p);
@@ -106,7 +105,6 @@ const cert = p.type === 'tote' ? 'GOTS · OEKO-TEX' : p.type === 'mug' ? 'Dishwa
       <div class="tn-pdp__gallery"><Gallery images={images} /></div>
 
       <div class="tn-pdp__info">
-        <p class="tn-pdp__kick">{kicker}</p>
         <h1 class="tn-pdp__h1" id="page-h" tabindex="-1">{h1}</h1>
         <p class="tn-pdp__sub">{sub}</p>
         <p class="tn-pdp__story">{story}</p>

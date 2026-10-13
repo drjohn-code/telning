@@ -1,5 +1,5 @@
 ---
-/* One product in a grid: photo, kicker, name, the one-line scene, price and a tag.
+/* One product in a grid: photo, name, the one-line scene, price and a tag.
    data-series / data-age / data-type / data-occasion feed the filters on /books and /gifts. */
 import Price from './Price.astro';
 import Picture from './Picture.astro';
@@ -11,14 +11,12 @@ const im = (view && p.images.find((i: any) => i.view === view)) || p.images[0];
 const t = (shop.types as any)[p.type];
 const sub = p.category === 'books' ? (p.type === 'book' ? p.book.hook : p.poster?.scene?.split('.')[0]) : (p.design.words || p.design.line || '');
 const tag = p.soon ? 'Coming soon' : p.age ? `Ages ${ageLabel(p.age)}` : t.tag;
-const kick = p.category === 'books' ? `${p.seriesName} · ${p.type === 'book' ? 'Colouring book' : 'Story Wall'}` : t.tile;
 const alt = p.type === 'poster' ? `${p.name}, a large colouring picture for the wall, framed on a child’s bedroom wall` : p.type === 'book' ? `“${p.title}”, the ${p.seriesName} colouring book, on a kitchen table with crayons` : `${p.name}: ${p.design.about}`;
 ---
 <li class="tn-pcard" data-card data-series={p.series || ''} data-age={p.age || ''} data-type={p.type} data-occasion={p.occasion || ''} data-animal={p.animal ? p.animal.replace(/s$/, '') : ''}>
   <a class="tn-pcard__link" href={p.url}>
     <span class="tn-pcard__img"><Picture src={im.src} alt={alt} widths={[600, 1200]} sizes="(min-width: 1024px) 280px, (min-width: 600px) 33vw, 50vw" eager={eager} /></span>
     <span class="tn-pcard__body">
-      <span class="tn-pcard__kick">{kick}</span>
       <H class="tn-pcard__name">{p.category === 'books' ? (p.type === 'book' ? p.title : `${p.seriesName} Story Wall`) : p.title}</H>
       <span class="tn-pcard__sub">{sub}</span>
     </span>

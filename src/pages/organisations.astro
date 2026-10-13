@@ -45,7 +45,6 @@ const BUYING = [
       <Breadcrumbs page={PAGE} />
       <div class="tn-shophero__in">
         <div class="tn-shophero__text">
-          <p class="tn-kicker">For kindergartens, schools, libraries and companies</p>
           <h1 class="tn-h1" id="page-h" tabindex="-1">One story, many children.</h1>
           <p class="tn-lead">Packs of books, Story Walls and tote bags for groups, with a guide for the teacher on how to run one story with many children.</p>
           <ul class="tn-orghero__pts"><li>10, 30 or 50 books</li><li>Save 10–18%</li><li>Card or invoice</li></ul>
@@ -59,7 +58,6 @@ const BUYING = [
 
     <section class="tn-section" id="packs" aria-labelledby="packs-h"><div class="tn-wrap">
       <div class="tn-head tn-orghead">
-        <p class="tn-kicker">Story packs</p>
         <h2 class="tn-h2" id="packs-h">One story for the whole group</h2>
         <p class="tn-lead">Every pack has colouring books, Story Walls of the same world, organic cotton tote bags and the group guide for the teacher.</p>
       </div>
@@ -87,7 +85,6 @@ const BUYING = [
 
     <section class="tn-section tn-buildband" id="build" aria-labelledby="build-h"><div class="tn-wrap">
       <div class="tn-head tn-orghead">
-        <p class="tn-kicker">Build your pack</p>
         <h2 class="tn-h2" id="build-h">Choose the titles and the tote bags</h2>
         <p class="tn-lead">Each title has its own age. Every 10 books bring one Story Wall of the same world and one tote bag.</p>
       </div>
@@ -146,13 +143,12 @@ const BUYING = [
     </div></section>
 
     <section class="tn-section" aria-labelledby="how-h"><div class="tn-wrap">
-      <div class="tn-head tn-orghead"><p class="tn-kicker">For your purchasing</p><h2 class="tn-h2" id="how-h">How buying works</h2></div>
+      <div class="tn-head tn-orghead"><h2 class="tn-h2" id="how-h">How buying works</h2></div>
       <ul class="tn-buying">{BUYING.map((b) => <li><span class="tn-buying__ic" set:html={icon(b.ic)}></span><h3 class="tn-h3">{b.h}</h3><p class="tn-p">{b.t}</p></li>)}</ul>
     </div></section>
 
     <section class="tn-section tn-section--tight" aria-labelledby="guide-h"><div class="tn-wrap tn-split">
       <div class="tn-split__text">
-        <p class="tn-kicker">In every pack</p>
         <h2 class="tn-h2" id="guide-h">The group guide</h2>
         <p class="tn-lead">What makes a pack more than a discount: a short PDF for the teacher, sent by email with every pack.</p>
         <ul class="tn-ticks"><li>How to run one story with many children: one drawing a day, everyone talks, everyone chooses</li><li>The four TADA steps for a group: Talk, Ask, Decide, Act</li><li>The conversation questions for every page of the book</li><li>How to show the endings the children drew, and tell Pim about them</li></ul>
@@ -163,7 +159,7 @@ const BUYING = [
 
     <section class="tn-section" id="quote" aria-labelledby="quote-h"><div class="tn-wrap">
       <div class="tn-email tn-quote">
-        <div class="tn-head tn-orghead"><p class="tn-kicker">Quote</p><h2 class="tn-h2 tn-h2--s" id="quote-h">A bigger order, a company gift, or an invoice</h2><p class="tn-p">For 100 books or more, a book and a tote bag for every family, payment by invoice, or one sample book at print cost. We answer within two working days.</p></div>
+        <div class="tn-head tn-orghead"><h2 class="tn-h2 tn-h2--s" id="quote-h">A bigger order, a company gift, or an invoice</h2><p class="tn-p">For 100 books or more, a book and a tote bag for every family, payment by invoice, or one sample book at print cost. We answer within two working days.</p></div>
         <form class="tn-quote__form" method="post" action="/api/quote" data-quote>
           <div class="tn-quote__grid">
             <label class="tn-field"><span>Organisation</span><input class="tn-input" name="organisation" required maxlength="140" autocomplete="organization" /></label>

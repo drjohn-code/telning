@@ -19,13 +19,13 @@ const fmt = (d: string) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB'
 <Base page={page}>
   <Header />
   <main id="main" tabindex="-1">
+    <div class="tn-wrap"><Breadcrumbs page={page} /></div>
     <div class="tn-wrap tn-legal">
       <header class="tn-legal__head">
         <div class="tn-legal__scene" aria-hidden="true">
           <div class="tn-envelope"><span class="tn-envelope__flap"></span><span class="tn-envelope__seal"><Obj name="tulip" w="100%" flat swap={{ red: 'moss', 'red-light': 'gold-light', 'red-deep': 'forest-light' }} /></span></div>
         </div>
         <div class="tn-legal__text">
-          <Breadcrumbs page={page} />
           <h1 class="tn-h1" id="page-h" tabindex="-1">{h1}</h1>
           <p class="tn-lead">{lead}</p>
           <p class="tn-updated">{updatedLabel} <time datetime={entry.lastmod}>{fmt(entry.lastmod)}</time></p>
