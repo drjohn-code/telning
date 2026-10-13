@@ -1,9 +1,22 @@
 {
-  "_note": "DRAFT prompts (12 Oct 2026) for scripts/catalog/generate_mockups.py. Every product has its own four designs (tote bags: four undyed and four black, eight in all) (one cat, one dog, many cats, many dogs). The style is written from the Telning design system, not from any reference image. Printed words: a design has none unless its `words` field is filled in by John. Nothing is added by the script.",
-  "style": "Children's picture-book illustration in flat gouache colour with a bold, slightly uneven black hand-drawn outline and soft paper grain. Simple rounded animals with friendly faces. Calm and warm. Autumn palette: pumpkin orange, cream, teal, mustard and deep charcoal.",
+  "_note": "DRAFT prompts (12 Oct 2026) for scripts/catalog/generate_mockups.py. Every product has its own four designs (tote bags: four undyed and four black, eight in all) (one cat, one dog, many cats, many dogs). The style is written in words only; no reference image is sent to the model. Printed words: a design has none unless its `words` field is filled in by John. Nothing is added by the script. 14 Oct 2026: three photos per product (views table, home, hand), square, for the product page gallery. 14 Oct 2026: every product has its own cute style (John): mug embroidery, tote bags cut-fabric patchwork (printed flat), postcards vintage screen-print crowds, greeting cards linocut (one animal) and mid-century gouache (many animals). A design may carry its own style, layout and art_background.",
+  "style": "Cute illustration.",
   "no_text": "No text, no letters, no words, no numbers, no logo, no watermark, no border, no frame.",
-  "art_template": "{style}{extra} Subject: {subject}.{words} Centred on {background} with a wide empty margin. Flat 2D artwork for printing. Friendly and cozy, not scary. {no_text}",
-  "mockup_template": "{scene} The attached image is the artwork. Print it exactly as it is, with the same drawing, colours and proportions, nothing added and nothing removed. {place} Do not add any other print, text or logo. Autumn and Halloween mood only, no Christmas items, no snow.",
+  "art_template": "{style}{extra} Subject: {subject}.{words} {layout} Flat 2D artwork for printing. Cute, friendly and creative, not scary. {no_text}",
+  "styles": {
+    "_note": "Earlier art styles John did not choose, kept for --style <name>: 'storybook' (12 Oct 2026) and 'folk' (14 Oct 2026). Since 14 Oct 2026 every product has its own style (products.<p>.style, layout, art_background), all cute, written in words from the kinds of pictures John liked. No reference picture is sent and no artwork is copied.",
+    "storybook": {
+      "style": "Children's picture-book illustration in flat gouache colour with a bold, slightly uneven black hand-drawn outline and soft paper grain. Simple rounded animals with friendly faces. Calm and warm. Autumn palette: pumpkin orange, cream, teal, mustard and deep charcoal.",
+      "layout": "Centred on {background} with a wide empty margin.",
+      "background": "a plain warm cream paper background"
+    },
+    "folk": {
+      "style": "Naive folk-art painting in gouache with a hand-printed linocut feel: bold flat shapes with visible brush and paper texture, fine hand-drawn patterns inside the fur (dots, dashes, stripes, tiny leaves), big round expressive eyes, tall simple animal shapes with long whiskers. Rich warm autumn palette: pumpkin orange, mustard yellow, brick red, cream, teal and deep charcoal.",
+      "layout": "The painting fills the whole picture edge to edge on {background}, with autumn leaves, berries, small stars and simple folk patterns filling the space around the animals.",
+      "background": "a textured painted background in deep night blue"
+    }
+  },
+  "mockup_template": "{scene} The attached image is the artwork. Print it exactly as it is, with the same drawing, colours and proportions, nothing added and nothing removed. {place} Photorealistic, natural colours, square photo. Do not add any other print, text, label or logo anywhere. No readable words or letters anywhere in the photo, also not on books, boxes, cups or signs. Autumn and Halloween mood only, no Christmas items, no snow.",
   "themes": {
     "halloween": {
       "active": true,
@@ -47,22 +60,22 @@
       "tote": {
         "cat": {
           "title": "One cat",
-          "subject": "a tall black cat in a pointy witch hat sitting under a big crescent moon, with three small bats and a few stars",
+          "subject": "a tall black cat in a pointy witch hat sitting under a big crescent moon, with three small bats, a few stars and a small smiling jack-o-lantern pumpkin at its feet",
           "words": ""
         },
         "dog": {
           "title": "One dog",
-          "subject": "a floppy-eared dog dressed as a mummy in white bandages, walking proudly with a small pumpkin lantern",
+          "subject": "a floppy-eared dog dressed as a mummy in white bandages, walking proudly with a small pumpkin lantern, a little friendly ghost and two bats floating above",
           "words": ""
         },
         "cats": {
           "title": "Many cats",
-          "subject": "four cats of different colours in simple witch and mummy costumes sitting in a row under a crescent moon, with small bats above",
+          "subject": "four cats of different colours in simple witch and mummy costumes sitting in a row under a crescent moon, small bats above and small pumpkins at their feet",
           "words": ""
         },
         "dogs": {
           "title": "Many dogs",
-          "subject": "four dogs of different sizes in simple ghost, mummy and witch-hat costumes walking together with small pumpkin buckets",
+          "subject": "four dogs of different sizes in simple ghost, mummy and witch-hat costumes walking together with small pumpkin buckets, under a crescent moon with a little ghost and stars",
           "words": ""
         }
       },
@@ -79,12 +92,12 @@
         },
         "cats": {
           "title": "Many cats",
-          "subject": "a family of cats of different colours watching small bats fly over a pumpkin patch at dusk",
+          "subject": "a big crowd of cats of every colour packed together over a pumpkin patch at dusk, all looking up at small bats flying past",
           "words": ""
         },
         "dogs": {
           "title": "Many dogs",
-          "subject": "a family of dogs of different colours in costumes trick-or-treating along a small path past a smiling pumpkin",
+          "subject": "a big crowd of dogs of every size and colour in little costumes, packed together on a path past a smiling pumpkin, out trick-or-treating",
           "words": ""
         }
       },
@@ -102,33 +115,39 @@
         "cats": {
           "title": "Many cats",
           "subject": "two kittens in tiny pumpkin hats sitting close together under a crescent moon",
-          "words": ""
+          "words": "",
+          "style": "Cute mid-century storybook illustration in soft gouache with a dry-brush texture and a little printed grain, simple rounded shapes, big friendly eyes, tiny smiles and round rosy cheeks. Cozy Halloween palette: pumpkin orange, mustard, teal, cream and soft black.",
+          "layout": "Centred on {background}, with a big round moon behind and small pumpkins, bats, stars and autumn leaves around.",
+          "art_background": "a deep teal background"
         },
         "dogs": {
           "title": "Many dogs",
           "subject": "two puppies in tiny pumpkin hats sitting close together among autumn leaves",
-          "words": ""
+          "words": "",
+          "style": "Cute mid-century storybook illustration in soft gouache with a dry-brush texture and a little printed grain, simple rounded shapes, big friendly eyes, tiny smiles and round rosy cheeks. Cozy Halloween palette: pumpkin orange, mustard, teal, cream and soft black.",
+          "layout": "Centred on {background}, with a big round moon behind and small pumpkins, bats, stars and autumn leaves around.",
+          "art_background": "a deep teal background"
         }
       },
       "tote-black": {
         "cat": {
           "title": "One cat",
-          "subject": "a white cat in an orange witch hat flying past a big round moon on a broom, small stars around",
+          "subject": "a white cat in an orange witch hat flying past a big round moon on a broom, small stars, two bats and a small pumpkin below",
           "words": ""
         },
         "dog": {
           "title": "One dog",
-          "subject": "a small dog in a white ghost sheet floating among the stars, holding a pumpkin lantern",
+          "subject": "a small dog in a white ghost sheet floating among the stars, holding a pumpkin lantern, with a crescent moon and small bats",
           "words": ""
         },
         "cats": {
           "title": "Many cats",
-          "subject": "three cats sitting on a garden wall, singing at a big orange moon, with small bats around",
+          "subject": "three cats sitting on a row of big orange patchwork pumpkins, singing at a big smiling moon, with small bats and stars around",
           "words": ""
         },
         "dogs": {
           "title": "Many dogs",
-          "subject": "three dogs in simple costumes walking in a row with glowing pumpkin lanterns through the night",
+          "subject": "three dogs in simple costumes walking in a row with glowing pumpkin lanterns through the night, under a crescent moon with small bats and a little ghost",
           "words": ""
         }
       }
@@ -138,50 +157,120 @@
     "mug": {
       "label": "Mug",
       "ratio": "4:5",
-      "scene": "High-end studio product photograph of a plain white glossy ceramic 11 oz coffee mug, handle on the right, front face turned to the camera, standing on a rustic oak table, soft window light from the left, a small pumpkin and two autumn leaves beside it, warm kitchen background out of focus, realistic ceramic reflections and soft shadows, shallow depth of field.",
-      "place": "The artwork is centred on the front of the mug and wraps naturally around the curved surface.",
+      "place": "The artwork is centred on the front of the mug and wraps naturally around the curved surface, printed on the white glaze.",
       "art_ratio": "1:1",
-      "note": "Mug is white ceramic, 11 oz, only (John, 12 Oct 2026)."
+      "note": "Mug is white ceramic, 11 oz, only (John, 12 Oct 2026).",
+      "views": {
+        "table": {
+          "scene": "High-end studio product photograph of a white glossy ceramic 11 oz coffee mug, handle on the right, the front of the mug facing the camera, standing on a light oak table, a small pumpkin and two autumn leaves beside it, soft window light from the left, warm neutral background softly out of focus, realistic ceramic reflections and a soft shadow."
+        },
+        "home": {
+          "scene": "Lifestyle photograph in a calm, warm Scandinavian living room in autumn: the white ceramic mug stands on a wooden side table next to a sofa with a knitted blanket and a closed picture book with a plain cover and no words on it, steam rising from hot cocoa, soft evening lamp light, the front of the mug facing the camera, background softly out of focus."
+        },
+        "hand": {
+          "scene": "Close-up lifestyle photograph of an adult's hand holding the white ceramic mug by its handle, the front of the mug facing the camera, a soft knitted sleeve, warm morning light, a kitchen softly out of focus behind. Only an adult's hand and forearm are visible: no face, no child."
+        }
+      },
+      "mockup_ratio": "1:1",
+      "style": "Cute illustration in the look of hand embroidery on white linen: every shape is made of fine satin-stitch thread with visible thread direction, French-knot eyes with a tiny white highlight, running-stitch whiskers and leaves. Warm Halloween colours: pumpkin orange, cream, soft black, sage green and mustard.",
+      "layout": "One small scene in the middle on {background}, with a lot of empty white space around it and a few tiny stitched stars. Only the flat picture itself, as a print file: do not draw the mug it will be printed on, no hoop, no product, no shadow.",
+      "art_background": "a plain pure white background"
     },
     "tote": {
       "label": "Tote bag, undyed",
       "ratio": "4:5",
       "art_ratio": "1:1",
-      "scene": "High-end studio product photograph of a natural unbleached organic cotton canvas tote bag hanging flat and straight on a pale plaster wall from a wooden peg, visible fabric weave, stitched handles, soft natural folds, soft daylight, a few autumn leaves on a shelf below.",
-      "place": "The artwork is centred on the front panel, about two thirds of the panel width, printed into the fabric so the weave shows through."
+      "place": "Print only the drawing of the artwork, without its light background, directly on the natural canvas, centred on the front panel, about two thirds of the panel width, so the canvas weave shows through. Keep the drawing's own colours. It is a flat print on the canvas: the patches and stitches are printed, not sewn on.",
+      "views": {
+        "table": {
+          "scene": "Top-down studio photograph of a natural unbleached organic cotton canvas tote bag lying flat on a light oak table, straps folded neatly above it, visible canvas weave and stitching, soft daylight, a few autumn leaves at the edge."
+        },
+        "home": {
+          "scene": "Lifestyle photograph of the natural unbleached cotton canvas tote bag hanging from a wooden peg in a bright Scandinavian hallway in autumn, a closed picture book with a plain cover and no words on it peeking out of the bag, soft daylight, the front panel facing the camera."
+        },
+        "hand": {
+          "scene": "Lifestyle photograph of an adult's hand holding the natural unbleached cotton canvas tote bag by its straps on an autumn street with orange leaves, the front panel facing the camera, soft natural light, background softly out of focus. Only an adult's hand and forearm are visible: no face, no child."
+        }
+      },
+      "mockup_ratio": "1:1",
+      "style": "Cute flat illustration in a cut-fabric patchwork look: tall, simple geometric animal shapes like patches of denim, linen and felt, with drawn running stitches and blanket-stitch edges, big round button eyes with a stitched white ring, small stitched noses and whiskers. Halloween pieces are cut from the same cloth: felt pumpkins, ghosts, bats, moons and stars with stitched edges. Soft craft colours: denim blue, warm grey, pumpkin orange, mustard and cream. Everything is drawn flat; nothing is three-dimensional.",
+      "layout": "The animals stand stacked or side by side like the picture on a handmade bag, centred on {background} with an even margin.",
+      "art_background": "a plain light oatmeal background"
     },
     "tote-black": {
       "label": "Tote bag, black",
       "ratio": "4:5",
       "art_ratio": "1:1",
       "art_background": "a plain solid black background",
-      "art_extra": " Made to print on black fabric: cream outlines instead of black ones, bright warm colours, no black areas.",
-      "scene": "High-end studio product photograph of a black organic cotton canvas tote bag hanging flat and straight on a pale plaster wall from a wooden peg, visible fabric weave, stitched handles, soft natural folds, soft daylight, a few autumn leaves on a shelf below.",
-      "place": "Print only the drawing of the artwork, without its cream paper background, directly on the black canvas, centred on the front panel, about two thirds of the panel width. Keep the drawing's own colours; where the drawing has dark charcoal outlines on black fabric, keep them readable."
+      "art_extra": " Made to print on black fabric: cream stitches and outlines, bright warm patch colours, no black patches.",
+      "place": "Print only the drawing of the artwork, without its background, directly on the black canvas, centred on the front panel, about two thirds of the panel width. Keep the drawing's own colours. It is a flat print on the canvas: the patches and stitches are printed, not sewn on.",
+      "views": {
+        "table": {
+          "scene": "Top-down studio photograph of a black organic cotton canvas tote bag lying flat on a light oak table, straps folded neatly above it, visible canvas weave and stitching, soft daylight, a few autumn leaves at the edge."
+        },
+        "home": {
+          "scene": "Lifestyle photograph of the black cotton canvas tote bag hanging from a wooden peg on a pale plaster wall in a bright hallway in autumn, a closed picture book with a plain cover and no words on it peeking out of the bag, soft daylight, the front panel facing the camera."
+        },
+        "hand": {
+          "scene": "Lifestyle photograph of an adult's hand holding the black cotton canvas tote bag by its straps on an autumn street with orange leaves, the front panel facing the camera, soft natural light, background softly out of focus. Only an adult's hand and forearm are visible: no face, no child."
+        }
+      },
+      "mockup_ratio": "1:1",
+      "style": "Cute flat illustration in a cut-fabric patchwork look: tall, simple geometric animal shapes like patches of denim, linen and felt, with drawn running stitches and blanket-stitch edges, big round button eyes with a stitched white ring, small stitched noses and whiskers. Halloween pieces are cut from the same cloth: felt pumpkins, ghosts, bats, moons and stars with stitched edges. Soft craft colours: denim blue, warm grey, pumpkin orange, mustard and cream. Everything is drawn flat; nothing is three-dimensional.",
+      "layout": "The animals stand stacked or side by side like the picture on a handmade bag, centred on {background} with an even margin."
     },
     "postcard": {
       "label": "Postcard",
       "ratio": "4:5",
-      "scene": "Studio photograph of a single postcard with distinctly rounded corners, thick premium matte white cardstock with subtle fibre texture, lying flat on a pale linen cloth, seen from above at a slight angle, soft shadow, a dried autumn leaf and a small twig beside it, soft daylight.",
-      "place": "The artwork fills the front of the card with an even margin. The card has rounded corners and is in landscape orientation.",
-      "art_ratio": "3:2"
+      "place": "The artwork fills the whole front of the postcard edge to edge. The postcard is landscape, matte, with rounded corners.",
+      "art_ratio": "3:2",
+      "views": {
+        "table": {
+          "scene": "Top-down studio photograph of a single postcard with rounded corners, thick matte card, lying on a light oak desk next to a pencil and a dried autumn leaf, soft daylight and a soft shadow."
+        },
+        "home": {
+          "scene": "Lifestyle photograph of the postcard with rounded corners propped up on a wooden windowsill in a cosy home in autumn, next to a small pumpkin and a cup of tea, soft daylight, background softly out of focus."
+        },
+        "hand": {
+          "scene": "Close-up photograph of an adult's hand holding the postcard with rounded corners by its edge, the picture side facing the camera, warm soft light, background softly out of focus. Only an adult's hand and forearm are visible: no face, no child."
+        }
+      },
+      "mockup_ratio": "1:1",
+      "style": "Cute vintage screen-print illustration: four flat ink colours with slight misprint overlap, grainy halftone texture, simple rounded animals with big round eyes and tiny smiles, each with its own stripes, spots or patches. Retro Halloween palette: pumpkin orange, mustard, teal and soft black on cream.",
+      "layout": "The picture is full of life and fills the whole picture edge to edge on {background}, with small pumpkins, ghosts, bats and stars tucked between the animals. The print fills the whole picture edge to edge with no paper margin. Only the flat picture itself, as a print file: do not draw the postcard, no stack of cards, no product, no shadow.",
+      "art_background": "a cream paper background"
     },
     "greeting-card": {
       "label": "Greeting card",
       "ratio": "4:5",
-      "scene": "Studio photograph of a folded greeting card with sharp square corners, portrait orientation, standing slightly open at a three-quarter angle on a wooden table, thick matte white cardstock, a plain kraft paper envelope behind it, soft window light, shallow depth of field.",
-      "place": "The artwork is centred on the front cover of the card with an even margin.",
-      "art_ratio": "4:5"
+      "place": "The artwork is centred on the front cover of the square folded card with an even margin. The card has sharp square corners.",
+      "art_ratio": "4:5",
+      "views": {
+        "table": {
+          "scene": "Studio photograph of a square folded greeting card with sharp square corners standing on a light oak table, a plain white envelope beside it, soft window light, background softly out of focus."
+        },
+        "home": {
+          "scene": "Lifestyle photograph of the square greeting card standing slightly open on a wooden shelf in a warm living room in autumn, next to a small pumpkin and a candle, background softly out of focus."
+        },
+        "hand": {
+          "scene": "Close-up photograph of an adult's hand holding the square folded greeting card, the front cover facing the camera, a plain white envelope in the other hand, soft warm light, background softly out of focus. Only an adult's hand and forearm are visible: no face, no child."
+        }
+      },
+      "mockup_ratio": "1:1",
+      "style": "Cute linocut block-print illustration: bold carved shapes with visible knife texture and a little ink unevenness, printed in three colours, simple rounded animals with big round eyes, tiny smiles and rosy cheeks. Halloween palette: pumpkin orange, mustard and soft black on cream.",
+      "layout": "Centred on {background}, with a round moon behind and small carved pumpkins, bats and stars around.",
+      "art_background": "a warm cream paper background",
+      "note": "Two styles (John, 14 Oct 2026): the one-animal cards are linocut (this style), the many-animal cards are mid-century gouache (set on the designs cats and dogs)."
     }
   },
   "gift_set": {
-    "ratio": "4:5",
+    "ratio": "1:1",
     "uses": {
       "mug": "cat",
       "tote": "cats",
       "postcard": "dog",
       "greeting-card": "dogs"
     },
-    "scene": "Flat lay studio product photograph taken from high above at a slight angle. Arrange the four attached products beside each other with space between them, fully visible and not overlapping, each one exactly as it looks in its own attached photo: the mug standing upright with its side visible, the tote bag, the postcard and the folded greeting card with a kraft envelope. On a soft oatmeal linen surface, with small orange and white pumpkins, pine cones, autumn leaves and warm fairy lights around the edges. Soft daylight, calm premium styling. No book. No added text, logo or print."
+    "scene": "Flat lay studio product photograph taken from high above at a slight angle. Arrange the four attached products beside each other with space between them, fully visible and not overlapping, each one exactly as it looks in its own attached photo: the mug standing upright with its side visible, the tote bag, the postcard and the folded greeting card with a plain white envelope. On a soft oatmeal linen surface, with small orange and white pumpkins, pine cones, autumn leaves and warm fairy lights around the edges. Soft daylight, calm premium styling. No book. No added text, logo or print."
   }
 }

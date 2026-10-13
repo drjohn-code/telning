@@ -11,3 +11,5 @@ art/print/
 .env*.local
 supabase/.temp/
 assets/telning-products/
+# AI Studio source photos (2048 px); the shop uses the smaller files in public/shop/img
+public/products/

@@ -107,9 +107,9 @@ ${pim('I’m hiding somewhere on the wall. Can you find me?')}` }) },
   'gift-guide': { subject: 'Gifts that keep the story going', kind: 'marketing', build: () => layout({ marketing: true, title: 'Gift guide', preheader: '{{season}}: four quiet gifts for the grown-ups who read.', body: `
 ${h1('{{season}} gifts, the Telning way.')}
 ${p('For the grown-ups who read the story every night: this autumn, our Halloween cats and dogs. Each one is made for you after you order, so order a little early.')}
-${product(host + '/shop/img/cocoa-cat-mug/cocoa-cat-mug-placeholder-600.webp', 'Cocoa Cat mug', 'A witch-hat cat and a warm cup of cocoa.', host + '/gifts/mugs/cocoa-cat', '')}
-${product(host + '/shop/img/moon-cat-tote-bag/moon-cat-tote-bag-placeholder-600.webp', 'Moon Cat tote bag', 'GOTS-certified organic cotton. A tall cat in a witch hat under the moon.', host + '/gifts/tote-bags/moon-cat', '')}
-${product(host + '/shop/img/boo-cat-greeting-cards/boo-cat-greeting-cards-placeholder-600.webp', 'Boo Cat greeting cards', 'Ten cards with envelopes, blank inside.', host + '/gifts/greeting-cards/boo-cat', '')}
+${product(host + '/shop/img/cocoa-cat-mug/cocoa-cat-mug-table-600.webp', 'Cocoa Cat mug', 'A witch-hat cat and a warm cup of cocoa.', host + '/gifts/mugs/cocoa-cat', '')}
+${product(host + '/shop/img/moon-cat-tote-bag/moon-cat-tote-bag-table-600.webp', 'Moon Cat tote bag', 'GOTS-certified organic cotton. A tall cat in a witch hat under the moon.', host + '/gifts/tote-bags/moon-cat', '')}
+${product(host + '/shop/img/boo-cat-greeting-cards/boo-cat-greeting-cards-table-600.webp', 'Boo Cat greeting cards', 'Ten cards with envelopes, blank inside.', host + '/gifts/greeting-cards/boo-cat', '')}
 ${button(host + '/gifts', 'See all gifts')}
 ${pim('The grown-ups get something too.')}` }) },
   'abandoned-checkout': { subject: 'Your basket is still here', kind: 'marketing', build: () => layout({ marketing: true, title: 'Your basket', preheader: 'Nothing is reserved; we just kept it for you.', body: `

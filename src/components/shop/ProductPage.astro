@@ -27,8 +27,22 @@ const al = p.age ? ageLabel(p.age) : '';
 const find = (sku: string) => catalog.bySku.get(sku) as any;
 
 /* photos: alt text per view, describing the scene */
+/* the Halloween gift photos (table, home, hand): the place and what is printed on it */
+const giftAlt = (p: any, view: string) => {
+  const what = p.design?.line ? `: ${p.design.line.replace(/\.$/, '').replace(/^./, (c: string) => c.toLowerCase())}` : '';
+  const n = p.type === 'postcards' ? `the ${p.title} postcard` : p.type === 'cards' ? `the ${p.title} greeting card` : `the ${p.name}`;
+  const at = {
+    mug: { table: 'on a light oak table with a small pumpkin', home: 'with hot cocoa on a side table by the sofa', hand: 'held by its handle' },
+    tote: { table: 'lying flat on an oak table', home: 'on a wooden peg in the hallway, a book inside', hand: 'carried by its straps on an autumn street' },
+    postcards: { table: 'on a desk with a pencil', home: 'on a windowsill at home', hand: 'held in a hand' },
+    cards: { table: 'standing on a table with a white envelope', home: 'standing open on a shelf', hand: 'held in a hand with its white envelope' },
+  } as Record<string, Record<string, string>>;
+  return `${n.charAt(0).toUpperCase()}${n.slice(1)} ${at[p.type]?.[view] || ''}${what}`.replace(/\s+/g, ' ').trim();
+};
 const ALT: Record<string, (p: any) => string> = {
-  table: (p) => `“${p.title}”, the ${p.seriesName} colouring book, on a light oak kitchen table with three crayons and a plant`,
+  table: (p) => p.animal ? giftAlt(p, 'table') : `“${p.title}”, the ${p.seriesName} colouring book, on a light oak kitchen table with three crayons and a plant`,
+  home: (p) => giftAlt(p, 'home'),
+  hand: (p) => giftAlt(p, 'hand'),
   cover: (p) => `Front cover of “${p.title}”: Telning green, the ${p.seriesName} scene in a window, Pim in the corner, ages ${al}`,
   spread: (p) => `The book open: the conversation guide on the left page, a black-and-white drawing to colour on the right`,
   'last-page': () => `The empty last page, where your child draws the ending`,
@@ -214,7 +228,7 @@ const cert = p.type === 'tote' ? 'GOTS · OEKO-TEX' : p.type === 'mug' ? 'Dishwa
             <summary>The design</summary>
             <div class="tn-prose">
               <p class="tn-lead">{p.design.about}</p>
-              <p>{p.type === 'mug' ? 'One small, quiet Pim scene on a white glazed mug. Choose plain white, or a coloured inside and handle that matches the design.' : p.type === 'tote' ? 'One small print on the front of the bag, in undyed or black organic cotton. The back is plain.' : p.type === 'postcards' ? 'Ten postcards of this one design in a pack. The back has a line for your message, an address box and a small Telning colophon.' : 'Ten folded cards of this one design in a pack, with ten envelopes. Blank inside, so the words are yours. A small Telning colophon on the back.'}</p>
+              <p>{p.type === 'mug' ? 'One small scene on a white glazed mug, white inside and out.' : p.type === 'tote' ? 'One small print on the front of the bag, in undyed or black organic cotton. The back is plain.' : p.type === 'postcards' ? 'Ten postcards of this one design in a pack. The back has a line for your message, an address box and a small Telning colophon.' : 'Ten folded cards of this one design in a pack, with ten envelopes. Blank inside, so the words are yours. A small Telning colophon on the back.'}</p>
               <p>Designed in Sweden by Telning Publishing House. Made for you, with care.</p>
             </div>
           </details>

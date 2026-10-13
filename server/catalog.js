@@ -25,6 +25,10 @@ export const VIEWS = {
   cards: ['flatlay', 'front', 'open', 'pack', 'detail'],
   pack: ['pack'],
 };
+/** The Halloween cats-and-dogs designs (14 Oct 2026): three square photos made with scripts/catalog/generate_mockups.py
+    and imported with scripts/shop/import-mockups.mjs: on the table first, then at home, then in a hand. */
+export const GIFT_PHOTO_VIEWS = ['table', 'home', 'hand'];
+export const viewsOf = (p) => (p.animal ? GIFT_PHOTO_VIEWS : VIEWS[p.type]);
 /** Descriptive image folder and file stem per product (search engines read file names). */
 export const imageSlug = (p) => ({
   book: `${p.series}-colouring-book-ages-${p.age}`,
@@ -35,7 +39,7 @@ export const imageSlug = (p) => ({
 const imagesFor = (p) => {
   const slug = imageSlug(p);
   if (p.placeholder) return [{ view: 'placeholder', src: `/shop/img/${slug}/${slug}-placeholder` }];   // no photos yet (scripts/shop/placeholders.mjs)
-  return VIEWS[p.type].map((v) => ({ view: v, src: `/shop/img/${slug}/${slug}-${v}` }));
+  return (p.animal ? GIFT_PHOTO_VIEWS : VIEWS[p.type]).map((v) => ({ view: v, src: `/shop/img/${slug}/${slug}-${v}` }));
 };
 export const DESCRIPTOR = {
   book: (p) => `${p.seriesName} colouring book · Ages ${ageLabel(p.age)}`,
@@ -95,7 +99,7 @@ export function buildCatalog({ site, shop, books, gifts }) {
         soon: !!d.placeholder,   // soon: pictures still to come, not for sale yet
         price: variants ? variants[0].price : cents(t.price), variants, variantLabel: t.variantLabel, maxQty: t.maxQty,
         print: `art/print/${GIFT_PATH[type]}/${d.key}.svg`,
-        images: imagesFor({ type, key: d.key, pim: !d.animal, placeholder: !!d.placeholder }),
+        images: imagesFor({ type, key: d.key, pim: !d.animal, animal: d.animal, placeholder: !!d.placeholder }),
       });
     }
   }

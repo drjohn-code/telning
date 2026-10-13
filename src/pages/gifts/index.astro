@@ -19,7 +19,7 @@ const LINES: Record<string, string> = {
   postcards: 'Ten cards to write and send to Grandma.',
   cards: 'Ten Halloween cards, blank inside for your own words.',
 };
-const COVER: Record<string, string> = { mug: view('mug-cocoa-cat', 'placeholder'), tote: view('tote-cat-parade', 'placeholder'), postcards: view('postcards-pumpkin-pup', 'placeholder'), cards: view('cards-pumpkin-puppies', 'placeholder') };
+const COVER: Record<string, string> = { mug: view('mug-cocoa-cat', 'table'), tote: view('tote-cat-parade', 'table'), postcards: view('postcards-pumpkin-pup', 'table'), cards: view('cards-pumpkin-puppies', 'table') };
 const products = GIFT_TYPES.flatMap((t: string) => catalog.products.filter((p: any) => p.type === t));
 const from = (t: string) => { const p: any = products.find((x: any) => x.type === t); const pr = p.variants ? p.variants[0].price : p.price; return Object.fromEntries(['EUR', 'GBP', 'USD', 'CAD'].map((c) => [`data-${c.toLowerCase()}`, money(pr[c], c, (shop.currencies as any)[c].locale)])); };
 const occasions = [...new Set(products.map((p: any) => p.occasion).filter(Boolean))] as string[];

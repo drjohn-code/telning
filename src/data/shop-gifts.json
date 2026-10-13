@@ -8,7 +8,7 @@
       "animal": "cat",
       "occasion": "halloween",
       "story": null,
-      "placeholder": true,
+      "placeholder": false,
       "line": "A witch-hat cat and a warm cup of cocoa.",
       "about": "A black cat with big round eyes in a tiny witch hat, curled around a steaming cup of cocoa, with one small pumpkin beside it.",
       "prompt": "halloween/mug/cat"
@@ -20,7 +20,7 @@
       "animal": "dog",
       "occasion": "halloween",
       "story": null,
-      "placeholder": true,
+      "placeholder": false,
       "line": "A small dog in a ghost sheet, cocoa at the ready.",
       "about": "A small brown dog dressed as a friendly ghost in a white sheet with round eye holes, sitting beside a steaming cup of cocoa.",
       "prompt": "halloween/mug/dog"
@@ -32,7 +32,7 @@
       "animal": "cats",
       "occasion": "halloween",
       "story": null,
-      "placeholder": true,
+      "placeholder": false,
       "line": "Three cats peek over one big pumpkin.",
       "about": "Three cats peeking over the edge of one big orange pumpkin: a ginger cat, a black cat and a grey tabby.",
       "prompt": "halloween/mug/cats"
@@ -44,7 +44,7 @@
       "animal": "dogs",
       "occasion": "halloween",
       "story": null,
-      "placeholder": true,
+      "placeholder": false,
       "line": "Three dogs peek over one big pumpkin.",
       "about": "Three dogs peeking over the edge of one big orange pumpkin: a long dachshund, a small white dog and a floppy-eared brown dog.",
       "prompt": "halloween/mug/dogs"
@@ -58,7 +58,7 @@
       "animal": "cat",
       "occasion": "halloween",
       "story": null,
-      "placeholder": true,
+      "placeholder": false,
       "line": "A tall cat in a witch hat under the crescent moon.",
       "about": "A tall black cat in a pointy witch hat sitting under a big crescent moon, with three small bats and a few stars.",
       "prompt": "halloween/tote/cat",
@@ -71,7 +71,7 @@
       "animal": "dog",
       "occasion": "halloween",
       "story": null,
-      "placeholder": true,
+      "placeholder": false,
       "line": "A mummy dog walks proudly with a pumpkin lantern.",
       "about": "A floppy-eared dog dressed as a mummy in white bandages, walking proudly with a small pumpkin lantern.",
       "prompt": "halloween/tote/dog",
@@ -84,7 +84,7 @@
       "animal": "cats",
       "occasion": "halloween",
       "story": null,
-      "placeholder": true,
+      "placeholder": false,
       "line": "Four cats in costume, in a row under the moon.",
       "about": "Four cats of different colours in simple witch and mummy costumes sitting in a row under a crescent moon, with small bats above.",
       "prompt": "halloween/tote/cats",
@@ -97,7 +97,7 @@
       "animal": "dogs",
       "occasion": "halloween",
       "story": null,
-      "placeholder": true,
+      "placeholder": false,
       "line": "Four dogs in costume, out with their pumpkin buckets.",
       "about": "Four dogs of different sizes in simple ghost, mummy and witch-hat costumes walking together with small pumpkin buckets.",
       "prompt": "halloween/tote/dogs",
@@ -111,7 +111,7 @@
       "colour": "black",
       "occasion": "halloween",
       "story": null,
-      "placeholder": true,
+      "placeholder": false,
       "line": "A white cat on a broom, flying past the moon.",
       "about": "A white cat in an orange witch hat flying past a big round moon on a broom, small stars around.",
       "prompt": "halloween/tote-black/cat"
@@ -124,7 +124,7 @@
       "colour": "black",
       "occasion": "halloween",
       "story": null,
-      "placeholder": true,
+      "placeholder": false,
       "line": "A little ghost dog floats past with a lantern.",
       "about": "A small dog in a white ghost sheet floating among the stars, holding a pumpkin lantern.",
       "prompt": "halloween/tote-black/dog"
@@ -137,7 +137,7 @@
       "colour": "black",
       "occasion": "halloween",
       "story": null,
-      "placeholder": true,
+      "placeholder": false,
       "line": "Three cats sing to the moon on the garden wall.",
       "about": "Three cats sitting on a garden wall, singing at a big orange moon, with small bats around.",
       "prompt": "halloween/tote-black/cats"
@@ -150,7 +150,7 @@
       "colour": "black",
       "occasion": "halloween",
       "story": null,
-      "placeholder": true,
+      "placeholder": false,
       "line": "Three dogs walk the night with their lanterns.",
       "about": "Three dogs in simple costumes walking in a row with glowing pumpkin lanterns through the night.",
       "prompt": "halloween/tote-black/dogs"
@@ -176,7 +176,7 @@
       "animal": "dog",
       "occasion": "halloween",
       "story": null,
-      "placeholder": true,
+      "placeholder": false,
       "line": "A small dog in a pumpkin costume, deep in the leaves.",
       "about": "A small dog in a pumpkin costume sitting in a pile of autumn leaves, a crescent moon behind it.",
       "prompt": "halloween/postcard/dog"
@@ -188,7 +188,7 @@
       "animal": "cats",
       "occasion": "halloween",
       "story": null,
-      "placeholder": true,
+      "placeholder": false,
       "line": "A cat family watches the bats over the pumpkin patch.",
       "about": "A family of cats of different colours watching small bats fly over a pumpkin patch at dusk.",
       "prompt": "halloween/postcard/cats"
@@ -200,7 +200,7 @@
       "animal": "dogs",
       "occasion": "halloween",
       "story": null,
-      "placeholder": true,
+      "placeholder": false,
       "line": "A dog family out trick-or-treating.",
       "about": "A family of dogs of different colours in costumes trick-or-treating along a small path past a smiling pumpkin.",
       "prompt": "halloween/postcard/dogs"
@@ -214,7 +214,7 @@
       "animal": "cat",
       "occasion": "halloween",
       "story": null,
-      "placeholder": true,
+      "placeholder": false,
       "line": "A white cat in a ghost sheet with a paper bat.",
       "about": "A white cat in a little ghost sheet holding a small paper bat on a string, smiling, with one small pumpkin beside it.",
       "prompt": "halloween/greeting-card/cat"
@@ -226,7 +226,7 @@
       "animal": "dog",
       "occasion": "halloween",
       "story": null,
-      "placeholder": true,
+      "placeholder": false,
       "line": "A spotted dog in a witch hat with a pumpkin lantern.",
       "about": "A spotted dog in a little witch hat holding a small pumpkin lantern, sitting among a few autumn leaves.",
       "prompt": "halloween/greeting-card/dog"
@@ -238,7 +238,7 @@
       "animal": "cats",
       "occasion": "halloween",
       "story": null,
-      "placeholder": true,
+      "placeholder": false,
       "line": "Two kittens in pumpkin hats under the moon.",
       "about": "Two kittens in tiny pumpkin hats sitting close together under a crescent moon.",
       "prompt": "halloween/greeting-card/cats"
@@ -250,7 +250,7 @@
       "animal": "dogs",
       "occasion": "halloween",
       "story": null,
-      "placeholder": true,
+      "placeholder": false,
       "line": "Two puppies in pumpkin hats in the leaves.",
       "about": "Two puppies in tiny pumpkin hats sitting close together among autumn leaves.",
       "prompt": "halloween/greeting-card/dogs"

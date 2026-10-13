@@ -29,9 +29,10 @@ test('gifts are the Halloween line, coming soon; a black tote is black only; a p
   await expect(page.locator('#grid > li')).toHaveCount(8);
   await page.goto('/gifts/tote-bags/ghost-pup');
   await expect(page.locator('.tn-pdp__sub')).toContainText('Black');
+  await expect(page.locator('.tn-opt__fixed')).toContainText('Black');   // one colour only, no choice
   await page.goto('/gifts/mugs/cocoa-cat');
-  await expect(page.locator('.tn-pdp__soon')).toContainText('Coming soon');
-  await expect(page.locator('form.tn-buy')).toHaveCount(0);
+  await expect(page.locator('.tn-gallery__thumb')).toHaveCount(3);       // table, home, hand
+  await expect(page.locator('form.tn-buy')).toHaveCount(1);
   await page.goto('/organisations');
   await page.locator('form.tn-packform button[type="submit"]').click();
   await expect(page.locator('#tn-drawer .tn-line__var')).toContainText('(3–5)');   // the title carries its own age; no age step

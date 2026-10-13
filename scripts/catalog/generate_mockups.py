@@ -4,6 +4,7 @@
 Every product has its own four designs (Halloween: one cat, one dog, many cats,
 many dogs). Tote bags have eight: four on undyed and four on black cotton (product
 `tote-black`), so 20 artworks; mugs are white 11 oz only. For each design it makes:
+(three square photos per product since 14 Oct 2026: on the table, at home, in a hand)
   1. the artwork                              -> assets/telning-products/_art/...   (print master, git-ignored)
   2. a photo of that artwork on its product (mug, tote bag, postcard, greeting card)
                                               -> public/products/{product}/{theme}/{design}/...webp
@@ -22,7 +23,7 @@ Setup (once):   pip3 install --user google-genai Pillow
 Free checks:    python3 scripts/catalog/generate_mockups.py --list-models
                 python3 scripts/catalog/generate_mockups.py --dry-run
 Try one image:  python3 scripts/catalog/generate_mockups.py --stage art --products mug --designs cat --limit 1
-Everything:     python3 scripts/catalog/generate_mockups.py   (41 images)
+Everything:     python3 scripts/catalog/generate_mockups.py   (81 images: 20 art, 60 photos, 1 gift set)
 
 Images are paid per image. Existing files are skipped; use --force to redo them.
 """
@@ -76,14 +77,15 @@ def scrub(text, key):
     return str(text).replace(key, "***") if key else str(text)
 
 
-def load_config():
-    with CONFIG.open(encoding="utf-8") as f:
+def load_config(path=CONFIG):
+    with Path(path).open(encoding="utf-8") as f:
         return json.load(f)
 
 
 # ---------------------------------------------------------------- plan
 
-def build_jobs(cfg, theme, stages, designs, products, public_dir, masters_dir):
+def build_jobs(cfg, theme, stages, designs, products, public_dir, masters_dir, style=None):
+    look = cfg["styles"][style] if style else None   # --style: one older style for every product
     t = cfg["themes"].get(theme)
     if not t or not t.get("active"):
         sys.exit(f"Theme '{theme}' is not active. {(t or {}).get('note', '')}".strip())
@@ -103,44 +105,39 @@ def build_jobs(cfg, theme, stages, designs, products, public_dir, masters_dir):
     def art_path(p, d):
         return masters_dir / "_art" / theme / p / d / f"{theme}-{d}-{p}.png"
 
-    def mock_path(p, d, colour=""):
-        tag = f"-{colour}" if colour else ""
-        return public_dir / p / theme / d / f"{theme}-{d}-{p}{tag}.webp"
-
-    def variants(pr):
-        """{colour: {label, scene, place}}; a product without colours gives one entry with an empty key."""
-        if "colours" in pr:
-            return pr["colours"]
-        return {"": {"label": pr["label"], "scene": pr["scene"], "place": pr["place"]}}
+    def mock_path(p, d, view):
+        return public_dir / p / theme / d / f"{theme}-{d}-{p}-{view}.webp"
 
     jobs = []
     for p in prods:
         pr = cfg["products"][p]
         for d in names:
             design = spec[p][d]
+            own = look or {**pr, **{k: design[k] for k in ("style", "layout", "art_background") if k in design}}   # product style, a design may override it
             if "art" in stages:
                 words = design.get("words", "").strip()
                 jobs.append({
                     "stage": "art", "id": f"{theme}-{d}-{p}-art", "label": f"artwork, {pr['label']}: {design['title']}",
                     "ratio": pr["art_ratio"], "inputs": [], "out": art_path(p, d),
                     "prompt": cfg["art_template"].format(
-                        style=cfg["style"], subject=design["subject"], no_text=cfg["no_text"],
-                        background=pr.get("art_background", "a plain warm cream paper background"), extra=pr.get("art_extra", ""),
+                        style=own.get("style", cfg["style"]), subject=design["subject"], no_text=cfg["no_text"],
+                        layout=own.get("layout", "Centred on {background}.").format(
+                            background=(pr.get("art_background") if p == "tote-black" else None) or own.get("art_background") or own.get("background") or "a plain warm cream paper background"),
+                        extra=pr.get("art_extra", ""),
                         words=(f' The picture includes the words "{words}", drawn by hand in the same style.' if words else "")),
                 })
             if "mockups" in stages:
-                for colour, scene in variants(pr).items():   # tote bags come in two colours, the others in one
-                    tag = f"-{colour}" if colour else ""
+                for view, v in pr["views"].items():   # three photos per product: table, home, hand
                     jobs.append({
-                        "stage": "mockups", "id": f"{theme}-{d}-{p}{tag}", "label": f"{scene['label']}: {design['title']}",
-                        "ratio": pr["ratio"], "inputs": [art_path(p, d)], "out": mock_path(p, d, colour),
-                        "prompt": cfg["mockup_template"].format(scene=scene["scene"], place=scene["place"]),
+                        "stage": "mockups", "id": f"{theme}-{d}-{p}-{view}", "label": f"{pr['label']}, {view}: {design['title']}",
+                        "ratio": pr.get("mockup_ratio", "1:1"), "inputs": [art_path(p, d)], "out": mock_path(p, d, view),
+                        "prompt": cfg["mockup_template"].format(scene=v["scene"], place=pr["place"]),
                     })
     if "gift-set" in stages:
         gs = cfg["gift_set"]
         jobs.append({
             "stage": "gift-set", "id": f"{theme}-gift-set", "label": "gift set: all four products",
-            "ratio": gs["ratio"], "inputs": [mock_path(p, d, next(iter(variants(cfg["products"][p])))) for p, d in gs["uses"].items()],
+            "ratio": gs["ratio"], "inputs": [mock_path(p, d, "table") for p, d in gs["uses"].items()],
             "out": public_dir / "gift-set" / theme / f"{theme}-gift-set.webp",
             "prompt": gs["scene"],
         })
@@ -261,10 +258,10 @@ def cmd_list_models(key):
 
 
 def run(args):
-    cfg = load_config()
+    cfg = load_config(args.config)
     stages = ["art", "mockups", "gift-set"] if args.stage == "all" else [args.stage]
     jobs = build_jobs(cfg, args.theme, stages, args.designs, args.products,
-                      Path(args.public_dir), Path(args.masters_dir))
+                      Path(args.public_dir), Path(args.masters_dir), args.style)
     todo = [j for j in jobs if args.force or not j["out"].exists()]
     print(f"{len(jobs)} images in this plan, {len(jobs) - len(todo)} already exist, {len(todo)} to make "
           f"(model {args.model}, size {args.size}).")
@@ -283,30 +280,41 @@ def run(args):
     key = get_key()
     client = make_client(key)
     from google.genai import types
-    made, failed = 0, []
-    for j in todo:
+    made, failed, stop = 0, [], []
+    from concurrent.futures import ThreadPoolExecutor
+
+    def one(j):
+        if stop:
+            return
         missing = [p for p in j["inputs"] if not p.exists()]
         if missing:
-            print(f"SKIP   {j['id']}: needs {missing[0].name} first (run the earlier stage).")
-            failed.append(j["id"])
-            continue
-        contents = [types.Part.from_bytes(data=p.read_bytes(), mime_type=mime_of(p)) for p in j["inputs"]]
-        contents.append(j["prompt"])
+            print(f"SKIP   {j['id']}: needs {missing[0].name} first (run the earlier stage).", flush=True)
+            failed.append(j["id"]); return
+        contents = [types.Part.from_bytes(data=p.read_bytes(), mime_type=mime_of(p)) for p in j["inputs"]] + [j["prompt"]]
         started = time.time()
         try:
             data, _mime = generate(client, types, key, args.model, contents, j["ratio"], args.size)
             w, h = save_image(data, j["out"])
         except BillingError as exc:
-            print(f"\nSTOP: the Google project has no credits left ({exc})")
-            print("Add credits in AI Studio (https://ai.studio/projects, Billing), then run this again.")
-            print(f"{made} made before stopping.")
-            return 2
+            stop.append(str(exc)); return
         except (ValueError, RuntimeError) as exc:
-            print(f"FAILED {j['id']}: {exc}")
-            failed.append(j["id"])
+            print(f"FAILED {j['id']}: {exc}", flush=True); failed.append(j["id"]); return
+        nonlocal_made.append(1)
+        print(f"made   {j['id']}  {w}x{h}  {time.time() - started:.0f}s", flush=True)
+
+    nonlocal_made = []
+    for stage in ("art", "mockups", "gift-set"):          # a stage needs the one before it
+        batch = [j for j in todo if j["stage"] == stage]
+        if not batch or stop:
             continue
-        made += 1
-        print(f"made   {j['id']}  {w}x{h}  {time.time() - started:.0f}s  -> {j['out']}")
+        with ThreadPoolExecutor(max_workers=max(1, args.workers)) as pool:
+            list(pool.map(one, batch))
+    made = len(nonlocal_made)
+    if stop:
+        print(f"\nSTOP: the Google project has no credits left ({stop[0]})")
+        print("Add credits in AI Studio (https://ai.studio/projects, Billing), then run this again.")
+        print(f"{made} made before stopping.")
+        return 2
     print(f"\n{made} made, {len(failed)} failed.")
     return 1 if failed else 0
 
@@ -314,12 +322,15 @@ def run(args):
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Generate Telning gift mockups with Google AI Studio.")
     ap.add_argument("--theme", default="halloween")
+    ap.add_argument("--config", default=str(CONFIG), help="another prompts file, for style tests")
     ap.add_argument("--stage", choices=["art", "mockups", "gift-set", "all"], default="all")
     ap.add_argument("--designs", type=lambda s: s.split(","), help="comma list, e.g. cat,dogs")
     ap.add_argument("--products", type=lambda s: s.split(","), help="comma list, e.g. mug,tote")
+    ap.add_argument("--style", help="another art style from prompts.json 'styles', e.g. storybook (try it with other --masters-dir/--public-dir)")
     ap.add_argument("--model", default=DEFAULT_MODEL)
     ap.add_argument("--size", choices=["1K", "2K", "4K"], default=DEFAULT_SIZE)
     ap.add_argument("--limit", type=int, help="make at most this many images in this run")
+    ap.add_argument("--workers", type=int, default=3, help="images made at the same time (default 3)")
     ap.add_argument("--force", action="store_true", help="redo images that already exist")
     ap.add_argument("--dry-run", action="store_true", help="show the plan; send nothing, no key needed")
     ap.add_argument("--list-models", action="store_true", help="check the key and list image models (free)")

@@ -5,15 +5,15 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createHmac } from 'node:crypto';
 import { catalog, shopPages } from '../server/catalog-data.js';
-import { shippingFor, resolveLines, CURRENCIES, VIEWS } from '../server/catalog.js';
+import { shippingFor, resolveLines, CURRENCIES, viewsOf } from '../server/catalog.js';
 import { handleCheckout, sessionParams } from '../server/checkout.js';
 import { handleWebhook, orderFrom, teamText, customerText } from '../server/orders.js';
 import { verifySignature, formEncode } from '../server/stripe.js';
 
-test('catalogue: 12 series × 4 + 20 Halloween gifts (coming soon, 8 tote bags in two colours), every product priced', () => {
+test('catalogue: 12 series × 4 + 20 Halloween gifts (8 tote bags in two colours, three photos each), every product priced', () => {
   assert.equal(catalog.products.filter((p) => p.category === 'books').length, 48);
   assert.equal(catalog.products.filter((p) => p.category === 'gifts').length, 20);
-  assert.equal(catalog.products.filter((p) => p.soon).length, 20);
+  assert.ok(catalog.products.filter((p) => p.category === 'gifts').every((p) => p.images.length === (p.soon ? 1 : 3)), 'a gift has its placeholder or its three photos');
   assert.equal(catalog.products.filter((p) => p.type === 'tote').length, 8);
   assert.deepEqual([...new Set(catalog.products.filter((p) => p.type === 'tote').map((p) => p.colour))].sort(), ['black', 'natural']);
   assert.equal(catalog.retired.length, 0, 'the older designs are gone (their URLs 301 in vercel.json)');
@@ -64,7 +64,7 @@ test('names and links: Story Wall, no partner names in customer-facing text, 301
     const page = shopPages[p.url];
     assert.ok(page.title.length <= 60, `${p.url} title ${page.title.length}`);
     assert.doesNotMatch(`${page.title} ${page.description} ${p.name}`, /lulu|gelato|printful|giant poster/i);
-    assert.equal(p.images.length, p.soon ? 1 : VIEWS[p.type].length, `${p.sku} has all its photos`);
+    assert.equal(p.images.length, p.soon ? 1 : viewsOf(p).length, `${p.sku} has all its photos`);
     assert.ok(!p.images.some((im) => /lulu|gelato|printful|mockup/i.test(im.src)));
   }
 });
@@ -80,7 +80,8 @@ test('shipping: one fee per parcel, plus the extra-item fee', () => {
 test('resolveLines refuses unknown skus, bad quantities and missing variants', () => {
   assert.throws(() => resolveLines(catalog, [{ sku: 'nope', qty: 1 }]));
   assert.throws(() => resolveLines(catalog, [{ sku: 'book-home-hearts-3-5', qty: 0 }]));
-  assert.throws(() => resolveLines(catalog, [{ sku: 'mug-cocoa-cat', qty: 1 }]));      // coming soon: not for sale
+  const withSoon = { ...catalog, bySku: new Map([...catalog.bySku, ['mug-x-soon', { ...catalog.bySku.get('mug-cocoa-cat'), sku: 'mug-x-soon', soon: true }]]) };
+  assert.throws(() => resolveLines(withSoon, [{ sku: 'mug-x-soon', qty: 1 }]));      // coming soon: not for sale
   assert.throws(() => resolveLines(catalog, [{ sku: 'mug-the-moon', qty: 1 }]));       // removed design
   assert.equal(resolveLines(catalog, [{ sku: 'book-home-hearts-3-5', qty: 2 }])[0].qty, 2);
 });

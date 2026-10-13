@@ -22,7 +22,7 @@ const p0: any = products[0];
 const pr = p0.variants ? p0.variants[0].price : p0.price;
 const fromAttrs = Object.fromEntries(['EUR', 'GBP', 'USD', 'CAD'].map((c) => [`data-${c.toLowerCase()}`, money(pr[c], c, (shop.currencies as any)[c].locale)]));
 /* Halloween only for now (John, 13 Oct 2026): placeholder pictures until the mockups exist */
-const HERO: Record<string, string> = { mug: view('mug-cocoa-cat', 'placeholder'), tote: view('tote-cat-parade', 'placeholder'), postcards: view('postcards-pumpkin-pup', 'placeholder'), cards: view('cards-pumpkin-puppies', 'placeholder') };
+const HERO: Record<string, string> = { mug: view('mug-cocoa-cat', 'table'), tote: view('tote-cat-parade', 'table'), postcards: view('postcards-pumpkin-pup', 'table'), cards: view('cards-pumpkin-puppies', 'table') };
 const animals = products.some((p: any) => p.animal);
 const others = GIFT_TYPES.filter((x: string) => x !== t);
 const COVER: Record<string, string> = HERO;
