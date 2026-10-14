@@ -137,17 +137,32 @@
       '<p class="tn-sum__note">' + esc(cur.taxNote) + ' Delivery to the ' + esc(reg.name.replace(/^United/, 'United')) + ' in ' + reg.delivery[0] + '–' + reg.delivery[1] + ' working days. ' +
       (t.parcels.length > 1 ? 'Your order comes in ' + t.parcels.length + ' parcels: each kind of item is made in its own workshop.' : '') + '</p>';
   }
-  function render() {
+  /* drop lines for products (or colours/types) that are no longer in the catalogue, so an old basket can't get stuck */
+  function prune() {
+    var b = basket(), ok = b.filter(function (l) {
+      var p = cat.products[l.sku]; if (!p) return false;
+      if (l.variant && p.v && p.t !== 'pack') return p.v.some(function (x) { return x.k === l.variant; });
+      return true;
+    });
+    if (ok.length !== b.length) store(KEY, JSON.stringify(ok));
+    return ok;
+  }
+  function badge() {
     var n = count();
     each(document, '.tn-basket-count', function (el) { el.textContent = n; el.hidden = !n; });
     each(document, '.tn-basketlink', function (a) { a.setAttribute('aria-label', 'Basket, ' + n + ' item' + (n === 1 ? '' : 's')); });
+  }
+  function render() {
+    badge();
     var targets = [];
     if (drawer && drawer.open) targets.push(drawer);
     var pageEl = document.getElementById('tn-basketpage');
     if (pageEl) targets.push(pageEl);
-    if (!targets.length) return;
+    if (!targets.length && !count()) return;
     catalog().then(function () {
-      var b = basket(), c = currency();
+      var b = prune(), c = currency();
+      badge();
+      if (!targets.length) return;
       targets.forEach(function (root) {
         var list = root.querySelector('[data-basket-lines]'), sum = root.querySelector('[data-basket-sum]');
         var empty = root.querySelector('[data-basket-empty]'), full = root.querySelector('[data-basket-full]');
