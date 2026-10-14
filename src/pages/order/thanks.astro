@@ -6,7 +6,7 @@ import Footer from '../../components/Footer.astro';
 import PimNote from '../../components/PimNote.astro';
 const PAGE = '/order/thanks';
 const STEPS = [
-  { h: 'Your email', t: 'A confirmation with your order number is on its way to your inbox. Stripe sends the receipt.' },
+  { h: 'Your email', t: 'A confirmation with your order number and a link to your receipt is on its way to your inbox.' },
   { h: 'Printed near you', t: 'Each printer makes your items to order in your region: books, Story Walls and gifts may come from different places.' },
   { h: 'Tracking', t: 'When a parcel ships, we email you its tracking link. EU 3–10 working days; UK, US and Canada 3–7.' },
 ];
@@ -17,6 +17,16 @@ const STEPS = [
     <section class="tn-wrap tn-thanks" aria-labelledby="page-h">
       <h1 class="tn-h1" id="page-h" tabindex="-1">Thank you!</h1>
       <p class="tn-lead">Your order is in. Thank you for choosing Telning.</p>
+      <div class="tn-card tn-order" data-order hidden aria-live="polite">
+        <h2 class="tn-h3">Order <span data-order-number></span></h2>
+        <ul class="tn-order__rows" data-order-items></ul>
+        <dl class="tn-order__sum">
+          <div><dt>Shipping</dt><dd data-order-shipping></dd></div>
+          <div data-order-tax-row hidden><dt>Of which tax</dt><dd data-order-tax></dd></div>
+          <div class="tn-order__total"><dt>Total paid</dt><dd data-order-total></dd></div>
+        </dl>
+        <p class="tn-p" data-order-receipt hidden><a class="tn-link" target="_blank" rel="noopener">Your receipt and invoice</a></p>
+      </div>
       <PimNote line="When the story is finished, I’d love to see the ending." size="sm" />
       <ol class="tn-cards tn-cards--3 tn-steps3">{STEPS.map((s) => <li class="tn-card"><h2 class="tn-h3">{s.h}</h2><p class="tn-p">{s.t}</p></li>)}</ol>
       <p class="tn-p">Questions about your order? Write to <a class="tn-link" href="mailto:info@telning.com">info@telning.com</a> with your order number. Read <a class="tn-link" href="/shipping-returns">Shipping &amp; returns</a>.</p>
@@ -25,3 +35,39 @@ const STEPS = [
   </main>
   <Footer />
 </Base>
+<script>
+  // Fill the order summary from /api/order (the Stripe session id is in the URL). Without it the page still reads well.
+  const id = new URLSearchParams(location.search).get('session_id');
+  const box = document.querySelector<HTMLElement>('[data-order]');
+  const $ = (k: string) => document.querySelector<HTMLElement>(`[data-order-${k}]`)!;
+  type Summary = { number: string; email: string; first: string; items: { qty: number; name: string; amount: string }[]; shipping: string; tax: string; total: string; receipt: string };
+  async function load(tries = 0): Promise<void> {
+    if (!id || !box) return;
+    try {
+      const r = await fetch(`/api/order?session_id=${encodeURIComponent(id)}`, { headers: { Accept: 'application/json' } });
+      const j = await r.json();
+      if (!j.ok) return;
+      const o: Summary = j.order;
+      if (o.first) document.getElementById('page-h')!.textContent = `Thank you, ${o.first}!`;
+      const lead = document.querySelector('.tn-thanks .tn-lead')!;
+      lead.textContent = j.paid
+        ? `Your order ${o.number} is in.${o.email ? ` We sent the confirmation to ${o.email}.` : ''}`
+        : `Your order ${o.number} is in. Your bank is still confirming the payment; we email you when it is done.`;
+      $('number').textContent = o.number;
+      $('items').replaceChildren(...o.items.map((it) => {
+        const li = document.createElement('li');
+        const n = document.createElement('span'); n.textContent = `${it.qty} × ${it.name}`;
+        const a = document.createElement('span'); a.textContent = it.amount;
+        li.append(n, a); return li;
+      }));
+      $('shipping').textContent = o.shipping;
+      $('total').textContent = o.total;
+      if (o.tax) { $('tax').textContent = o.tax; $('tax-row').hidden = false; }
+      if (o.receipt) { $('receipt').querySelector('a')!.href = o.receipt; $('receipt').hidden = false; }
+      box.hidden = false;
+      // Stripe finishes the invoice a moment after payment: look once more for the receipt link
+      if (j.paid && !o.receipt && tries < 3) setTimeout(() => load(tries + 1), 2500);
+    } catch { /* keep the plain thank-you */ }
+  }
+  load();
+</script>

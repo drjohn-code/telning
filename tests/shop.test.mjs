@@ -5,9 +5,9 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createHmac } from 'node:crypto';
 import { catalog, shopPages } from '../server/catalog-data.js';
-import { shippingFor, resolveLines, CURRENCIES, viewsOf } from '../server/catalog.js';
+import { shippingFor, resolveLines, CURRENCIES, viewsOf, countryName } from '../server/catalog.js';
 import { handleCheckout, sessionParams } from '../server/checkout.js';
-import { handleWebhook, orderFrom, teamText, customerText } from '../server/orders.js';
+import { handleWebhook, orderFrom, teamText, customerText, handleOrderLookup } from '../server/orders.js';
 import { verifySignature, formEncode } from '../server/stripe.js';
 
 test('catalogue: 12 series × 4 + 20 Halloween gifts (8 tote bags in two colours, three photos each), every product priced', () => {
@@ -113,6 +113,21 @@ test('checkout: EUR delivers to the EU only, with VAT-inclusive prices when Stri
   assert.ok(!p.shipping_address_collection.allowed_countries.includes('GB'));
   assert.equal(p.line_items[0].price_data.tax_behavior, 'inclusive');
   assert.equal(p.automatic_tax.enabled, true);
+  assert.equal(p.invoice_creation.enabled, true, 'every order gets a Stripe invoice and receipt');
+});
+
+test('thank-you lookup: bad id → 400; paid session → summary with the receipt link, no address or phone', async () => {
+  assert.equal((await handleOrderLookup('../../x', { catalog, stripe: async () => ({}) })).status, 400);
+  const session = { id: 'cs_test_abcdefghijkl12345678', payment_status: 'paid', currency: 'gbp', amount_total: 1980, shipping_cost: { amount_total: 490 }, invoice: 'in_1',
+    customer_details: { email: 'anna@example.com', phone: '+44700' }, collected_information: { shipping_details: { name: 'Anna Test', address: { line1: '1 Road', country: 'GB' } } },
+    line_items: { data: [{ quantity: 1, description: 'Cocoa Cat mug', amount_total: 1490, price: { product: { metadata: { sku: 'mug-cocoa-cat' } } } }] } };
+  const stripe = async (m, path) => (path.startsWith('/invoices/') ? { status: 200, json: { number: 'A-0001', hosted_invoice_url: 'https://invoice.stripe.com/i/x' } } : { status: 200, json: session });
+  const r = await handleOrderLookup(session.id, { catalog, stripe });
+  assert.equal(r.body.paid, true);
+  assert.equal(r.body.order.total, '£19.80');
+  assert.equal(r.body.order.receipt, 'https://invoice.stripe.com/i/x');
+  assert.ok(!JSON.stringify(r.body).includes('1 Road') && !JSON.stringify(r.body).includes('+44700'));
+  assert.equal(countryName('GB'), 'United Kingdom');
 });
 
 const SECRET = 'whsec_test';

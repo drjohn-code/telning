@@ -7,7 +7,7 @@
       printer is connected, the team places that part by hand from the order sheet.
    Logs carry no names, addresses or emails. */
 import { verifySignature } from './stripe.js';
-import { money, packContents } from './catalog.js';
+import { money, packContents, countryName } from './catalog.js';
 
 const PARTNER_NAME = { lulu: 'Lulu (books)', printful: 'Printful (posters, mugs, tote bags)', gelato: 'Gelato (postcards, greeting cards)' };
 
@@ -49,7 +49,7 @@ export function orderFrom(session, catalog) {
   };
 }
 
-const addr = (a) => [a.line1, a.line2, `${a.postal_code || ''} ${a.city || ''}`.trim(), a.state, a.country].filter(Boolean).join('\n');
+const addr = (a) => [a.line1, a.line2, `${a.postal_code || ''} ${a.city || ''}`.trim(), a.state, countryName(a.country)].filter(Boolean).join('\n');
 
 export function teamText(o) {
   const m = (n) => (n === null || n === undefined ? '—' : money(n, o.currency, o.locale));
@@ -57,6 +57,7 @@ export function teamText(o) {
     `${o.live ? 'NEW ORDER' : 'TEST ORDER (Stripe test mode, do not print)'} ${o.number}`,
     `Stripe: ${o.id}`,
     `Total ${m(o.total)} · shipping ${m(o.shipping)} · tax ${m(o.tax)} · region ${o.region}`,
+    o.receipt ? `Invoice ${o.receipt.number || ''}: ${o.receipt.url}` : 'Invoice: not created by Stripe',
     '', 'Deliver to:', o.name, addr(o.address), o.phone ? `Phone: ${o.phone}` : '', o.email ? `Email: ${o.email}` : '',
   ];
   for (const [partner, items] of Object.entries(o.parts)) {
@@ -77,6 +78,7 @@ export function customerText(o, { contact }) {
     ...o.items.map((it) => `• ${it.qty} × ${it.name}`),
     '',
     `Total paid: ${money(o.total, o.currency, o.locale)}`,
+    ...(o.receipt ? [`Your receipt and invoice: ${o.receipt.url}`] : []),
     '',
     `Everything is made to order and printed near you. ${parcels > 1 ? `Your order comes in ${parcels} parcels, one from each printer.` : 'Your order comes in one parcel.'}`,
     'Delivery takes 3–10 working days in the EU and 3–7 working days in the UK, the US and Canada. We email you the tracking link when it ships.',
@@ -88,6 +90,44 @@ export function customerText(o, { contact }) {
     'Pim and the Telning team',
     'Telning Publishing House · telning.com',
   ].join('\n');
+}
+
+/** The Stripe invoice made at checkout (invoice_creation): { number, url, pdf } or null. Never throws. */
+export async function receiptFor(session, stripe) {
+  const id = typeof session.invoice === 'string' ? session.invoice : session.invoice?.id;
+  if (!id) return null;
+  try {
+    const r = await stripe('GET', `/invoices/${encodeURIComponent(id)}`);
+    if (r.status !== 200 || !r.json?.hosted_invoice_url) return null;
+    return { number: r.json.number || '', url: r.json.hosted_invoice_url, pdf: r.json.invoice_pdf || '' };
+  } catch { return null; }
+}
+
+/** What the thank-you page may show: no address or phone, only what the buyer just saw at Stripe. */
+export function orderSummary(order) {
+  const m = (n) => (n == null ? '' : money(n, order.currency, order.locale));
+  return {
+    number: order.number, email: order.email, first: (order.name || '').split(' ')[0],
+    items: order.items.map((it) => ({ qty: it.qty, name: it.name, amount: m(it.amount) })),
+    shipping: m(order.shipping), tax: order.tax ? m(order.tax) : '', total: m(order.total),
+    parcels: Object.keys(order.parts).length, receipt: order.receipt ? order.receipt.url : '',
+  };
+}
+
+/**
+ * GET /api/order?session_id=cs_… for the thank-you page. The session id is long and random and only the buyer has it.
+ * deps: { catalog, stripe } → { status, body: { ok, paid, order? } }
+ */
+export async function handleOrderLookup(sessionId, deps) {
+  if (!/^cs_(test|live)_[A-Za-z0-9]{10,200}$/.test(String(sessionId || ''))) return { status: 400, body: { ok: false, error: 'session' } };
+  if (!deps.stripe) return { status: 503, body: { ok: false, error: 'notReady' } };
+  const r = await deps.stripe('GET', `/checkout/sessions/${encodeURIComponent(sessionId)}`, { expand: ['line_items.data.price.product'] });
+  if (r.status === 404) return { status: 404, body: { ok: false, error: 'notFound' } };
+  if (r.status !== 200) return { status: 502, body: { ok: false, error: 'stripe' } };
+  const paid = r.json.payment_status === 'paid' || r.json.payment_status === 'no_payment_required';
+  const order = orderFrom(r.json, deps.catalog);
+  order.receipt = paid ? await receiptFor(r.json, deps.stripe) : null;
+  return { status: 200, body: { ok: true, paid, order: orderSummary(order) } };
 }
 
 /**
@@ -112,6 +152,7 @@ export async function handleWebhook({ raw, signature }, deps) {
   const order = orderFrom(r.json, deps.catalog);
   order.paymentIntent = typeof r.json.payment_intent === 'string' ? r.json.payment_intent : r.json.payment_intent?.id || null;
   order.subtotal = r.json.amount_subtotal ?? null;
+  order.receipt = await receiptFor(r.json, deps.stripe);
   // the database (when connected): customers, orders, items, fulfilments; a repeat of the same session is ignored
   let saved = null;
   if (deps.db) { try { saved = await deps.db.recordOrder(order); } catch (e) { log({ event: 'db-failed' }); } }

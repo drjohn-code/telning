@@ -1,7 +1,7 @@
 /* Render a compiled email template with data: {{var}} placeholders (HTML-escaped), {{#list}}…{{/list}} loops, and a
    plain-text version made from the HTML. Templates: server/emails/compiled/<name>.html (built by scripts/emails/build.mjs).
    Sample data for previews and test sends: SAMPLES. Test sends go to john@telning.com only (scripts/emails/send-test.mjs). */
-import { money } from './catalog.js';
+import { money, countryName } from './catalog.js';
 import { COMPILED } from './emails/compiled.js';
 
 const INDEX = COMPILED;
@@ -42,14 +42,15 @@ export function orderData(o, contact = 'info@telning.com') {
     number: o.number, first: (o.name || '').split(' ')[0] || 'there', contact,
     items: o.items.map((it) => ({ qty: it.qty, name: it.name, amount: m(it.amount), status: 'being made' })),
     shipping: m(o.shipping), total: m(o.total),
-    address: [o.name, a.line1, a.line2, `${a.postal_code || ''} ${a.city || ''}`.trim(), a.state, a.country].filter(Boolean).map(esc).join('<br>'),
+    address: [o.name, a.line1, a.line2, `${a.postal_code || ''} ${a.city || ''}`.trim(), a.state, countryName(a.country)].filter(Boolean).map(esc).join('<br>'),
     parcels: Object.keys(o.parts || {}).length,
+    receipt: o.receipt ? [{ receipt_url: o.receipt.url }] : [],
   };
 }
 
 /** Sample data for the admin previews and test sends. */
 export const SAMPLES = {
-  _order: { number: 'T-7K2M9QA1', first: 'Anna', contact: 'info@telning.com', items: [{ qty: 1, name: 'The Moon or the Stars?', amount: '€12.90', status: 'being made' }, { qty: 1, name: 'Star Hoppers Story Wall', amount: '€19.90', status: 'sent to the workshop' }], shipping: '€11.80', total: '€44.60', address: 'Anna Berg<br>Storgatan 1<br>753 20 Uppsala<br>SE' },
+  _order: { number: 'T-7K2M9QA1', first: 'Anna', contact: 'info@telning.com', items: [{ qty: 1, name: 'The Moon or the Stars?', amount: '€12.90', status: 'being made' }, { qty: 1, name: 'Star Hoppers Story Wall', amount: '€19.90', status: 'sent to the workshop' }], shipping: '€11.80', total: '€44.60', address: 'Anna Berg<br>Storgatan 1<br>753 20 Uppsala<br>Sweden', receipt: [{ receipt_url: 'https://invoice.stripe.com/i/sample' }] },
   'order-confirmation': {}, 'order-making': {}, 'order-delivered': {}, 'review-request': {},
   'order-shipped': { items: [{ qty: 1, name: 'Star Hoppers Story Wall' }], carrier: 'PostNord', tracking_number: 'SE123456789', tracking_url: 'https://telning.com/shipping-returns', parcel_note: 'Your book travels in its own parcel and will follow in a day or two.' },
   'story-card': { child: 'Noa', age: 4, book: 'The Moon or the Stars?', ending: 'The crew lands on the moon and jumps very high.', pim_line_1: 'You chose the moon! I would have jumped too.', pim_line_2: 'Next time, let’s count the stars together.', talk_next: 'Ask: “What did the penguin see from the moon?” Then wait. Let Noa tell it first.' },

@@ -71,6 +71,8 @@ export function sessionParams(catalog, lines, currency, opts) {
     ...(opts.terms ? { consent_collection: { terms_of_service: 'required' } } : {}),
     custom_text: { submit: { message: 'Made for you after you order. Items may arrive in separate parcels. Unused items can be returned within 14 days.' } },
     metadata: { basket: code.slice(0, 500), currency, region: cur.region, parcels: ship.parcels.map((p) => `${p.key}:${p.qty}`).join(',') },
+    // a paid Stripe invoice for every order: Stripe emails it with the receipt (live mode) and we link it in our email
+    invoice_creation: { enabled: true, invoice_data: { description: 'Telning order. Made for you after you order.', footer: 'WelloWork AB · Telning Publishing House · Dekangatan 4, Uppsala, Sweden · info@telning.com', metadata: { basket: code.slice(0, 500) } } },
     payment_intent_data: { description: `Telning order: ${lines.reduce((a, l) => a + l.qty, 0)} item(s)`, metadata: { basket: code.slice(0, 500) } },
     success_url: `${opts.origin}/order/thanks?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${opts.origin}/basket`,
