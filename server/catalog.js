@@ -18,7 +18,7 @@ export const giftPath = (type) => `/gifts/${GIFT_PATH[type]}`;
     shot and an in-use moment. Files: public/shop/img/<slug>/<slug>-<view>-<width>.{avif,webp}. */
 export const VIEWS = {
   book: ['table', 'cover', 'spread', 'last-page', 'back'],
-  poster: ['wall', 'progress', 'art', 'detail'],   // Story Walls redrawn 14 Oct 2026: two photos, the sheet and a close-up
+  poster: ['progress', 'wall'],   // Story Walls (John, 14 Oct 2026): colouring on the floor first, then framed; no sheet or close-up
   mug: ['breakfast', 'white', 'detail', 'scale'],   // white mugs only (12 Oct 2026)
   tote: ['hook', 'natural', 'black', 'detail', 'bench'],
   postcards: ['desk', 'front', 'back', 'pack', 'detail'],
@@ -64,7 +64,7 @@ export function buildCatalog({ site, shop, books, gifts }) {
       const al = ageLabel(age);
       products.push({
         sku: `book-${s.key}-${age}`, type: 'book', category: 'books', parcel: T.book.parcel, partner: T.book.partner,
-        series: s.key, seriesName: s.name, age,
+        series: s.key, seriesName: s.name, seriesBare: s.name.replace(/^The /, ''), age,   // seriesBare: for "the …" in text
         url: `/books/${s.key}/colouring-book-${age}`,
         name: book.title, short: 'Colouring book', title: book.title, descriptor: `${s.name} colouring book · Ages ${al}`,
         price: cents(T.book.price), maxQty: T.book.maxQty,
@@ -73,7 +73,7 @@ export function buildCatalog({ site, shop, books, gifts }) {
       });
       products.push({
         sku: `poster-${s.key}-${age}`, type: 'poster', category: 'books', parcel: T.poster.parcel, partner: T.poster.partner,
-        series: s.key, seriesName: s.name, age,
+        series: s.key, seriesName: s.name, seriesBare: s.name.replace(/^The /, ''), age,
         url: `/books/${s.key}/story-wall-${age}`, oldUrl: `/books/${s.key}/giant-poster-${age}`,
         name: `${s.name} Story Wall`, short: 'Story Wall', title: `${s.name} Story Wall`, descriptor: 'Story Wall · 70 × 100 cm',
         price: cents(T.poster.price), maxQty: T.poster.maxQty,

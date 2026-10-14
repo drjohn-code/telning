@@ -40,16 +40,16 @@ const giftAlt = (p: any, view: string) => {
   return `${n.charAt(0).toUpperCase()}${n.slice(1)} ${at[p.type]?.[view] || ''}${what}`.replace(/\s+/g, ' ').trim();
 };
 const ALT: Record<string, (p: any) => string> = {
-  table: (p) => p.animal ? giftAlt(p, 'table') : `“${p.title}”, the ${p.seriesName} colouring book, on a light oak kitchen table with three crayons and a plant`,
+  table: (p) => p.animal ? giftAlt(p, 'table') : `“${p.title}”, the ${p.seriesBare} colouring book, on a light oak kitchen table with three crayons and a plant`,
   home: (p) => giftAlt(p, 'home'),
   hand: (p) => giftAlt(p, 'hand'),
-  cover: (p) => `Front cover of “${p.title}”: Telning green, the ${p.seriesName} scene in a window, Pim in the corner, ages ${al}`,
+  cover: (p) => `Front cover of “${p.title}”: Telning green, the ${p.seriesBare} scene in a window, Pim in the corner, ages ${al}`,
   spread: (p) => `The book open: the conversation guide on the left page, a black-and-white drawing to colour on the right`,
   'last-page': () => `The empty last page, where your child draws the ending`,
   back: () => `Back cover with the story in six languages, the age and page badges and the QR code`,
-  wall: (p) => `The ${p.seriesName} Story Wall coloured in and framed in light oak on a living-room wall`,
-  progress: (p) => `The ${p.seriesName} Story Wall on the floor, seen from above: a grown-up and a child colouring it together`,
-  detail: (p) => p.type === 'poster' ? `Close-up of the ${p.seriesName} Story Wall: the black lines and a painted animal, at full size` : p.type === 'tote' ? `Close-up of the print on the organic cotton weave` : p.type === 'mug' ? `Close-up of the print on the glazed ceramic` : `Close-up of the matte card and its texture`,
+  wall: (p) => `The ${p.seriesBare} Story Wall coloured in and framed in light oak on a living-room wall`,
+  progress: (p) => `The ${p.seriesBare} Story Wall on the floor, seen from above: a grown-up and a child colouring it together`,
+  detail: (p) => p.type === 'poster' ? `Close-up of the ${p.seriesBare} Story Wall: the black lines and a painted animal, at full size` : p.type === 'tote' ? `Close-up of the print on the organic cotton weave` : p.type === 'mug' ? `Close-up of the print on the glazed ceramic` : `Close-up of the matte card and its texture`,
   scale: (p) => p.type === 'poster' ? `The Story Wall on a wall next to a child’s chair: 100 cm wide` : `The ${p.title} mug next to a Telning book, to show the size`,
   art: (p) => `The whole ${p.seriesName} Story Wall picture as printed: a few animals painted as a colour guide, the rest black lines to colour`,
   breakfast: (p) => `The ${p.title} mug on a breakfast table in morning light, next to an open Telning book`,

@@ -66,7 +66,7 @@ export function shopSeo(catalog, site) {
       add(p.url, { name: `Story Wall ${al}`, parent: `/books/${p.series}`, og: `/og/p/${p.sku}.jpg`,
         title: len(`${p.seriesName} Story Wall: large colouring picture, ages ${al}`) <= 60 ? `${p.seriesName} Story Wall: large colouring picture, ages ${al}` : `${p.seriesName} Story Wall, ages ${al}`,
         description: fit([
-          `The ${p.seriesName} Story Wall, a large colouring picture for the wall, ages ${al}: 100 × 70 cm, part printed in colour, the rest for your child to finish. Then frame it.`,
+          `The ${p.seriesBare} Story Wall, a large colouring picture for the wall, ages ${al}: 100 × 70 cm, part printed in colour, the rest for your child to finish. Then frame it.`,
           `${p.seriesName} Story Wall, ages ${al}: a large 100 × 70 cm coloring picture for the wall, a few animals painted and the rest to colour together. Frame it and hang it.`,
           `${p.seriesName} Story Wall, ages ${al}. A large colouring picture for the wall, 100 × 70 cm, part in colour, part to colour. Then frame it and hang it on the wall.`,
         ]) });

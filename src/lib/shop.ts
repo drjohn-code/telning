@@ -50,7 +50,7 @@ export const view = (sku: string, v: string) => { const p: any = catalog.bySku.g
     (`scene`) or fall back to the type's line. */
 export function sceneLine(p: any): string {
   if (p.type === 'book') return `${p.age === '3-5' ? 'Bedtime, one page a night' : 'After school, at the kitchen table'}: your child colours ${p.book.hook.replace(/\.$/, '').charAt(0).toLowerCase()}${p.book.hook.replace(/\.$/, '').slice(1)}, you talk about it, and ${p.age === '3-5' ? 'they' : 'they'} decide how it ends.`;
-  if (p.type === 'poster') return `A rainy Saturday, the ${p.seriesName} world taped to the hallway wall: your child, a friend and Grandma each take a corner. About a third is already in colour; the rest is theirs.`;
+  if (p.type === 'poster') return `A rainy Saturday, the ${p.seriesBare} world taped to the hallway wall: your child, a friend and Grandma each take a corner. About a third is already in colour; the rest is theirs.`;
   if (p.animal) return HALLOWEEN_SCENE[p.type];
   return p.design.scene || (shop.types as any)[p.type].scene;
 }
@@ -70,7 +70,7 @@ export function storyOf(p: any): string {
     return String(t.story[p.age] || t.story['3-5']).replace('{first}', first).replace('{choice}', p.book.choice || '');
   }
   if (p.type === 'poster') {
-    return String(t.story).replace('{series}', p.seriesName).replace('{third}', t.storyThird[p.age] || '').replace('{theme}', String(p.theme || '').toLowerCase());
+    return String(t.story).replace(/\b([Tt]he) \{series\}/, `$1 ${p.seriesBare}`).replace('{series}', p.seriesName).replace('{third}', t.storyThird[p.age] || '').replace('{theme}', String(p.theme || '').toLowerCase());
   }
   if (p.design?.storyText) return p.design.storyText;   // a design can carry its own story (design.story is the linked series)
   if (p.animal) return String(t.storyHalloween || t.story).replace('{line}', p.design.line || '').replace(/\s{2,}/g, ' ');

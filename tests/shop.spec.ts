@@ -59,13 +59,13 @@ test('filters on /books hide the cards that do not match', async ({ page }) => {
   await expect(page).toHaveURL(/type=poster/);
 });
 
-test('a Story Wall page: name, descriptor, trust row, delivery estimate, four pictures, no partner names', async ({ page }) => {
+test('a Story Wall page: name, descriptor, trust row, delivery estimate, two pictures, no partner names', async ({ page }) => {
   await page.goto('/books/star-hoppers/story-wall-3-5');
   await expect(page.locator('h1')).toHaveText('Star Hoppers Story Wall');
   await expect(page.locator('.tn-pdp__sub')).toContainText('Story Wall · 70 × 100 cm');
   await expect(page.locator('.tn-trustrow li')).toHaveCount(3);
   await expect(page.locator('.tn-pdp__delivery')).toContainText('arrives');
-  await expect(page.locator('.tn-gallery__thumb')).toHaveCount(4);       // wall, progress, art, detail
+  await expect(page.locator('.tn-gallery__thumb')).toHaveCount(2);       // progress (first), wall
   const html = await page.content();
   expect(html).not.toMatch(/lulu|gelato|printful|giant poster/i);
   // the old URL is redirected by Vercel (vercel.json); the static preview has no such page
