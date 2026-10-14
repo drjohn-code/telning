@@ -197,3 +197,9 @@ export function packContents(catalog, product, choice) {
 export function money(minor, currency, locale) {
   return new Intl.NumberFormat(locale || 'en-IE', { style: 'currency', currency, minimumFractionDigits: 2 }).format(minor / 100);
 }
+
+/** "GB" → "United Kingdom" (English names for addresses in emails and on the thank-you page). */
+export function countryName(code) {
+  if (!code) return '';
+  try { return new Intl.DisplayNames(['en'], { type: 'region' }).of(String(code).toUpperCase()) || code; } catch { return code; }
+}

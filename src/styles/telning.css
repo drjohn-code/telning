@@ -1385,3 +1385,10 @@ picture.tn-shophero__b img { border: 6px solid var(--paper); }
   .tn-pimmail__h { font-size: 19px; }
   .tn-filters__title { font-size: 20px; }
 }
+.tn-order { max-width: 640px; }
+.tn-order__rows { list-style: none; margin: 0; padding: 0; }
+.tn-order__rows li, .tn-order__sum > div { display: flex; justify-content: space-between; gap: var(--s4); padding-block: var(--s2); }
+.tn-order__rows li { border-bottom: 1px solid var(--paper-deep); }
+.tn-order__sum { margin: 0; }
+.tn-order__sum dd { margin: 0; }
+.tn-order__total { font-weight: 600; }

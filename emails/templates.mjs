@@ -4,7 +4,7 @@
 import { layout, button, h1, h2, p, small, pim, product, rows, img, BRAND as B } from './layout.mjs';
 
 const host = B.host;
-const orderRows = `{{#items}}<tr><td style="padding:6px 0;border-bottom:1px solid #e9dfcf">{{qty}} × {{name}}</td><td align="right" style="padding:6px 0;border-bottom:1px solid #e9dfcf">{{amount}}</td></tr>{{/items}}<tr><td style="padding:8px 0 0">Shipping</td><td align="right" style="padding:8px 0 0">{{shipping}}</td></tr><tr><td style="padding:4px 0;font-weight:600">Total paid</td><td align="right" style="padding:4px 0;font-weight:600">{{total}}</td></tr>`;
+const orderRows = `{{#items}}<tr><td style="padding:6px 0;border-bottom:1px solid #e9dfcf">{{qty}} × {{name}}</td><td align="right" style="padding:6px 0;border-bottom:1px solid #e9dfcf">{{amount}}</td></tr>{{/items}}<tr><td style="padding:8px 0 0">Shipping</td><td align="right" style="padding:8px 0 0">{{shipping}}</td></tr><tr><td style="padding:4px 0;font-weight:600">Total paid</td><td align="right" style="padding:4px 0;font-weight:600">{{total}}</td></tr>{{#receipt}}<tr><td colspan="2" style="padding:12px 0 0"><a href="{{receipt_url}}" style="color:#16140f;font-weight:600;text-decoration:underline;text-decoration-color:#ce4029">Your receipt and invoice</a></td></tr>{{/receipt}}`;
 const keepGoing = `${h2('Keep the story going')}${product(host + '/shop/img/star-hoppers-story-wall-colouring-poster-ages-3-5/star-hoppers-story-wall-colouring-poster-ages-3-5-wall-600.webp', 'Story Walls', 'The whole world of the story on the wall, to colour together.', host + '/books', '')}${product(host + '/shop/img/gift-set/gift-set-halloween-gift-set-600.webp', 'Halloween gifts', 'Mugs, tote bags and cards with our cats and dogs.', host + '/gifts', '')}`;
 
 export const TEMPLATES = {
