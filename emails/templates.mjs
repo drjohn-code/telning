@@ -101,7 +101,7 @@ ${img('{{hero_image}}', 'The {{series}} Story Wall on a child’s bedroom wall')
 ${h1('{{series}} is out.')}
 ${p('{{world}}')}
 ${product('{{book_image}}', '{{book_title}}', 'Colouring book, ages {{age}}. {{book_hook}}', '{{book_url}}', '{{book_price}}')}
-${product('{{wall_image}}', '{{series}} Story Wall', 'A large colouring picture for the wall, 70 × 100 cm. About a third in colour; the rest is theirs.', '{{wall_url}}', '{{wall_price}}')}
+${product('{{wall_image}}', '{{series}} Story Wall', 'A large colouring picture for the wall, 70 × 100 cm. A few animals painted; the rest is theirs.', '{{wall_url}}', '{{wall_price}}')}
 ${button('{{series_url}}', 'See the series')}
 ${pim('I’m hiding somewhere on the wall. Can you find me?')}` }) },
   'gift-guide': { subject: 'Gifts that keep the story going', kind: 'marketing', build: () => layout({ marketing: true, title: 'Gift guide', preheader: '{{season}}: four quiet gifts for the grown-ups who read.', body: `

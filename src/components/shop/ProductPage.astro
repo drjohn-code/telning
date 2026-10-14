@@ -47,11 +47,11 @@ const ALT: Record<string, (p: any) => string> = {
   spread: (p) => `The book open: the conversation guide on the left page, a black-and-white drawing to colour on the right`,
   'last-page': () => `The empty last page, where your child draws the ending`,
   back: () => `Back cover with the story in six languages, the age and page badges and the QR code`,
-  wall: (p) => `The ${p.seriesName} Story Wall coloured in and framed in light oak on a child’s bedroom wall`,
-  progress: (p) => `The ${p.seriesName} Story Wall half coloured on a table, crayons around it`,
-  detail: (p) => p.type === 'poster' ? `Close-up of the edge between the printed colour and the open line art, with the paper texture` : p.type === 'tote' ? `Close-up of the print on the organic cotton weave` : p.type === 'mug' ? `Close-up of the print on the glazed ceramic` : `Close-up of the matte card and its texture`,
+  wall: (p) => `The ${p.seriesName} Story Wall coloured in and framed in light oak on a living-room wall`,
+  progress: (p) => `The ${p.seriesName} Story Wall on the floor, seen from above: a grown-up and a child colouring it together`,
+  detail: (p) => p.type === 'poster' ? `Close-up of the ${p.seriesName} Story Wall: the black lines and a painted animal, at full size` : p.type === 'tote' ? `Close-up of the print on the organic cotton weave` : p.type === 'mug' ? `Close-up of the print on the glazed ceramic` : `Close-up of the matte card and its texture`,
   scale: (p) => p.type === 'poster' ? `The Story Wall on a wall next to a child’s chair: 100 cm wide` : `The ${p.title} mug next to a Telning book, to show the size`,
-  art: (p) => `The whole ${p.seriesName} Story Wall picture: about a third in flat colour, the rest to colour`,
+  art: (p) => `The whole ${p.seriesName} Story Wall picture as printed: a few animals painted as a colour guide, the rest black lines to colour`,
   breakfast: (p) => `The ${p.title} mug on a breakfast table in morning light, next to an open Telning book`,
   white: (p) => `The white ${p.title} mug`,
   colour: (p) => `The ${p.title} mug with a ${p.design.inside.toLowerCase()} inside and handle`,
@@ -218,8 +218,8 @@ const cert = p.type === 'tote' ? 'GOTS · OEKO-TEX' : p.type === 'mug' ? 'Dishwa
             <summary>The picture</summary>
             <div class="tn-prose">
               <p class="tn-lead">{p.poster.scene}</p>
-              <p>{p.age === '3-5' ? 'For ages 3–5 the shapes are big and the outlines are thick, so small hands can stay inside them with a crayon.' : 'For ages 5–7 the shapes are smaller and there is more to find and count, for steady hands and long afternoons.'} About a third of the picture is printed in flat Telning colours, spread over the sheet to guide your child’s own colour choices. The rest is clear line art, waiting to be coloured. Somewhere in the picture, Pim is hiding.</p>
-              <p>It is the world of <a href={`/books/${p.series}`}>{p.seriesName}</a>, the series of the book <a href={keepBook.url}>“{p.book.title}”</a>. Colour it alone or with friends, over many days. Then put it in a 70 × 100 cm frame and hang it: it is wall art first.</p>
+              <p>{p.age === '3-5' ? 'For ages 3–5 the shapes are big and the outlines are thick, so small hands can stay inside them with a crayon.' : 'For ages 5–7 the shapes are smaller and there is more to find and count, for steady hands and long afternoons.'} About 15% of the picture comes painted, a few animals spread over the sheet, to guide your child’s own colour choices. Both ages have the same picture; for ages 3–5 every shape is 20% bigger. The rest is clear line art, waiting to be coloured. Somewhere in the picture, Pim is hiding.</p>
+              <p>It is the world of <a href={`/books/${p.series}`}>{p.seriesName}</a>, the series of the book <a href={keepBook.url}>“{p.book.title}”</a>. Unroll it on the floor and colour it together, side by side, over many days. Then put it in a 70 × 100 cm frame and hang it: it is wall art first.</p>
             </div>
           </details>
         )}

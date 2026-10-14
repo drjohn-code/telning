@@ -18,7 +18,7 @@ export const giftPath = (type) => `/gifts/${GIFT_PATH[type]}`;
     shot and an in-use moment. Files: public/shop/img/<slug>/<slug>-<view>-<width>.{avif,webp}. */
 export const VIEWS = {
   book: ['table', 'cover', 'spread', 'last-page', 'back'],
-  poster: ['wall', 'progress', 'detail', 'scale', 'art'],
+  poster: ['wall', 'progress', 'art', 'detail'],   // Story Walls redrawn 14 Oct 2026: two photos, the sheet and a close-up
   mug: ['breakfast', 'white', 'detail', 'scale'],   // white mugs only (12 Oct 2026)
   tote: ['hook', 'natural', 'black', 'detail', 'bench'],
   postcards: ['desk', 'front', 'back', 'pack', 'detail'],
@@ -77,7 +77,7 @@ export function buildCatalog({ site, shop, books, gifts }) {
         url: `/books/${s.key}/story-wall-${age}`, oldUrl: `/books/${s.key}/giant-poster-${age}`,
         name: `${s.name} Story Wall`, short: 'Story Wall', title: `${s.name} Story Wall`, descriptor: 'Story Wall · 70 × 100 cm',
         price: cents(T.poster.price), maxQty: T.poster.maxQty,
-        poster: b.posters[age], book, theme: s.theme, colour: s.colour, print: `art/print/story-walls/${s.key}-${age}.svg`,
+        poster: b.posters[age], book, theme: s.theme, colour: s.colour, print: `assets/telning-products/_story-walls/${s.key}/${s.key}-${age}-print.png`,
         images: imagesFor({ type: 'poster', series: s.key, age }),
       });
     }

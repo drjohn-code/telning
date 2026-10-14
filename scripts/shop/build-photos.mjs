@@ -88,7 +88,7 @@ async function giftPhotos() {
   const coverFor = async (series) => uri(await art((await buildCover(series || 'star-hoppers', '3-5')).front, 900, 900));
   const pagesFor = async (series) => { const c = await buildCover(series || 'star-hoppers', '3-5'); return [uri(await art(c.guide, 800, 800)), uri(await art(c.drawing, 800, 800))]; };
   for (const d of gifts.mug) {
-    if (d.placeholder) continue;   // no art yet: scripts/shop/placeholders.mjs
+    if (d.placeholder || d.animal) continue;   // Halloween designs have AI photos: scripts/shop/import-mockups.mjs   // no art yet: scripts/shop/placeholders.mjs
     const p = catalog.bySku.get(`mug-${d.key}`); const slug = slugOf(p);
     if (!want(p.sku)) continue;
     const W = uri(await art(all[p.sku].wrap, 2400, 933));
@@ -100,7 +100,7 @@ async function giftPhotos() {
     console.log(`photos ${slug}`);
   }
   for (const d of gifts.tote) {
-    if (d.placeholder) continue;   // no art yet: scripts/shop/placeholders.mjs
+    if (d.placeholder || d.animal) continue;   // Halloween designs have AI photos: scripts/shop/import-mockups.mjs   // no art yet: scripts/shop/placeholders.mjs
     const p = catalog.bySku.get(`tote-${d.key}`); const slug = slugOf(p);
     if (!want(p.sku)) continue;
     const Nn = uri(await art(all[p.sku].natural, 1600, 1600, true)), B = uri(await art(all[p.sku].black, 1600, 1600, true));
@@ -113,7 +113,7 @@ async function giftPhotos() {
     console.log(`photos ${slug}`);
   }
   for (const d of gifts.postcards) {
-    if (d.placeholder) continue;   // no art yet: scripts/shop/placeholders.mjs
+    if (d.placeholder || d.animal) continue;   // Halloween designs have AI photos: scripts/shop/import-mockups.mjs   // no art yet: scripts/shop/placeholders.mjs
     const p = catalog.bySku.get(`postcards-${d.key}`); const slug = slugOf(p);
     if (!want(p.sku)) continue;
     const F = uri(await art(all[p.sku].front, 1200, 865)), B = uri(await art(all[p.sku].back, 1200, 865));
@@ -127,7 +127,7 @@ async function giftPhotos() {
     console.log(`photos ${slug}`);
   }
   for (const d of gifts.cards) {
-    if (d.placeholder) continue;   // no art yet: scripts/shop/placeholders.mjs
+    if (d.placeholder || d.animal) continue;   // Halloween designs have AI photos: scripts/shop/import-mockups.mjs   // no art yet: scripts/shop/placeholders.mjs
     const p = catalog.bySku.get(`cards-${d.key}`); const slug = slugOf(p);
     if (!want(p.sku)) continue;
     const F = uri(await art(all[p.sku].front, 1100, 1100));
@@ -177,7 +177,7 @@ async function ogImages() {
     ['materials.jpg', 'Telning Publishing House', 'Our materials', img('book-star-hoppers-3-5', 'spread')],
     ['shipping-returns.jpg', 'Telning Publishing House', 'Shipping & returns', img('poster-star-hoppers-3-5', 'wall')],
     ...site.series.map((s) => [`books-${s.key}.jpg`, `Series · ${s.theme}`, `${s.name}: books and Story Walls`, img(`poster-${s.key}-5-7`, 'wall')]),
-    ...['mug', 'tote', 'postcards', 'cards'].map((t) => [`gifts-${t}.jpg`, 'Gifts', shop.types[t].plural, { mug: img('mug-cocoa-cat', 'placeholder'), tote: img('tote-cat-parade', 'placeholder'), postcards: img('postcards-pumpkin-pup', 'placeholder'), cards: img('cards-pumpkin-puppies', 'placeholder') }[t]]),
+    ...['mug', 'tote', 'postcards', 'cards'].map((t) => [`gifts-${t}.jpg`, 'Gifts', shop.types[t].plural, { mug: img('mug-cocoa-cat', 'table'), tote: img('tote-cat-parade', 'table'), postcards: img('postcards-pumpkin-pup', 'table'), cards: img('cards-pumpkin-puppies', 'table') }[t]]),
   ];
   for (const [file, kicker, title, src] of coll) await jpg(PH.og(await photoOf(src), { kicker, title, price: '' }), file);
   console.log('og images');
@@ -185,7 +185,7 @@ async function ogImages() {
 
 if (what === 'all' && !only.length) { for (const d of ['books', 'posters', 'mugs', 'totes', 'postcards', 'cards'].flatMap(() => [])) rmSync(d); }
 if (what === 'all' || what === 'books') await books();
-if (what === 'all' || what === 'walls') await walls();
+if (what === 'walls') await walls();   // old SVG walls only; since 14 Oct 2026 Story Walls come from scripts/shop/import-story-walls.mjs
 if (what === 'all' || what === 'gifts') await giftPhotos();
 if (what === 'all' || what === 'packs') await packPhotos();
 if (what === 'all' || what === 'og') await ogImages();

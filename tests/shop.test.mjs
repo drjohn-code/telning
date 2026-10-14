@@ -143,10 +143,10 @@ test('order: split by printer, team sheet has the address and print files, custo
   const team = teamText(o);
   assert.match(team, /TEST ORDER/);
   assert.match(team, /Storgatan 1/);
-  assert.match(team, /art\/print\/story-walls\/star-hoppers-3-5\.svg/);
+  assert.match(team, /_story-walls\/star-hoppers\/star-hoppers-3-5-print\.png/);
   const cust = customerText(o, { contact: 'info@telning.com' });
   assert.match(cust, /2 parcels/);
-  assert.doesNotMatch(cust, /art\/print/);
+  assert.doesNotMatch(cust, /art\/print|_story-walls/);
 });
 
 test('webhook: paid session → team and customer emails; unpaid → ignored; bad signature → 400', async () => {

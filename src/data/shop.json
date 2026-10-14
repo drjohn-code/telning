@@ -257,12 +257,12 @@
         "USD": 21.9,
         "CAD": 28.9
       },
-      "scene": "A rainy Saturday, the Story Wall taped to the hallway wall: your child, a friend and Grandma each take a corner of the picture. About a third is already in colour; the rest is theirs. Then frame it and hang it.",
+      "scene": "A rainy Saturday, the Story Wall unrolled on the living-room floor: your child, a friend and Grandma each take a corner of the picture. A few animals are already painted to start them off; the rest is theirs. Then frame it and hang it.",
       "tag": "Premium matte paper",
       "facts": [
         "100 × 70 cm, landscape",
         "Thick matte paper, 189 g/m², acid-free",
-        "About 30% in flat colour, 70% to colour",
+        "About 15% in colour, the rest to colour",
         "Shipped rolled in a tube"
       ],
       "materials": "Thick matte paper, 189 g/m² and 0.26 mm, acid-free, with no shine, so it is easy to frame. 94% opacity, so felt-tips do not show the wall behind. Made for you after you order and shipped rolled in a tube. 100 × 70 cm is a standard frame size.",
@@ -280,7 +280,7 @@
         ],
         [
           "Picture",
-          "About 30% printed in flat Telning colours; the rest clean black outlines, thick enough for small hands"
+          "About 15% painted as a colour guide; the rest clean black lines to colour. One picture per series: for ages 3–5 every shape is 20% bigger"
         ],
         [
           "Finish",
@@ -299,10 +299,10 @@
           "Printed to order in Europe for Europe and the UK, and in the US for the US and Canada; for indoor use"
         ]
       ],
-      "story": "Saturday morning, rain on the window. You unroll the {series} Story Wall and tape it to the hallway wall, as wide as the door. Your child takes one corner, a friend takes another, and Grandma starts on the sky. {third} By lunch the first corner is done; the rest fills up over the next weekends. When it is finished, it goes into a frame, and the {theme} world stays on the wall.",
+      "story": "Saturday morning, rain on the window. You unroll the {series} Story Wall on the living-room floor, as long as the sofa, and hold the corners down with books. Your child takes one corner, a friend takes another, and Grandma starts in the middle. {third} By lunch the first corner is done; the rest fills up over the next weekends. When it is finished, it goes into a frame, and the {theme} world stays on the wall.",
       "storyThird": {
-        "3-5": "About a third is already in colour; the big shapes are theirs.",
-        "5-7": "About a third is already in colour; the small details are theirs."
+        "3-5": "A few animals are already painted; the rest is theirs, in big shapes.",
+        "5-7": "A few animals are already painted; the rest is theirs, with small details to find."
       }
     },
     "mug": {
@@ -668,5 +668,5 @@
       "One sample book at print cost for a teacher who wants to see it first."
     ]
   },
-  "_specs_note": "specs and story texts added 12 Oct 2026 (DRAFT). Sources: the partners' public product data (mug, tote, Story Wall paper, book paper, envelopes) and the product plan v2 where the partner publishes no public figure (postcard and card weights, corners, GOTS/OCS/OEKO-TEX, lead and cadmium). No partner is named on the site."
+  "_specs_note": "specs and story texts added 12 Oct 2026 (DRAFT). Sources: the partners' public product data (mug, tote, Story Wall paper, book paper, envelopes) and the product plan v2 where the partner publishes no public figure (postcard and card weights, corners, GOTS/OCS/OEKO-TEX, lead and cadmium). No partner is named on the site. 14 Oct 2026: Story Walls redrawn (John): dense line art, about 15% painted as a guide, one picture per series, 3-5 shapes 20% bigger; colouring on the floor (DRAFT copy)."
 }

@@ -204,6 +204,8 @@ def generate(client, types, key, model, contents, ratio, size):
             if is_billing_error(exc):
                 raise BillingError(scrub(exc, key))
             code = getattr(exc, "code", None)
+            if code == 429 and "perday" in str(exc).lower().replace("_", ""):
+                raise BillingError("the daily image limit for this model is used up; it resets about 24 hours after the first image of the day")
             last = exc
             if code == 400 and size and "imagesize" in str(exc).lower().replace("_", ""):
                 print(f"note: the API rejected image size {size}; trying again at the default size")
