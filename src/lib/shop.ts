@@ -51,16 +51,29 @@ export const view = (sku: string, v: string) => { const p: any = catalog.bySku.g
 export function sceneLine(p: any): string {
   if (p.type === 'book') return `${p.age === '3-5' ? 'Bedtime, one page a night' : 'After school, at the kitchen table'}: your child colours ${p.book.hook.replace(/\.$/, '').charAt(0).toLowerCase()}${p.book.hook.replace(/\.$/, '').slice(1)}, you talk about it, and ${p.age === '3-5' ? 'they' : 'they'} decide how it ends.`;
   if (p.type === 'poster') return `A rainy Saturday, the ${p.seriesBare} world taped to the hallway wall: your child, a friend and Grandma each take a corner. About a third is already in colour; the rest is theirs.`;
-  if (p.animal) return HALLOWEEN_SCENE[p.type];
+  if (p.animal) return (GIFT_SCENE[p.occasion] || GIFT_SCENE.halloween)[p.type] || GIFT_SCENE.halloween[p.type];
   return p.design.scene || (shop.types as any)[p.type].scene;
 }
-/* The Halloween cats and dogs are not Pim scenes (DRAFT, 12 Oct 2026). */
-const HALLOWEEN_SCENE: Record<string, string> = {
-  mug: 'A dark October evening, cocoa in the cat-and-dog mug, while you ask which ending she chose today. For the grown-up who reads the story every night.',
-  tote: 'Lantern walk on the 31st: the book, the crayons and the sweets all go in the grown-up’s bag, and the story comes along.',
-  postcards: 'Sunday evening at the kitchen table: your child tells you what to write, you write it, and Grandma gets a Halloween card.',
-  cards: 'A Halloween card from Grandpa, blank inside for his own words, and an envelope your child insists on licking shut.',
+/* The gift cats and dogs are not Pim scenes, one line per occasion (DRAFT: Halloween 12 Oct 2026; Christmas and
+   New Year 15 Oct 2026, postcards and greeting cards only). */
+const GIFT_SCENE: Record<string, Record<string, string>> = {
+  halloween: {
+    mug: 'A dark October evening, cocoa in the cat-and-dog mug, while you ask which ending she chose today. For the grown-up who reads the story every night.',
+    tote: 'Lantern walk on the 31st: the book, the crayons and the sweets all go in the grown-up’s bag, and the story comes along.',
+    postcards: 'Sunday evening at the kitchen table: your child tells you what to write, you write it, and Grandma gets a Halloween card.',
+    cards: 'A Halloween card from Grandpa, blank inside for his own words, and an envelope your child insists on licking shut.',
+  },
+  christmas: {
+    postcards: 'A December evening at the kitchen table: your child tells you what to write, you write it, and Grandma gets a Christmas card.',
+    cards: 'A Christmas card from Grandpa, blank inside for his own words, and an envelope your child insists on licking shut.',
+  },
+  'new-year': {
+    postcards: 'The first days of January: your child says one wish for the new year, you write it, and a cousin gets a card.',
+    cards: 'A New Year card for the teacher, blank inside for your own words, and an envelope your child insists on licking shut.',
+  },
 };
+/* The story key in shop.json types per occasion; a type without one falls back to the Halloween story. */
+const GIFT_STORY: Record<string, string> = { halloween: 'storyHalloween', christmas: 'storyChristmas', 'new-year': 'storyNewYear' };
 
 /** The short story after the title on a product page (DRAFT copy in shop.json): the reader can see themselves using it. */
 export function storyOf(p: any): string {
@@ -73,7 +86,7 @@ export function storyOf(p: any): string {
     return String(t.story).replace(/\b([Tt]he) \{series\}/, `$1 ${p.seriesBare}`).replace('{series}', p.seriesName).replace('{third}', t.storyThird[p.age] || '').replace('{theme}', String(p.theme || '').toLowerCase());
   }
   if (p.design?.storyText) return p.design.storyText;   // a design can carry its own story (design.story is the linked series)
-  if (p.animal) return String(t.storyHalloween || t.story).replace('{line}', p.design.line || '').replace(/\s{2,}/g, ' ');
+  if (p.animal) return String(t[GIFT_STORY[p.occasion]] || t.storyHalloween || t.story).replace('{line}', p.design.line || '').replace(/\s{2,}/g, ' ');
   const words = p.design?.words ? `“${p.design.words}”` : '';
   return String(t.story).replace('{words}', words).replace(/\s{2,}/g, ' ').replace(' .', '.');
 }

@@ -1,5 +1,5 @@
 {
-  "_note": "DRAFT prompts (12 Oct 2026) for scripts/catalog/generate_mockups.py. Every product has its own four designs (tote bags: four undyed and four black, eight in all) (one cat, one dog, many cats, many dogs). The style is written in words only; no reference image is sent to the model. Printed words: a design has none unless its `words` field is filled in by John. Nothing is added by the script. 14 Oct 2026: three photos per product (views table, home, hand), square, for the product page gallery. 14 Oct 2026: every product has its own cute style (John): mug embroidery, tote bags cut-fabric patchwork (printed flat), postcards vintage screen-print crowds, greeting cards linocut (one animal) and mid-century gouache (many animals). A design may carry its own style, layout and art_background.",
+  "_note": "DRAFT prompts (12 Oct 2026) for scripts/catalog/generate_mockups.py. Every product has its own four designs (tote bags: four undyed and four black, eight in all) (one cat, one dog, many cats, many dogs). The style is written in words only; no reference image is sent to the model. Printed words: a design has none unless its `words` field is filled in by John. Nothing is added by the script. 14 Oct 2026: three photos per product (views table, home, hand), square, for the product page gallery. 14 Oct 2026: every product has its own cute style (John): mug embroidery, tote bags cut-fabric patchwork (printed flat), postcards vintage screen-print crowds, greeting cards linocut (one animal) and mid-century gouache (many animals). A design may carry its own style, layout and art_background. 15 Oct 2026: theme 'winter' (Christmas and New Year, John): four postcards and four greeting cards only, in one whimsical Nordic folk-art style written in words from the pictures John liked (none sent, none copied). A theme may override any product key in themes.<theme>.products (style, layout, art_background, views), and sets its photo mood in themes.<theme>.mood.",
   "style": "Cute illustration.",
   "no_text": "No text, no letters, no words, no numbers, no logo, no watermark, no border, no frame.",
   "art_template": "{style}{extra} Subject: {subject}.{words} {layout} Flat 2D artwork for printing. Cute, friendly and creative, not scary. {no_text}",
@@ -16,21 +16,63 @@
       "background": "a textured painted background in deep night blue"
     }
   },
-  "mockup_template": "{scene} The attached image is the artwork. Print it exactly as it is, with the same drawing, colours and proportions, nothing added and nothing removed. {place} Photorealistic, natural colours, square photo. Do not add any other print, text, label or logo anywhere. No readable words or letters anywhere in the photo, also not on books, boxes, cups or signs. Autumn and Halloween mood only, no Christmas items, no snow.",
+  "mockup_template": "{scene} The attached image is the artwork. Print it exactly as it is, with the same drawing, colours and proportions, nothing added and nothing removed. {place} Photorealistic, natural colours, square photo. Do not add any other print, text, label or logo anywhere. No readable words or letters anywhere in the photo, also not on books, boxes, cups or signs. {mood}",
   "themes": {
     "halloween": {
       "active": true,
-      "name": "Halloween"
+      "name": "Halloween",
+      "mood": "Autumn and Halloween mood only, no Christmas items, no snow."
     },
     "birthday": {
       "active": false,
       "name": "Birthday",
       "note": "Write four designs per product first (one animal, one animal, many, many)."
     },
-    "new-year": {
-      "active": false,
-      "name": "New Year",
-      "note": "Write four designs per product first (one animal, one animal, many, many)."
+    "winter": {
+      "active": true,
+      "name": "Christmas and New Year",
+      "note": "15 Oct 2026 (John): four postcards and four greeting cards, two Christmas and two New Year each, cats and dogs, no words. One style for both products (whimsical Nordic folk art); no gift-set picture. Cards changed the same day: John loved the Lantern Cat postcard and disliked the first Holly Dog card (a dog in a symmetrical ornament frame on plain cream, with a cat-like face), so the cards are full square scenes in the Lantern Cat look (full bleed, the photos show the card cut to 141 x 141 mm) and dogs get a real dog face.",
+      "gift_set": false,
+      "mood": "Cosy winter mood for Christmas and New Year: fir sprigs, candles, pine cones and soft snow; no pumpkins, no autumn leaves, no Halloween items, no Santa figures, no religious symbols.",
+      "products": {
+        "postcard": {
+          "style": "Whimsical Nordic folk-art illustration in gouache with a dry-brush texture and a fine printed grain, like a Scandinavian winter storybook. Simple, soft, rounded animal shapes with big round shiny eyes, round rosy cheeks and a tiny smile. Cats have a small pink heart-shaped nose and long fine whiskers; dogs have a real dog face: a soft rounded muzzle, a round dark dog nose, dog ears and no long whiskers. Fine hand-painted folk patterns on every scarf, hat and sweater (zigzags, tiny snowflakes, dots, little hearts and stripes) and soft brush strokes in the fur. Around the animals, intricate folk botanical ornaments: fir and fern sprigs, berry sprays, small tulip-like folk flowers, leafy branches, snowflakes and little stars, painted with fine white, gold and red detail. Winter palette: deep night blue, berry red, coral, fir green, mustard gold, dusty pink, cream and soft charcoal.",
+          "layout": "A full winter scene, full of life, that fills the whole picture edge to edge on {background}, with folk botanical branches, snowflakes and little stars filling the space around the animals; the snowy ground, painted with soft blue-grey shading and small sprigs poking through, runs off the bottom and both sides. This is a full-bleed print file: the colour reaches all four edges, with no paper margin and no cream or white strip, line, border or frame along any edge. Only the flat picture itself: do not draw the postcard, no stack of cards, no product, no shadow.",
+          "art_background": "a deep night-blue winter sky with soft falling snow",
+          "views": {
+            "table": {
+              "scene": "Top-down studio photograph of a single landscape postcard (wider than tall) with rounded corners, thick matte card, lying on a light oak desk next to a pencil, a small fir sprig and a pine cone, soft winter daylight and a soft shadow."
+            },
+            "home": {
+              "scene": "Lifestyle photograph of the landscape postcard (wider than tall) with rounded corners propped up on a wooden windowsill in a cosy home in winter, a lit candle and a small fir sprig beside it, soft snow outside the window, background softly out of focus."
+            },
+            "hand": {
+              "scene": "Close-up photograph of an adult's hand in a soft knitted sleeve holding the landscape postcard (wider than tall) with rounded corners by its edge, the picture side facing the camera, warm candle light, background softly out of focus with blurred warm fairy lights. Only an adult's hand and forearm are visible: no face, no child."
+            }
+          }
+        },
+        "greeting-card": {
+          "style": "Whimsical Nordic folk-art illustration in gouache with a dry-brush texture and a fine printed grain, like a Scandinavian winter storybook. Simple, soft, rounded animal shapes with big round shiny eyes, round rosy cheeks and a tiny smile. Cats have a small pink heart-shaped nose and long fine whiskers; dogs have a real dog face: a soft rounded muzzle, a round dark dog nose, dog ears and no long whiskers. Fine hand-painted folk patterns on every scarf, hat and sweater (zigzags, tiny snowflakes, dots, little hearts and stripes) and soft brush strokes in the fur. Around the animals, intricate folk botanical ornaments: fir and fern sprigs, berry sprays, small tulip-like folk flowers, leafy branches, snowflakes and little stars, painted with fine white, gold and red detail. Winter palette: deep night blue, berry red, coral, fir green, mustard gold, dusty pink, cream and soft charcoal.",
+          "layout": "A full winter scene, full of life, that fills the whole square picture edge to edge on {background}, with folk botanical branches, snowflakes and little stars filling the space around the animals; the snowy ground, painted with soft blue-grey shading and small sprigs poking through, runs off the bottom and both sides. The colour reaches all four edges, with no paper margin and no cream or white strip, line, border or frame along any edge. Only the flat picture itself: do not draw the card, no product, no shadow. The picture is exactly square, with sharp square corners (not rounded).",
+          "art_background": "a deep night-blue winter sky with soft falling snow",
+          "views": {
+            "table": {
+              "scene": "Studio photograph of a square folded greeting card with sharp square corners standing on a light oak table, a plain white envelope and a small fir sprig beside it, soft winter window light, background softly out of focus."
+            },
+            "home": {
+              "scene": "Lifestyle photograph of the square greeting card standing slightly open on a wooden shelf in a warm living room in winter, next to a lit candle and a few pine cones, background softly out of focus."
+            },
+            "hand": {
+              "scene": "Close-up photograph of an adult's hand in a soft knitted sleeve holding the square folded greeting card, the front cover facing the camera, a plain white envelope in the other hand, warm light of a winter evening, background softly out of focus. Only an adult's hand and forearm are visible: no face, no child."
+            }
+          },
+          "full_bleed": true,
+          "trim_mm": [
+            141,
+            141
+          ]
+        }
+      }
     }
   },
   "designs": {
@@ -149,6 +191,68 @@
           "title": "Many dogs",
           "subject": "three dogs in simple costumes walking in a row with glowing pumpkin lanterns through the night, under a crescent moon with small bats and a little ghost",
           "words": ""
+        }
+      }
+    },
+    "winter": {
+      "postcard": {
+        "cat": {
+          "title": "One cat",
+          "occasion": "christmas",
+          "subject": "a ginger cat with big round eyes in a red knitted folk-pattern hat with a pom-pom and a matching scarf, walking through a snowy fir forest at night and carrying a small glowing star lantern, snowy fir trees, berry sprays and snowflakes around",
+          "words": "",
+          "art_background": "a deep night-blue winter sky with soft falling snow"
+        },
+        "dog": {
+          "title": "One dog",
+          "occasion": "christmas",
+          "subject": "a small brown dog with floppy ears and big round eyes in a green knitted pom-pom hat, pulling a tiny fir tree on a little wooden sledge through the snow, red berry sprays and folk flowers along the path",
+          "words": "",
+          "art_background": "a soft dusty-pink winter sky at dusk with falling snow"
+        },
+        "cats": {
+          "title": "Many cats",
+          "occasion": "new-year",
+          "subject": "a row of cats of different colours (ginger, black, white, grey tabby and calico) in knitted pom-pom hats and scarves, sitting close together on a snowy rooftop on New Year's Eve and looking up at big, gentle folk-style star bursts like painted fireworks, a big round moon",
+          "words": "",
+          "art_background": "a deep night-blue sky full of small stars"
+        },
+        "dogs": {
+          "title": "Many dogs",
+          "occasion": "new-year",
+          "subject": "a family of dogs of different sizes and colours (a dachshund, a spotted dog, a fluffy white dog and a brown puppy) in scarves and knitted hats, riding together on one long wooden sledge down a snowy hill on New Year's night, a big round moon, snowy fir trees and folk flowers along the hill",
+          "words": "",
+          "art_background": "a deep blue night sky with a big pale moon and small stars"
+        }
+      },
+      "greeting-card": {
+        "cat": {
+          "title": "One cat",
+          "occasion": "christmas",
+          "subject": "a black cat with big round amber eyes and pink inner ears in a long red knitted scarf with white folk patterns, sitting in the snow beside a small fir tree hung with red berries and little stars, holly sprigs around",
+          "words": "",
+          "art_background": "a soft dusty-pink winter sky at dusk with falling snow"
+        },
+        "dog": {
+          "title": "One dog",
+          "occasion": "christmas",
+          "subject": "a small white dog with brown floppy ears, a soft muzzle and a round dark nose, in a green folk-pattern sweater, sitting in the snow next to a little fir tree hung with gingerbread hearts (plain icing dots, no letters) and red berries, holly sprigs around",
+          "words": "",
+          "art_background": "a deep night-blue winter sky with soft falling snow"
+        },
+        "cats": {
+          "title": "Many cats",
+          "occasion": "new-year",
+          "subject": "three kittens (ginger, grey tabby and black-and-white) in matching folk-pattern knitted sweaters sitting close together on a snowy log in a fir forest on New Year's night, looking up at a big round moon and gentle golden star bursts",
+          "words": "",
+          "art_background": "a soft lavender-blue night sky with a big pale moon and small stars"
+        },
+        "dogs": {
+          "title": "Many dogs",
+          "occasion": "new-year",
+          "subject": "three puppies of different colours with soft muzzles and round dark noses, in knitted pom-pom hats, sitting close together in the snow on New Year's night, each holding a small folded paper star, gentle golden star bursts in the sky above",
+          "words": "",
+          "art_background": "a deep night-blue sky full of small stars"
         }
       }
     }

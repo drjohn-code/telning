@@ -204,6 +204,54 @@
       "line": "A dog family out trick-or-treating.",
       "about": "A family of dogs of different colours in costumes trick-or-treating along a small path past a smiling pumpkin.",
       "prompt": "halloween/postcard/dogs"
+    },
+    {
+      "key": "lantern-cat",
+      "name": "Lantern Cat",
+      "words": "",
+      "animal": "cat",
+      "occasion": "christmas",
+      "story": null,
+      "placeholder": false,
+      "line": "A ginger cat carries a star lantern through the snowy forest.",
+      "about": "A ginger cat in a red knitted hat and scarf walking through a snowy fir forest at night with a small glowing star lantern, folk flowers and red berries in the snow.",
+      "prompt": "winter/postcard/cat"
+    },
+    {
+      "key": "fir-tree-pup",
+      "name": "Fir Tree Pup",
+      "words": "",
+      "animal": "dog",
+      "occasion": "christmas",
+      "story": null,
+      "placeholder": false,
+      "line": "A small dog pulls a tiny fir tree home on a sledge.",
+      "about": "A small brown dog in a green pom-pom hat and scarf pulling a tiny fir tree on a wooden sledge through the snow, with folk flowers and red berries around.",
+      "prompt": "winter/postcard/dog"
+    },
+    {
+      "key": "midnight-cats",
+      "name": "Midnight Cats",
+      "words": "",
+      "animal": "cats",
+      "occasion": "new-year",
+      "story": null,
+      "placeholder": false,
+      "line": "Five cats on a snowy roof watch the New Year sky.",
+      "about": "Five cats in knitted hats, scarves and sweaters sitting on a snowy roof, looking up at the New Year star bursts under a full moon.",
+      "prompt": "winter/postcard/cats"
+    },
+    {
+      "key": "new-year-sledge",
+      "name": "New Year Sledge",
+      "words": "",
+      "animal": "dogs",
+      "occasion": "new-year",
+      "story": null,
+      "placeholder": false,
+      "line": "A dog family slides down the hill on one long sledge.",
+      "about": "Four dogs in knitted hats and scarves riding one long wooden sledge down a snowy hill on New Year’s night, under a big round moon.",
+      "prompt": "winter/postcard/dogs"
     }
   ],
   "cards": [
@@ -254,6 +302,54 @@
       "line": "Two puppies in pumpkin hats in the leaves.",
       "about": "Two puppies in tiny pumpkin hats sitting close together among autumn leaves.",
       "prompt": "halloween/greeting-card/dogs"
+    },
+    {
+      "key": "scarf-cat",
+      "name": "Scarf Cat",
+      "words": "",
+      "animal": "cat",
+      "occasion": "christmas",
+      "story": null,
+      "placeholder": false,
+      "line": "A black cat in a long red scarf beside a little Christmas tree.",
+      "about": "A black cat with amber eyes in a long red folk-pattern scarf sitting in the snow beside a small Christmas tree, with holly, berries and folk flowers under a dusty-pink sky.",
+      "prompt": "winter/greeting-card/cat"
+    },
+    {
+      "key": "holly-dog",
+      "name": "Holly Dog",
+      "words": "",
+      "animal": "dog",
+      "occasion": "christmas",
+      "story": null,
+      "placeholder": false,
+      "line": "A white dog in a green sweater by a tree of gingerbread hearts.",
+      "about": "A white dog with brown ears in a green folk sweater sitting in the snow beside a little fir tree hung with gingerbread hearts and red berries.",
+      "prompt": "winter/greeting-card/dog"
+    },
+    {
+      "key": "sweater-kittens",
+      "name": "Sweater Kittens",
+      "words": "",
+      "animal": "cats",
+      "occasion": "new-year",
+      "story": null,
+      "placeholder": false,
+      "line": "Three kittens in folk sweaters under the New Year moon.",
+      "about": "Three kittens in folk-pattern sweaters sitting together on a snowy log, looking up at a big round moon and golden stars on New Year’s night.",
+      "prompt": "winter/greeting-card/cats"
+    },
+    {
+      "key": "pom-pom-puppies",
+      "name": "Pom-pom Puppies",
+      "words": "",
+      "animal": "dogs",
+      "occasion": "new-year",
+      "story": null,
+      "placeholder": false,
+      "line": "Three puppies in pom-pom hats, each with a paper star.",
+      "about": "Three puppies in knitted pom-pom hats sitting in the snow, each holding a folded paper star, under golden star bursts on New Year’s night.",
+      "prompt": "winter/greeting-card/dogs"
     }
   ],
   "occasions": {
@@ -267,5 +363,6 @@
     "love": "Love",
     "everyday": "Every day"
   },
-  "_halloween": "DRAFT (12 Oct 2026): the Halloween line of cats and dogs, four designs per product (one cat, one dog, many cats, many dogs). `placeholder: true` = no photos yet (a placeholder picture, cannot be ordered). `prompt` points to scripts/catalog/prompts.json; `about` is the picture brief, `line` the one-line card text. No printed words unless John writes them in `words`. Tote bags: 8 designs, each on one colour (4 undyed, 4 black). The older Pim designs were removed on 13 Oct 2026 (John); their URLs 301 to the category pages (vercel.json)."
+  "_halloween": "DRAFT (12 Oct 2026): the Halloween line of cats and dogs, four designs per product (one cat, one dog, many cats, many dogs). `placeholder: true` = no photos yet (a placeholder picture, cannot be ordered). `prompt` points to scripts/catalog/prompts.json; `about` is the picture brief, `line` the one-line card text. No printed words unless John writes them in `words`. Tote bags: 8 designs, each on one colour (4 undyed, 4 black). The older Pim designs were removed on 13 Oct 2026 (John); their URLs 301 to the category pages (vercel.json).",
+  "_winter": "DRAFT (15 Oct 2026, John): Christmas and New Year cats and dogs, postcards and greeting cards only, four each (two Christmas, two New Year: one cat, one dog, many cats, many dogs), in one whimsical Nordic folk-art style. `prompt` points to the theme `winter` in scripts/catalog/prompts.json. No printed words."
 }

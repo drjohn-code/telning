@@ -493,6 +493,8 @@
       ],
       "story": "Sunday evening at the kitchen table. Your child says what to write, you write it down word for word, and they sign it with a drawing. Grandma keeps it on the fridge for a year. Ten cards: ten Sundays, ten stories told again.",
       "storyHalloween": "An evening in October, orange leaves on the table. {line} Your child says what to write to a cousin, you write it, and they draw a small pumpkin next to the stamp. Ten cards for ten friends, each with the story of one ending.",
+      "storyChristmas": "A dark December afternoon, a candle on the table. {line} Your child says what to write to Grandma, you write it, and they draw a small star next to the stamp. Ten cards for ten people far away, each with the story of one ending.",
+      "storyNewYear": "The first week of January, snow outside the window. {line} Your child says one wish for the new year, you write it down, and they draw something small next to the stamp. Ten cards for ten friends, ten wishes sent.",
       "regions": [
         "EU",
         "UK"
@@ -550,7 +552,9 @@
         ]
       ],
       "story": "A birthday morning. Grandpa writes four words inside, your child draws the rest, and the envelope gets licked shut twice to be sure. The card stands on the shelf for weeks. Ten cards for ten birthdays, each one blank inside for your own words.",
-      "storyHalloween": "The last week of October. A card for the neighbours, one for the cousins, one for the teacher. {line} Your child draws last night’s ending inside, you write the names. Ten cards, blank inside, for everyone who likes a pumpkin on the doorstep."
+      "storyHalloween": "The last week of October. A card for the neighbours, one for the cousins, one for the teacher. {line} Your child draws last night’s ending inside, you write the names. Ten cards, blank inside, for everyone who likes a pumpkin on the doorstep.",
+      "storyChristmas": "The week before Christmas. A card for the neighbours, one for the cousins, one for the teacher. {line} Your child draws last night’s ending inside, you write the names. Ten cards, blank inside, for everyone on your list.",
+      "storyNewYear": "New Year’s Eve, the table still full. {line} Your child draws the best moment of the year inside, you write a wish for the next one. Ten cards, blank inside, for the people you want to start the year with."
     }
   },
   "delivery": "Made for you after you order. EU 3–10 working days, US/UK/Canada 3–7 working days. Items may arrive in separate parcels. Unused items can be returned within 14 days. If it arrives damaged or wrong, we replace it.",

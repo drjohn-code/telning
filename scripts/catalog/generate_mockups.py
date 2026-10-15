@@ -2,7 +2,8 @@
 """Telning gift mockups with Google AI Studio (google-genai).
 
 Every product has its own four designs (Halloween: one cat, one dog, many cats,
-many dogs). Tote bags have eight: four on undyed and four on black cotton (product
+many dogs). Theme `winter` (Christmas and New Year, 15 Oct 2026) has postcards and
+greeting cards only, in its own style: --theme winter. Tote bags have eight: four on undyed and four on black cotton (product
 `tote-black`), so 20 artworks; mugs are white 11 oz only. For each design it makes:
 (three square photos per product since 14 Oct 2026: on the table, at home, in a hand)
   1. the artwork                              -> assets/telning-products/_art/...   (print master, git-ignored)
@@ -99,10 +100,10 @@ def build_jobs(cfg, theme, stages, designs, products, public_dir, masters_dir, s
     spec = cfg["designs"].get(theme)
     if not spec:
         sys.exit(f"No designs written for '{theme}' in prompts.json.")
-    prods = products or list(cfg["products"])
-    unknown = [p for p in prods if p not in cfg["products"]]
+    prods = products or [p for p in cfg["products"] if p in spec]   # a theme may have designs for some products only
+    unknown = [p for p in prods if p not in spec]
     if unknown:
-        sys.exit(f"Unknown product(s): {', '.join(unknown)}. Choices: {', '.join(cfg['products'])}")
+        sys.exit(f"Unknown product(s) for '{theme}': {', '.join(unknown)}. Choices: {', '.join(spec)}")
     every = list(next(iter(spec.values())))
     names = designs or every
     unknown = [d for d in names if d not in every]
@@ -117,7 +118,7 @@ def build_jobs(cfg, theme, stages, designs, products, public_dir, masters_dir, s
 
     jobs = []
     for p in prods:
-        pr = cfg["products"][p]
+        pr = {**cfg["products"][p], **t.get("products", {}).get(p, {})}   # a theme may set its own style, layout, background, views
         for d in names:
             design = spec[p][d]
             own = look or {**pr, **{k: design[k] for k in ("style", "layout", "art_background") if k in design}}   # product style, a design may override it
@@ -140,9 +141,9 @@ def build_jobs(cfg, theme, stages, designs, products, public_dir, masters_dir, s
                         "stage": "mockups", "id": f"{theme}-{d}-{p}-{view}", "label": f"{pr['label']}, {view}: {design['title']}",
                         "ratio": pr.get("mockup_ratio", "1:1"), "inputs": [art_path(p, d)], "out": mock_path(p, d, view),
                         "face": (pr["print_mm"], pr["trim_mm"]) if pr.get("trim_mm") else None,   # the photo shows the cut card, not the bleed
-                        "prompt": cfg["mockup_template"].format(scene=v["scene"], place=pr["place"]),
+                        "prompt": cfg["mockup_template"].format(scene=v["scene"], place=pr["place"], mood=t.get("mood", "")),
                     })
-    if "gift-set" in stages:
+    if "gift-set" in stages and t.get("gift_set", True):
         gs = cfg["gift_set"]
         jobs.append({
             "stage": "gift-set", "id": f"{theme}-gift-set", "label": "gift set: all four products",

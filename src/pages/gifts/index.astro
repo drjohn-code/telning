@@ -17,13 +17,13 @@ const LINES: Record<string, string> = {
   mug: 'For the grown-up who reads the story every night.',
   tote: 'The book, the crayons, the library trip.',
   postcards: 'Ten cards to write and send to Grandma.',
-  cards: 'Ten Halloween cards, blank inside for your own words.',
+  cards: 'Ten cards, blank inside for your own words.',
 };
 const COVER: Record<string, string> = { mug: view('mug-cocoa-cat', 'table'), tote: view('tote-cat-parade', 'table'), postcards: view('postcards-pumpkin-patch-cats', 'table'), cards: view('cards-boo-cat', 'table') };
 const products = GIFT_TYPES.flatMap((t: string) => catalog.products.filter((p: any) => p.type === t));
 const from = (t: string) => { const p: any = products.find((x: any) => x.type === t); const pr = p.variants ? p.variants[0].price : p.price; return Object.fromEntries(['EUR', 'GBP', 'USD', 'CAD'].map((c) => [`data-${c.toLowerCase()}`, money(pr[c], c, (shop.currencies as any)[c].locale)])); };
 const occasions = [...new Set(products.map((p: any) => p.occasion).filter(Boolean))] as string[];
-const animals = products.some((p: any) => p.animal);   // the Halloween cats and dogs
+const animals = products.some((p: any) => p.animal);   // the cats and dogs (Halloween, Christmas, New Year)
 import FilterSheet from '../../components/shop/FilterSheet.astro';
 ---
 <Base page={PAGE} preload={{ src: '/shop/img/gift-set/gift-set-halloween-gift-set', sizes: '(min-width: 1024px) 520px, 100vw' }}>
@@ -34,7 +34,7 @@ import FilterSheet from '../../components/shop/FilterSheet.astro';
       <div class="tn-shophero__in">
         <div class="tn-shophero__text">
           <h1 class="tn-h1" id="page-h" tabindex="-1">Gifts</h1>
-          <p class="tn-lead">Mugs, tote bags, postcards and greeting cards with our Halloween cats and dogs. Keepsakes that keep the story going, after the last page.</p>
+          <p class="tn-lead">Mugs, tote bags, postcards and greeting cards with our cats and dogs: Halloween on all four, Christmas and New Year on the cards. Keepsakes that keep the story going, after the last page.</p>
           <PimNote line="The grown-ups get something too." size="sm" />
         </div>
         <div class="tn-shophero__art" aria-hidden="true">
