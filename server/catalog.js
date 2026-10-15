@@ -65,6 +65,15 @@ export const DESCRIPTOR = {
   cards: () => 'Pack of 10 with envelopes · 14.1 × 14.1 cm',
 };
 
+/** The print file of a gift design for the team order sheet: the art master that scripts/catalog/generate_mockups.py
+    made from the design's `prompt` (theme/product/design). Masters are git-ignored and live on the studio Mac only.
+    Before 15 Oct 2026 every gift pointed to an old `art/print/…svg` path that no longer exists. */
+export const giftPrint = (type, d) => {
+  if (!d.prompt) return `art/print/${GIFT_PATH[type]}/${d.key}.svg`;
+  const [theme, product, design] = d.prompt.split('/');
+  return `assets/telning-products/_art/${theme}/${product}/${design}/${theme}-${design}-${product}.png`;
+};
+
 export function buildCatalog({ site, shop, books, gifts }) {
   const T = shop.types;
   const seriesName = (k) => site.series.find((s) => s.key === k)?.name || k;
@@ -114,7 +123,7 @@ export function buildCatalog({ site, shop, books, gifts }) {
         occasion: d.occasion || null, animal: d.animal || null, regions: t.regions || null,   // regions: where this type can be delivered (null = everywhere)
         soon: !!d.placeholder,   // soon: pictures still to come, not for sale yet
         price: variants ? variants[0].price : cents(t.price), variants, variantLabel: t.variantLabel, maxQty: t.maxQty,
-        print: `art/print/${GIFT_PATH[type]}/${d.key}.svg`,
+        print: giftPrint(type, d),
         images: imagesFor({ type, key: d.key, pim: !d.animal, animal: d.animal, placeholder: !!d.placeholder }),
       });
     }

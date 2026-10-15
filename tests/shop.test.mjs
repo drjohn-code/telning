@@ -184,6 +184,20 @@ test('order: split by printer, team sheet has the address and print files, custo
   assert.doesNotMatch(cust, /art\/print|_story-walls/);
 });
 
+test('order: a gift’s print file is its art master (theme/product/design), not the old art/print path', () => {
+  for (const p of catalog.products.filter((x) => x.category === 'gifts')) {
+    const [theme, product, design] = p.design.prompt.split('/');
+    assert.equal(p.print, `assets/telning-products/_art/${theme}/${product}/${design}/${theme}-${design}-${product}.png`, p.sku);
+  }
+  const line = (sku, n) => ({ description: n, quantity: 1, amount_total: 1290, price: { product: { metadata: { sku, variant: '' } } } });
+  const o = orderFrom({ ...SESSION, line_items: { data: [line('postcards-lantern-cat', 'Lantern Cat postcards'), line('tote-ghost-pup', 'Ghost Pup tote bag')] } }, catalog);
+  const team = teamText(o);
+  assert.match(team, /_art\/winter\/postcard\/cat\/winter-cat-postcard\.png/);
+  assert.match(team, /_art\/halloween\/tote-black\/dog\/halloween-dog-tote-black\.png/);
+  assert.doesNotMatch(team, /art\/print\//);
+  assert.doesNotMatch(customerText(o, { contact: 'info@telning.com' }), /_art\//);
+});
+
 test('webhook: paid session → team and customer emails; unpaid → ignored; bad signature → 400', async () => {
   const sent = [];
   const deps = { secret: SECRET, catalog, stripe: async () => ({ status: 200, json: SESSION }), sendEmail: async (m) => { sent.push(m); }, inbox: 'team@example.com', from: 'Telning <o@example.com>', contact: 'info@example.com', log: () => {} };
