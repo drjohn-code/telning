@@ -300,7 +300,7 @@
         }
         each(bar, '[data-filter-show]', function (x) { x.textContent = 'Show ' + label; });
         var u = new URL(location.href);
-        ['series', 'age', 'type', 'occasion', 'animal'].forEach(function (g) { if (state[g]) u.searchParams.set(g, state[g]); else u.searchParams.delete(g); });
+        ['series', 'age', 'type', 'occasion', 'animal', 'child'].forEach(function (g) { if (state[g]) u.searchParams.set(g, state[g]); else u.searchParams.delete(g); });
         history.replaceState(null, '', u.pathname + (u.search ? u.search : '') + u.hash);
       }
       each(bar, '[data-group]', function (b) {

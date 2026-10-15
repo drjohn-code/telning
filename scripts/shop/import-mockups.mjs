@@ -4,7 +4,8 @@
 // the blur entry in src/data/shop-images.json and the share image public/og/p/<sku>.jpg, removes the placeholder
 // files, and sets `placeholder: false` in src/data/shop-gifts.json (the design leaves "Coming soon").
 // The gift-set picture replaces its placeholder in place. Safe to run again: it only does designs with all photos.
-//   node scripts/shop/import-mockups.mjs [--dry-run] [--only pumpkin-patch-cats,gift-set]   (--only: just these design keys)
+//   node scripts/shop/import-mockups.mjs [--dry-run] [--only pumpkin-patch-cats,gift-set]   (--only: just these design keys, or
+//   skus like postcards-dog-parade when a key is used by two products)
 import { mkdirSync, writeFileSync, readFileSync, existsSync, rmSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import sharp from 'sharp';
@@ -37,7 +38,7 @@ async function save(slug, view, file) {
 let done = 0, waiting = 0;
 for (const type of ['mug', 'tote', 'postcards', 'cards']) {
   for (const d of gifts[type]) {
-    if (!d.animal || !d.prompt || !wanted(d.key)) continue;
+    if (!d.animal || !d.prompt || !(wanted(d.key) || wanted(`${type}-${d.key}`))) continue;
     const [theme, product, design] = d.prompt.split('/');          // e.g. halloween/tote-black/cat
     const src = (view) => join(ROOT, 'public/products', product, theme, design, `${theme}-${design}-${product}-${view}.webp`);
     if (!GIFT_PHOTO_VIEWS.every((v) => existsSync(src(v)))) { waiting++; continue; }

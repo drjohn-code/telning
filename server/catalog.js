@@ -121,6 +121,7 @@ export function buildCatalog({ site, shop, books, gifts }) {
         name: label, short: t.tile, title: d.name, design: d, descriptor: colourName ? DESCRIPTOR[type]().replace(' · ', ` · ${colourName} · `) : DESCRIPTOR[type](),
         story: d.story ? { series: d.story, seriesName: seriesName(d.story) } : null,
         occasion: d.occasion || null, animal: d.animal || null, regions: t.regions || null,   // regions: where this type can be delivered (null = everywhere)
+        child: d.child || null,   // 'girl' or 'boy': the birthday cards (John, 15 Oct 2026), the Girls / Boys filter on /gifts
         soon: !!d.placeholder,   // soon: pictures still to come, not for sale yet
         price: variants ? variants[0].price : cents(t.price), variants, variantLabel: t.variantLabel, maxQty: t.maxQty,
         print: giftPrint(type, d),

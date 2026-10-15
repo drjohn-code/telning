@@ -38,6 +38,19 @@ test('gifts are the Halloween line, coming soon; a black tote is black only; a p
   await expect(page.locator('#tn-drawer .tn-line__var')).toContainText('Story Wall (3–7)');   // a pack holds Story Walls, each with its age
 });
 
+test('gifts filter: Girls / Boys picks the birthday cards for girls or for boys', async ({ page }) => {
+  await page.goto('/gifts/postcards');
+  const shown = () => page.locator('#grid > li:visible');
+  await expect(shown()).toHaveCount(16);
+  await page.locator('button.tn-chip[data-group="child"][data-value="girl"]').first().click();
+  await expect(shown()).toHaveCount(4);
+  await expect(page).toHaveURL(/child=girl/);
+  await page.locator('button.tn-chip[data-group="animal"][data-value="dog"]').first().click();
+  await expect(shown()).toHaveCount(2);   // a dog and a girl, dogs and a girl
+  await page.locator('button.tn-chip[data-group="child"][data-value="boy"]').first().click();
+  await expect(shown()).toHaveCount(2);
+});
+
 test('product gallery: a thumbnail changes the big photo', async ({ page }) => {
   await page.goto('/gifts/mugs/cocoa-cat');
   const big = page.locator('.tn-gallery__main img');

@@ -54,8 +54,8 @@ export function sceneLine(p: any): string {
   if (p.animal) return (GIFT_SCENE[p.occasion] || GIFT_SCENE.halloween)[p.type] || GIFT_SCENE.halloween[p.type];
   return p.design.scene || (shop.types as any)[p.type].scene;
 }
-/* The gift cats and dogs are not Pim scenes, one line per occasion (DRAFT: Halloween 12 Oct 2026; Christmas and
-   New Year 15 Oct 2026, postcards and greeting cards only). */
+/* The gift cats and dogs are not Pim scenes, one line per occasion (DRAFT: Halloween 12 Oct 2026; Christmas,
+   New Year and birthday 15 Oct 2026, postcards and greeting cards only). */
 const GIFT_SCENE: Record<string, Record<string, string>> = {
   halloween: {
     mug: 'A dark October evening, cocoa in the cat-and-dog mug, while you ask which ending she chose today. For the grown-up who reads the story every night.',
@@ -71,9 +71,13 @@ const GIFT_SCENE: Record<string, Record<string, string>> = {
     postcards: 'The first days of January: your child says one wish for the new year, you write it, and a cousin gets a card.',
     cards: 'A New Year card for the teacher, blank inside for your own words, and an envelope your child insists on licking shut.',
   },
+  birthday: {
+    postcards: 'A week before the party: your child says who to invite, you write the names, and the postcards go out as invitations.',
+    cards: 'A birthday card for a best friend, blank inside for your child’s own drawing, and an envelope they insist on licking shut.',
+  },
 };
 /* The story key in shop.json types per occasion; a type without one falls back to the Halloween story. */
-const GIFT_STORY: Record<string, string> = { halloween: 'storyHalloween', christmas: 'storyChristmas', 'new-year': 'storyNewYear' };
+const GIFT_STORY: Record<string, string> = { halloween: 'storyHalloween', christmas: 'storyChristmas', 'new-year': 'storyNewYear', birthday: 'storyBirthday' };
 
 /** The short story after the title on a product page (DRAFT copy in shop.json): the reader can see themselves using it. */
 export function storyOf(p: any): string {

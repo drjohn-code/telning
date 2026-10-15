@@ -1,5 +1,5 @@
 {
-  "_note": "DRAFT prompts (12 Oct 2026) for scripts/catalog/generate_mockups.py. Every product has its own four designs (tote bags: four undyed and four black, eight in all) (one cat, one dog, many cats, many dogs). The style is written in words only; no reference image is sent to the model. Printed words: a design has none unless its `words` field is filled in by John. Nothing is added by the script. 14 Oct 2026: three photos per product (views table, home, hand), square, for the product page gallery. 14 Oct 2026: every product has its own cute style (John): mug embroidery, tote bags cut-fabric patchwork (printed flat), postcards vintage screen-print crowds, greeting cards linocut (one animal) and mid-century gouache (many animals). A design may carry its own style, layout and art_background. 15 Oct 2026: theme 'winter' (Christmas and New Year, John): four postcards and four greeting cards only, in one whimsical Nordic folk-art style written in words from the pictures John liked (none sent, none copied). A theme may override any product key in themes.<theme>.products (style, layout, art_background, views), and sets its photo mood in themes.<theme>.mood.",
+  "_note": "DRAFT prompts (12 Oct 2026) for scripts/catalog/generate_mockups.py. Every product has its own four designs (tote bags: four undyed and four black, eight in all) (one cat, one dog, many cats, many dogs). The style is written in words only; no reference image is sent to the model. Printed words: a design has none unless its `words` field is filled in by John. Nothing is added by the script. 14 Oct 2026: three photos per product (views table, home, hand), square, for the product page gallery. 14 Oct 2026: every product has its own cute style (John): mug embroidery, tote bags cut-fabric patchwork (printed flat), postcards vintage screen-print crowds, greeting cards linocut (one animal) and mid-century gouache (many animals). A design may carry its own style, layout and art_background. 15 Oct 2026: theme 'winter' (Christmas and New Year, John): four postcards and four greeting cards only, in one whimsical Nordic folk-art style written in words from the pictures John liked (none sent, none copied). A theme may override any product key in themes.<theme>.products (style, layout, art_background, views), and sets its photo mood in themes.<theme>.mood. 15 Oct 2026: theme 'birthday' (John): eight postcards and eight greeting cards, four for girls and four for boys each, in John's own written style brief (flat naive mid-century Scandinavian folk art, angular figures).",
   "style": "Cute illustration.",
   "no_text": "No text, no letters, no words, no numbers, no logo, no watermark, no border, no frame.",
   "art_template": "{style}{extra} Subject: {subject}.{words} {layout} Flat 2D artwork for printing. Cute, friendly and creative, not scary. {no_text}",
@@ -24,9 +24,50 @@
       "mood": "Autumn and Halloween mood only, no Christmas items, no snow."
     },
     "birthday": {
-      "active": false,
+      "active": true,
       "name": "Birthday",
-      "note": "Write four designs per product first (one animal, one animal, many, many)."
+      "note": "15 Oct 2026 (John): eight postcards and eight greeting cards, four for girls and four for boys each (dog and child, cat and child, cats and child, dogs and child), no words. Style = John's own written brief. No gift-set picture. Test 1 (15 Oct 2026): John asked for 20% more curve and thicker, freehand lines (the first lines looked ruler-straight and thin); dogs looked like foxes, the girl's eyes were not round, the boy read as a girl. Test 2: lines and curves OK to check; the boy-and-cat card got an extra dog, so the style now says only the animals named in the subject appear.",
+      "gift_set": false,
+      "mood": "Bright, happy birthday mood: small wrapped presents, paper bunting and a few paper confetti pieces; no Halloween or Christmas items, no snow.",
+      "products": {
+        "postcard": {
+          "style": "A flat 2D naive folk art children's book illustration in a mid-century Scandinavian style. Only the child and the animals named in the subject appear in the picture, no other cats or dogs. All the characters (cats are tall and angular) share long vertical silhouettes, sharp pointed geometric features, wide perfectly round wide-open eyes with dark pupils, and black brush-ink whiskers/details. Every child has the same wide perfectly round wide-open eyes with dark pupils. Dogs are clearly friendly pet dogs, never foxes or wolves: floppy or folded ears, a medium muzzle, a dark dog nose, a collar, and no whiskers. A boy has short hair cut above the ears and wears a patterned shirt and trousers. Theme: a whimsical birthday celebration. The characters are wearing folk-patterned birthday party hats, surrounded by folk-art style wrapped presents with simple geometric ribbons, stylized wooden party banners/bunting overhead (plain patterned flags, no letters), and a flat-painted birthday cake decorated with simple folk candles. Art style and technique: flat gouache painting texture, dry-brush acrylic strokes, and visible colored pencil grain. Abstract, geometric, minimalist shapes with sharp silhouettes, but about 20% more curved than strict geometry: long lines bend gently, corners are slightly softened, and nothing looks drawn with a ruler. Every line is drawn freehand with a brush: bold, clearly thick and a little uneven in width, never thin or hairline. Solid vibrant block colors (burnt orange, mustard yellow, deep teal, matte black) with subtle paper-like texture overlay. Strictly avoid: soft vector clipart, 3D shading, smooth gradient lighting, rounded plush shapes, digital softness, glossy plastic textures, ruler-straight lines, or thin hairline strokes.",
+          "layout": "A full birthday scene, full of life, that fills the whole picture edge to edge on {background}, with intricate flat Nordic botanical patterns, party elements, and line-drawn flora surrounding the characters; the floor or the grass runs off the bottom and both sides. This is a full-bleed print file: the colour reaches all four edges, with no paper margin and no cream or white strip, line, border or frame along any edge. Only the flat picture itself: do not draw the postcard, no stack of cards, no product, no shadow.",
+          "art_background": "a deep teal background",
+          "views": {
+            "table": {
+              "scene": "Top-down studio photograph of a single landscape postcard (wider than tall) with rounded corners, thick matte card, lying on a light oak desk next to a pencil, a small wrapped present and a few paper confetti pieces, soft daylight and a soft shadow."
+            },
+            "home": {
+              "scene": "Lifestyle photograph of the landscape postcard (wider than tall) with rounded corners propped up on a wooden shelf in a bright home on a birthday morning, a small wrapped present beside it and paper bunting softly out of focus behind it."
+            },
+            "hand": {
+              "scene": "Close-up photograph of an adult's hand holding the landscape postcard (wider than tall) with rounded corners by its edge, the picture side facing the camera, bright soft daylight, a birthday table softly out of focus behind. Only an adult's hand and forearm are visible: no face, no child."
+            }
+          }
+        },
+        "greeting-card": {
+          "style": "A flat 2D naive folk art children's book illustration in a mid-century Scandinavian style. Only the child and the animals named in the subject appear in the picture, no other cats or dogs. All the characters (cats are tall and angular) share long vertical silhouettes, sharp pointed geometric features, wide perfectly round wide-open eyes with dark pupils, and black brush-ink whiskers/details. Every child has the same wide perfectly round wide-open eyes with dark pupils. Dogs are clearly friendly pet dogs, never foxes or wolves: floppy or folded ears, a medium muzzle, a dark dog nose, a collar, and no whiskers. A boy has short hair cut above the ears and wears a patterned shirt and trousers. Theme: a whimsical birthday celebration. The characters are wearing folk-patterned birthday party hats, surrounded by folk-art style wrapped presents with simple geometric ribbons, stylized wooden party banners/bunting overhead (plain patterned flags, no letters), and a flat-painted birthday cake decorated with simple folk candles. Art style and technique: flat gouache painting texture, dry-brush acrylic strokes, and visible colored pencil grain. Abstract, geometric, minimalist shapes with sharp silhouettes, but about 20% more curved than strict geometry: long lines bend gently, corners are slightly softened, and nothing looks drawn with a ruler. Every line is drawn freehand with a brush: bold, clearly thick and a little uneven in width, never thin or hairline. Solid vibrant block colors (burnt orange, mustard yellow, deep teal, matte black) with subtle paper-like texture overlay. Strictly avoid: soft vector clipart, 3D shading, smooth gradient lighting, rounded plush shapes, digital softness, glossy plastic textures, ruler-straight lines, or thin hairline strokes.",
+          "layout": "A full square birthday scene that fills the whole picture edge to edge on {background}, the characters in the centre, with intricate flat Nordic botanical patterns, party elements, and line-drawn flora surrounding them. The colour reaches all four edges, with no paper margin and no cream or white strip, line, border or frame along any edge. Only the flat picture itself: do not draw the card, no product, no shadow. The picture is exactly square, with sharp square corners (not rounded).",
+          "art_background": "a deep teal background",
+          "full_bleed": true,
+          "trim_mm": [
+            141,
+            141
+          ],
+          "views": {
+            "table": {
+              "scene": "Studio photograph of a square folded greeting card with sharp square corners standing on a light oak table, a plain white envelope and a small wrapped present beside it, soft daylight, background softly out of focus."
+            },
+            "home": {
+              "scene": "Lifestyle photograph of the square greeting card with sharp square corners standing slightly open on a wooden shelf in a bright living room on a birthday, next to a small wrapped present, paper bunting softly out of focus behind."
+            },
+            "hand": {
+              "scene": "Close-up photograph of an adult's hand holding the square folded greeting card with sharp square corners, the front cover facing the camera, a plain white envelope in the other hand, bright soft daylight, background softly out of focus. Only an adult's hand and forearm are visible: no face, no child."
+            }
+          }
+        }
+      }
     },
     "winter": {
       "active": true,
@@ -253,6 +294,140 @@
           "subject": "three puppies of different colours with soft muzzles and round dark noses, in knitted pom-pom hats, sitting close together in the snow on New Year's night, each holding a small folded paper star, gentle golden star bursts in the sky above",
           "words": "",
           "art_background": "a deep night-blue sky full of small stars"
+        }
+      }
+    },
+    "birthday": {
+      "postcard": {
+        "girl-dog": {
+          "title": "Girl and dog",
+          "child": "girl",
+          "occasion": "birthday",
+          "subject": "a girl with two long dark braids and warm brown skin, in a folk-patterned dress, and her tall dog carrying one big birthday cake together under wooden bunting",
+          "words": "",
+          "art_background": "a deep teal background"
+        },
+        "girl-cat": {
+          "title": "Girl and cat",
+          "child": "girl",
+          "occasion": "birthday",
+          "subject": "a girl with a short red bob and freckles and a tall angular cat opening one big wrapped present together, folk flowers all around",
+          "words": "",
+          "art_background": "a mustard yellow background"
+        },
+        "girl-cats": {
+          "title": "Girl and cats",
+          "child": "girl",
+          "occasion": "birthday",
+          "subject": "a girl with curly black hair in a high bun and dark brown skin at a long party table with five tall cats in party hats, a birthday cake in the middle",
+          "words": "",
+          "art_background": "a burnt orange background"
+        },
+        "girl-dogs": {
+          "title": "Girl and dogs",
+          "child": "girl",
+          "occasion": "birthday",
+          "subject": "a girl with a straight blond ponytail leading a parade of four dogs of different sizes, each carrying a wrapped present, under wooden bunting",
+          "words": "",
+          "art_background": "a matte black background"
+        },
+        "boy-dog": {
+          "title": "Boy and dog",
+          "child": "boy",
+          "occasion": "birthday",
+          "subject": "a boy with short straight black hair and light brown skin and his tall dog sitting side by side, looking at the candles on a birthday cake",
+          "words": "",
+          "art_background": "a mustard yellow background"
+        },
+        "boy-cat": {
+          "title": "Boy and cat",
+          "child": "boy",
+          "occasion": "birthday",
+          "subject": "a boy with blond hair on a small wooden ladder and a tall angular cat hanging up the wooden party bunting together",
+          "words": "",
+          "art_background": "a deep teal background"
+        },
+        "boy-cats": {
+          "title": "Boy and cats",
+          "child": "boy",
+          "occasion": "birthday",
+          "subject": "a boy with short dark curly hair and dark brown skin and five tall cats in party hats peeking out of a big pile of wrapped presents",
+          "words": "",
+          "art_background": "a matte black background"
+        },
+        "boy-dogs": {
+          "title": "Boy and dogs",
+          "child": "boy",
+          "occasion": "birthday",
+          "subject": "a boy with ginger hair and freckles marching in a line with four dogs in party hats, all blowing folk-patterned party horns",
+          "words": "",
+          "art_background": "a burnt orange background"
+        }
+      },
+      "greeting-card": {
+        "girl-dog": {
+          "title": "Girl and dog",
+          "child": "girl",
+          "occasion": "birthday",
+          "subject": "a girl with straight black hair in a bob and light skin hugging her tall dog in a party hat, a birthday cake beside them",
+          "words": "",
+          "art_background": "a burnt orange background"
+        },
+        "girl-cat": {
+          "title": "Girl and cat",
+          "child": "girl",
+          "occasion": "birthday",
+          "subject": "a girl with long wavy brown hair and olive skin and a tall angular cat in party hats holding one wrapped present together",
+          "words": "",
+          "art_background": "a deep teal background"
+        },
+        "girl-cats": {
+          "title": "Girl and cats",
+          "child": "girl",
+          "occasion": "birthday",
+          "subject": "a girl with two puffy curly buns and dark brown skin and three tall cats sitting around a birthday cake with simple folk candles",
+          "words": "",
+          "art_background": "a matte black background"
+        },
+        "girl-dogs": {
+          "title": "Girl and dogs",
+          "child": "girl",
+          "occasion": "birthday",
+          "subject": "a girl with a long blond braid and three dogs of different sizes in party hats, each with a wrapped present",
+          "words": "",
+          "art_background": "a mustard yellow background"
+        },
+        "boy-dog": {
+          "title": "Boy and dog",
+          "child": "boy",
+          "occasion": "birthday",
+          "subject": "a boy with short brown hair and light skin and his tall dog wearing matching folk-patterned party hats, wooden bunting above them",
+          "words": "",
+          "art_background": "a deep teal background"
+        },
+        "boy-cat": {
+          "title": "Boy and cat",
+          "child": "boy",
+          "occasion": "birthday",
+          "subject": "a boy with short black hair and warm brown skin holding a birthday cake with simple folk candles, a tall angular cat standing beside him",
+          "words": "",
+          "art_background": "a burnt orange background"
+        },
+        "boy-cats": {
+          "title": "Boy and cats",
+          "child": "boy",
+          "occasion": "birthday",
+          "subject": "a boy with straight black hair and light skin and three tall cats in party hats blowing out the candles on a birthday cake together",
+          "words": "",
+          "art_background": "a mustard yellow background"
+        },
+        "boy-dogs": {
+          "title": "Boy and dogs",
+          "child": "boy",
+          "occasion": "birthday",
+          "subject": "a boy with red curly hair and freckles and three dogs in party hats beside a tall tower of wrapped presents",
+          "words": "",
+          "art_background": "a matte black background"
         }
       }
     }

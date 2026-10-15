@@ -27,7 +27,7 @@ export function shopSeo(catalog, site) {
   add('/books', { name: 'Books & Story Walls', title: 'Colouring books and Story Walls, ages 3 and up | Telning',
     description: 'Telning colouring story books and Story Walls, large 100 × 70 cm colouring pictures for the wall, sorted by series and age. Your child chooses the ending.', og: '/og/books.jpg' });
   add('/gifts', { name: 'Gifts', title: 'Gifts that keep the story going: mugs, totes, cards',
-    description: 'Telning gifts for the grown-ups: Halloween cats and dogs on mugs, organic cotton tote bags, postcards and greeting cards, plus Christmas and New Year cards.', og: '/og/gifts.jpg' });
+    description: 'Telning gifts for the grown-ups: Halloween cats and dogs on mugs, organic cotton tote bags and cards, plus birthday, Christmas and New Year cards.', og: '/og/gifts.jpg' });
   add('/basket', { name: 'Basket', title: 'Your basket | Telning', noindex: true, sitemap: false,
     description: 'Your Telning basket: books, Story Walls and gifts, the shipping for each parcel and the total, before you pay securely with Stripe. Made for you, with care.' });
   add('/order/thanks', { name: 'Thank you', title: 'Thank you for your order | Telning', noindex: true, sitemap: false,
@@ -86,8 +86,8 @@ export function shopSeo(catalog, site) {
     const d = {
       mug: ['Mugs for the grown-up who reads every night | Telning', 'Halloween mugs with our cats and dogs, for the grown-up who reads the story every night. White ceramic, 11 oz, dishwasher and microwave safe.'],
       tote: ['Organic cotton tote bags, undyed or black | Telning', 'Telning tote bags in GOTS-certified organic cotton: eight Halloween designs with cats and dogs, four undyed and four black, for the book and the crayons.'],
-      postcards: ['Children’s postcards, packs of 10 | Telning', 'Telning postcards in packs of ten, one design per pack: cats and dogs for Halloween, Christmas and New Year on matte 300 g card with rounded corners.'],
-      cards: ['Children’s greeting cards with envelopes | Telning', 'Telning greeting cards in packs of ten with envelopes, blank inside: cats and dogs for Halloween, Christmas and New Year on matte 350 g card.'],
+      postcards: ['Children’s postcards, packs of 10 | Telning', 'Telning postcards in packs of ten, one design per pack: cats, dogs and children for birthdays, Halloween, Christmas and New Year on matte 300 g card.'],
+      cards: ['Children’s greeting cards with envelopes | Telning', 'Telning greeting cards in packs of ten with envelopes, blank inside: cats, dogs and children for birthdays, Halloween, Christmas and New Year.'],
     }[type];
     add(giftPath(type), { name: t.plural, parent: '/gifts', title: d[0], description: fit([d[1]]), og: `/og/gifts-${type}.jpg` });
   }
