@@ -5,10 +5,13 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createHmac } from 'node:crypto';
 import { catalog, shopPages } from '../server/catalog-data.js';
-import { shippingFor, resolveLines, CURRENCIES, viewsOf, countryName } from '../server/catalog.js';
+import { shippingFor, resolveLines, CURRENCIES, viewsOf, countryName, ageLabel, ageRange } from '../server/catalog.js';
 import { handleCheckout, sessionParams } from '../server/checkout.js';
 import { handleWebhook, orderFrom, teamText, customerText, handleOrderLookup } from '../server/orders.js';
 import { verifySignature, formEncode } from '../server/stripe.js';
+
+// the books are hidden for now (BOOKS_HIDDEN, 15 Oct 2026): this catalogue has them on sale again, for the tests that put a book in the basket
+const withBooks = { ...catalog, bySku: new Map([...catalog.bySku].map(([k, p]) => [k, p.hidden ? { ...p, hidden: false } : p])) };
 
 test('catalogue: 12 series × 4 + 20 Halloween gifts (8 tote bags in two colours, three photos each), every product priced', () => {
   assert.equal(catalog.products.filter((p) => p.category === 'books').length, 48);
@@ -17,6 +20,8 @@ test('catalogue: 12 series × 4 + 20 Halloween gifts (8 tote bags in two colours
   assert.equal(catalog.products.filter((p) => p.type === 'tote').length, 8);
   assert.deepEqual([...new Set(catalog.products.filter((p) => p.type === 'tote').map((p) => p.colour))].sort(), ['black', 'natural']);
   assert.equal(catalog.retired.length, 0, 'the older designs are gone (their URLs 301 in vercel.json)');
+  assert.ok(catalog.products.filter((p) => p.type === 'book').every((p) => p.hidden), 'the books are hidden until they are ready (BOOKS_HIDDEN)');
+  assert.ok(catalog.products.filter((p) => p.type !== 'book').every((p) => !p.hidden), 'only the books are hidden');
   for (const p of catalog.products) {
     const prices = p.variants ? p.variants.map((v) => v.price) : [p.price];
     for (const pr of prices) for (const c of CURRENCIES) assert.ok(Number.isInteger(pr[c]) && pr[c] > 0, `${p.sku} ${c}`);
@@ -36,7 +41,7 @@ test('postcards go to Europe and the UK only: checkout refuses them in US dollar
   const stripe = async () => ({ status: 200, json: { url: 'x' } });
   const { handleCheckout: hc } = await import('../server/checkout.js');
   const lines = [{ sku: 'book-star-hoppers-3-5', qty: 1 }];
-  const ok = await hc({ body: { currency: 'USD', items: lines }, origin: 'x' }, { catalog, stripe, open: true });
+  const ok = await hc({ body: { currency: 'USD', items: lines }, origin: 'x' }, { catalog: withBooks, stripe, open: true });
   assert.equal(ok.status, 200);
   const soon = { ...pc, soon: false };   // as if the pictures were ready
   const cat2 = { ...catalog, bySku: new Map([...catalog.bySku, [pc.sku, soon]]) };
@@ -50,6 +55,14 @@ test('postcards go to Europe and the UK only: checkout refuses them in US dollar
 test('names and links: Story Wall, no partner names in customer-facing text, 301 for the old poster URLs', async () => {
   const wall = catalog.bySku.get('poster-star-hoppers-3-5');
   assert.equal(wall.name, 'Star Hoppers Story Wall');
+  // Story Wall ages as the customer reads them (15 Oct 2026): the 3-5 sheet is 3–10, the 5-7 sheet is 10+; books keep 3–5 and 5–7
+  assert.equal(ageLabel('3-5', 'poster'), '3–10');
+  assert.equal(ageLabel('5-7', 'poster'), '10+');
+  assert.equal(ageLabel('3-5', 'book'), '3–5');
+  assert.deepEqual(ageRange(wall), [3, 10]);
+  assert.deepEqual(ageRange(catalog.bySku.get('poster-star-hoppers-5-7')), [10, null]);
+  assert.match(shopPages['/books/star-hoppers/story-wall-5-7'].title, /ages 10\+/);
+  assert.match(shopPages['/books/star-hoppers'].description, /3–10 and 10\+/);
   assert.equal(wall.url, '/books/star-hoppers/story-wall-3-5');
   assert.equal(wall.oldUrl, '/books/star-hoppers/giant-poster-3-5');
   assert.equal(catalog.bySku.get('mug-cocoa-cat').name, 'Cocoa Cat mug');
@@ -79,18 +92,19 @@ test('shipping: one fee per parcel, plus the extra-item fee', () => {
 
 test('resolveLines refuses unknown skus, bad quantities and missing variants', () => {
   assert.throws(() => resolveLines(catalog, [{ sku: 'nope', qty: 1 }]));
-  assert.throws(() => resolveLines(catalog, [{ sku: 'book-home-hearts-3-5', qty: 0 }]));
+  assert.throws(() => resolveLines(catalog, [{ sku: 'poster-home-hearts-3-5', qty: 0 }]));
   const withSoon = { ...catalog, bySku: new Map([...catalog.bySku, ['mug-x-soon', { ...catalog.bySku.get('mug-cocoa-cat'), sku: 'mug-x-soon', soon: true }]]) };
   assert.throws(() => resolveLines(withSoon, [{ sku: 'mug-x-soon', qty: 1 }]));      // coming soon: not for sale
   assert.throws(() => resolveLines(catalog, [{ sku: 'mug-the-moon', qty: 1 }]));       // removed design
-  assert.equal(resolveLines(catalog, [{ sku: 'book-home-hearts-3-5', qty: 2 }])[0].qty, 2);
+  assert.throws(() => resolveLines(catalog, [{ sku: 'book-home-hearts-3-5', qty: 1 }]));   // hidden (the books are not ready): not for sale
+  assert.equal(resolveLines(withBooks, [{ sku: 'book-home-hearts-3-5', qty: 2 }])[0].qty, 2);
 });
 
 test('checkout: prices come from the server; region follows the currency; no key → notReady', async () => {
   const calls = [];
   const stripe = async (method, path, params) => { calls.push({ method, path, params }); return { status: 200, json: { url: 'https://checkout.stripe.com/c/pay/x' } }; };
   const body = { currency: 'GBP', items: [{ sku: 'poster-star-hoppers-3-5', qty: 1, price: 1 }, { sku: 'book-star-hoppers-5-7', qty: 1 }] };
-  const r = await handleCheckout({ body, origin: 'https://telning.com' }, { catalog, stripe, open: true });
+  const r = await handleCheckout({ body, origin: 'https://telning.com' }, { catalog: withBooks, stripe, open: true });
   assert.equal(r.status, 200);
   const p = calls[0].params;
   assert.equal(p.line_items[0].price_data.unit_amount, 1790);
@@ -100,9 +114,9 @@ test('checkout: prices come from the server; region follows the currency; no key
   assert.match(p.success_url, /^https:\/\/telning\.com\/order\/thanks\?session_id=\{CHECKOUT_SESSION_ID\}$/);
   const enc = formEncode(p).toString();
   assert.match(enc, /line_items%5B0%5D%5Bprice_data%5D%5Bproduct_data%5D%5Bmetadata%5D%5Bsku%5D=poster-star-hoppers-3-5/);
-  const none = await handleCheckout({ body, origin: 'x' }, { catalog, stripe: null, open: true });
+  const none = await handleCheckout({ body, origin: 'x' }, { catalog: withBooks, stripe: null, open: true });
   assert.equal(none.body.error, 'notReady');
-  const closed = await handleCheckout({ body, origin: 'x' }, { catalog, stripe, open: false });
+  const closed = await handleCheckout({ body, origin: 'x' }, { catalog: withBooks, stripe, open: false });
   assert.equal(closed.status, 503);
 });
 

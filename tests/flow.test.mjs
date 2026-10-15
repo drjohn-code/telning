@@ -10,6 +10,9 @@ import { handleWebhook } from '../server/orders.js';
 import { recordOrder, logEmail } from '../server/supabase.js';
 import { render } from '../server/emails.js';
 
+// the books are hidden for now (BOOKS_HIDDEN, 15 Oct 2026); this order still has one, so the two print partners are covered
+const withBooks = { ...catalog, bySku: new Map([...catalog.bySku].map(([k, p]) => [k, p.hidden ? { ...p, hidden: false } : p])) };
+
 const SECRET = 'whsec_flow';
 const sign = (raw) => { const t = Math.floor(Date.now() / 1000); return `t=${t},v1=${createHmac('sha256', SECRET).update(`${t}.${raw}`).digest('hex')}`; };
 
@@ -37,7 +40,7 @@ test('browse → basket → checkout → webhook → database → confirmation e
     if (method === 'GET' && path.startsWith('/checkout/sessions/')) return { status: 200, json: session };
     throw new Error('unexpected stripe call ' + path);
   };
-  const co = await handleCheckout({ body: { currency: 'EUR', items }, origin: 'https://telning.com' }, { catalog, stripe, open: true, tax: true, terms: true });
+  const co = await handleCheckout({ body: { currency: 'EUR', items }, origin: 'https://telning.com' }, { catalog: withBooks, stripe, open: true, tax: true, terms: true });
   assert.equal(co.status, 200);
   assert.equal(session.amount_total, 1290 + 1990 + 2 * 1990 + 490 + 690 + 2 * 100);   // items + 2 parcels (+ 2 extra Story Walls)
 

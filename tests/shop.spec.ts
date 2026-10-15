@@ -3,17 +3,17 @@
 import { test, expect } from '@playwright/test';
 
 test('add to basket, change the currency, remove the line', async ({ page }) => {
-  await page.goto('/books/star-hoppers/colouring-book-3-5');
+  await page.goto('/books/star-hoppers/story-wall-3-5');   // a Story Wall: the books are hidden for now (BOOKS_HIDDEN)
   await page.evaluate(() => { localStorage.clear(); localStorage.setItem('tn-currency', 'EUR'); });
   await page.reload();
-  await expect(page.locator('.tn-pdp__amount')).toHaveText('€12.90');
+  await expect(page.locator('.tn-pdp__amount')).toHaveText('€19.90');
   await page.locator('form.tn-buy button[type="submit"]').click();
   const drawer = page.locator('#tn-drawer');
   await expect(drawer).toBeVisible();
   await expect(drawer.locator('.tn-line')).toHaveCount(1);
-  await expect(drawer.locator('.tn-sum__total dd')).toHaveText('€17.80');           // 12.90 + 4.90 books parcel
+  await expect(drawer.locator('.tn-sum__total dd')).toHaveText('€26.80');           // 19.90 + 6.90 Story Walls parcel
   await drawer.locator('select.tn-cur').selectOption('GBP');
-  await expect(drawer.locator('.tn-sum__total dd')).toHaveText('£14.80');
+  await expect(drawer.locator('.tn-sum__total dd')).toHaveText('£23.80');
   await expect(page.locator('.tn-basket-count')).toHaveText('1');
   await drawer.locator('.tn-line__rm').click();
   await expect(drawer.locator('[data-basket-empty]')).toBeVisible();
@@ -52,11 +52,16 @@ test('product gallery: a thumbnail changes the big photo', async ({ page }) => {
 
 test('filters on /books hide the cards that do not match', async ({ page }) => {
   await page.goto('/books');
-  await expect(page.locator('#grid > li:visible')).toHaveCount(48);
-  await page.locator('[data-group="type"][data-value="poster"]').click();
+  await expect(page.locator('#grid > li:visible')).toHaveCount(24);   // the 24 Story Walls; the books are hidden for now (BOOKS_HIDDEN)
+  await expect(page.locator('[data-group="type"]')).toHaveCount(0);    // one type only, so no Type filter
   await page.locator('[data-group="age"][data-value="5-7"]').click();
+  await expect(page.locator('#grid > li:visible')).toHaveCount(12);   // the 3–10 Story Walls answer to 3–5 and 5–7
+  await expect(page.locator('#grid > li:visible .tn-pcard__tag').first()).toHaveText('Ages 3–10');
+  await page.locator('[data-group="age"][data-value="10+"]').click();
   await expect(page.locator('#grid > li:visible')).toHaveCount(12);
-  await expect(page).toHaveURL(/type=poster/);
+  await expect(page.locator('#grid > li:visible .tn-pcard__tag').first()).toHaveText('Ages 10+');
+  await expect(page).toHaveURL(/age=10/);
+  expect((await page.goto('/books/star-hoppers/colouring-book-3-5'))?.status()).toBe(404);   // a hidden book has no page
 });
 
 test('a Story Wall page: name, descriptor, trust row, delivery estimate, two pictures, no partner names', async ({ page }) => {

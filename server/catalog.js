@@ -7,8 +7,19 @@
 
 export const CURRENCIES = ['EUR', 'GBP', 'USD', 'CAD'];
 export const AGES = ['3-5', '5-7'];
+/** Story Walls (John, 15 Oct 2026): the sheet with the bigger shapes is sold for ages 3–10, the detailed sheet for ages
+    10 and up. The keys '3-5' and '5-7' stay in SKUs, URLs and image file names; only what the customer reads changes.
+    `filter`: the /books age chips a Story Wall answers to (ProductCard data-age). */
+export const POSTER_AGES = { '3-5': { label: '3–10', min: 3, max: 10, filter: '3-5 5-7' }, '5-7': { label: '10+', min: 10, max: null, filter: '10+' } };
+/** 15 Oct 2026 (John): the colouring books are not ready, so they are hidden for now. A hidden product stays in the
+    catalogue (the organisation packs and the tests still know it) but has no page, no card on /books or the series
+    pages, and the checkout refuses it. Set this to false to bring the books back. */
+export const BOOKS_HIDDEN = true;
 const cents = (m) => Object.fromEntries(Object.entries(m).map(([k, v]) => [k, Math.round(v * 100)]));
-export const ageLabel = (a) => a.replace('-', '–');
+/** The age as the customer reads it: '3–5' for a book, '3–10' or '10+' for a Story Wall (pass the product type). */
+export const ageLabel = (a, type) => (type === 'poster' ? POSTER_AGES[a].label : a.replace('-', '–'));
+/** [min, max] for the JSON-LD audience; max is null for "10+". */
+export const ageRange = (p) => (p.type === 'poster' ? [POSTER_AGES[p.age].min, POSTER_AGES[p.age].max] : p.age.split('-').map(Number));
 
 const GIFT_PATH = { mug: 'mugs', tote: 'tote-bags', postcards: 'postcards', cards: 'greeting-cards' };
 export const GIFT_TYPES = ['mug', 'tote', 'postcards', 'cards'];
@@ -70,6 +81,7 @@ export function buildCatalog({ site, shop, books, gifts }) {
         price: cents(T.book.price), maxQty: T.book.maxQty,
         book, theme: s.theme, colour: s.colour, print: `art/print/books/${s.key}-${age}-cover.svg (cover); interior from the illustrator`,
         images: imagesFor({ type: 'book', series: s.key, age }),
+        hidden: BOOKS_HIDDEN,   // no page, no card, not for sale while the books are being made
       });
       products.push({
         sku: `poster-${s.key}-${age}`, type: 'poster', category: 'books', parcel: T.poster.parcel, partner: T.poster.partner,
@@ -151,7 +163,7 @@ export function resolveLines(catalog, items) {
   const out = [];
   for (const it of items) {
     const product = catalog.bySku.get(String(it && it.sku));
-    if (!product || product.soon || product.retired) throw new Error('sku');   // retired designs come only inside a pack
+    if (!product || product.soon || product.retired || product.hidden) throw new Error('sku');   // retired designs come only inside a pack; a hidden book is not for sale
     const qty = Math.floor(Number(it.qty));
     if (!(qty >= 1 && qty <= product.maxQty)) throw new Error('qty');
     let variant = null;

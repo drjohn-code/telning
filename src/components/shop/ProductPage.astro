@@ -16,14 +16,14 @@ import TrustBar from './TrustBar.astro';
 import GiftPicks from './GiftPicks.astro';
 import CurrencySelect from './CurrencySelect.astro';
 import PimNote from '../PimNote.astro';
-import { catalog, shop, gifts, ageLabel, priceAttrs, giftPath, money, sceneLine, storyOf, deliveryWindow } from '../../lib/shop';
+import { catalog, shop, gifts, ageLabel, ageRange, priceAttrs, giftPath, money, sceneLine, storyOf, deliveryWindow } from '../../lib/shop';
 
 interface Props { p: any }
 const { p } = Astro.props;
 const HOST = 'https://telning.com';
 const t = (shop.types as any)[p.type];
 const isSeries = p.category === 'books';
-const al = p.age ? ageLabel(p.age) : '';
+const al = p.age ? ageLabel(p.age, p.type) : '';   // '3–5' for a book; '3–10' or '10+' for a Story Wall
 const find = (sku: string) => catalog.bySku.get(sku) as any;
 
 /* photos: alt text per view, describing the scene */
@@ -78,7 +78,7 @@ let more: any[] = [];
 if (p.type === 'book') more = [sibling('poster', p.age), sibling('book', p.age === '3-5' ? '5-7' : '3-5'), sibling('poster', p.age === '3-5' ? '5-7' : '3-5')];
 else if (p.type === 'poster') more = [sibling('book', p.age), sibling('poster', p.age === '3-5' ? '5-7' : '3-5'), sibling('book', p.age === '3-5' ? '5-7' : '3-5')];
 else more = [...catalog.products.filter((x: any) => x.type === p.type && x.sku !== p.sku).slice(0, 4), ...(keepBook ? [keepBook] : [])].slice(0, 4);
-more = more.filter(Boolean);
+more = more.filter((x) => x && !x.hidden);   // a hidden book has no page
 
 /* product structured data */
 const priceOf = (x: any) => ((x.variants ? x.variants[0].price : x.price).EUR / 100).toFixed(2);
@@ -92,7 +92,7 @@ const ld: Record<string, unknown> = {
   material: p.type === 'tote' ? 'GOTS-certified organic cotton' : p.type === 'mug' ? 'Glazed ceramic' : p.type === 'poster' ? 'Matte paper, 189 g/m²' : 'FSC-certified paper',
   ...(p.type === 'book' ? { bookFormat: 'https://schema.org/Paperback', numberOfPages: 32, author: { '@id': `${HOST}/#organization` }, publisher: { '@id': `${HOST}/#organization` }, typicalAgeRange: p.age, alternateName: `${p.seriesName} colouring book, ages ${al}` } : {}),
   ...(p.type === 'poster' ? { alternateName: `${p.seriesName} Story Wall, ages ${al}`, size: '100 × 70 cm' } : {}),
-  ...(p.age ? { audience: { '@type': 'PeopleAudience', suggestedMinAge: Number(p.age.split('-')[0]), suggestedMaxAge: Number(p.age.split('-')[1]) } } : {}),
+  ...(p.age ? { audience: { '@type': 'PeopleAudience', suggestedMinAge: ageRange(p)[0], ...(ageRange(p)[1] ? { suggestedMaxAge: ageRange(p)[1] } : {}) } } : {}),
   offers: {
     '@type': 'Offer', url: `${HOST}${p.url}`, price: priceOf(p), priceCurrency: 'EUR', availability: 'https://schema.org/InStock', itemCondition: 'https://schema.org/NewCondition',
     seller: { '@id': `${HOST}/#organization` },
@@ -125,7 +125,7 @@ const cert = p.type === 'tote' ? 'GOTS · OEKO-TEX' : p.type === 'mug' ? 'Dishwa
         {(keepLine || p.story) && (
           <p class="tn-pdp__from">
             {isSeries
-              ? <>From the book <a href={keepBook.url}><em>{p.book.title}</em></a>: {keepLine}.</>
+              ? <>From the book {keepBook.hidden ? <em>{p.book.title}</em> : <a href={keepBook.url}><em>{p.book.title}</em></a>}: {keepLine}.</>
               : <>A cousin of the book <a href={`/books/${p.story.series}`}><em>{p.story.seriesName}</em></a>.</>}
           </p>
         )}
@@ -150,12 +150,13 @@ const cert = p.type === 'tote' ? 'GOTS · OEKO-TEX' : p.type === 'mug' ? 'Dishwa
           {isSeries && (
             <>
               <fieldset class="tn-opt"><legend>Age</legend><div class="tn-opt__row">
-                {['3-5', '5-7'].map((a) => { const x = sibling(p.type, a); return <a class={`tn-chip${a === p.age ? ' is-on' : ''}`} href={x.url} aria-current={a === p.age ? 'page' : undefined}>Ages {ageLabel(a)}</a>; })}
+                {['3-5', '5-7'].map((a) => { const x = sibling(p.type, a); return <a class={`tn-chip${a === p.age ? ' is-on' : ''}`} href={x.url} aria-current={a === p.age ? 'page' : undefined}>Ages {ageLabel(a, p.type)}</a>; })}
                 <span class="tn-chip is-off" aria-disabled="true">Ages 1–3 <small>coming soon</small></span>
               </div></fieldset>
-              <fieldset class="tn-opt"><legend>Format</legend><div class="tn-opt__row">
+              {/* no Format switch while the books are hidden (BOOKS_HIDDEN): the Story Wall is the only format */}
+              {!sibling('book', p.age).hidden && (<fieldset class="tn-opt"><legend>Format</legend><div class="tn-opt__row">
                 {['book', 'poster'].map((ty) => { const x = sibling(ty, p.age); return <a class={`tn-chip${ty === p.type ? ' is-on' : ''}`} href={x.url} aria-current={ty === p.type ? 'page' : undefined}>{ty === 'book' ? 'Colouring book' : 'Story Wall'}</a>; })}
-              </div></fieldset>
+              </div></fieldset>)}
             </>
           )}
           {p.variants && p.variants.length === 1 && (
@@ -218,8 +219,8 @@ const cert = p.type === 'tote' ? 'GOTS · OEKO-TEX' : p.type === 'mug' ? 'Dishwa
             <summary>The picture</summary>
             <div class="tn-prose">
               <p class="tn-lead">{p.poster.scene}</p>
-              <p>{p.age === '3-5' ? 'For ages 3–5 the shapes are big and the outlines are thick, so small hands can stay inside them with a crayon.' : 'For ages 5–7 the shapes are smaller and there is more to find and count, for steady hands and long afternoons.'} About one shape in seven comes painted, a few animals spread over the sheet, to guide your child’s own colour choices. Both ages have the same picture; for ages 3–5 every shape is 20% bigger. The rest is clear line art, waiting to be coloured. Somewhere in the picture, Pim is hiding.</p>
-              <p>It is the world of <a href={`/books/${p.series}`}>{p.seriesName}</a>, the series of the book <a href={keepBook.url}>“{p.book.title}”</a>. Unroll it on the floor and colour it together, side by side, over many days. Then put it in a 70 × 100 cm frame and hang it: it is wall art first.</p>
+              <p>{p.age === '3-5' ? 'For ages 3–10 the shapes are big and the outlines are thick, so small hands can stay inside them with a crayon.' : 'For ages 10+ the shapes are smaller and there is more to find and count, for steady hands and long afternoons.'} About one shape in seven comes painted, a few animals spread over the sheet, to guide your child’s own colour choices. Both ages have the same picture; for ages 3–10 every shape is 20% bigger. The rest is clear line art, waiting to be coloured. Somewhere in the picture, Pim is hiding.</p>
+              <p>It is the world of <a href={`/books/${p.series}`}>{p.seriesName}</a>, the series of the book {keepBook.hidden ? <>“{p.book.title}”</> : <a href={keepBook.url}>“{p.book.title}”</a>}. Unroll it on the floor and colour it together, side by side, over many days. Then put it in a 70 × 100 cm frame and hang it: it is wall art first.</p>
             </div>
           </details>
         )}
@@ -243,7 +244,7 @@ const cert = p.type === 'tote' ? 'GOTS · OEKO-TEX' : p.type === 'mug' ? 'Dishwa
         </details>
         <details class="tn-details">
           <summary>Safety</summary>
-          <div class="tn-prose"><p>{t.safety}</p>{p.age && <p>Made for children aged {al}, with a grown-up nearby.</p>}</div>
+          <div class="tn-prose"><p>{t.safety}</p>{p.age && <p>{p.type === 'poster' ? `For ages ${al}, with a grown-up nearby.` : `Made for children aged ${al}, with a grown-up nearby.`}</p>}</div>
         </details>
       </div>
 

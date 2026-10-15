@@ -24,7 +24,7 @@ export function shopSeo(catalog, site) {
   const pages = {};
   const add = (path, e) => { pages[path] = { type: 'WebPage', published: DATE, lastmod: DATE, og: e.og || '/og/books.jpg', ...e }; };
 
-  add('/books', { name: 'Books & Story Walls', title: 'Colouring books and Story Walls, ages 3–7 | Telning',
+  add('/books', { name: 'Books & Story Walls', title: 'Colouring books and Story Walls, ages 3 and up | Telning',
     description: 'Telning colouring story books and Story Walls, large 100 × 70 cm colouring pictures for the wall, sorted by series and age. Your child chooses the ending.', og: '/og/books.jpg' });
   add('/gifts', { name: 'Gifts', title: 'Gifts that keep the story going: mugs, totes, cards',
     description: 'Telning gifts for the grown-ups: a Halloween line of cats and dogs on mugs, organic cotton tote bags, postcards and greeting cards. Designed in Sweden.', og: '/og/gifts.jpg' });
@@ -45,9 +45,9 @@ export function shopSeo(catalog, site) {
     add(`/books/${s.key}`, { name: s.name, og: `/og/books-${s.key}.jpg`,
       title: len(`${s.name}: colouring books and Story Walls | Telning`) <= 60 ? `${s.name}: colouring books and Story Walls | Telning` : `${s.name}: books and Story Walls | Telning`,
       description: fit([
-        `${s.name} (${s.theme.toLowerCase()}): two colouring story books and two Story Walls for ages 3–5 and 5–7. Your child colours and chooses the ending.`,
-        `${s.name} (${s.theme.toLowerCase()}): two colouring story books and two large colouring pictures for the wall, for ages 3–5 and 5–7. Your child chooses the ending.`,
-        `${s.name}: two colouring story books and two Story Walls for ages 3–5 and 5–7. Your child colours the story and chooses the ending.`,
+        `${s.name} (${s.theme.toLowerCase()}): two colouring story books for ages 3–5 and 5–7, and two Story Walls for ages 3–10 and 10+. Your child chooses the ending.`,
+        `${s.name}: two colouring story books (ages 3–5 and 5–7) and two Story Walls (ages 3–10 and 10+). Your child colours the story and chooses the ending.`,
+        `${s.name}: colouring story books for ages 3–5 and 5–7, and Story Walls for ages 3–10 and 10+. Your child colours and chooses the ending.`,
       ]) });
   }
 
@@ -62,7 +62,7 @@ export function shopSeo(catalog, site) {
           `${p.book.title}: ${p.seriesName} colouring book, ages ${al}. 14 drawings, a talk guide and a page for your child’s own ending.`,
         ]) });
     } else if (p.type === 'poster') {
-      const al = ageLabel(p.age);
+      const al = ageLabel(p.age, 'poster');   // '3–10' or '10+'
       add(p.url, { name: `Story Wall ${al}`, parent: `/books/${p.series}`, og: `/og/p/${p.sku}.jpg`,
         title: len(`${p.seriesName} Story Wall: large colouring picture, ages ${al}`) <= 60 ? `${p.seriesName} Story Wall: large colouring picture, ages ${al}` : `${p.seriesName} Story Wall, ages ${al}`,
         description: fit([

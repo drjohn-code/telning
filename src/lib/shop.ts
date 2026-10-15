@@ -4,13 +4,13 @@ import shop from '../data/shop.json';
 import books from '../data/shop-books.json';
 import gifts from '../data/shop-gifts.json';
 import seo from '../data/seo.json';
-import { buildCatalog, money, ageLabel, giftPath, GIFT_TYPES, AGES, CURRENCIES, shippingFor } from '../../server/catalog.js';
+import { buildCatalog, money, ageLabel, ageRange, POSTER_AGES, giftPath, GIFT_TYPES, AGES, CURRENCIES, shippingFor } from '../../server/catalog.js';
 import { shopSeo } from '../../server/shop-seo.js';
 
 export const catalog = buildCatalog({ site, shop, books, gifts } as any);
 export const shopPages: Record<string, any> = shopSeo(catalog, site);
 export const allPages: Record<string, any> = { ...shopPages, ...(seo.pages as Record<string, any>) };
-export { shop, books, gifts, site, money, ageLabel, giftPath, GIFT_TYPES, AGES, CURRENCIES, shippingFor };
+export { shop, books, gifts, site, money, ageLabel, ageRange, POSTER_AGES, giftPath, GIFT_TYPES, AGES, CURRENCIES, shippingFor };
 export type Product = (typeof catalog.products)[number];
 
 export const bySeries = (key: string) => catalog.products.filter((p: any) => p.series === key);

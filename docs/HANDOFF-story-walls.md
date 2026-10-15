@@ -28,8 +28,9 @@ Give this file to a new Claude Code chat in this project folder. Say: "Read docs
 
 A Story Wall is a 100 × 70 cm colouring poster.
 - Families unroll it on the floor and colour it together, then frame it.
-- There are 12 series with 2 products each (ages 3-5 and 5-7), so 24 products.
+- There are 12 series with 2 products each (ages 3-5 and 5-7), so 24 products. Since 15 Oct 2026 the shop shows them as ages 3–10 (the 3-5 sheet) and 10+ (the 5-7 sheet); the keys 3-5 and 5-7 stay in SKUs, URLs and file names (`POSTER_AGES` in `server/catalog.js`).
 - Both ages use the same picture. For 3-5, every shape is 20% bigger.
+- Since 15 Oct 2026 the colouring books are hidden (`BOOKS_HIDDEN` in `server/catalog.js`): /books and the series pages show only the Story Walls, the book pages are not built, and the checkout refuses a book. The organisation packs still include books. Set it to false when the books are ready.
 
 **Style (John chose "J" after 10 tests):**
 - Pure, dense black line art that fills the sheet edge to edge, with no shading.

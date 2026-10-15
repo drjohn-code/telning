@@ -1,9 +1,10 @@
 ---
-/* /books/<series>/colouring-book-<age> and /books/<series>/story-wall-<age>: one page per book and Story Wall. */
+/* /books/<series>/colouring-book-<age> and /books/<series>/story-wall-<age>: one page per book and Story Wall.
+   A hidden book (BOOKS_HIDDEN in server/catalog.js) gets no page. */
 import ProductPage from '../../../components/shop/ProductPage.astro';
 import { catalog } from '../../../lib/shop';
 export function getStaticPaths() {
-  return catalog.products.filter((p: any) => p.category === 'books').map((p: any) => ({ params: { series: p.series, product: p.url.split('/').pop() }, props: { p } }));
+  return catalog.products.filter((p: any) => p.category === 'books' && !p.hidden).map((p: any) => ({ params: { series: p.series, product: p.url.split('/').pop() }, props: { p } }));
 }
 const { p } = Astro.props;
 ---
