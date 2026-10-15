@@ -25,8 +25,8 @@ const t = (shop.types as any)[p.type];
 const isSeries = p.category === 'books';
 const al = p.age ? ageLabel(p.age, p.type) : '';   // '3–5' for a book; '3–7' or '7+' for a Story Wall
 const find = (sku: string) => catalog.bySku.get(sku) as any;
-/* the details table: the type's specs, and first the art style of the design's occasion where there is one (birthday cards) */
-const artStyle = p.animal ? (gifts as any).artStyles?.[p.occasion] : null;
+/* the details table: first the product's art style (server/catalog.js artStyleOf), then the type's specs */
+const artStyle = p.artStyle;
 const specs: [string, string][] = [...(artStyle ? [['Art style', artStyle] as [string, string]] : []), ...t.specs];
 
 /* photos: alt text per view, describing the scene */

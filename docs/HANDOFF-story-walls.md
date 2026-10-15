@@ -26,7 +26,7 @@ Give this file to a new Claude Code chat in this project folder. Say: "Read docs
 - Birthday (15 Oct 2026, theme `birthday`): 8 postcards + 8 greeting cards, 4 for girls and 4 for boys each, a child with
   pets. Art style and technique (John): Scandinavian mid-century folk art style. Gouache painting texture, dry-brush
   acrylic strokes, and visible colored pencil grain. The birthday product pages show it as the 'Art style' row
-  (`artStyles` in `src/data/shop-gifts.json`). Gift grids have a For: Girls / Boys filter (`child`).
+  (`artStyles` in `src/data/shop-gifts.json`). Since 15 Oct 2026 every product page has an 'Art style' row: "Scandinavian folk art style." + the technique of that product (`artStyleOf` in `server/catalog.js`; Story Walls: `types.poster.artStyle` in `src/data/shop.json`). Gift grids have a For: Girls / Boys filter (`child`).
 - Product gallery: a click on a thumbnail changes the big photo. A Playwright test covers it.
 - Scripts: `scripts/catalog/generate_mockups.py` and `prompts.json` (gifts), and `scripts/shop/import-mockups.mjs`.
 
@@ -34,7 +34,7 @@ Give this file to a new Claude Code chat in this project folder. Say: "Read docs
 
 A Story Wall is a 100 × 70 cm colouring poster.
 - Families unroll it on the floor and colour it together, then frame it.
-- There are 12 series with 2 products each (ages 3-5 and 5-7), so 24 products. Since 15 Oct 2026 the site's age groups are 1–3, 3–7, 7+ and young adults (`ages` in `src/data/site-data.json`); the shop shows the Story Walls as ages 3–7 (the 3-5 sheet) and 7+ (the 5-7 sheet); the keys 3-5 and 5-7 stay in SKUs, URLs and file names (`POSTER_AGES` in `server/catalog.js`).
+- There are 12 series with 2 products each (ages 3-5 and 5-7), so 24 products. Since 15 Oct 2026 the site's age groups are 1–3 Toddler, 3–7 Preschool, 7+ School and Adults (key `young-adults`) (`ages` in `src/data/site-data.json`); the shop shows the Story Walls as ages 3–7 (the 3-5 sheet) and 7+ (the 5-7 sheet); the keys 3-5 and 5-7 stay in SKUs, URLs and file names (`POSTER_AGES` in `server/catalog.js`).
 - Both ages use the same picture. For 3-5, every shape is 20% bigger.
 - Since 15 Oct 2026 the colouring books are hidden (`BOOKS_HIDDEN` in `server/catalog.js`): /books and the series pages show only the Story Walls, the book pages are not built, and the checkout refuses a book. The organisation packs still include books. Set it to false when the books are ready.
 

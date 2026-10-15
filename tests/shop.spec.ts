@@ -49,10 +49,12 @@ test('gifts filter: Girls / Boys picks the birthday cards for girls or for boys'
   await expect(shown()).toHaveCount(2);   // a dog and a girl, dogs and a girl
   await page.locator('button.tn-chip[data-group="child"][data-value="boy"]').first().click();
   await expect(shown()).toHaveCount(2);
-  await page.goto('/gifts/postcards/present-parade');
-  await expect(page.locator('.tn-pdp__spec dt').first()).toHaveText('Art style');   // the birthday cards show their art style
-  await page.goto('/gifts/postcards/lantern-cat');
-  await expect(page.locator('.tn-pdp__spec dt', { hasText: 'Art style' })).toHaveCount(0);
+  // every product page starts its details with the art style; the technique follows the product
+  for (const [url, technique] of [['/gifts/postcards/present-parade', 'coloured pencil'], ['/gifts/postcards/lantern-cat', 'Gouache'], ['/gifts/mugs/cocoa-cat', 'Embroidery'], ['/books/big-days/story-wall-3-5', 'line art']]) {
+    await page.goto(url);
+    await expect(page.locator('.tn-pdp__spec dt').first()).toHaveText('Art style');
+    await expect(page.locator('.tn-pdp__spec dd').first()).toContainText(technique);
+  }
 });
 
 test('product gallery: a thumbnail changes the big photo', async ({ page }) => {
@@ -69,14 +71,14 @@ test('product gallery: a thumbnail changes the big photo', async ({ page }) => {
 
 test('filters on /books hide the cards that do not match', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('.tn-agechip--link')).toHaveCount(2);     // 3–7 and 7+ link to the shop; 1–3 and young adults are coming soon
+  await expect(page.locator('.tn-agechip--link')).toHaveCount(2);     // 3–7 and 7+ link to the shop; 1–3 and Adults are coming soon
   await page.locator('.tn-agechip--link').last().click();              // 7+
   await expect(page).toHaveURL(/\/books\?age=7%2B$/);
   await expect(page.locator('#grid > li:visible')).toHaveCount(12);
   await page.goto('/books');
   await expect(page.locator('#grid > li:visible')).toHaveCount(24);   // the 24 Story Walls; the books are hidden for now (BOOKS_HIDDEN)
   await expect(page.locator('[data-group="type"]')).toHaveCount(0);    // one type only, so no Type filter
-  await expect(page.locator('[data-group="age"]')).toHaveCount(3);     // All, 3–7, 7+; 1–3 and young adults are "coming soon"
+  await expect(page.locator('[data-group="age"]')).toHaveCount(3);     // All, 3–7, 7+; 1–3 and Adults are "coming soon"
   await page.locator('[data-group="age"][data-value="3-7"]').click();
   await expect(page.locator('#grid > li:visible')).toHaveCount(12);   // the big-shape Story Walls
   await expect(page.locator('#grid > li:visible .tn-pcard__tag').first()).toHaveText('Ages 3–7');

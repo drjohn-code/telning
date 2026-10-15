@@ -70,6 +70,10 @@ img, svg { display: block; max-width: 100%; }
 .tn-pill--dark { background: var(--ink); color: var(--cream); }
 .tn-pill--soft { background: var(--paper-deep); color: var(--ink-soft); border-color: var(--paper-deep); }
 @media (min-width: 600px) { .tn-pill { font-size: 12px; padding: 6px 11px; } }
+/* "Coming soon" pills are 20% smaller than the pill they sit in (John, 15 Oct 2026): phone 10.5 → 8.4 px, wider 12 → 9.6 px */
+.tn-pill.tn-pill--soon { font-size: 8.4px; padding: 3.2px 6.4px; gap: 5px; }
+@media (min-width: 600px) { .tn-pill.tn-pill--soon { font-size: 9.6px; padding: 4.8px 8.8px; } }
+.tn-pill.tn-pcard__tag.tn-pill--soon { font-size: 8px; padding: 3.2px 5.6px; }   /* the product card tag is 10 px */
 .tn-chip { display: inline-flex; align-items: center; min-height: var(--chip-h); padding: 0 var(--s4); border-radius: var(--radius-pill); background: var(--cream); color: var(--ink); font-weight: 600; font-size: 15px; box-shadow: var(--shadow-1); }
 
 /* ---------- the paper object system ---------- */

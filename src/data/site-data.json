@@ -65,12 +65,12 @@
     {
       "key": "7+",
       "label": "7+",
-      "name": "School age"
+      "name": "School"
     },
     {
       "key": "young-adults",
       "label": "",
-      "name": "Young adults"
+      "name": "Adults"
     }
   ],
   "skills": {

@@ -7,7 +7,7 @@
 
 export const CURRENCIES = ['EUR', 'GBP', 'USD', 'CAD'];
 export const AGES = ['3-5', '5-7'];
-/** The site's age groups (John, 15 Oct 2026): 1–3, 3–7, 7+ and young adults. The list itself is `ages` in site-data.json;
+/** The site's age groups (John, 15 Oct 2026): 1–3 Toddler, 3–7 Preschool, 7+ School and Adults (key young-adults). The list itself is `ages` in site-data.json;
     the home page cards and the age chips on /books and the product pages come from it. Story Walls: the sheet with the
     bigger shapes is sold for ages 3–7, the detailed sheet for ages 7 and up. The keys '3-5' and '5-7' stay in SKUs, URLs
     and image file names; only what the customer reads changes. `groups`: the age groups a Story Wall answers to. */
@@ -74,6 +74,15 @@ export const giftPrint = (type, d) => {
   return `assets/telning-products/_art/${theme}/${product}/${design}/${theme}-${design}-${product}.png`;
 };
 
+/** The "Art style" row on a product page (John, 15 Oct 2026): every product is Scandinavian folk art, the technique follows
+    the art. A gift: its design's own `artStyle`, else `artStyles[theme][type]` in shop-gifts.json (theme = the first part
+    of the design's `prompt`; a plain string covers every type). A Story Wall: `types.poster.artStyle` in shop.json. */
+export const artStyleOf = (gifts, type, d) => {
+  if (d.artStyle) return d.artStyle;
+  const s = (gifts.artStyles || {})[String(d.prompt || '').split('/')[0]];
+  return (typeof s === 'string' ? s : s?.[type]) || null;
+};
+
 export function buildCatalog({ site, shop, books, gifts }) {
   const T = shop.types;
   const seriesName = (k) => site.series.find((s) => s.key === k)?.name || k;
@@ -103,6 +112,7 @@ export function buildCatalog({ site, shop, books, gifts }) {
         name: `${s.name} Story Wall`, short: 'Story Wall', title: `${s.name} Story Wall`, descriptor: 'Story Wall · 70 × 100 cm',
         price: cents(T.poster.price), maxQty: T.poster.maxQty,
         poster: b.posters[age], book, theme: s.theme, colour: s.colour, print: `assets/telning-products/_story-walls/${s.key}/${s.key}-${age}-print.png`,
+        artStyle: T.poster.artStyle || null,
         images: imagesFor({ type: 'poster', series: s.key, age }),
       });
     }
@@ -124,7 +134,7 @@ export function buildCatalog({ site, shop, books, gifts }) {
         child: d.child || null,   // 'girl' or 'boy': the birthday cards (John, 15 Oct 2026), the Girls / Boys filter on /gifts
         soon: !!d.placeholder,   // soon: pictures still to come, not for sale yet
         price: variants ? variants[0].price : cents(t.price), variants, variantLabel: t.variantLabel, maxQty: t.maxQty,
-        print: giftPrint(type, d),
+        print: giftPrint(type, d), artStyle: artStyleOf(gifts, type, d),
         images: imagesFor({ type, key: d.key, pim: !d.animal, animal: d.animal, placeholder: !!d.placeholder }),
       });
     }

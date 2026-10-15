@@ -393,7 +393,8 @@
       "placeholder": false,
       "line": "Two kittens in pumpkin hats under the moon.",
       "about": "Two kittens in tiny pumpkin hats sitting close together under a crescent moon.",
-      "prompt": "halloween/greeting-card/cats"
+      "prompt": "halloween/greeting-card/cats",
+      "artStyle": "Scandinavian folk art style. Mid-century gouache look: soft dry-brush texture, simple rounded shapes and a little printed grain."
     },
     {
       "key": "pumpkin-puppies",
@@ -405,7 +406,8 @@
       "placeholder": false,
       "line": "Two puppies in pumpkin hats in the leaves.",
       "about": "Two puppies in tiny pumpkin hats sitting close together among autumn leaves.",
-      "prompt": "halloween/greeting-card/dogs"
+      "prompt": "halloween/greeting-card/dogs",
+      "artStyle": "Scandinavian folk art style. Mid-century gouache look: soft dry-brush texture, simple rounded shapes and a little printed grain."
     },
     {
       "key": "scarf-cat",
@@ -572,7 +574,14 @@
     "everyday": "Every day"
   },
   "artStyles": {
-    "_draft": "DRAFT (15 Oct 2026, John): the 'Art style' row in the details on a product page, per occasion. Only the birthday cards for now.",
+    "_draft": "DRAFT (15 Oct 2026, John): the 'Art style' row first in the details on every product page. All products are Scandinavian folk art; the technique follows the art. Keyed by theme (the first part of a design's `prompt`), then by product type; a plain string covers every type; a design's own `artStyle` wins. Story Walls: `types.poster.artStyle` in shop.json. Words describe the printed look only (never 'hand-drawn').",
+    "halloween": {
+      "mug": "Scandinavian folk art style. Embroidery look: satin-stitch thread texture, French-knot eyes and running-stitch details on white linen, printed on the mug.",
+      "tote": "Scandinavian folk art style. Patchwork look: cut-fabric shapes of denim, linen and felt with stitched edges and button eyes, printed flat on the cotton.",
+      "postcards": "Scandinavian folk art style. Vintage screen-print look: four flat ink colours, a slight misprint overlap and grainy halftone texture.",
+      "cards": "Scandinavian folk art style. Linocut look: bold carved shapes in three colours, visible knife marks and a little ink unevenness."
+    },
+    "winter": "Scandinavian folk art style. Gouache painting texture, dry-brush strokes and a fine printed grain, with folk patterns on the knitwear and botanical ornaments all around.",
     "birthday": "Scandinavian mid-century folk art style. Gouache painting texture, dry-brush acrylic strokes and visible coloured pencil grain."
   },
   "_halloween": "DRAFT (12 Oct 2026): the Halloween line of cats and dogs, four designs per product (one cat, one dog, many cats, many dogs). `placeholder: true` = no photos yet (a placeholder picture, cannot be ordered). `prompt` points to scripts/catalog/prompts.json; `about` is the picture brief, `line` the one-line card text. No printed words unless John writes them in `words`. Tote bags: 8 designs, each on one colour (4 undyed, 4 black). The older Pim designs were removed on 13 Oct 2026 (John); their URLs 301 to the category pages (vercel.json).",

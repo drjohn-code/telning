@@ -23,6 +23,9 @@ test('catalogue: 12 series × 4 + 44 gifts (20 Halloween, 8 Christmas and New Ye
   for (const t of ['postcards', 'cards']) for (const c of ['girl', 'boy']) assert.equal(birthday.filter((p) => p.type === t && p.child === c).length, 4, `${t} for ${c}s`);
   assert.ok(birthday.every((p) => !p.soon && p.images.length === 3), 'the birthday cards have their three photos and can be ordered');
   assert.ok(catalog.products.filter((p) => p.child).every((p) => p.occasion === 'birthday'), 'only the birthday cards are for girls or boys');
+  for (const p of catalog.products.filter((x) => x.type !== 'book')) assert.match(p.artStyle || '', /^Scandinavian (mid-century )?folk art style\. \S/, `art style of ${p.sku}`);
+  assert.match(catalog.bySku.get('cards-pumpkin-kittens').artStyle, /gouache/, 'a design can carry its own art style');
+  assert.match(catalog.bySku.get('cards-boo-cat').artStyle, /Linocut/);
   assert.ok(catalog.products.filter((p) => p.category === 'gifts').every((p) => p.images.length === (p.soon ? 1 : 3)), 'a gift has its placeholder or its three photos');
   assert.equal(catalog.products.filter((p) => p.type === 'tote').length, 8);
   assert.deepEqual([...new Set(catalog.products.filter((p) => p.type === 'tote').map((p) => p.colour))].sort(), ['black', 'natural']);
@@ -62,7 +65,7 @@ test('postcards go to Europe and the UK only: checkout refuses them in US dollar
 test('names and links: Story Wall, no partner names in customer-facing text, 301 for the old poster URLs', async () => {
   const wall = catalog.bySku.get('poster-star-hoppers-3-5');
   assert.equal(wall.name, 'Star Hoppers Story Wall');
-  // the site's age groups (15 Oct 2026) are 1–3, 3–7, 7+ and young adults: the 3-5 sheet is 3–7, the 5-7 sheet is 7+; books keep 3–5 and 5–7
+  // the site's age groups (15 Oct 2026) are 1–3, 3–7, 7+ and Adults: the 3-5 sheet is 3–7, the 5-7 sheet is 7+; books keep 3–5 and 5–7
   assert.deepEqual(site.ages.map((a) => a.key), ['1-3', '3-7', '7+', 'young-adults']);
   assert.equal(ageLabel('3-5', 'poster'), '3–7');
   assert.equal(ageLabel('5-7', 'poster'), '7+');

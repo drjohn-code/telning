@@ -25,6 +25,6 @@ const alt = p.type === 'poster' ? `${p.name}, a large colouring picture for the 
   </a>
   <div class="tn-pcard__foot">
     <span class="tn-pcard__price">{p.variants && p.type === 'mug' ? 'From ' : ''}<Price p={p} /></span>
-    <span class="tn-pill tn-pill--soft tn-pcard__tag">{tag}</span>
+    <span class={`tn-pill tn-pill--soft tn-pcard__tag${p.soon ? ' tn-pill--soon' : ''}`}>{tag}</span>
   </div>
 </li>
