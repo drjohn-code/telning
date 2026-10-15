@@ -58,14 +58,19 @@
       "name": "Toddler"
     },
     {
-      "key": "3-5",
-      "label": "3–5",
+      "key": "3-7",
+      "label": "3–7",
       "name": "Preschool"
     },
     {
-      "key": "5-7",
-      "label": "5–7",
-      "name": "Early school"
+      "key": "7+",
+      "label": "7+",
+      "name": "School age"
+    },
+    {
+      "key": "young-adults",
+      "label": "",
+      "name": "Young adults"
     }
   ],
   "skills": {

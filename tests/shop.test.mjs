@@ -4,8 +4,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createHmac } from 'node:crypto';
-import { catalog, shopPages } from '../server/catalog-data.js';
-import { shippingFor, resolveLines, CURRENCIES, viewsOf, countryName, ageLabel, ageRange } from '../server/catalog.js';
+import { catalog, shopPages, site } from '../server/catalog-data.js';
+import { shippingFor, resolveLines, CURRENCIES, viewsOf, countryName, ageLabel, ageRange, ageGroupsOf } from '../server/catalog.js';
 import { handleCheckout, sessionParams } from '../server/checkout.js';
 import { handleWebhook, orderFrom, teamText, customerText, handleOrderLookup } from '../server/orders.js';
 import { verifySignature, formEncode } from '../server/stripe.js';
@@ -55,14 +55,17 @@ test('postcards go to Europe and the UK only: checkout refuses them in US dollar
 test('names and links: Story Wall, no partner names in customer-facing text, 301 for the old poster URLs', async () => {
   const wall = catalog.bySku.get('poster-star-hoppers-3-5');
   assert.equal(wall.name, 'Star Hoppers Story Wall');
-  // Story Wall ages as the customer reads them (15 Oct 2026): the 3-5 sheet is 3–10, the 5-7 sheet is 10+; books keep 3–5 and 5–7
-  assert.equal(ageLabel('3-5', 'poster'), '3–10');
-  assert.equal(ageLabel('5-7', 'poster'), '10+');
+  // the site's age groups (15 Oct 2026) are 1–3, 3–7, 7+ and young adults: the 3-5 sheet is 3–7, the 5-7 sheet is 7+; books keep 3–5 and 5–7
+  assert.deepEqual(site.ages.map((a) => a.key), ['1-3', '3-7', '7+', 'young-adults']);
+  assert.equal(ageLabel('3-5', 'poster'), '3–7');
+  assert.equal(ageLabel('5-7', 'poster'), '7+');
   assert.equal(ageLabel('3-5', 'book'), '3–5');
-  assert.deepEqual(ageRange(wall), [3, 10]);
-  assert.deepEqual(ageRange(catalog.bySku.get('poster-star-hoppers-5-7')), [10, null]);
-  assert.match(shopPages['/books/star-hoppers/story-wall-5-7'].title, /ages 10\+/);
-  assert.match(shopPages['/books/star-hoppers'].description, /3–10 and 10\+/);
+  assert.deepEqual(ageGroupsOf(wall), ['3-7']);
+  assert.deepEqual(ageGroupsOf(catalog.bySku.get('poster-star-hoppers-5-7')), ['7+']);
+  assert.deepEqual(ageRange(wall), [3, 7]);
+  assert.deepEqual(ageRange(catalog.bySku.get('poster-star-hoppers-5-7')), [7, null]);
+  assert.match(shopPages['/books/star-hoppers/story-wall-5-7'].title, /ages 7\+/);
+  assert.match(shopPages['/books/star-hoppers'].description, /3–7 and 7\+/);
   assert.equal(wall.url, '/books/star-hoppers/story-wall-3-5');
   assert.equal(wall.oldUrl, '/books/star-hoppers/giant-poster-3-5');
   assert.equal(catalog.bySku.get('mug-cocoa-cat').name, 'Cocoa Cat mug');

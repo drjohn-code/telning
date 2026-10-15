@@ -3,7 +3,7 @@
    data-series / data-age / data-type / data-occasion feed the filters on /books and /gifts. */
 import Price from './Price.astro';
 import Picture from './Picture.astro';
-import { ageLabel, POSTER_AGES, shop } from '../../lib/shop';
+import { ageLabel, ageGroupsOf, shop } from '../../lib/shop';
 interface Props { p: any; view?: string; headingLevel?: 'h2' | 'h3'; eager?: boolean }
 const { p, view, headingLevel = 'h3', eager = false } = Astro.props;
 const H = headingLevel;
@@ -11,8 +11,8 @@ const im = (view && p.images.find((i: any) => i.view === view)) || p.images[0];
 const t = (shop.types as any)[p.type];
 const sub = p.category === 'books' ? (p.type === 'book' ? p.book.hook : p.poster?.scene?.split('.')[0]) : (p.design.words || p.design.line || '');
 const tag = p.soon ? 'Coming soon' : p.age ? `Ages ${ageLabel(p.age, p.type)}` : t.tag;
-/* the age chips on /books a card answers to: a book its own age; a Story Wall the chips inside its range (3–10 → 3–5 and 5–7; 10+ → 10+) */
-const ageFilter = p.type === 'poster' ? POSTER_AGES[p.age].filter : p.age || '';
+/* the age chips on /books a card answers to (the groups in site-data.json): a Story Wall with big shapes 3–7, the detailed one 7+ */
+const ageFilter = ageGroupsOf(p).join(' ');
 const alt = p.type === 'poster' ? `${p.name}, a large colouring picture for the wall, framed on a child’s bedroom wall` : p.type === 'book' ? `“${p.title}”, the ${p.seriesBare} colouring book, on a kitchen table with crayons` : `${p.name}: ${p.design.about}`;
 ---
 <li class="tn-pcard" data-card data-series={p.series || ''} data-age={ageFilter} data-type={p.type} data-occasion={p.occasion || ''} data-animal={p.animal ? p.animal.replace(/s$/, '') : ''}>

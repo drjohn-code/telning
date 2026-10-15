@@ -7,18 +7,22 @@
 
 export const CURRENCIES = ['EUR', 'GBP', 'USD', 'CAD'];
 export const AGES = ['3-5', '5-7'];
-/** Story Walls (John, 15 Oct 2026): the sheet with the bigger shapes is sold for ages 3–10, the detailed sheet for ages
-    10 and up. The keys '3-5' and '5-7' stay in SKUs, URLs and image file names; only what the customer reads changes.
-    `filter`: the /books age chips a Story Wall answers to (ProductCard data-age). */
-export const POSTER_AGES = { '3-5': { label: '3–10', min: 3, max: 10, filter: '3-5 5-7' }, '5-7': { label: '10+', min: 10, max: null, filter: '10+' } };
+/** The site's age groups (John, 15 Oct 2026): 1–3, 3–7, 7+ and young adults. The list itself is `ages` in site-data.json;
+    the home page cards and the age chips on /books and the product pages come from it. Story Walls: the sheet with the
+    bigger shapes is sold for ages 3–7, the detailed sheet for ages 7 and up. The keys '3-5' and '5-7' stay in SKUs, URLs
+    and image file names; only what the customer reads changes. `groups`: the age groups a Story Wall answers to. */
+export const POSTER_AGES = { '3-5': { label: '3–7', min: 3, max: 7, groups: ['3-7'] }, '5-7': { label: '7+', min: 7, max: null, groups: ['7+'] } };
+/** The age groups (site-data.json keys) a product answers to on the /books filter and the home page age cards. A book
+    keeps its own key for now (the books are hidden; give them their groups here when they come back). */
+export const ageGroupsOf = (p) => (p.type === 'poster' ? POSTER_AGES[p.age].groups : p.age ? [p.age] : []);
 /** 15 Oct 2026 (John): the colouring books are not ready, so they are hidden for now. A hidden product stays in the
     catalogue (the organisation packs and the tests still know it) but has no page, no card on /books or the series
     pages, and the checkout refuses it. Set this to false to bring the books back. */
 export const BOOKS_HIDDEN = true;
 const cents = (m) => Object.fromEntries(Object.entries(m).map(([k, v]) => [k, Math.round(v * 100)]));
-/** The age as the customer reads it: '3–5' for a book, '3–10' or '10+' for a Story Wall (pass the product type). */
+/** The age as the customer reads it: '3–5' for a book, '3–7' or '7+' for a Story Wall (pass the product type). */
 export const ageLabel = (a, type) => (type === 'poster' ? POSTER_AGES[a].label : a.replace('-', '–'));
-/** [min, max] for the JSON-LD audience; max is null for "10+". */
+/** [min, max] for the JSON-LD audience; max is null for "7+". */
 export const ageRange = (p) => (p.type === 'poster' ? [POSTER_AGES[p.age].min, POSTER_AGES[p.age].max] : p.age.split('-').map(Number));
 
 const GIFT_PATH = { mug: 'mugs', tote: 'tote-bags', postcards: 'postcards', cards: 'greeting-cards' };

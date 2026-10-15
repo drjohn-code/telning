@@ -240,7 +240,8 @@ html.tn-menu-open { overflow: hidden; }
 .tn-agechip__l { font-family: var(--font-display); font-weight: 600; font-size: 16px; line-height: 1.15; }
 .tn-agechip__obj { position: absolute; right: 12px; bottom: 6px; width: 46px; transition: transform 0.35s var(--ease); }
 .tn-agechip--link:hover .tn-agechip__obj { transform: translateY(-8px) rotate(-6deg); }
-@media (min-width: 600px) { .tn-agestrip { grid-template-columns: repeat(3, minmax(0, 1fr)); } .tn-agechip { min-height: 84px; padding: var(--s3) 84px var(--s3) var(--s3); } .tn-agechip__n { width: 60px; height: 60px; font-size: 20px; } .tn-agechip__l { font-size: 20px; } .tn-agechip__obj { width: 62px; } }
+@media (min-width: 600px) { .tn-agestrip { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tn-agechip { min-height: 84px; padding: var(--s3) 84px var(--s3) var(--s3); } .tn-agechip__n { width: 60px; height: 60px; font-size: 20px; } .tn-agechip__l { font-size: 20px; } .tn-agechip__obj { width: 62px; } }
+@media (min-width: 1024px) { .tn-agestrip { grid-template-columns: repeat(4, minmax(0, 1fr)); } }   /* the four age groups in one row */
 @media (min-width: 1024px) { .tn-ages { grid-template-columns: auto 1fr; gap: var(--s6); } .tn-ages__h { font-size: 26px; max-width: 160px; } }
 
 /* ---------- series worlds (the star) ---------- */

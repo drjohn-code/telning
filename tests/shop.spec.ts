@@ -51,16 +51,22 @@ test('product gallery: a thumbnail changes the big photo', async ({ page }) => {
 });
 
 test('filters on /books hide the cards that do not match', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('.tn-agechip--link')).toHaveCount(2);     // 3–7 and 7+ link to the shop; 1–3 and young adults are coming soon
+  await page.locator('.tn-agechip--link').last().click();              // 7+
+  await expect(page).toHaveURL(/\/books\?age=7%2B$/);
+  await expect(page.locator('#grid > li:visible')).toHaveCount(12);
   await page.goto('/books');
   await expect(page.locator('#grid > li:visible')).toHaveCount(24);   // the 24 Story Walls; the books are hidden for now (BOOKS_HIDDEN)
   await expect(page.locator('[data-group="type"]')).toHaveCount(0);    // one type only, so no Type filter
-  await page.locator('[data-group="age"][data-value="5-7"]').click();
-  await expect(page.locator('#grid > li:visible')).toHaveCount(12);   // the 3–10 Story Walls answer to 3–5 and 5–7
-  await expect(page.locator('#grid > li:visible .tn-pcard__tag').first()).toHaveText('Ages 3–10');
-  await page.locator('[data-group="age"][data-value="10+"]').click();
-  await expect(page.locator('#grid > li:visible')).toHaveCount(12);
-  await expect(page.locator('#grid > li:visible .tn-pcard__tag').first()).toHaveText('Ages 10+');
-  await expect(page).toHaveURL(/age=10/);
+  await expect(page.locator('[data-group="age"]')).toHaveCount(3);     // All, 3–7, 7+; 1–3 and young adults are "coming soon"
+  await page.locator('[data-group="age"][data-value="3-7"]').click();
+  await expect(page.locator('#grid > li:visible')).toHaveCount(12);   // the big-shape Story Walls
+  await expect(page.locator('#grid > li:visible .tn-pcard__tag').first()).toHaveText('Ages 3–7');
+  await page.locator('[data-group="age"][data-value="7+"]').click();
+  await expect(page.locator('#grid > li:visible')).toHaveCount(12);   // the detailed Story Walls
+  await expect(page.locator('#grid > li:visible .tn-pcard__tag').first()).toHaveText('Ages 7+');
+  await expect(page).toHaveURL(/age=7/);
   expect((await page.goto('/books/star-hoppers/colouring-book-3-5'))?.status()).toBe(404);   // a hidden book has no page
 });
 

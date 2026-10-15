@@ -16,14 +16,14 @@ import TrustBar from './TrustBar.astro';
 import GiftPicks from './GiftPicks.astro';
 import CurrencySelect from './CurrencySelect.astro';
 import PimNote from '../PimNote.astro';
-import { catalog, shop, gifts, ageLabel, ageRange, priceAttrs, giftPath, money, sceneLine, storyOf, deliveryWindow } from '../../lib/shop';
+import { catalog, shop, gifts, site, ageLabel, ageRange, ageGroupsOf, priceAttrs, giftPath, money, sceneLine, storyOf, deliveryWindow } from '../../lib/shop';
 
 interface Props { p: any }
 const { p } = Astro.props;
 const HOST = 'https://telning.com';
 const t = (shop.types as any)[p.type];
 const isSeries = p.category === 'books';
-const al = p.age ? ageLabel(p.age, p.type) : '';   // '3–5' for a book; '3–10' or '10+' for a Story Wall
+const al = p.age ? ageLabel(p.age, p.type) : '';   // '3–5' for a book; '3–7' or '7+' for a Story Wall
 const find = (sku: string) => catalog.bySku.get(sku) as any;
 
 /* photos: alt text per view, describing the scene */
@@ -149,9 +149,11 @@ const cert = p.type === 'tote' ? 'GOTS · OEKO-TEX' : p.type === 'mug' ? 'Dishwa
           <input type="hidden" name="currency" value="EUR" />
           {isSeries && (
             <>
+              {/* one chip per age group of the site (site-data.json): the sheet that answers to it, or "coming soon" */}
               <fieldset class="tn-opt"><legend>Age</legend><div class="tn-opt__row">
-                {['3-5', '5-7'].map((a) => { const x = sibling(p.type, a); return <a class={`tn-chip${a === p.age ? ' is-on' : ''}`} href={x.url} aria-current={a === p.age ? 'page' : undefined}>Ages {ageLabel(a, p.type)}</a>; })}
-                <span class="tn-chip is-off" aria-disabled="true">Ages 1–3 <small>coming soon</small></span>
+                {site.ages.map((a: any) => { const x = ['3-5', '5-7'].map((k) => sibling(p.type, k)).find((s: any) => s && !s.hidden && ageGroupsOf(s).includes(a.key)); return x
+                  ? <a class={`tn-chip${x.sku === p.sku ? ' is-on' : ''}`} href={x.url} aria-current={x.sku === p.sku ? 'page' : undefined}>Ages {a.label || a.name}</a>
+                  : <span class="tn-chip is-off" aria-disabled="true">{a.label ? `Ages ${a.label}` : a.name} <small>coming soon</small></span>; })}
               </div></fieldset>
               {/* no Format switch while the books are hidden (BOOKS_HIDDEN): the Story Wall is the only format */}
               {!sibling('book', p.age).hidden && (<fieldset class="tn-opt"><legend>Format</legend><div class="tn-opt__row">
@@ -219,7 +221,7 @@ const cert = p.type === 'tote' ? 'GOTS · OEKO-TEX' : p.type === 'mug' ? 'Dishwa
             <summary>The picture</summary>
             <div class="tn-prose">
               <p class="tn-lead">{p.poster.scene}</p>
-              <p>{p.age === '3-5' ? 'For ages 3–10 the shapes are big and the outlines are thick, so small hands can stay inside them with a crayon.' : 'For ages 10+ the shapes are smaller and there is more to find and count, for steady hands and long afternoons.'} About one shape in seven comes painted, a few animals spread over the sheet, to guide your child’s own colour choices. Both ages have the same picture; for ages 3–10 every shape is 20% bigger. The rest is clear line art, waiting to be coloured. Somewhere in the picture, Pim is hiding.</p>
+              <p>{p.age === '3-5' ? 'For ages 3–7 the shapes are big and the outlines are thick, so small hands can stay inside them with a crayon.' : 'For ages 7+ the shapes are smaller and there is more to find and count, for steady hands and long afternoons.'} About one shape in seven comes painted, a few animals spread over the sheet, to guide your child’s own colour choices. Both ages have the same picture; for ages 3–7 every shape is 20% bigger. The rest is clear line art, waiting to be coloured. Somewhere in the picture, Pim is hiding.</p>
               <p>It is the world of <a href={`/books/${p.series}`}>{p.seriesName}</a>, the series of the book {keepBook.hidden ? <>“{p.book.title}”</> : <a href={keepBook.url}>“{p.book.title}”</a>}. Unroll it on the floor and colour it together, side by side, over many days. Then put it in a 70 × 100 cm frame and hang it: it is wall art first.</p>
             </div>
           </details>
