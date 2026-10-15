@@ -23,10 +23,10 @@ test('gifts are the Halloween line, coming soon; a black tote is black only; a p
   await page.goto('/gifts/mugs');
   await page.evaluate(() => { localStorage.clear(); localStorage.setItem('tn-currency', 'EUR'); });
   await page.reload();
-  await expect(page.locator('#grid > li')).toHaveCount(4);
+  await expect(page.locator('#grid > li')).toHaveCount(12);   // 4 Halloween + 8 every day
   await expect(page.locator('a[href="/gifts/mugs/the-moon"]')).toHaveCount(0);
   await page.goto('/gifts/tote-bags');
-  await expect(page.locator('#grid > li')).toHaveCount(8);
+  await expect(page.locator('#grid > li')).toHaveCount(16);   // 8 Halloween + 8 every day
   await page.goto('/gifts/tote-bags/ghost-pup');
   await expect(page.locator('.tn-pdp__sub')).toContainText('Black');
   await expect(page.locator('.tn-opt__fixed')).toContainText('Black');   // one colour only, no choice

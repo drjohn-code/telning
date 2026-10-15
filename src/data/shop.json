@@ -358,7 +358,8 @@
         ]
       ],
       "story": "Seven o’clock in the morning, the kettle on, the day’s first page still to come. The mug lands on the table and your child points at it: {words} That is the ending they chose last night. You drink your coffee; they tell the story again, a little longer each day. For the grown-up who reads every night.",
-      "storyHalloween": "A dark October evening, cocoa for the small one, tea for you. {line} Your child looks at the mug and starts retelling last night’s ending, with sound effects. By the end of the week, every cup of cocoa comes with a story."
+      "storyHalloween": "A dark October evening, cocoa for the small one, tea for you. {line} Your child looks at the mug and starts retelling last night’s ending, with sound effects. By the end of the week, every cup of cocoa comes with a story.",
+      "storyEveryday": "Seven o’clock in the morning, the kettle on, the day’s first page still to come. {line} Your child points at the mug and tells you how last night’s story ended. You drink your coffee; they tell it again, a little longer each day."
     },
     "tote": {
       "category": "gifts",
@@ -435,7 +436,8 @@
         ]
       ],
       "story": "Library day. The book goes in first, then the crayons, the spare socks and a snack. On the bus your child finds Pim on the bag and tells the lady opposite how the story ended. On the way home it carries three new books and one very tired child.",
-      "storyHalloween": "The lantern walk on the 31st. The bag carries the book, the crayons and far too many sweets. {line} Your child finds it on the bag and tells the neighbours how last night’s story ended. On the way home it carries the lantern too."
+      "storyHalloween": "The lantern walk on the 31st. The bag carries the book, the crayons and far too many sweets. {line} Your child finds it on the bag and tells the neighbours how last night’s story ended. On the way home it carries the lantern too.",
+      "storyEveryday": "Library day. The book goes in first, then the crayons, the spare socks and a snack. {line} On the bus your child finds the animals on the bag and tells the lady opposite how the story ended. On the way home it carries three new books."
     },
     "postcards": {
       "category": "gifts",

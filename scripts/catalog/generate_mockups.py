@@ -33,6 +33,10 @@ A thin plain paper strip the model draws along an edge is cut off when the art i
 sits small in the middle) prints a WARNING, and that art must be made again. The photo stage sends the card as
 it is after cutting (`trim_mm`: print file minus the 4 mm bleed), so the photo shows what the buyer gets.
 Fix old masters for free:  python3 scripts/catalog/generate_mockups.py --refit --products postcard [--dry-run]
+
+Matching photos (John, 16 Oct 2026: the print must look the same size and in the same place in all three photos):
+--match table sends the table photo along with the art for the other views. Delete the views to redo, then e.g.
+  python3 scripts/catalog/generate_mockups.py --theme everyday --stage mockups --products tote --designs dog --match table
 """
 import argparse
 import io
@@ -92,7 +96,12 @@ def load_config(path=CONFIG):
 
 # ---------------------------------------------------------------- plan
 
-def build_jobs(cfg, theme, stages, designs, products, public_dir, masters_dir, style=None):
+MATCH_NOTE = (" The second attached image is another photo of this same product with this same print. Print the artwork at "
+              "exactly the same size and in the same place on the product as in that photo: the same width, the same distance "
+              "from the top and the bottom, the same margins. Only the scene and the camera change.")
+
+
+def build_jobs(cfg, theme, stages, designs, products, public_dir, masters_dir, style=None, match=None):
     look = cfg["styles"][style] if style else None   # --style: one older style for every product
     t = cfg["themes"].get(theme)
     if not t or not t.get("active"):
@@ -104,7 +113,7 @@ def build_jobs(cfg, theme, stages, designs, products, public_dir, masters_dir, s
     unknown = [p for p in prods if p not in spec]
     if unknown:
         sys.exit(f"Unknown product(s) for '{theme}': {', '.join(unknown)}. Choices: {', '.join(spec)}")
-    every = list(next(iter(spec.values())))
+    every = list(dict.fromkeys(k for v in spec.values() for k in v))   # products may have different designs (everyday: 8 mugs, 4 + 4 totes)
     names = designs or every
     unknown = [d for d in names if d not in every]
     if unknown:
@@ -120,6 +129,8 @@ def build_jobs(cfg, theme, stages, designs, products, public_dir, masters_dir, s
     for p in prods:
         pr = {**cfg["products"][p], **t.get("products", {}).get(p, {})}   # a theme may set its own style, layout, background, views
         for d in names:
+            if d not in spec[p]:
+                continue
             design = spec[p][d]
             own = look or {**pr, **{k: design[k] for k in ("style", "layout", "art_background") if k in design}}   # product style, a design may override it
             if "art" in stages:
@@ -137,11 +148,13 @@ def build_jobs(cfg, theme, stages, designs, products, public_dir, masters_dir, s
                 })
             if "mockups" in stages:
                 for view, v in pr["views"].items():   # three photos per product: table, home, hand
+                    matched = bool(match and view != match and match in pr["views"])   # --match: copy the print size from that photo
                     jobs.append({
                         "stage": "mockups", "id": f"{theme}-{d}-{p}-{view}", "label": f"{pr['label']}, {view}: {design['title']}",
-                        "ratio": pr.get("mockup_ratio", "1:1"), "inputs": [art_path(p, d)], "out": mock_path(p, d, view),
+                        "ratio": pr.get("mockup_ratio", "1:1"), "out": mock_path(p, d, view), "matched": matched,
+                        "inputs": [art_path(p, d)] + ([mock_path(p, d, match)] if matched else []),
                         "face": (pr["print_mm"], pr["trim_mm"]) if pr.get("trim_mm") else None,   # the photo shows the cut card, not the bleed
-                        "prompt": cfg["mockup_template"].format(scene=v["scene"], place=pr["place"], mood=t.get("mood", "")),
+                        "prompt": cfg["mockup_template"].format(scene=v["scene"], place=pr["place"], mood=t.get("mood", "")) + (MATCH_NOTE if matched else ""),
                     })
     if "gift-set" in stages and t.get("gift_set", True):
         gs = cfg["gift_set"]
@@ -350,7 +363,7 @@ def cmd_refit(args):
     Image = need_pillow()
     cfg = load_config(args.config)
     jobs = build_jobs(cfg, args.theme, ["art"], args.designs, args.products,
-                      Path(args.public_dir), Path(args.masters_dir), args.style)
+                      Path(args.public_dir), Path(args.masters_dir), args.style, getattr(args, 'match', None))
     for j in jobs:
         if not j["out"].exists() or not (j["print_mm"] or j["full_bleed"]):
             continue
@@ -369,7 +382,7 @@ def run(args):
     cfg = load_config(args.config)
     stages = ["art", "mockups", "gift-set"] if args.stage == "all" else [args.stage]
     jobs = build_jobs(cfg, args.theme, stages, args.designs, args.products,
-                      Path(args.public_dir), Path(args.masters_dir), args.style)
+                      Path(args.public_dir), Path(args.masters_dir), args.style, getattr(args, 'match', None))
     todo = [j for j in jobs if args.force or not j["out"].exists()]
     print(f"{len(jobs)} images in this plan, {len(jobs) - len(todo)} already exist, {len(todo)} to make "
           f"(model {args.model}, size {args.size}).")
@@ -399,8 +412,8 @@ def run(args):
             print(f"SKIP   {j['id']}: needs {missing[0].name} first (run the earlier stage).", flush=True)
             failed.append(j["id"]); return
         face = j.get("face")
-        contents = [types.Part.from_bytes(data=card_face(p, *face), mime_type="image/png") if face
-                    else types.Part.from_bytes(data=p.read_bytes(), mime_type=mime_of(p)) for p in j["inputs"]] + [j["prompt"]]
+        contents = [types.Part.from_bytes(data=card_face(p, *face), mime_type="image/png") if face and i == 0
+                    else types.Part.from_bytes(data=p.read_bytes(), mime_type=mime_of(p)) for i, p in enumerate(j["inputs"])] + [j["prompt"]]
         started = time.time()
         try:
             data, _mime = generate(client, types, key, args.model, contents, j["ratio"], args.size)
@@ -413,8 +426,8 @@ def run(args):
         print(f"made   {j['id']}  {w}x{h}  {time.time() - started:.0f}s{'  ' + note if note else ''}", flush=True)
 
     nonlocal_made = []
-    for stage in ("art", "mockups", "gift-set"):          # a stage needs the one before it
-        batch = [j for j in todo if j["stage"] == stage]
+    for stage, matched in (("art", False), ("mockups", False), ("mockups", True), ("gift-set", False)):   # a stage needs the one before it
+        batch = [j for j in todo if j["stage"] == stage and bool(j.get("matched")) == matched]   # matched photos after their reference
         if not batch or stop:
             continue
         with ThreadPoolExecutor(max_workers=max(1, args.workers)) as pool:
@@ -442,6 +455,7 @@ def main(argv=None):
     ap.add_argument("--limit", type=int, help="make at most this many images in this run")
     ap.add_argument("--workers", type=int, default=3, help="images made at the same time (default 3)")
     ap.add_argument("--force", action="store_true", help="redo images that already exist")
+    ap.add_argument("--match", choices=["table", "home", "hand"], help="photos: send this view's photo too, so the print has the same size and place in all three")
     ap.add_argument("--dry-run", action="store_true", help="show the plan; send nothing, no key needed")
     ap.add_argument("--list-models", action="store_true", help="check the key and list image models (free)")
     ap.add_argument("--refit", action="store_true", help="free: cut paper margins off existing art masters and crop them to the print shape")

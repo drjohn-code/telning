@@ -13,9 +13,13 @@ import { verifySignature, formEncode } from '../server/stripe.js';
 // the books are hidden for now (BOOKS_HIDDEN, 15 Oct 2026): this catalogue has them on sale again, for the tests that put a book in the basket
 const withBooks = { ...catalog, bySku: new Map([...catalog.bySku].map(([k, p]) => [k, p.hidden ? { ...p, hidden: false } : p])) };
 
-test('catalogue: 12 series × 4 + 44 gifts (20 Halloween, 8 Christmas and New Year, 16 birthday postcards and cards; 8 tote bags in two colours; three photos each), every product priced', () => {
+test('catalogue: 12 series × 4 + 60 gifts (20 Halloween, 8 Christmas and New Year, 16 birthday postcards and cards, 16 everyday mugs and tote bags; 16 tote bags in two colours; three photos each), every product priced', () => {
   assert.equal(catalog.products.filter((p) => p.category === 'books').length, 48);
-  assert.equal(catalog.products.filter((p) => p.category === 'gifts').length, 44);
+  assert.equal(catalog.products.filter((p) => p.category === 'gifts').length, 60);
+  const everyday = catalog.products.filter((p) => p.occasion === 'everyday');
+  assert.equal(everyday.filter((p) => p.type === 'mug').length, 8);
+  assert.deepEqual(everyday.filter((p) => p.type === 'tote').map((p) => p.colour).sort(), ['black', 'black', 'black', 'black', 'natural', 'natural', 'natural', 'natural']);
+  assert.ok(everyday.every((p) => !p.soon && p.images.length === 3 && /^Scandinavian mid-century folk art style/.test(p.artStyle)), 'the everyday mugs and bags are orderable, with photos and art style');
   const winter = catalog.products.filter((p) => p.occasion === 'christmas' || p.occasion === 'new-year');
   assert.deepEqual(winter.map((p) => p.type).sort(), ['cards', 'cards', 'cards', 'cards', 'postcards', 'postcards', 'postcards', 'postcards']);
   assert.ok(winter.every((p) => !p.soon && p.images.length === 3), 'the winter cards have their three photos and can be ordered');
@@ -27,7 +31,7 @@ test('catalogue: 12 series × 4 + 44 gifts (20 Halloween, 8 Christmas and New Ye
   assert.match(catalog.bySku.get('cards-pumpkin-kittens').artStyle, /gouache/, 'a design can carry its own art style');
   assert.match(catalog.bySku.get('cards-boo-cat').artStyle, /Linocut/);
   assert.ok(catalog.products.filter((p) => p.category === 'gifts').every((p) => p.images.length === (p.soon ? 1 : 3)), 'a gift has its placeholder or its three photos');
-  assert.equal(catalog.products.filter((p) => p.type === 'tote').length, 8);
+  assert.equal(catalog.products.filter((p) => p.type === 'tote').length, 16);
   assert.deepEqual([...new Set(catalog.products.filter((p) => p.type === 'tote').map((p) => p.colour))].sort(), ['black', 'natural']);
   assert.equal(catalog.retired.length, 0, 'the older designs are gone (their URLs 301 in vercel.json)');
   assert.ok(catalog.products.filter((p) => p.type === 'book').every((p) => p.hidden), 'the books are hidden until they are ready (BOOKS_HIDDEN)');

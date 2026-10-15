@@ -1,5 +1,5 @@
 {
-  "_note": "DRAFT prompts (12 Oct 2026) for scripts/catalog/generate_mockups.py. Every product has its own four designs (tote bags: four undyed and four black, eight in all) (one cat, one dog, many cats, many dogs). The style is written in words only; no reference image is sent to the model. Printed words: a design has none unless its `words` field is filled in by John. Nothing is added by the script. 14 Oct 2026: three photos per product (views table, home, hand), square, for the product page gallery. 14 Oct 2026: every product has its own cute style (John): mug embroidery, tote bags cut-fabric patchwork (printed flat), postcards vintage screen-print crowds, greeting cards linocut (one animal) and mid-century gouache (many animals). A design may carry its own style, layout and art_background. 15 Oct 2026: theme 'winter' (Christmas and New Year, John): four postcards and four greeting cards only, in one whimsical Nordic folk-art style written in words from the pictures John liked (none sent, none copied). A theme may override any product key in themes.<theme>.products (style, layout, art_background, views), and sets its photo mood in themes.<theme>.mood. 15 Oct 2026: theme 'birthday' (John): eight postcards and eight greeting cards, four for girls and four for boys each, in John's own written style brief (flat naive mid-century Scandinavian folk art, angular figures).",
+  "_note": "DRAFT prompts (12 Oct 2026) for scripts/catalog/generate_mockups.py. Every product has its own four designs (tote bags: four undyed and four black, eight in all) (one cat, one dog, many cats, many dogs). The style is written in words only; no reference image is sent to the model. Printed words: a design has none unless its `words` field is filled in by John. Nothing is added by the script. 14 Oct 2026: three photos per product (views table, home, hand), square, for the product page gallery. 14 Oct 2026: every product has its own cute style (John): mug embroidery, tote bags cut-fabric patchwork (printed flat), postcards vintage screen-print crowds, greeting cards linocut (one animal) and mid-century gouache (many animals). A design may carry its own style, layout and art_background. 15 Oct 2026: theme 'winter' (Christmas and New Year, John): four postcards and four greeting cards only, in one whimsical Nordic folk-art style written in words from the pictures John liked (none sent, none copied). A theme may override any product key in themes.<theme>.products (style, layout, art_background, views), and sets its photo mood in themes.<theme>.mood. 15 Oct 2026: theme 'birthday' (John): eight postcards and eight greeting cards, four for girls and four for boys each, in John's own written style brief (flat naive mid-century Scandinavian folk art, angular figures). 15 Oct 2026: theme 'everyday' (John): 8 mugs and 8 tote bags (4 undyed, 4 black) in the birthday look with no background colour, no people and no birthday items; a theme's products may have different designs.",
   "style": "Cute illustration.",
   "no_text": "No text, no letters, no words, no numbers, no logo, no watermark, no border, no frame.",
   "art_template": "{style}{extra} Subject: {subject}.{words} {layout} Flat 2D artwork for printing. Cute, friendly and creative, not scary. {no_text}",
@@ -112,6 +112,66 @@
             141,
             141
           ]
+        }
+      }
+    },
+    "everyday": {
+      "active": true,
+      "name": "Every day",
+      "note": "15 Oct 2026 (John): 8 mugs and 8 tote bags (4 undyed, 4 black) in the birthday look and design language, with no background colour, no people and nothing for a birthday; occasion 'everyday'. Mugs have 8 designs (cat, dog, cats, dogs and a second of each, keys ending -2); the totes 4 each. On the black bags the black lines are cream.",
+      "gift_set": false,
+      "mood": "Calm, bright everyday mood: fresh flowers, green plants, linen and daylight; no Halloween, Christmas or birthday items, no pumpkins, no autumn leaves, no snow.",
+      "products": {
+        "mug": {
+          "style": "A flat 2D naive folk art children's book illustration in a mid-century Scandinavian style. Only the animals named in the subject appear in the picture: no people, no children, no other animals unless the subject names them. All the characters (cats are tall and angular) share long vertical silhouettes, sharp pointed geometric features, wide perfectly round wide-open eyes with dark pupils, and black brush-ink whiskers/details. Dogs are clearly friendly pet dogs, never foxes or wolves: floppy or folded ears, a medium muzzle, a dark dog nose, a collar, and no whiskers. Around them: intricate flat Nordic botanical patterns and line-drawn flora (folk flowers, leaves, berries, ferns, small birds). Nothing for a birthday or a holiday: no cake, no candles, no party hats, no presents, no bunting, no balloons, no pumpkins, no snow. Art style and technique: Scandinavian mid-century folk art style. Gouache painting texture, dry-brush acrylic strokes, and visible colored pencil grain. Abstract, geometric, minimalist shapes with sharp silhouettes, but about 20% more curved than strict geometry: long lines bend gently, corners are slightly softened, and nothing looks drawn with a ruler. Every line is drawn freehand with a brush: bold, clearly thick and a little uneven in width, never thin or hairline. Solid vibrant block colors (burnt orange, mustard yellow, deep teal, matte black) with subtle paper-like texture overlay. Strictly avoid: soft vector clipart, 3D shading, smooth gradient lighting, rounded plush shapes, digital softness, glossy plastic textures, ruler-straight lines, or thin hairline strokes.",
+          "layout": "One small scene in the middle with a wide empty margin and no background colour: no coloured block, panel, frame, circle or shape behind the drawing, only the plain {background} around it, which is not printed. Only the flat picture itself, as a print file: do not draw the mug it will be printed on, no product, no shadow.",
+          "art_background": "pure white paper",
+          "views": {
+            "table": {
+              "scene": "High-end studio product photograph of a white glossy ceramic 11 oz coffee mug, handle on the right, the front of the mug facing the camera, standing on a light oak table next to a small green plant and a folded linen napkin, soft window light from the left, light neutral background softly out of focus, realistic ceramic reflections and a soft shadow."
+            },
+            "home": {
+              "scene": "Lifestyle photograph in a calm, bright Scandinavian kitchen: the white ceramic mug stands on a wooden table next to a small vase of fresh flowers and a closed picture book with a plain cover and no words on it, soft morning daylight, the front of the mug facing the camera, background softly out of focus."
+            },
+            "hand": {
+              "scene": "Close-up lifestyle photograph of an adult's hand holding the white ceramic mug by its handle, the front of the mug facing the camera, a soft linen sleeve, bright morning light, a kitchen with green plants softly out of focus behind. Only an adult's hand and forearm are visible: no face, no child."
+            }
+          }
+        },
+        "tote": {
+          "style": "A flat 2D naive folk art children's book illustration in a mid-century Scandinavian style. Only the animals named in the subject appear in the picture: no people, no children, no other animals unless the subject names them. All the characters (cats are tall and angular) share long vertical silhouettes, sharp pointed geometric features, wide perfectly round wide-open eyes with dark pupils, and black brush-ink whiskers/details. Dogs are clearly friendly pet dogs, never foxes or wolves: floppy or folded ears, a medium muzzle, a dark dog nose, a collar, and no whiskers. Around them: intricate flat Nordic botanical patterns and line-drawn flora (folk flowers, leaves, berries, ferns, small birds). Nothing for a birthday or a holiday: no cake, no candles, no party hats, no presents, no bunting, no balloons, no pumpkins, no snow. Art style and technique: Scandinavian mid-century folk art style. Gouache painting texture, dry-brush acrylic strokes, and visible colored pencil grain. Abstract, geometric, minimalist shapes with sharp silhouettes, but about 20% more curved than strict geometry: long lines bend gently, corners are slightly softened, and nothing looks drawn with a ruler. Every line is drawn freehand with a brush: bold, clearly thick and a little uneven in width, never thin or hairline. Solid vibrant block colors (burnt orange, mustard yellow, deep teal, matte black) with subtle paper-like texture overlay. Strictly avoid: soft vector clipart, 3D shading, smooth gradient lighting, rounded plush shapes, digital softness, glossy plastic textures, ruler-straight lines, or thin hairline strokes.",
+          "layout": "The animals stand stacked or side by side like the picture on a bag, in the middle with an even margin and no background colour: no coloured block, panel, frame, circle or shape behind the drawing, only the plain {background} around it, which is not printed. Only the flat picture itself, as a print file: do not draw the bag, no product, no shadow.",
+          "art_background": "light oatmeal paper, the colour of undyed cotton",
+          "place": "Print only the drawing of the artwork, without its background, directly on the natural canvas, centred on the front panel, about two thirds of the panel width, so the canvas weave shows through. Keep the drawing's own colours. It is a flat print on the canvas.",
+          "views": {
+            "table": {
+              "scene": "Top-down studio photograph of a natural unbleached organic cotton canvas tote bag lying flat on a light oak table, straps folded neatly above it, visible canvas weave and stitching, soft daylight, a small sprig of green leaves at the edge."
+            },
+            "home": {
+              "scene": "Lifestyle photograph of the natural unbleached cotton canvas tote bag hanging from a wooden peg in a bright Scandinavian hallway, a closed picture book with a plain cover and no words on it peeking out of the bag, a green plant nearby, soft daylight, the front panel facing the camera."
+            },
+            "hand": {
+              "scene": "Lifestyle photograph of an adult's hand holding the natural unbleached cotton canvas tote bag by its straps on a calm green street in spring, the front panel facing the camera, soft natural light, background softly out of focus. Only an adult's hand and forearm are visible: no face, no child."
+            }
+          }
+        },
+        "tote-black": {
+          "style": "A flat 2D naive folk art children's book illustration in a mid-century Scandinavian style. Only the animals named in the subject appear in the picture: no people, no children, no other animals unless the subject names them. All the characters (cats are tall and angular) share long vertical silhouettes, sharp pointed geometric features, wide perfectly round wide-open eyes with dark pupils, and cream brush-ink whiskers/details. Dogs are clearly friendly pet dogs, never foxes or wolves: floppy or folded ears, a medium muzzle, a warm brown dog nose, a collar, and no whiskers. Around them: intricate flat Nordic botanical patterns and line-drawn flora (folk flowers, leaves, berries, ferns, small birds). Nothing for a birthday or a holiday: no cake, no candles, no party hats, no presents, no bunting, no balloons, no pumpkins, no snow. Art style and technique: Scandinavian mid-century folk art style. Gouache painting texture, dry-brush acrylic strokes, and visible colored pencil grain. Abstract, geometric, minimalist shapes with sharp silhouettes, but about 20% more curved than strict geometry: long lines bend gently, corners are slightly softened, and nothing looks drawn with a ruler. Every line is drawn freehand with a brush: bold, clearly thick and a little uneven in width, never thin or hairline. Solid vibrant block colors (burnt orange, mustard yellow, deep teal, cream) with subtle paper-like texture overlay. Strictly avoid: soft vector clipart, 3D shading, smooth gradient lighting, rounded plush shapes, digital softness, glossy plastic textures, ruler-straight lines, or thin hairline strokes. Made to print on black cotton: every line, whisker and detail that would be black is cream instead, and there are no black shapes at all.",
+          "layout": "The animals stand stacked or side by side like the picture on a bag, in the middle with an even margin and no background colour: no coloured block, panel, frame, circle or shape behind the drawing, only the plain {background} around it, which is not printed. Only the flat picture itself, as a print file: do not draw the bag, no product, no shadow.",
+          "art_background": "solid flat black",
+          "place": "Print only the drawing of the artwork, without its background, directly on the black canvas, centred on the front panel, about two thirds of the panel width. Keep the drawing's own colours. It is a flat print on the canvas.",
+          "views": {
+            "table": {
+              "scene": "Top-down studio photograph of a black organic cotton canvas tote bag lying flat on a light oak table, straps folded neatly above it, visible canvas weave and stitching, soft daylight, a small sprig of green leaves at the edge."
+            },
+            "home": {
+              "scene": "Lifestyle photograph of the black cotton canvas tote bag hanging from a wooden peg on a pale plaster wall in a bright hallway, a closed picture book with a plain cover and no words on it peeking out of the bag, a green plant nearby, soft daylight, the front panel facing the camera."
+            },
+            "hand": {
+              "scene": "Lifestyle photograph of an adult's hand holding the black cotton canvas tote bag by its straps on a calm green street in spring, the front panel facing the camera, soft natural light, background softly out of focus. Only an adult's hand and forearm are visible: no face, no child."
+            }
+          },
+          "art_extra": ""
         }
       }
     }
@@ -428,6 +488,110 @@
           "subject": "a boy with red curly hair and freckles and three dogs in party hats beside a tall tower of wrapped presents",
           "words": "",
           "art_background": "a matte black background"
+        }
+      }
+    },
+    "everyday": {
+      "mug": {
+        "cat": {
+          "title": "Tea Cat",
+          "occasion": "everyday",
+          "subject": "a tall angular cat with mustard and black patches sitting upright and holding a tiny folk-patterned teacup with a little curl of steam, a few folk flowers and leaves around it",
+          "words": ""
+        },
+        "dog": {
+          "title": "Garden Dog",
+          "occasion": "everyday",
+          "subject": "a friendly brown dog with floppy ears sitting among tall folk tulips beside a small teal watering can",
+          "words": ""
+        },
+        "cats": {
+          "title": "Branch Cats",
+          "occasion": "everyday",
+          "subject": "three tall angular cats of different colours sitting side by side on one long leafy branch, two small birds above them",
+          "words": ""
+        },
+        "dogs": {
+          "title": "Stick Dogs",
+          "occasion": "everyday",
+          "subject": "two dogs of different sizes walking together and carrying one long stick in their mouths, folk flowers at their feet",
+          "words": ""
+        },
+        "cat-2": {
+          "title": "Bird Cat",
+          "occasion": "everyday",
+          "subject": "a tall angular ginger cat sitting very still with a small teal bird perched on the tip of its curled tail, leaves and berries around",
+          "words": ""
+        },
+        "dog-2": {
+          "title": "Basket Pup",
+          "occasion": "everyday",
+          "subject": "a small spotted dog carrying a little woven basket full of red berries, folk leaves and flowers around it",
+          "words": ""
+        },
+        "cats-2": {
+          "title": "Fern Cats",
+          "occasion": "everyday",
+          "subject": "three tall angular cats peeking out from between big folk ferns and leaves, only their heads and shoulders showing",
+          "words": ""
+        },
+        "dogs-2": {
+          "title": "Sleepy Dogs",
+          "occasion": "everyday",
+          "subject": "three dogs curled up asleep together under a small leafy folk tree, eyes closed, a few flowers in the grass",
+          "words": ""
+        }
+      },
+      "tote": {
+        "cat": {
+          "title": "Flower Cat",
+          "occasion": "everyday",
+          "subject": "a tall angular cat with mustard and burnt orange patches standing upright and holding one big folk flower on a long stem",
+          "words": ""
+        },
+        "dog": {
+          "title": "Meadow Dog",
+          "occasion": "everyday",
+          "subject": "a friendly dog with floppy ears sitting in a small patch of tall grass and folk flowers",
+          "words": ""
+        },
+        "cats": {
+          "title": "Cat Tower",
+          "occasion": "everyday",
+          "subject": "three tall angular cats of different colours standing on each other's shoulders in a tall tower, leaves on both sides",
+          "words": ""
+        },
+        "dogs": {
+          "title": "Dog Row",
+          "occasion": "everyday",
+          "subject": "four dogs of different sizes and colours sitting side by side in a row, from a big dog to a small puppy, folk flowers at their feet",
+          "words": ""
+        }
+      },
+      "tote-black": {
+        "cat": {
+          "title": "Berry Cat",
+          "occasion": "everyday",
+          "subject": "a tall angular ginger cat with cream stripes holding a long branch of red berries, folk leaves around it",
+          "words": ""
+        },
+        "dog": {
+          "title": "Tulip Dog",
+          "occasion": "everyday",
+          "subject": "a friendly mustard-coloured dog with floppy ears holding a small bunch of folk tulips in its mouth",
+          "words": ""
+        },
+        "cats": {
+          "title": "Bird Watch Cats",
+          "occasion": "everyday",
+          "subject": "three tall angular cats (ginger, teal-grey and cream) sitting side by side and looking up at one small bird on a leafy branch above them",
+          "words": ""
+        },
+        "dogs": {
+          "title": "Sunflower Dogs",
+          "occasion": "everyday",
+          "subject": "three dogs of different sizes (mustard, burnt orange and cream) sitting among tall folk sunflowers",
+          "words": ""
         }
       }
     }
