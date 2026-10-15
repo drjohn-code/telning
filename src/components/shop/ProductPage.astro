@@ -25,6 +25,9 @@ const t = (shop.types as any)[p.type];
 const isSeries = p.category === 'books';
 const al = p.age ? ageLabel(p.age, p.type) : '';   // '3–5' for a book; '3–7' or '7+' for a Story Wall
 const find = (sku: string) => catalog.bySku.get(sku) as any;
+/* the details table: the type's specs, and first the art style of the design's occasion where there is one (birthday cards) */
+const artStyle = p.animal ? (gifts as any).artStyles?.[p.occasion] : null;
+const specs: [string, string][] = [...(artStyle ? [['Art style', artStyle] as [string, string]] : []), ...t.specs];
 
 /* photos: alt text per view, describing the scene */
 /* the Halloween gift photos (table, home, hand): the place and what is printed on it */
@@ -186,7 +189,7 @@ const cert = p.type === 'tote' ? 'GOTS · OEKO-TEX' : p.type === 'mug' ? 'Dishwa
         </form>
         )}
 
-        <dl class="tn-pdp__specs" aria-label="Details">{t.specs.map(([k, v]: [string, string]) => <div class="tn-pdp__spec"><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
+        <dl class="tn-pdp__specs" aria-label="Details">{specs.map(([k, v]: [string, string]) => <div class="tn-pdp__spec"><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
         {pimLine && <PimNote line={pimLine} size="sm" class="tn-pdp__pim" />}
       </div>
     </section>

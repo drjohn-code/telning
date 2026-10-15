@@ -21,6 +21,12 @@ Give this file to a new Claude Code chat in this project folder. Say: "Read docs
   - tote bags: patchwork look
   - postcards: screen-print crowds, A6
   - greeting cards: square 14.1 × 14.1 cm; linocut for one animal, mid-century gouache for many animals
+- Christmas and New Year (15 Oct 2026, theme `winter`): 4 postcards + 4 greeting cards, whimsical Nordic folk art
+  (big-eyed cats and dogs, folk botanical patterns, full painted night scenes).
+- Birthday (15 Oct 2026, theme `birthday`): 8 postcards + 8 greeting cards, 4 for girls and 4 for boys each, a child with
+  pets. Art style and technique (John): Scandinavian mid-century folk art style. Gouache painting texture, dry-brush
+  acrylic strokes, and visible colored pencil grain. The birthday product pages show it as the 'Art style' row
+  (`artStyles` in `src/data/shop-gifts.json`). Gift grids have a For: Girls / Boys filter (`child`).
 - Product gallery: a click on a thumbnail changes the big photo. A Playwright test covers it.
 - Scripts: `scripts/catalog/generate_mockups.py` and `prompts.json` (gifts), and `scripts/shop/import-mockups.mjs`.
 

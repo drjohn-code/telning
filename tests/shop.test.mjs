@@ -77,6 +77,7 @@ test('names and links: Story Wall, no partner names in customer-facing text, 301
   assert.equal(wall.oldUrl, '/books/star-hoppers/giant-poster-3-5');
   assert.equal(catalog.bySku.get('mug-cocoa-cat').name, 'Cocoa Cat mug');
   assert.ok(vercelRedirect('/gifts/mugs/the-moon'), 'old gift URLs 301 to their category');
+  assert.equal(vercelRedirect('/gifts/postcards/dog-parade')?.destination, '/gifts/postcards/present-parade', 'the renamed birthday postcard keeps its old link');
   const { readFileSync } = await import('node:fs');
   const vercel = JSON.parse(readFileSync(new URL('../vercel.json', import.meta.url), 'utf8'));
   assert.ok(vercel.redirects.some((r) => r.source === '/books/:series/giant-poster-:age' && r.permanent));

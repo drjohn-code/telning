@@ -293,8 +293,8 @@
       "prompt": "birthday/postcard/girl-cats"
     },
     {
-      "key": "dog-parade",
-      "name": "Dog Parade",
+      "key": "present-parade",
+      "name": "Present Parade",
       "words": "",
       "animal": "dogs",
       "child": "girl",
@@ -570,6 +570,10 @@
     "new-baby": "New baby",
     "love": "Love",
     "everyday": "Every day"
+  },
+  "artStyles": {
+    "_draft": "DRAFT (15 Oct 2026, John): the 'Art style' row in the details on a product page, per occasion. Only the birthday cards for now.",
+    "birthday": "Scandinavian mid-century folk art style. Gouache painting texture, dry-brush acrylic strokes and visible coloured pencil grain."
   },
   "_halloween": "DRAFT (12 Oct 2026): the Halloween line of cats and dogs, four designs per product (one cat, one dog, many cats, many dogs). `placeholder: true` = no photos yet (a placeholder picture, cannot be ordered). `prompt` points to scripts/catalog/prompts.json; `about` is the picture brief, `line` the one-line card text. No printed words unless John writes them in `words`. Tote bags: 8 designs, each on one colour (4 undyed, 4 black). The older Pim designs were removed on 13 Oct 2026 (John); their URLs 301 to the category pages (vercel.json).",
   "_winter": "DRAFT (15 Oct 2026, John): Christmas and New Year cats and dogs, postcards and greeting cards only, four each (two Christmas, two New Year: one cat, one dog, many cats, many dogs), in one whimsical Nordic folk-art style. `prompt` points to the theme `winter` in scripts/catalog/prompts.json. No printed words.",

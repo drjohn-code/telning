@@ -237,6 +237,11 @@
       "source": "/gifts/greeting-cards/to-the-moon",
       "destination": "/gifts/greeting-cards",
       "permanent": true
+    },
+    {
+      "source": "/gifts/postcards/dog-parade",
+      "destination": "/gifts/postcards/present-parade",
+      "permanent": true
     }
   ]
 }

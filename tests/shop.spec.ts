@@ -49,6 +49,10 @@ test('gifts filter: Girls / Boys picks the birthday cards for girls or for boys'
   await expect(shown()).toHaveCount(2);   // a dog and a girl, dogs and a girl
   await page.locator('button.tn-chip[data-group="child"][data-value="boy"]').first().click();
   await expect(shown()).toHaveCount(2);
+  await page.goto('/gifts/postcards/present-parade');
+  await expect(page.locator('.tn-pdp__spec dt').first()).toHaveText('Art style');   // the birthday cards show their art style
+  await page.goto('/gifts/postcards/lantern-cat');
+  await expect(page.locator('.tn-pdp__spec dt', { hasText: 'Art style' })).toHaveCount(0);
 });
 
 test('product gallery: a thumbnail changes the big photo', async ({ page }) => {
