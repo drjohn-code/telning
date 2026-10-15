@@ -4,7 +4,7 @@
 // the blur entry in src/data/shop-images.json and the share image public/og/p/<sku>.jpg, removes the placeholder
 // files, and sets `placeholder: false` in src/data/shop-gifts.json (the design leaves "Coming soon").
 // The gift-set picture replaces its placeholder in place. Safe to run again: it only does designs with all photos.
-//   node scripts/shop/import-mockups.mjs [--dry-run]
+//   node scripts/shop/import-mockups.mjs [--dry-run] [--only pumpkin-patch-cats,gift-set]   (--only: just these design keys)
 import { mkdirSync, writeFileSync, readFileSync, existsSync, rmSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import sharp from 'sharp';
@@ -12,6 +12,9 @@ import { ROOT } from './lib/svg.mjs';
 import { imageSlug, GIFT_PHOTO_VIEWS } from '../../server/catalog.js';
 
 const DRY = process.argv.includes('--dry-run');
+const onlyAt = process.argv.indexOf('--only');
+const ONLY = onlyAt > 0 ? new Set((process.argv[onlyAt + 1] || '').split(',').filter(Boolean)) : null;
+const wanted = (key) => !ONLY || ONLY.has(key);
 const OUT = join(ROOT, 'public/shop/img');
 const META = join(ROOT, 'src/data/shop-images.json');
 const GIFTS = join(ROOT, 'src/data/shop-gifts.json');
@@ -34,7 +37,7 @@ async function save(slug, view, file) {
 let done = 0, waiting = 0;
 for (const type of ['mug', 'tote', 'postcards', 'cards']) {
   for (const d of gifts[type]) {
-    if (!d.animal || !d.prompt) continue;
+    if (!d.animal || !d.prompt || !wanted(d.key)) continue;
     const [theme, product, design] = d.prompt.split('/');          // e.g. halloween/tote-black/cat
     const src = (view) => join(ROOT, 'public/products', product, theme, design, `${theme}-${design}-${product}-${view}.webp`);
     if (!GIFT_PHOTO_VIEWS.every((v) => existsSync(src(v)))) { waiting++; continue; }
@@ -53,6 +56,6 @@ for (const type of ['mug', 'tote', 'postcards', 'cards']) {
   }
 }
 const set = join(ROOT, 'public/products/gift-set/halloween/halloween-gift-set.webp');
-if (existsSync(set)) { if (!DRY) await save('gift-set', 'halloween-gift-set', set); console.log(`${DRY ? 'would import' : 'imported'} the gift set`); }
+if (existsSync(set) && wanted('gift-set')) { if (!DRY) await save('gift-set', 'halloween-gift-set', set); console.log(`${DRY ? 'would import' : 'imported'} the gift set`); }
 if (!DRY) { writeFileSync(META, JSON.stringify(meta)); writeFileSync(GIFTS, JSON.stringify(gifts, null, 2) + '\n'); }
 console.log(`${done} design(s) ${DRY ? 'ready' : 'imported'}, ${waiting} still waiting for photos`);

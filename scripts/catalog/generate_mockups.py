@@ -26,6 +26,12 @@ Try one image:  python3 scripts/catalog/generate_mockups.py --stage art --produc
 Everything:     python3 scripts/catalog/generate_mockups.py   (81 images: 20 art, 60 photos, 1 gift set)
 
 Images are paid per image. Existing files are skipped; use --force to redo them.
+
+Full-bleed print files (postcards, `full_bleed` in prompts.json, 15 Oct 2026): the art must cover the whole card.
+A thin plain paper strip the model draws along an edge is cut off when the art is saved; a wide one (the drawing
+sits small in the middle) prints a WARNING, and that art must be made again. The photo stage sends the card as
+it is after cutting (`trim_mm`: print file minus the 4 mm bleed), so the photo shows what the buyer gets.
+Fix old masters for free:  python3 scripts/catalog/generate_mockups.py --refit --products postcard [--dry-run]
 """
 import argparse
 import io
@@ -44,6 +50,7 @@ DEFAULT_MODEL = "gemini-3-pro-image"
 DEFAULT_SIZE = "2K"
 WEBP_QUALITY = 90
 RETRY_WAITS = (5, 15, 40)  # seconds, for rate limits and busy servers
+PAPER_LIMIT = 0.06          # full-bleed art: a paper strip wider than 6% of a side means the art must be made again
 
 
 class BillingError(RuntimeError):
@@ -119,6 +126,7 @@ def build_jobs(cfg, theme, stages, designs, products, public_dir, masters_dir, s
                 jobs.append({
                     "stage": "art", "id": f"{theme}-{d}-{p}-art", "label": f"artwork, {pr['label']}: {design['title']}",
                     "ratio": pr["art_ratio"], "inputs": [], "out": art_path(p, d), "print_mm": pr.get("print_mm"),
+                    "full_bleed": pr.get("full_bleed", False),
                     "prompt": cfg["art_template"].format(
                         style=own.get("style", cfg["style"]), subject=design["subject"], no_text=cfg["no_text"],
                         layout=own.get("layout", "Centred on {background}.").format(
@@ -131,6 +139,7 @@ def build_jobs(cfg, theme, stages, designs, products, public_dir, masters_dir, s
                     jobs.append({
                         "stage": "mockups", "id": f"{theme}-{d}-{p}-{view}", "label": f"{pr['label']}, {view}: {design['title']}",
                         "ratio": pr.get("mockup_ratio", "1:1"), "inputs": [art_path(p, d)], "out": mock_path(p, d, view),
+                        "face": (pr["print_mm"], pr["trim_mm"]) if pr.get("trim_mm") else None,   # the photo shows the cut card, not the bleed
                         "prompt": cfg["mockup_template"].format(scene=v["scene"], place=pr["place"]),
                     })
     if "gift-set" in stages:
@@ -241,18 +250,79 @@ def fit_print(im, print_mm):
     return im.crop((0, y, w, y + nh))
 
 
-def save_image(data, path, print_mm=None):
+def paper_bands(im, limit):
+    """Plain light paper strips along each edge, in pixels: rows or columns that are light and nearly one colour.
+    Counts up to just past `limit` (a share of that side) so a wide margin can be told from a thin strip."""
+    from PIL import ImageStat
+    rgb = im.convert("RGB")
+    w, h = rgb.size
+
+    def plain(box):
+        st = ImageStat.Stat(rgb.crop(box))
+        return sum(st.mean) / 3 > 225 and min(st.mean) > 190 and sum(st.stddev) / 3 < 12
+
+    bands = {}
+    for side, size in (("top", h), ("bottom", h), ("left", w), ("right", w)):
+        n = 0
+        while n <= limit * size + 1:
+            box = {"top": (0, n, w, n + 1), "bottom": (0, h - 1 - n, w, h - n),
+                   "left": (n, 0, n + 1, h), "right": (w - 1 - n, 0, w - n, h)}[side]
+            if not plain(box):
+                break
+            n += 1
+        bands[side] = n
+    return bands
+
+
+def trim_paper(im, limit=PAPER_LIMIT):
+    """A full-bleed print file must not have a paper margin. The model sometimes draws one anyway (a cream strip
+    along an edge, like the margin of a real screen print). Cut thin strips off; refuse to guess when the margin is
+    wide, because then the drawing sits small in the middle of the card and has to be made again.
+    Returns (image, note)."""
+    w, h = im.size
+    bands = paper_bands(im, limit)
+    wide = [f"{s} {n}px" for s, n in bands.items() if n > limit * (h if s in ("top", "bottom") else w)]
+    if wide:
+        return im, f"WARNING: the art does not fill the card (plain paper margin: {', '.join(wide)}); make it again"
+    if not any(bands.values()):
+        return im, ""
+    cut = ", ".join(f"{s} {n}px" for s, n in bands.items() if n)
+    return im.crop((bands["left"], bands["top"], w - bands["right"], h - bands["bottom"])), f"cut a paper margin: {cut}"
+
+
+def prepare_print(im, print_mm=None, full_bleed=False):
+    """Art master as the printer wants it: no paper margin (full-bleed products), then the print file's shape."""
+    note = ""
+    if full_bleed:
+        im, note = trim_paper(im)
+    if print_mm:
+        im = fit_print(im, print_mm)
+    return im, note
+
+
+def save_image(data, path, print_mm=None, full_bleed=False):
     Image = need_pillow()
     path.parent.mkdir(parents=True, exist_ok=True)
     with Image.open(io.BytesIO(data)) as im:
-        if print_mm:
-            im = fit_print(im, print_mm)
+        im, note = prepare_print(im, print_mm, full_bleed)
         size = im.size
         if path.suffix.lower() == ".webp":
             im.convert("RGB").save(path, "WEBP", quality=WEBP_QUALITY, method=6)
         else:
             im.save(path, "PNG")
-    return size
+    return size, note
+
+
+def card_face(path, print_mm, trim_mm):
+    """The art as the cut card shows it: the print file minus the bleed, as PNG bytes for the photo stage."""
+    Image = need_pillow()
+    with Image.open(path) as im:
+        w, h = im.size
+        cw, ch = round(w * trim_mm[0] / print_mm[0]), round(h * trim_mm[1] / print_mm[1])
+        x, y = (w - cw) // 2, (h - ch) // 2
+        buf = io.BytesIO()
+        im.crop((x, y, x + cw, y + ch)).save(buf, "PNG")
+    return buf.getvalue()
 
 
 def mime_of(path):
@@ -272,6 +342,26 @@ def cmd_list_models(key):
         print("No Imagen models on this key; the Gemini image models above do the same job.")
     if DEFAULT_MODEL not in image:
         print(f"Default model {DEFAULT_MODEL} is not on this key. Pass --model with one of the names above.")
+
+
+def cmd_refit(args):
+    """Free, no key: cut paper margins off the existing art masters and crop them to the print shape again."""
+    Image = need_pillow()
+    cfg = load_config(args.config)
+    jobs = build_jobs(cfg, args.theme, ["art"], args.designs, args.products,
+                      Path(args.public_dir), Path(args.masters_dir), args.style)
+    for j in jobs:
+        if not j["out"].exists() or not (j["print_mm"] or j["full_bleed"]):
+            continue
+        with Image.open(j["out"]) as src:
+            src.load()
+            im, note = prepare_print(src, j["print_mm"], j["full_bleed"])
+            changed = im.size != src.size
+            if changed and not args.dry_run:
+                im.save(j["out"], "PNG")
+        print(f"{'would fix' if changed and args.dry_run else 'fixed' if changed else 'ok':<9} {j['id']}  "
+              f"{src.size[0]}x{src.size[1]} -> {im.size[0]}x{im.size[1]}{'  ' + note if note else ''}")
+    return 0
 
 
 def run(args):
@@ -307,17 +397,19 @@ def run(args):
         if missing:
             print(f"SKIP   {j['id']}: needs {missing[0].name} first (run the earlier stage).", flush=True)
             failed.append(j["id"]); return
-        contents = [types.Part.from_bytes(data=p.read_bytes(), mime_type=mime_of(p)) for p in j["inputs"]] + [j["prompt"]]
+        face = j.get("face")
+        contents = [types.Part.from_bytes(data=card_face(p, *face), mime_type="image/png") if face
+                    else types.Part.from_bytes(data=p.read_bytes(), mime_type=mime_of(p)) for p in j["inputs"]] + [j["prompt"]]
         started = time.time()
         try:
             data, _mime = generate(client, types, key, args.model, contents, j["ratio"], args.size)
-            w, h = save_image(data, j["out"], j.get("print_mm"))
+            (w, h), note = save_image(data, j["out"], j.get("print_mm"), j.get("full_bleed"))
         except BillingError as exc:
             stop.append(str(exc)); return
         except (ValueError, RuntimeError) as exc:
             print(f"FAILED {j['id']}: {exc}", flush=True); failed.append(j["id"]); return
         nonlocal_made.append(1)
-        print(f"made   {j['id']}  {w}x{h}  {time.time() - started:.0f}s", flush=True)
+        print(f"made   {j['id']}  {w}x{h}  {time.time() - started:.0f}s{'  ' + note if note else ''}", flush=True)
 
     nonlocal_made = []
     for stage in ("art", "mockups", "gift-set"):          # a stage needs the one before it
@@ -351,12 +443,15 @@ def main(argv=None):
     ap.add_argument("--force", action="store_true", help="redo images that already exist")
     ap.add_argument("--dry-run", action="store_true", help="show the plan; send nothing, no key needed")
     ap.add_argument("--list-models", action="store_true", help="check the key and list image models (free)")
+    ap.add_argument("--refit", action="store_true", help="free: cut paper margins off existing art masters and crop them to the print shape")
     ap.add_argument("--public-dir", default=str(DEFAULT_PUBLIC))
     ap.add_argument("--masters-dir", default=str(DEFAULT_MASTERS))
     args = ap.parse_args(argv)
     if args.list_models:
         cmd_list_models(get_key())
         return 0
+    if args.refit:
+        return cmd_refit(args)
     return run(args)
 
 

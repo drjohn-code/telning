@@ -222,7 +222,7 @@
     "postcard": {
       "label": "Postcard",
       "ratio": "4:5",
-      "place": "The artwork fills the whole front of the postcard edge to edge. The postcard is landscape, matte, with rounded corners.",
+      "place": "The attached artwork is the whole front of the postcard: it runs to all four edges of the card, with no white or cream border, margin or frame around it. The postcard is landscape, matte, with rounded corners.",
       "art_ratio": "3:2",
       "views": {
         "table": {
@@ -236,14 +236,19 @@
         }
       },
       "mockup_ratio": "1:1",
-      "style": "Cute vintage screen-print illustration: four flat ink colours with slight misprint overlap, grainy halftone texture, simple rounded animals with big round eyes and tiny smiles, each with its own stripes, spots or patches. Retro Halloween palette: pumpkin orange, mustard, teal and soft black on cream.",
-      "layout": "The picture is full of life and fills the whole picture edge to edge on {background}, with small pumpkins, ghosts, bats and stars tucked between the animals. The print fills the whole picture edge to edge with no paper margin. Only the flat picture itself, as a print file: do not draw the postcard, no stack of cards, no product, no shadow.",
-      "art_background": "a cream paper background",
+      "style": "Cute vintage screen-print illustration: four flat ink colours with slight misprint overlap, grainy halftone texture, simple rounded animals with big round eyes and tiny smiles, each with its own stripes, spots or patches. Retro Halloween palette: pumpkin orange, mustard, teal, cream and soft black.",
+      "layout": "A full scene, full of life, that fills the whole picture edge to edge on {background}, with small pumpkins, ghosts, bats and stars tucked between the animals; the ground (grass, leaves or a path) runs off the bottom and both sides. This is a full-bleed print file: the colour reaches all four edges, with no paper margin and no cream or white strip, line, border or frame along any edge. Only the flat picture itself: do not draw the postcard, no stack of cards, no product, no shadow.",
+      "art_background": "a dusk sky in muted plum-grey and teal",
+      "full_bleed": true,
       "print_mm": [
         156,
         113
       ],
-      "print_note": "Gelato A6 postcard 148 x 105 mm plus 4 mm bleed on every side; the art is made at 3:2 and cropped to this shape. Keep faces and key shapes at least 9 mm from the edge (bleed + 5 mm from the 8 mm round corners)."
+      "trim_mm": [
+        148,
+        105
+      ],
+      "print_note": "Gelato A6 postcard 148 x 105 mm plus 4 mm bleed on every side; the art is made at 3:2 and cropped to this shape. Keep faces and key shapes at least 9 mm from the edge (bleed + 5 mm from the 8 mm round corners). Full bleed (15 Oct 2026): the art covers the whole card. The old 'cream paper background' made the model draw a cream paper margin (cats, dogs) or a small picture in the middle of empty cream (dog), which showed as a white frame on the photos; the script now cuts thin paper strips off, warns about wide ones, and the photos use the card after cutting (trim_mm)."
     },
     "greeting-card": {
       "label": "Greeting card",
