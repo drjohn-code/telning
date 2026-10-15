@@ -177,9 +177,9 @@ async function ogImages() {
     ['materials.jpg', 'Telning Publishing House', 'Our materials', img('book-star-hoppers-3-5', 'spread')],
     ['shipping-returns.jpg', 'Telning Publishing House', 'Shipping & returns', img('poster-star-hoppers-3-5', 'wall')],
     ...site.series.map((s) => [`books-${s.key}.jpg`, `Series · ${s.theme}`, `${s.name}: books and Story Walls`, img(`poster-${s.key}-5-7`, 'wall')]),
-    ...['mug', 'tote', 'postcards', 'cards'].map((t) => [`gifts-${t}.jpg`, 'Gifts', shop.types[t].plural, { mug: img('mug-cocoa-cat', 'table'), tote: img('tote-cat-parade', 'table'), postcards: img('postcards-pumpkin-pup', 'table'), cards: img('cards-pumpkin-puppies', 'table') }[t]]),
+    ...['mug', 'tote', 'postcards', 'cards'].map((t) => [`gifts-${t}.jpg`, 'Gifts', shop.types[t].plural, { mug: img('mug-cocoa-cat', 'table'), tote: img('tote-cat-parade', 'table'), postcards: img('postcards-pumpkin-patch-cats', 'table'), cards: img('cards-boo-cat', 'table') }[t]]),
   ];
-  for (const [file, kicker, title, src] of coll) await jpg(PH.og(await photoOf(src), { kicker, title, price: '' }), file);
+  for (const [file, kicker, title, src] of coll) if (want(file)) await jpg(PH.og(await photoOf(src), { kicker, title, price: '' }), file);
   console.log('og images');
 }
 
