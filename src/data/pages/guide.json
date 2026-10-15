@@ -45,8 +45,8 @@
     "h2": "How does it change with age?",
     "list": [
       { "label": "0–3", "name": "Toddler", "c": "blush", "t": "Point and name things together. You do more of the talking. One picture, one word, and lots of repeating." },
-      { "label": "3–5", "name": "Preschool", "c": "sky", "t": "Your child tells more of the story. Ask one feeling question per page. Let your child choose the ending and colour it." },
-      { "label": "5–7", "name": "Early school", "c": "gold-light", "t": "Your child tells the whole story and explains the choice. Ask why and what if. The drawing page is theirs." }
+      { "label": "3–7", "name": "Preschool", "c": "sky", "t": "Your child tells more of the story. Ask one feeling question per page. Let your child choose the ending and colour it." },
+      { "label": "7+", "name": "School age", "c": "gold-light", "t": "Your child tells the whole story and explains the choice. Ask why and what if. The drawing page is theirs." }
     ]
   },
 

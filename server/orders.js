@@ -28,7 +28,7 @@ export function orderFrom(session, catalog) {
       print: product?.print || '', ref: ref(meta.sku, meta.variant), amount: li.amount_total, product,
     };
   });
-  // printer parts: a pack is split into its books, posters and tote bags
+  // printer parts: a pack is split into its Story Walls and tote bags
   const parts = {};
   const addPart = (it) => (parts[it.partner] = parts[it.partner] || []).push(it);
   for (const it of items) {

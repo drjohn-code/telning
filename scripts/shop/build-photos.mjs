@@ -173,7 +173,7 @@ async function ogImages() {
   const coll = [
     ['books.jpg', 'Telning Publishing House', 'Books & posters', img('book-star-hoppers-3-5', 'table')],
     ['gifts.jpg', 'Telning Publishing House', 'Gifts that keep the story going', '/shop/img/gift-set/gift-set-halloween-gift-set'],
-    ['organisations.jpg', 'For kindergartens, schools, libraries', 'Story packs for groups', img('poster-paws-claws-3-5', 'wall')],
+    ['organisations.jpg', 'For kindergartens, schools, libraries', 'Story packs for groups', img('pack-classroom', 'pack')],
     ['materials.jpg', 'Telning Publishing House', 'Our materials', img('book-star-hoppers-3-5', 'spread')],
     ['shipping-returns.jpg', 'Telning Publishing House', 'Shipping & returns', img('poster-star-hoppers-3-5', 'wall')],
     ...site.series.map((s) => [`books-${s.key}.jpg`, `Series · ${s.theme}`, `${s.name}: books and Story Walls`, img(`poster-${s.key}-5-7`, 'wall')]),

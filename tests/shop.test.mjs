@@ -196,26 +196,37 @@ test('webhook: paid session → team and customer emails; unpaid → ignored; ba
   assert.equal((await handleWebhook({ raw, signature: sign(raw) }, { ...deps, secret: '' })).status, 503);
 });
 
-test('packs: choice checked (no age step), contents split over the titles, shipping per parcel, order split by partner', async () => {
+test('packs: Story Walls and tote bags only (15 Oct 2026), choice checked, walls split over the picks, two parcels, priced off the full price', async () => {
   const { packChoice, packContents } = await import('../server/catalog.js');
+  const T = catalog.shop.types;
+  const want = { circle: [5, 1, 5, 10], classroom: [10, 2, 10, 12], library: [40, 8, 24, 18] };   // walls, totes, picks, % off
+  for (const [key, [walls, totes, titles, off]] of Object.entries(want)) {
+    const k = catalog.bySku.get(`pack-${key}`).pack;
+    assert.deepEqual([k.posters, k.totes, k.titles, k.saving], [walls, totes, titles, off], key);
+    assert.equal(k.books, undefined, `${key} has no books`);
+    for (const c of CURRENCIES) assert.equal(k.price[c], Math.round((walls * T.poster.price[c] + totes * T.tote.price[c]) * (1 - off / 100)), `${key} ${c}`);
+  }
   const pack = catalog.bySku.get('pack-classroom');
-  assert.equal(packChoice(catalog, pack, 'book-star-hoppers-3-5,book-home-hearts-5-7|moon-cat~natural'), 'book-star-hoppers-3-5,book-home-hearts-5-7|moon-cat~natural');
-  assert.equal(packChoice(catalog, pack, 'book-star-hoppers-3-5|ghost-pup~black'), 'book-star-hoppers-3-5|ghost-pup~black', 'a black-only tote in black');
-  assert.equal(packChoice(catalog, pack, 'book-star-hoppers-3-5|ghost-pup~natural'), null, 'a black-only tote is never undyed');
-  assert.equal(packChoice(catalog, pack, 'book-star-hoppers-3-5|library-day~natural'), null, 'a removed design is refused');
-  assert.equal(packChoice(catalog, pack, 'book-a-3-5,book-b-3-5,book-c-3-5,book-d-3-5|moon-cat~natural'), null);
-  assert.equal(packChoice(catalog, pack, 'book-star-hoppers-1-3|moon-cat~natural'), null);
+  assert.equal(packChoice(catalog, pack, 'poster-star-hoppers-3-5,poster-home-hearts-5-7|moon-cat~natural'), 'poster-star-hoppers-3-5,poster-home-hearts-5-7|moon-cat~natural');
+  assert.equal(packChoice(catalog, pack, 'poster-star-hoppers-3-5|ghost-pup~black'), 'poster-star-hoppers-3-5|ghost-pup~black', 'a black-only tote in black');
+  assert.equal(packChoice(catalog, pack, 'poster-star-hoppers-3-5|ghost-pup~natural'), null, 'a black-only tote is never undyed');
+  assert.equal(packChoice(catalog, pack, 'poster-star-hoppers-3-5|library-day~natural'), null, 'a removed design is refused');
+  const eleven = catalog.products.filter((p) => p.type === 'poster').slice(0, 11).map((p) => p.sku).join(',');
+  assert.equal(packChoice(catalog, pack, `${eleven}|moon-cat~natural`), null, 'at most 10 different Story Walls in this pack');
+  assert.equal(packChoice(catalog, pack, 'poster-star-hoppers-1-3|moon-cat~natural'), null);
   assert.equal(packChoice(catalog, pack, '3-5|star-hoppers|moon-cat~natural'), null, 'the old format with an age step is refused');
-  assert.equal(packChoice(catalog, pack, 'poster-star-hoppers-3-5|moon-cat~natural'), null, 'only books are titles');
-  const c = packContents(catalog, pack, 'book-star-hoppers-5-7,book-home-hearts-3-5|ghost-pup~black');
-  assert.equal(c.filter((x) => x.sku.startsWith('book-')).reduce((a, x) => a + x.qty, 0), 30);
-  assert.equal(c.filter((x) => x.sku.startsWith('poster-')).reduce((a, x) => a + x.qty, 0), 3);
-  const lines = resolveLines(catalog, [{ sku: 'pack-circle', variant: 'book-paws-claws-3-5|moon-cat~natural', qty: 1 }]);
+  assert.equal(packChoice(catalog, pack, 'book-star-hoppers-3-5|moon-cat~natural'), null, 'no books in a pack');
+  const c = packContents(catalog, pack, 'poster-star-hoppers-5-7,poster-home-hearts-3-5,poster-big-days-3-5|ghost-pup~black');
+  assert.deepEqual(c.filter((x) => x.sku.startsWith('poster-')).map((x) => x.qty), [4, 3, 3]);
+  assert.equal(c.find((x) => x.sku === 'tote-ghost-pup').qty, 2);
+  assert.ok(!c.some((x) => x.sku.startsWith('book-')));
+  const lines = resolveLines(catalog, [{ sku: 'pack-circle', variant: 'poster-paws-claws-3-5|moon-cat~natural', qty: 1 }]);
   const ship = shippingFor(catalog.shop, lines, 'EUR');
-  assert.equal(ship.parcels.length, 3);
-  const o = orderFrom({ ...SESSION, line_items: { data: [{ description: 'Story Circle pack', quantity: 1, amount_total: 15600, price: { product: { metadata: { sku: 'pack-circle', variant: 'book-paws-claws-3-5|moon-cat~natural' } } } }] } }, catalog);
-  assert.deepEqual(Object.keys(o.parts).sort(), ['lulu', 'printful']);
-  assert.equal(o.parts.lulu[0].qty, 10);
+  assert.deepEqual(ship.parcels.map((p) => p.key), ['posters', 'totes'], 'no empty books parcel');
+  assert.equal(ship.total, 690 + 4 * 100 + 590);
+  const o = orderFrom({ ...SESSION, line_items: { data: [{ description: 'Story Circle pack', quantity: 1, amount_total: 11200, price: { product: { metadata: { sku: 'pack-circle', variant: 'poster-paws-claws-3-5|moon-cat~natural' } } } }] } }, catalog);
+  assert.deepEqual(Object.keys(o.parts), ['printful']);
+  assert.equal(o.parts.printful.find((x) => x.sku === 'poster-paws-claws-3-5').qty, 5);
 });
 
 test('quote form: needs organisation, wish and a good email; honeypot; emails the team', async () => {

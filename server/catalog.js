@@ -120,17 +120,17 @@ export function buildCatalog({ site, shop, books, gifts }) {
     }
   }
 
-  // packs for organisations: books, Story Walls and tote bags at a pack price; the buyer picks the titles (each title
-  // is one book, 3–5 or 5–7) and the tote design. The choice travels as the line's variant:
-  // "book-<series>-<age>,book-<series>-<age>|<tote design>~<colour>". No age step: every title carries its own age.
+  // packs for organisations (15 Oct 2026: Story Walls and tote bags only, the books are hidden): the buyer picks up to
+  // `titles` different Story Walls (each one series and one age) and one tote design. The choice travels as the line's
+  // variant: "poster-<series>-<age>,poster-<series>-<age>|<tote design>~<colour>".
   const packs = [];
   for (const k of (shop.packs?.items || [])) {
     packs.push({
       sku: `pack-${k.key}`, type: 'pack', category: 'packs', parcel: null, partner: 'mixed', url: '/organisations',
       name: `${k.name} pack`, short: 'Pack', title: k.name, pack: k, price: cents(k.price), maxQty: 5,
-      ship: [{ parcel: 'books', per: k.books }, { parcel: 'posters', per: k.posters }, { parcel: 'totes', per: k.totes }],
+      ship: [{ parcel: 'books', per: k.books || 0 }, { parcel: 'posters', per: k.posters || 0 }, { parcel: 'totes', per: k.totes || 0 }].filter((s) => s.per > 0),   // no empty parcel
       images: imagesFor({ type: 'pack', key: k.key }),
-      print: 'books, posters and tote bags: see the pack choice',
+      print: 'Story Walls and tote bags: see the pack choice',
     });
   }
   const bySku = new Map([...products, ...retired, ...packs].map((p) => [p.sku, p]));
@@ -189,14 +189,14 @@ export function packChoice(catalog, product, raw) {
   if (parts.length !== 2) return null;
   const [titles, tote] = parts;
   const keys = [...new Set(titles.split(',').filter(Boolean))];
-  if (!keys.length || keys.length > product.pack.titles || !keys.every((k) => /^book-[a-z-]+-\d-\d$/.test(k) && catalog.bySku.has(k))) return null;
+  if (!keys.length || keys.length > product.pack.titles || !keys.every((k) => /^poster-[a-z-]+-\d-\d$/.test(k) && catalog.bySku.has(k) && !catalog.bySku.get(k).hidden)) return null;
   const [design, colour] = tote.split('~');
   const bag = catalog.bySku.get(`tote-${design}`);   // any tote in the shop, the Halloween ones too (John, 13 Oct 2026)
   if (!bag || bag.type !== 'tote' || !['natural', 'black'].includes(colour) || (bag.colour && bag.colour !== colour)) return null;
   return `${keys.join(',')}|${design}~${colour}`;
 }
 
-/** What a pack holds, for the order email: [{ sku, variant, qty, name }]. Books and posters are split evenly over the titles. */
+/** What a pack holds, for the order email: [{ sku, variant, qty, name }]. The Story Walls are split evenly over the chosen ones. */
 export function packContents(catalog, product, choice) {
   const [titles, tote] = choice.split('|');
   const keys = titles.split(',');
@@ -204,8 +204,7 @@ export function packContents(catalog, product, choice) {
   const k = product.pack;
   const out = [];
   const split = (n) => keys.map((_, i) => Math.floor(n / keys.length) + (i < n % keys.length ? 1 : 0));
-  split(k.books).forEach((q, i) => q && out.push({ sku: keys[i], qty: q }));
-  split(k.posters).forEach((q, i) => q && out.push({ sku: keys[i].replace(/^book-/, 'poster-'), qty: q }));
+  split(k.posters).forEach((q, i) => q && out.push({ sku: keys[i], qty: q }));
   out.push({ sku: `tote-${design}`, variant: colour, qty: k.totes });
   return out.map((x) => ({ ...x, name: catalog.bySku.get(x.sku).name + (x.variant ? ` (${x.variant})` : '') }));
 }

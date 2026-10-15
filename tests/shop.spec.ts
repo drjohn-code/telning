@@ -35,7 +35,7 @@ test('gifts are the Halloween line, coming soon; a black tote is black only; a p
   await expect(page.locator('form.tn-buy')).toHaveCount(1);
   await page.goto('/organisations');
   await page.locator('form.tn-packform button[type="submit"]').click();
-  await expect(page.locator('#tn-drawer .tn-line__var')).toContainText('(3–5)');   // the title carries its own age; no age step
+  await expect(page.locator('#tn-drawer .tn-line__var')).toContainText('Story Wall (3–7)');   // a pack holds Story Walls, each with its age
 });
 
 test('product gallery: a thumbnail changes the big photo', async ({ page }) => {

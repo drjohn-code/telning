@@ -1,6 +1,6 @@
 /* /shop/catalog.json: the compact catalogue the basket script needs (names, links, images, prices, parcels).
    Built at build time from the same data as the pages. */
-import { catalog, shop, site, gifts } from '../../lib/shop';
+import { catalog, shop, site, gifts, ageLabel } from '../../lib/shop';
 
 export function GET() {
   const products: Record<string, unknown> = {};
@@ -16,7 +16,8 @@ export function GET() {
   }
   const names = { series: Object.fromEntries(site.series.map((s: any) => [s.key, s.name])), totes: Object.fromEntries((gifts as any).tote.map((d: any) => [d.key, d.name])) };
   const parcels = Object.fromEntries(Object.entries(shop.parcels as Record<string, any>).map(([k, v]) => [k, { name: v.name, first: v.first, extra: v.extra }]));   // never the partner
-  const books = Object.fromEntries((catalog.products as any[]).filter((p) => p.type === 'book').map((p) => [p.sku, `${p.title} (${p.age.replace('-', '–')})`]));
-  const body = { currencies: shop.currencies, parcels, regions: shop.regions, products, names: { ...names, books }, open: shop.open !== false };
+  // the names a pack line shows in the basket: the Story Walls a buyer can pick (15 Oct 2026: packs hold no books)
+  const packTitles = Object.fromEntries((catalog.products as any[]).filter((p) => p.type === 'poster' && !p.hidden).map((p) => [p.sku, `${p.title} (${ageLabel(p.age, p.type)})`]));
+  const body = { currencies: shop.currencies, parcels, regions: shop.regions, products, names: { ...names, packTitles }, open: shop.open !== false };
   return new Response(JSON.stringify(body), { headers: { 'Content-Type': 'application/json' } });
 }

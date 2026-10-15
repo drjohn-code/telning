@@ -113,10 +113,10 @@
   },
   "steps": {
     "h2": "How do the four steps work?",
-    "lead": "Who does what, three things you can say, and one tip for a two-year-old and one for a six-year-old.",
+    "lead": "Who does what, three things you can say, and one tip for a two-year-old and one for a child of seven or older.",
     "sayLabel": "Three things to say",
     "tipYoung": "Ages 2–3",
-    "tipOlder": "Ages 5–7",
+    "tipOlder": "Ages 7+",
     "list": [
       {
         "letter": "T",

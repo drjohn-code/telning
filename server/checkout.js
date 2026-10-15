@@ -10,7 +10,7 @@ const CURS = ['EUR', 'GBP', 'USD', 'CAD'];
 export function lineName(l, catalog = {}) {
   if (l.product.type === 'pack') {
     const [titles, tote] = l.variant.split('|');
-    const names = titles.split(',').map((sku) => { const b = catalog.bySku && catalog.bySku.get(sku); return b ? `${b.title} (${ageLabel(b.age)})` : sku; });
+    const names = titles.split(',').map((sku) => { const b = catalog.bySku && catalog.bySku.get(sku); return b ? `${b.title} (${ageLabel(b.age, b.type)})` : sku; });
     const [design, colour] = tote.split('~');
     const t = catalog.bySku && catalog.bySku.get(`tote-${design}`);
     return `${l.product.name}: ${names.join(', ')}; tote ${t ? t.title : design}, ${colour === 'natural' ? 'undyed' : colour}`;
@@ -48,7 +48,7 @@ export function sessionParams(catalog, lines, currency, opts) {
         product_data: {
           name: lineName(l, catalog).slice(0, 250),
           ...(l.product.type === 'book' ? { description: `${l.product.title}. Softcover, 32 pages, ages ${ageLabel(l.product.age)}.` } : {}),
-          ...(l.product.type === 'pack' ? { description: `${l.product.pack.books} books, ${l.product.pack.posters} Story Wall${l.product.pack.posters > 1 ? 's' : ''}, ${l.product.pack.totes} tote bag${l.product.pack.totes > 1 ? 's' : ''} and the group guide.` } : {}),
+          ...(l.product.type === 'pack' ? { description: `${l.product.pack.posters} Story Wall${l.product.pack.posters > 1 ? 's' : ''}, ${l.product.pack.totes} tote bag${l.product.pack.totes > 1 ? 's' : ''} and the group guide.` } : {}),
           images: [`${opts.imageBase || opts.origin}${(l.product.images.find((i) => i.view === l.variant) || l.product.images[0]).src}-600.webp`],
           metadata: { sku: l.product.sku, variant: l.variant || '', partner: l.product.partner },
         },

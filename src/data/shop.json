@@ -612,60 +612,56 @@
     "_": "Partner product IDs per sku (or sku~variant), filled when each product is set up at the partner. They go into the order email and, later, the partner APIs. Server use only."
   },
   "packs": {
-    "_draft": "Pack prices: EUR from the product plan (10%, 12%, 18% off the full price); GBP, USD and CAD worked out the same way from the draft prices. Shipping uses the normal parcel fees for the books, Story Walls and tote bags inside. No age step: the buyer picks titles directly.",
+    "_draft": "Pack prices: DRAFT (15 Oct 2026). Since John hid the books, a pack is Story Walls and tote bags only: 5 + 1, 10 + 2, 40 + 8. Each price is the full price of the Story Walls and tote bags inside, 10%, 12% or 18% off, rounded to a whole amount. `titles`: how many different Story Walls the buyer can pick; the Story Walls are shared evenly over them. Shipping uses the normal parcel fees for the Story Walls and the tote bags.",
     "items": [
       {
         "key": "circle",
         "name": "Story Circle",
         "for": "One kindergarten group or a reading club",
-        "books": 10,
-        "posters": 1,
+        "posters": 5,
         "totes": 1,
-        "titles": 1,
+        "titles": 5,
         "saving": 10,
         "price": {
-          "EUR": 156,
-          "GBP": 134,
-          "USD": 169,
-          "CAD": 228
+          "EUR": 112,
+          "GBP": 100,
+          "USD": 123,
+          "CAD": 162
         }
       },
       {
         "key": "classroom",
         "name": "Story Classroom",
         "for": "A class or a whole kindergarten",
-        "books": 30,
-        "posters": 3,
-        "totes": 3,
-        "titles": 3,
+        "posters": 10,
+        "totes": 2,
+        "titles": 10,
         "saving": 12,
         "price": {
-          "EUR": 459,
-          "GBP": 393,
-          "USD": 496,
-          "CAD": 670
+          "EUR": 219,
+          "GBP": 196,
+          "USD": 240,
+          "CAD": 318
         }
       },
       {
         "key": "library",
         "name": "Story Library",
         "for": "Libraries, schools and municipalities",
-        "books": 50,
-        "posters": 5,
-        "totes": 5,
-        "titles": 5,
+        "posters": 40,
+        "totes": 8,
+        "titles": 24,
         "saving": 18,
         "price": {
-          "EUR": 709,
-          "GBP": 610,
-          "USD": 770,
-          "CAD": 1041
+          "EUR": 816,
+          "GBP": 731,
+          "USD": 895,
+          "CAD": 1183
         }
       }
     ],
     "offers": [
-      "One extra Story Wall for the first 20 organisations.",
-      "One sample book at print cost for a teacher who wants to see it first."
+      "One extra Story Wall for the first 20 organisations."
     ]
   },
   "_specs_note": "specs and story texts added 12 Oct 2026 (DRAFT). Sources: the partners' public product data (mug, tote, Story Wall paper, book paper, envelopes) and the product plan v2 where the partner publishes no public figure (postcard and card weights, corners, GOTS/OCS/OEKO-TEX, lead and cadmium). No partner is named on the site. 14 Oct 2026: Story Walls redrawn (John): dense line art, about 15% painted as a guide, one picture per series, 3-5 shapes 20% bigger; colouring on the floor (DRAFT copy)."

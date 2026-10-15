@@ -33,7 +33,7 @@ export function shopSeo(catalog, site) {
   add('/order/thanks', { name: 'Thank you', title: 'Thank you for your order | Telning', noindex: true, sitemap: false,
     description: 'Thank you for your Telning order. Every item is made for you after you order and may arrive in its own parcel. We email the tracking link when it ships.' });
   add('/organisations', { name: 'For organisations', title: 'Book packs for kindergartens, schools, libraries | Telning', og: '/og/organisations.jpg',
-    description: 'Story packs for groups: 10, 30 or 50 Telning books with Story Walls, tote bags and a free group guide for the teacher. Pay by card or by invoice.' });
+    description: 'Story packs for groups: 5, 10 or 40 Telning Story Walls with organic cotton tote bags and a free group guide for the teacher. Pay by card or by invoice.' });
   add('/materials', { name: 'Our materials', title: 'Our materials: paper, cotton, inks, certificates | Telning', og: '/og/materials.jpg',
     description: 'What every Telning book, Story Wall and gift is made of: premium FSC-certified paper, GOTS-certified organic cotton and OEKO-TEX fabric, with the certificates.' });
   add('/shipping-returns', { name: 'Shipping & returns', title: 'Shipping and returns | Telning', og: '/og/shipping-returns.jpg',

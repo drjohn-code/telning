@@ -97,7 +97,7 @@
       var src = (v ? v.i : p.i) + '-600.webp';
       if (p.t === 'pack' && l.variant) {
         var parts = l.variant.split('|'), tote = (parts[1] || '').split('~');
-        v = { n: parts[0].split(',').map(function (k) { return (cat.names.books && cat.names.books[k]) || k; }).join(', ') + ' · tote: ' + (cat.names.totes[tote[0]] || tote[0]) + ' (' + (tote[1] === 'natural' ? 'undyed' : tote[1]) + ')' };
+        v = { n: parts[0].split(',').map(function (k) { return (cat.names.packTitles && cat.names.packTitles[k]) || k; }).join(', ') + ' · tote: ' + (cat.names.totes[tote[0]] || tote[0]) + ' (' + (tote[1] === 'natural' ? 'undyed' : tote[1]) + ')' };
       }
       return '<li class="tn-line" data-i="' + i + '">' +
         '<a class="tn-line__img" href="' + p.u + '" tabindex="-1" aria-hidden="true"><img src="' + src + '" alt="" width="96" height="96" loading="lazy"></a>' +
@@ -373,18 +373,17 @@
         var lab = f.querySelector('[data-max-label]');
         if (lab) lab.textContent = max === 1 ? '(choose 1)' : '(' + on.length + ' of up to ' + max + ' chosen)';
       };
-      /* the summary on the right: pack, books, titles, Story Walls, tote bags and the price */
+      /* the summary on the right: pack, Story Walls, the chosen pictures, tote bags and the price */
       var sum = function (k) { return f.querySelector('[data-sum="' + k + '"]'); };
       var update = function () {
         var pack = f.querySelector('input[name="sku"]:checked'); if (!pack) return;
         var titles = Array.prototype.filter.call(f.querySelectorAll('input[name="pack_titles"]'), function (b) { return b.checked; })
-          .map(function (b) { var t = b.closest('label').querySelector('.tn-titlepick__t'); return t ? t.textContent : b.value; });
+          .map(function (b) { return b.getAttribute('data-name') || b.value; });
         var tote = f.querySelector('input[name="pack_tote"]:checked');
         var set = function (k, v) { var el = sum(k); if (el) el.textContent = v; };
         set('name', pack.getAttribute('data-name'));
-        set('books', pack.getAttribute('data-books') + ' colouring books');
         set('titles', titles.length ? titles.join(', ') : 'none yet');
-        set('posters', pack.getAttribute('data-posters') + ', from the worlds of your titles');
+        set('posters', pack.getAttribute('data-posters') + ' Story Walls, shared over your pictures');
         set('totes', pack.getAttribute('data-totes') + ' × ' + (tote ? tote.getAttribute('data-name') + ', ' + tote.getAttribute('data-colour') : ''));
         var price = sum('price');
         if (price) { CURS.forEach(function (c) { var k = c.toLowerCase(); price.setAttribute('data-' + k, pack.getAttribute('data-p-' + k)); }); applyPrices(); }
@@ -396,12 +395,12 @@
         limit(); update();
       });
       limit(); update();
-      /* show one age at a time in the title grid; the choices stay */
+      /* show one age group at a time in the grid (a card can answer to more than one); the choices stay */
       each(f, '[data-agefilter]', function (btn) {
         btn.addEventListener('click', function () {
           var age = btn.getAttribute('data-agefilter');
           each(f, '[data-agefilter]', function (x) { x.setAttribute('aria-pressed', String(x === btn)); });
-          each(f, '.tn-titlepick', function (l) { l.hidden = !!age && l.getAttribute('data-age') !== age; });
+          each(f, '.tn-titlepick', function (l) { l.hidden = !!age && (' ' + (l.getAttribute('data-age') || '') + ' ').indexOf(' ' + age + ' ') < 0; });
         });
       });
       each(root, '[data-pack-start]', function (a) {
@@ -411,7 +410,7 @@
         e.preventDefault();
         var val = function (n) { var x = f.querySelector('[name="' + n + '"]:checked') || f.querySelector('select[name="' + n + '"]'); return x ? x.value : ''; };
         var titles = Array.prototype.filter.call(f.querySelectorAll('input[name="pack_titles"]'), function (b) { return b.checked; }).map(function (b) { return b.value; });
-        if (!titles.length) { msg.textContent = 'Please choose at least one title.'; msg.hidden = false; return; }
+        if (!titles.length) { msg.textContent = 'Please choose at least one Story Wall.'; msg.hidden = false; return; }
         msg.hidden = true;
         T.addToBasket([{ sku: val('sku'), variant: titles.join(',') + '|' + val('pack_tote'), qty: 1, max: 5 }]);   // pack_tote is "design~colour"
       });
