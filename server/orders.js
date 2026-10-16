@@ -115,6 +115,18 @@ export function orderSummary(order) {
   };
 }
 
+/** Read a Checkout Session with all its line items. Expanding line_items on the session gives only the first 10
+    (Stripe's default page), so when there are more, the lines come from /line_items with limit 100 (a basket has at
+    most 40 lines, server/catalog.js resolveLines). Found live on 16 Oct 2026: an 11-item campaign order showed 10. */
+export async function readSession(stripe, id) {
+  const path = `/checkout/sessions/${encodeURIComponent(id)}`;
+  const r = await stripe('GET', path, { expand: ['line_items.data.price.product'] });
+  if (r.status !== 200 || !r.json?.line_items?.has_more) return r;
+  const all = await stripe('GET', `${path}/line_items`, { limit: 100, expand: ['data.price.product'] });
+  if (all.status !== 200 || !Array.isArray(all.json?.data)) return { status: all.status === 200 ? 502 : all.status, json: all.json };
+  return { status: 200, json: { ...r.json, line_items: { ...r.json.line_items, data: all.json.data, has_more: !!all.json.has_more } } };
+}
+
 /**
  * GET /api/order?session_id=cs_… for the thank-you page. The session id is long and random and only the buyer has it.
  * deps: { catalog, stripe } → { status, body: { ok, paid, order? } }
@@ -122,7 +134,7 @@ export function orderSummary(order) {
 export async function handleOrderLookup(sessionId, deps) {
   if (!/^cs_(test|live)_[A-Za-z0-9]{10,200}$/.test(String(sessionId || ''))) return { status: 400, body: { ok: false, error: 'session' } };
   if (!deps.stripe) return { status: 503, body: { ok: false, error: 'notReady' } };
-  const r = await deps.stripe('GET', `/checkout/sessions/${encodeURIComponent(sessionId)}`, { expand: ['line_items.data.price.product'] });
+  const r = await readSession(deps.stripe, sessionId);
   if (r.status === 404) return { status: 404, body: { ok: false, error: 'notFound' } };
   if (r.status !== 200) return { status: 502, body: { ok: false, error: 'stripe' } };
   const paid = r.json.payment_status === 'paid' || r.json.payment_status === 'no_payment_required';
@@ -148,7 +160,7 @@ export async function handleWebhook({ raw, signature }, deps) {
   const paidLater = type === 'checkout.session.async_payment_succeeded';
   if (!paidNow && !paidLater) { log({ event: 'ignored', type, payment: s0.payment_status || '' }); return { status: 200, body: { ok: true, ignored: true } }; }
 
-  const r = await deps.stripe('GET', `/checkout/sessions/${encodeURIComponent(s0.id)}`, { expand: ['line_items.data.price.product'] });
+  const r = await readSession(deps.stripe, s0.id);
   if (r.status !== 200) { log({ event: 'session-read-failed', status: r.status }); return { status: 502, body: { ok: false, error: 'stripe' } }; }
   const order = orderFrom(r.json, deps.catalog);
   order.paymentIntent = typeof r.json.payment_intent === 'string' ? r.json.payment_intent : r.json.payment_intent?.id || null;

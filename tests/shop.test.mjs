@@ -304,3 +304,25 @@ test('Stripe keys: secret or restricted, test or live, spaces trimmed; anything 
     if (before === undefined) delete process.env.STRIPE_SECRET_KEY; else process.env.STRIPE_SECRET_KEY = before;
   }
 });
+
+test('an order with more than 10 lines keeps every line (Stripe expands only the first 10)', async () => {
+  const { readSession, handleOrderLookup } = await import('../server/orders.js');
+  const line = (i) => ({ description: `Line ${i}`, quantity: 1, amount_total: 1090, price: { product: { metadata: { sku: 'mug-cocoa-cat', variant: '' } } } });
+  const session = { id: 'cs_live_eleven0000000001', currency: 'eur', payment_status: 'unpaid', amount_total: 11990, total_details: {}, metadata: {},
+    line_items: { data: Array.from({ length: 10 }, (_, i) => line(i)), has_more: true } };
+  const calls = [];
+  const stripe = async (method, path, params) => {
+    calls.push(`${method} ${path}`);
+    if (path === '/checkout/sessions/cs_live_eleven0000000001') return { status: 200, json: session };
+    if (path === '/checkout/sessions/cs_live_eleven0000000001/line_items') { assert.equal(params.limit, 100); return { status: 200, json: { data: Array.from({ length: 11 }, (_, i) => line(i)), has_more: false } }; }
+    throw new Error('unexpected ' + path);
+  };
+  const r = await readSession(stripe, 'cs_live_eleven0000000001');
+  assert.equal(r.json.line_items.data.length, 11);
+  const lookup = await handleOrderLookup('cs_live_eleven0000000001', { catalog, stripe });
+  assert.equal(lookup.body.order.items.length, 11, 'the thank-you page lists all 11 lines');
+  // 10 lines or fewer: one call, as before
+  const small = { ...session, line_items: { data: [line(1)], has_more: false } };
+  const one = []; await readSession(async (m, p) => { one.push(p); return { status: 200, json: small }; }, 'cs_live_eleven0000000001');
+  assert.equal(one.length, 1);
+});
