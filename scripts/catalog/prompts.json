@@ -762,5 +762,31 @@
       "greeting-card": "dogs"
     },
     "scene": "Flat lay studio product photograph taken from high above at a slight angle. Arrange the four attached products beside each other with space between them, fully visible and not overlapping, each one exactly as it looks in its own attached photo: the mug standing upright with its side visible, the tote bag, the landscape postcard with rounded corners (wider than tall) and the square folded greeting card with a plain white envelope. On a soft oatmeal linen surface, with small orange and white pumpkins, pine cones, autumn leaves and warm fairy lights around the edges. Soft daylight, calm premium styling. No book. No added text, logo or print."
+  },
+  "campaign_scenes": {
+    "_note": "One room scene per campaign page (/campaigns/<key>), John 16 Oct 2026: the Story Wall framed on the wall, the tote bag on a wall hook, the mug, postcard and greeting card on a wooden table. Inputs in order: Story Wall colour art (7+ sheet), then the table photos of the tote bag, mug, postcard and greeting card. Run: generate_mockups.py --stage campaign --scenes halloween",
+    "_rules": "Use each attached image as the exact product: the same artwork, colours and proportions, not redrawn, not mirrored, not simplified. Every product is fully visible and none overlaps another. No people, no hands, no faces. No book. No added text, letters, numbers, logo or watermark anywhere. Photorealistic interior photograph, natural light, calm premium styling, sharp focus on the products.",
+    "halloween": {
+      "ratio": "4:3",
+      "inputs": [
+        "assets/telning-products/_story-walls/big-days/big-days-5-7-colour.png",
+        "public/products/tote/halloween/cats/halloween-cats-tote-table.webp",
+        "public/products/mug/halloween/cat/halloween-cat-mug-table.webp",
+        "public/products/postcard/halloween/dog/halloween-dog-postcard-table.webp",
+        "public/products/greeting-card/halloween/dogs/halloween-dogs-greeting-card-table.webp"
+      ],
+      "scene": "Landscape interior photograph of a cosy Scandinavian living-room corner in late October, seen straight on at standing eye level. On a plain warm-white wall hangs the first attached image: a large landscape colouring poster, 100 cm wide and 70 cm tall, in a thin light oak frame, the whole artwork visible. To the right of the frame, on the same wall, a simple round wooden peg hook holds the tote bag from the second attached image by its straps; the bag hangs flat with its printed side to the camera and is about 41 cm wide, much smaller than the poster. In front of the wall, along the bottom of the picture and a little closer to the camera, stands a light oak wooden table. On the table: the white mug from the third attached image, upright with its picture facing the camera; the landscape postcard with rounded corners from the fourth attached image, propped up so its picture faces the camera; and the square folded greeting card from the fifth attached image standing up beside a plain white envelope. A few small orange and white pumpkins, two autumn leaves and a pine cone on the table. Soft late-afternoon daylight from a window on the left."
+    },
+    "new-year": {
+      "ratio": "4:3",
+      "inputs": [
+        "assets/telning-products/_story-walls/round-the-year/round-the-year-5-7-colour.png",
+        "public/products/tote/everyday/cat/everyday-cat-tote-table.webp",
+        "public/products/mug/everyday/cat/everyday-cat-mug-table.webp",
+        "public/products/postcard/winter/cat/winter-cat-postcard-table.webp",
+        "public/products/greeting-card/winter/cat/winter-cat-greeting-card-table.webp"
+      ],
+      "scene": "Landscape interior photograph of a cosy Scandinavian living-room corner in December, seen straight on at standing eye level. On a plain warm-white wall hangs the first attached image: a large landscape colouring poster, 100 cm wide and 70 cm tall, in a thin light oak frame, the whole artwork visible. To the right of the frame, on the same wall, a simple round wooden peg hook holds the tote bag from the second attached image by its straps; the bag hangs flat with its printed side to the camera and is about 41 cm wide, much smaller than the poster. In front of the wall, along the bottom of the picture and a little closer to the camera, stands a light oak wooden table. On the table: the white mug from the third attached image, upright with its picture facing the camera; the landscape postcard with rounded corners from the fourth attached image, propped up so its picture faces the camera; and the square folded greeting card with sharp square corners from the fifth attached image standing up beside a plain white envelope. A few small fir branches, pine cones, red berries and one lit white candle on the table. Soft winter daylight from a window on the left, with a hint of snow outside."
+    }
   }
 }

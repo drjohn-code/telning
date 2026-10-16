@@ -40,7 +40,6 @@ const faq = offers.faq.map((f: any) => (f.a.includes('{ends}')
             <a class="tn-offercard__a" href={o.path} aria-labelledby={`offer-${o.key}`}>
               <div class="tn-offercard__art" aria-hidden="true">
                 <Picture class="tn-offercard__main" src={pic(o.hero.main)} alt="" eager={i === 0} widths={[600, 1200]} sizes="(min-width: 1024px) 560px, 100vw" />
-                <Picture class="tn-offercard__small" src={pic(o.hero.small)} alt="" widths={[600]} sizes="(min-width: 1024px) 200px, 34vw" />
               </div>
               <div class="tn-offercard__body">
                 <p class="tn-kicker" data-offer-when data-ended-text="This offer has ended">Until {short(o.endsLabel)}</p>

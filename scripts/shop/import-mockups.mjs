@@ -3,7 +3,8 @@
 // views table, home, hand), it writes AVIF + WebP at 600 and 1200 px to public/shop/img/<slug>/<slug>-<view>-<w>.<ext>,
 // the blur entry in src/data/shop-images.json and the share image public/og/p/<sku>.jpg, removes the placeholder
 // files, and sets `placeholder: false` in src/data/shop-gifts.json (the design leaves "Coming soon").
-// The gift-set picture replaces its placeholder in place. Safe to run again: it only does designs with all photos.
+// The gift-set picture replaces its placeholder in place; the campaign pictures go to /shop/img/campaign (--only campaign).
+// Safe to run again: it only does designs with all photos.
 //   node scripts/shop/import-mockups.mjs [--dry-run] [--only pumpkin-patch-cats,gift-set]   (--only: just these design keys, or
 //   skus like postcards-dog-parade when a key is used by two products)
 import { mkdirSync, writeFileSync, readFileSync, existsSync, rmSync, readdirSync } from 'node:fs';
@@ -58,5 +59,22 @@ for (const type of ['mug', 'tote', 'postcards', 'cards']) {
 }
 const set = join(ROOT, 'public/products/gift-set/halloween/halloween-gift-set.webp');
 if (existsSync(set) && wanted('gift-set')) { if (!DRY) await save('gift-set', 'halloween-gift-set', set); console.log(`${DRY ? 'would import' : 'imported'} the gift set`); }
+// the campaign pictures (John, 16 Oct 2026): one landscape room scene per offer page (generate_mockups.py --stage campaign)
+// → /shop/img/campaign/campaign-<key>-scene-<w>.{avif,webp} with its real height, and the share image public/og/campaign-<key>.jpg
+const CAMP = join(ROOT, 'public/products/campaign');
+for (const f of existsSync(CAMP) ? readdirSync(CAMP).filter((x) => x.endsWith('-campaign-scene.webp')) : []) {
+  const key = f.replace('-campaign-scene.webp', '');
+  if (!wanted('campaign') && !wanted(`campaign-${key}`)) continue;
+  const file = join(CAMP, f);
+  if (!DRY) {
+    await save('campaign', `${key}-scene`, file);
+    const { width, height } = await sharp(file).metadata();
+    meta[`/shop/img/campaign/campaign-${key}-scene`].h = Math.round(1200 * height / width);
+    // the share picture: 1200 × 630 with the whole scene (a crop would cut the table), centred on the site's paper colour
+    const og = await sharp(file).resize(1200, 630, { fit: 'contain', background: '#f6f1e8' }).jpeg({ quality: 84, mozjpeg: true }).toBuffer();
+    writeFileSync(join(ROOT, 'public/og', `campaign-${key}.jpg`), og);
+  }
+  console.log(`${DRY ? 'would import' : 'imported'} the ${key} campaign picture`);
+}
 if (!DRY) { writeFileSync(META, JSON.stringify(meta)); writeFileSync(GIFTS, JSON.stringify(gifts, null, 2) + '\n'); }
 console.log(`${done} design(s) ${DRY ? 'ready' : 'imported'}, ${waiting} still waiting for photos`);

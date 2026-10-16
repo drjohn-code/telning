@@ -38,9 +38,10 @@
       "lead": "Mugs, tote bags, postcards and greeting cards with our Halloween cats and dogs, and four Story Walls to colour together, one with pumpkin lanterns. Choose 11 items or more and 20% comes off every item.",
       "orderTitle": "Your Halloween order",
       "tile": "Our Halloween cats and dogs on mugs, tote bags, postcards and greeting cards, and four Story Walls to colour, one with pumpkin lanterns.",
+      "og": "/og/campaign-halloween.jpg",
       "hero": {
-        "main": "/shop/img/gift-set/gift-set-halloween-gift-set", "mainAlt": "A Telning Halloween mug, tote bag, postcard and greeting card with cats and dogs, among pumpkins and autumn leaves",
-        "small": ["poster-big-days-5-7", "progress"], "smallAlt": "The Big Days Story Wall being coloured on the floor, with pumpkin lanterns and a Christmas tree"
+        "main": "/shop/img/campaign/campaign-halloween-scene",
+        "mainAlt": "A Halloween corner at home: the Big Days Story Wall in a frame, the Cat Parade tote bag on a wall hook, and the Cocoa Cat mug, Pumpkin Pup postcards and Pumpkin Puppies greeting cards on a wooden table"
       },
       "sections": [
         { "type": "poster", "skus": ["poster-big-days-5-7", "poster-paws-claws-5-7", "poster-round-the-year-5-7", "poster-star-hoppers-5-7"], "intro": "Four Story Walls for ages 7 and up, with small shapes and many details. Big Days has pumpkin lanterns among every big day of the year. Paws & Claws has a puppy and a cat, owls and a fox among ferns and mushrooms. Round the Year has an autumn corner with rain, umbrellas and a kite. Star Hoppers has a big moon and shooting stars. A few shapes are painted to start; your child colours the rest." },
@@ -62,10 +63,10 @@
       "lead": "Christmas and New Year postcards and greeting cards with our cats and dogs, four Story Walls to colour together, with a snowman and a Christmas tree among them, and mugs and tote bags for every day. Choose 11 items or more and 20% comes off every item.",
       "orderTitle": "Your Christmas & New Year order",
       "tile": "Christmas and New Year postcards and greeting cards with our cats and dogs, four Story Walls with a snowman and a Christmas tree among them, and mugs and tote bags for every day.",
+      "og": "/og/campaign-new-year.jpg",
       "hero": {
-        "main": ["postcards-lantern-cat", "home"], "mainAlt": "Telning Lantern Cat postcards by a snowy window: a ginger cat in a red hat with a star lantern in a snowy fir forest",
-        "small": ["poster-round-the-year-5-7", "progress"], "smallAlt": "The Round the Year Story Wall being coloured on the floor, with a penguin and a snowman in its winter corner",
-        "small2": ["cards-scarf-cat", "table"], "small2Alt": "The Scarf Cat Christmas card: a black cat in a red scarf in the snow"
+        "main": "/shop/img/campaign/campaign-new-year-scene",
+        "mainAlt": "A winter corner at home: the Round the Year Story Wall in a frame, the Flower Cat tote bag on a wall hook, and the Tea Cat mug, Lantern Cat postcards and Scarf Cat greeting cards on a wooden table"
       },
       "sections": [
         { "type": "poster", "skus": ["poster-round-the-year-5-7", "poster-big-days-5-7", "poster-toy-box-5-7", "poster-home-hearts-5-7"], "intro": "Four Story Walls for ages 7 and up, with small shapes and many details. Round the Year has a winter corner with a penguin and a snowman. Big Days has a Christmas tree and presents among every big day of the year. The Toy Box is a toy room come to life, with teddy bears, a rocking horse and a toy train. Home & Hearts is a street of houses with neighbours at every door. A few shapes are painted to start; your child colours the rest." },

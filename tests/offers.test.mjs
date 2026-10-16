@@ -201,3 +201,15 @@ test('offers: every Story Wall on a campaign page is the 7+ sheet, four differen
     assert.ok(walls.every((p) => p.age === '5-7'), `${o.key}: ages 7+ only`);
   }
 });
+
+test('offers: each page has its one room picture (600/1200 px, AVIF + WebP, blur entry with the real height) and its share picture', async () => {
+  const { existsSync, readFileSync } = await import('node:fs');
+  const meta = JSON.parse(readFileSync(new URL('../src/data/shop-images.json', import.meta.url), 'utf8'));
+  for (const o of offers.list) {
+    assert.ok(typeof o.hero.main === 'string' && !o.hero.small && !o.hero.small2, `${o.key}: one picture, no small ones (John)`);
+    for (const w of [600, 1200]) for (const ext of ['webp', 'avif']) assert.ok(existsSync(new URL(`../public${o.hero.main}-${w}.${ext}`, import.meta.url)), `${o.key} ${w}.${ext}`);
+    assert.deepEqual([meta[o.hero.main]?.w, meta[o.hero.main]?.h], [1200, 896], `${o.key}: landscape 4:3`);
+    assert.ok(existsSync(new URL(`../public${o.og}`, import.meta.url)), `${o.key}: share picture`);
+    assert.equal(shopPages[o.path].og, o.og);
+  }
+});

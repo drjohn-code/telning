@@ -40,7 +40,7 @@ const sub = (p: any, s: any) => ((s.occasions || []).length > 1 ? `${(gifts.occa
 const photo = (p: any) => p.images[0].src;   // Story Walls: coloured on the floor; gifts: on the table
 const pic = (x: any) => (Array.isArray(x) ? view(x[0], x[1]) : x);   // [sku, view] or an image path
 ---
-<Base page={PAGE} preload={{ src: pic(o.hero.main), sizes: '(min-width: 1024px) 520px, 100vw' }}>
+<Base page={PAGE} preload={{ src: pic(o.hero.main), sizes: '(min-width: 1024px) 600px, 100vw' }}>
   <Header />
   <main id="main" tabindex="-1">
     <section class="tn-wrap tn-shophero tn-offerhero" aria-labelledby="page-h">
@@ -58,9 +58,7 @@ const pic = (x: any) => (Array.isArray(x) ? view(x[0], x[1]) : x);   // [sku, vi
           <p><a class="tn-btn tn-btn--secondary" href="#order">Choose your items</a></p>
         </div>
         <div class="tn-offerhero__art">
-          <Picture class="tn-offerhero__main" src={pic(o.hero.main)} alt={o.hero.mainAlt} eager sizes="(min-width: 1024px) 520px, 100vw" />
-          <Picture class="tn-offerhero__small" src={pic(o.hero.small)} alt={o.hero.smallAlt} widths={[600]} sizes="(min-width: 1024px) 200px, 38vw" />
-          {o.hero.small2 && <Picture class="tn-offerhero__small tn-offerhero__small--2" src={pic(o.hero.small2)} alt={o.hero.small2Alt} widths={[600]} sizes="(min-width: 1024px) 170px, 32vw" />}
+          <Picture class="tn-offerhero__main" src={pic(o.hero.main)} alt={o.hero.mainAlt} eager sizes="(min-width: 1024px) 600px, 100vw" />
         </div>
       </div>
     </section>

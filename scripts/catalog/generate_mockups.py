@@ -182,6 +182,22 @@ def build_jobs(cfg, theme, stages, designs, products, public_dir, masters_dir, s
     return jobs
 
 
+def campaign_jobs(cfg, scenes=None):
+    """Campaign pictures (John, 16 Oct 2026): one room scene per campaign page (/campaigns/<key>) with its real products:
+    the Story Wall framed on the wall, the tote bag on a hook, the mug and the cards on a wooden table. The inputs are the
+    Story Wall's colour art and the gifts' table photos (paths from the repo root, in prompts.json `campaign_scenes`)."""
+    cs = {k: v for k, v in cfg.get("campaign_scenes", {}).items() if not k.startswith("_")}
+    unknown = [k for k in (scenes or []) if k not in cs]
+    if unknown:
+        sys.exit(f"Unknown campaign scene(s): {', '.join(unknown)}. Choices: {', '.join(cs)}")
+    return [{
+        "stage": "campaign", "id": f"campaign-{k}", "label": f"campaign scene: {k}", "ratio": c["ratio"],
+        "inputs": [ROOT / x for x in c["inputs"]],
+        "out": DEFAULT_PUBLIC / "campaign" / f"{k}-campaign-scene.webp",
+        "prompt": c["scene"] + " " + cfg["campaign_scenes"]["_rules"],
+    } for k, c in cs.items() if not scenes or k in scenes]
+
+
 # ---------------------------------------------------------------- Google AI Studio
 
 def make_client(key):
@@ -396,8 +412,9 @@ def cmd_refit(args):
 def run(args):
     cfg = load_config(args.config)
     stages = ["art", "mockups", "gift-set"] if args.stage == "all" else [args.stage]
-    jobs = build_jobs(cfg, args.theme, stages, args.designs, args.products,
-                      Path(args.public_dir), Path(args.masters_dir), args.style, getattr(args, 'match', None), args.edit)
+    jobs = campaign_jobs(cfg, args.scenes) if args.stage == "campaign" else build_jobs(
+        cfg, args.theme, stages, args.designs, args.products,
+        Path(args.public_dir), Path(args.masters_dir), args.style, getattr(args, 'match', None), args.edit)
     todo = [j for j in jobs if args.force or j.get("edit") or not j["out"].exists()]   # an edit always runs (it rewrites the master)
     print(f"{len(jobs)} images in this plan, {len(jobs) - len(todo)} already exist, {len(todo)} to make "
           f"(model {args.model}, size {args.size}).")
@@ -441,7 +458,7 @@ def run(args):
         print(f"made   {j['id']}  {w}x{h}  {time.time() - started:.0f}s{'  ' + note if note else ''}", flush=True)
 
     nonlocal_made = []
-    for stage, matched in (("art", False), ("mockups", False), ("mockups", True), ("gift-set", False)):   # a stage needs the one before it
+    for stage, matched in (("art", False), ("mockups", False), ("mockups", True), ("gift-set", False), ("campaign", False)):   # a stage needs the one before it
         batch = [j for j in todo if j["stage"] == stage and bool(j.get("matched")) == matched]   # matched photos after their reference
         if not batch or stop:
             continue
@@ -461,7 +478,8 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="Generate Telning gift mockups with Google AI Studio.")
     ap.add_argument("--theme", default="halloween")
     ap.add_argument("--config", default=str(CONFIG), help="another prompts file, for style tests")
-    ap.add_argument("--stage", choices=["art", "mockups", "gift-set", "all"], default="all")
+    ap.add_argument("--stage", choices=["art", "mockups", "gift-set", "campaign", "all"], default="all")   # campaign: not in "all"
+    ap.add_argument("--scenes", type=lambda s: s.split(","), help="campaign stage: comma list of scenes, e.g. halloween")
     ap.add_argument("--designs", type=lambda s: s.split(","), help="comma list, e.g. cat,dogs")
     ap.add_argument("--products", type=lambda s: s.split(","), help="comma list, e.g. mug,tote")
     ap.add_argument("--style", help="another art style from prompts.json 'styles', e.g. storybook (try it with other --masters-dir/--public-dir)")
