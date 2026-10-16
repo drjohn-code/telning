@@ -8,8 +8,9 @@ import { createUser, upsert, hasDb } from '../server/supabase.js';
 
 const email = (process.argv[2] || 'john@telning.com').toLowerCase();
 const FILE = new URL('../.admin-credentials.local', import.meta.url);
-const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789-_.!?';
-const password = Array.from(randomBytes(24), (b) => alphabet[b % alphabet.length]).join('');
+// letters and digits only: a double-click selects the whole password (punctuation used to cut it short)
+const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
+const password = Array.from(randomBytes(64)).filter((b) => b < 224).slice(0, 24).map((b) => alphabet[b % alphabet.length]).join('');
 const existing = existsSync(FILE) ? readFileSync(FILE, 'utf8') : '';
 const stamp = new Date().toISOString().slice(0, 16).replace('T', ' ');
 
