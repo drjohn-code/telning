@@ -8,7 +8,7 @@
     "kind": "transactional"
   },
   "order-shipped": {
-    "subject": "A parcel from your order {{number}} is on its way",
+    "subject": "Your Telning parcel is on its way ({{number}})",
     "kind": "transactional"
   },
   "order-delivered": {
@@ -50,6 +50,10 @@
   "auth-magic": {
     "subject": "Your Telning admin sign-in link",
     "kind": "transactional"
+  },
+  "campaign": {
+    "subject": "{{subject}}",
+    "kind": "marketing"
   },
   "letters-from-pim": {
     "subject": "{{subject}}",

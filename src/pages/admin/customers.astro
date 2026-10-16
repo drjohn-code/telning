@@ -1,7 +1,14 @@
 ---
 import Admin from '../../layouts/Admin.astro';
 ---
-<Admin title="Customers" page="/admin/customers">
-  <Fragment slot="tools"><input class="tn-input" type="search" placeholder="Search email or name" data-search aria-label="Search customers" /><button class="tn-btn tn-btn--secondary" type="button" data-csv>CSV</button></Fragment>
+<Admin title="Buyers" page="/admin/customers">
+  <Fragment slot="tools">
+    <input class="tn-input" type="search" placeholder="Search name, email, product, order" data-search aria-label="Search buyers" style="min-width:260px" />
+    <select data-country aria-label="Country"><option value="">All countries</option></select>
+    <select data-marketing aria-label="Marketing emails"><option value="">Marketing: all</option><option value="true">Agreed to marketing</option><option value="false">Not agreed</option></select>
+    <button class="tn-btn tn-btn--secondary" type="button" data-csv>CSV</button>
+  </Fragment>
+  <ul class="ad-tiles" data-tiles><li class="ad-tile"><b>…</b><span>loading</span></li></ul>
+  <p class="ad-small" data-count style="margin:0 0 var(--s2)"></p>
   <div data-list><div class="ad-empty">Loading…</div></div>
 </Admin>

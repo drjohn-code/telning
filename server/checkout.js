@@ -26,7 +26,7 @@ export function basketCode(lines) {
 
 /**
  * Stripe Checkout Session parameters.
- * opts: { origin, tax: bool (Stripe Tax on), terms: bool (terms consent on), imageBase }
+ * opts: { origin, tax: bool (Stripe Tax on), terms: bool (terms consent on), imageBase, marketing: bool (the buyer ticked "Letters from Pim") }
  */
 export function sessionParams(catalog, lines, currency, opts) {
   const { shop } = catalog;
@@ -70,7 +70,7 @@ export function sessionParams(catalog, lines, currency, opts) {
     ...(opts.tax ? { automatic_tax: { enabled: true } } : {}),
     ...(opts.terms ? { consent_collection: { terms_of_service: 'required' } } : {}),
     custom_text: { submit: { message: 'Made for you after you order. Items may arrive in separate parcels. Unused items can be returned within 14 days.' } },
-    metadata: { basket: code.slice(0, 500), currency, region: cur.region, parcels: ship.parcels.map((p) => `${p.key}:${p.qty}`).join(',') },
+    metadata: { basket: code.slice(0, 500), currency, region: cur.region, parcels: ship.parcels.map((p) => `${p.key}:${p.qty}`).join(','), ...(opts.marketing ? { marketing: 'yes' } : {}) },
     // a paid Stripe invoice for every order: Stripe emails it with the receipt (live mode) and we link it in our email
     invoice_creation: { enabled: true, invoice_data: { description: 'Telning order. Made for you after you order.', footer: 'WelloWork AB · Telning Publishing House · Dekangatan 4, Uppsala, Sweden · info@telning.com', metadata: { basket: code.slice(0, 500) } } },
     payment_intent_data: { description: `Telning order: ${lines.reduce((a, l) => a + l.qty, 0)} item(s)`, metadata: { basket: code.slice(0, 500) } },
@@ -94,7 +94,7 @@ export async function handleCheckout({ body, origin }, deps) {
   const region = catalog.shop.currencies[currency].region;   // postcards go to Europe and the UK only
   if (lines.some((l) => l.product.regions && !l.product.regions.includes(region))) return { status: 400, body: { ok: false, error: 'region' } };
   if (!stripe) return { status: 503, body: { ok: false, error: 'notReady' } };
-  const params = sessionParams(catalog, lines, currency, { origin, tax: deps.tax, terms: deps.terms, imageBase: deps.imageBase });
+  const params = sessionParams(catalog, lines, currency, { origin, tax: deps.tax, terms: deps.terms, imageBase: deps.imageBase, marketing: body.marketing === true });
   const r = await stripe('POST', '/checkout/sessions', params);
   if (r.status < 200 || r.status >= 300 || !r.json?.url) {
     log({ event: 'checkout-failed', status: r.status, code: r.json?.error?.code || '', message: r.json?.error?.message || '' });

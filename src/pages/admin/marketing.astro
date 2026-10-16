@@ -1,0 +1,66 @@
+---
+import Admin from '../../layouts/Admin.astro';
+---
+<Admin title="Marketing email" page="/admin/marketing">
+  <div class="ad-mk">
+    <form class="ad-mk__form" data-mk-form novalidate>
+      <section class="ad-card">
+        <h2>1. Write</h2>
+        <div class="ad-form ad-form--wide">
+          <label class="ad-field"><span>Subject <small data-count-subject>Short is best: under 50 characters.</small></span><input class="tn-input" name="subject" maxlength="150" required autocomplete="off" /></label>
+          <label class="ad-field"><span>Preview line <small>the grey line after the subject in the inbox</small></span><input class="tn-input" name="preheader" maxlength="150" autocomplete="off" /></label>
+          <div class="ad-field">
+            <span>Picture <small>best size 1200 × 800 px, JPG, under 300 KB. Do not put important words in the picture.</small></span>
+            <div class="ad-mk__pic">
+              <img data-pic-thumb alt="" hidden />
+              <div class="ad-mk__picbtns">
+                <label class="tn-btn tn-btn--secondary ad-upload">Upload a picture<input type="file" accept="image/jpeg,image/png,image/gif" data-pic-file hidden /></label>
+                <button class="ad-linkbtn" type="button" data-pic-remove hidden>Remove picture</button>
+                <p class="ad-small" data-pic-info></p>
+              </div>
+            </div>
+            <input class="tn-input" name="image" type="url" placeholder="or paste a picture link (https://…)" spellcheck="false" />
+          </div>
+          <label class="ad-field"><span>Describe the picture <small>for people who cannot see it</small></span><input class="tn-input" name="imageAlt" maxlength="200" /></label>
+          <label class="ad-field"><span>Headline</span><input class="tn-input" name="headline" maxlength="150" /></label>
+          <label class="ad-field"><span>Text <small>a blank line starts a new paragraph · **bold** · links that start with https:// become links</small></span><textarea class="ad-note ad-mk__text" name="text" rows="9" maxlength="6000"></textarea></label>
+          <div class="ad-mk__row">
+            <label class="ad-field"><span>Button text <small>optional</small></span><input class="tn-input" name="ctaLabel" maxlength="40" placeholder="See the Story Walls" /></label>
+            <label class="ad-field"><span>Button link</span><input class="tn-input" name="ctaUrl" type="url" placeholder="https://telning.com/books" spellcheck="false" /></label>
+          </div>
+        </div>
+      </section>
+      <section class="ad-card">
+        <h2>2. Who gets it</h2>
+        <div class="ad-checks">
+          <label class="ad-check"><input type="checkbox" name="src" value="newsletter" checked /><span>Newsletter sign-ups <small data-n="newsletter">confirmed their email</small></span></label>
+          <label class="ad-check"><input type="checkbox" name="src" value="buyers" checked /><span>Buyers who ticked “Letters from Pim” at checkout <small data-n="buyers"></small></span></label>
+          <label class="ad-check"><input type="checkbox" name="src" value="pasted" data-src-pasted /><span>A list I paste <small>one email per line, or with commas</small></span></label>
+        </div>
+        <div class="ad-mk__pasted" data-pasted hidden>
+          <textarea class="ad-note" name="pasted" rows="5" placeholder="anna@example.com&#10;lars@example.com" spellcheck="false"></textarea>
+          <label class="ad-check ad-mk__agree"><input type="checkbox" name="pastedAgreed" /><span>These people agreed to get emails from Telning <small>required by law (GDPR). Never paste bought or copied lists.</small></span></label>
+        </div>
+        <p class="ad-mk__total" data-total>Counting…</p>
+        <p class="ad-small">People who unsubscribed are always left out. Every email has an unsubscribe link at the bottom.</p>
+      </section>
+      <section class="ad-card">
+        <h2>3. Send</h2>
+        <div class="ad-actions">
+          <button class="tn-btn tn-btn--secondary" type="button" data-mk-test>Send a test to me</button>
+          <button class="tn-btn tn-btn--buy" type="button" data-mk-send>Send</button>
+        </div>
+        <p class="ad-msg" data-mk-msg role="status" hidden></p>
+        <p class="ad-small" style="margin-top:var(--s3)">Check your Resend plan before a big send: the free plan sends 100 emails a day.</p>
+      </section>
+    </form>
+    <aside class="ad-mk__preview" aria-label="Preview">
+      <div class="ad-card">
+        <div class="ad-mk__phead"><h2>Preview</h2><div class="ad-widths"><button type="button" data-pw="375" aria-pressed="true">Phone</button><button type="button" data-pw="640" aria-pressed="false">Desktop</button></div></div>
+        <p class="ad-small ad-mk__inbox"><b data-inbox-subject>Your subject</b> <span data-inbox-pre></span></p>
+        <div class="ad-preview ad-mk__frame"><iframe data-mk-frame title="Email preview" style="width:375px"></iframe></div>
+      </div>
+    </aside>
+  </div>
+  <section class="ad-card"><h2>Sent before</h2><div data-campaigns><div class="ad-empty">Loading…</div></div></section>
+</Admin>

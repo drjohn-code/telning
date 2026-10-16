@@ -65,6 +65,9 @@
     "api/story-card.js": {
       "memory": 1024,
       "maxDuration": 30
+    },
+    "api/admin-campaign.js": {
+      "maxDuration": 60
     }
   },
   "redirects": [

@@ -2,7 +2,6 @@
 import Admin from '../../layouts/Admin.astro';
 ---
 <Admin title="Order" page="/admin/orders">
-  <h2 class="ad-h1" data-title style="margin-bottom:var(--s3)">Order</h2>
   <div class="ad-grid2">
     <section class="ad-card"><h2>Customer and delivery</h2><div data-summary></div></section>
     <section class="ad-card"><h2>Status and notes</h2>
@@ -13,7 +12,7 @@ import Admin from '../../layouts/Admin.astro';
       </div>
     </section>
   </div>
+  <section class="ad-card"><h2>Parcels and tracking</h2><p class="ad-small" style="margin:0 0 var(--s3)">When a parcel ships, choose the carrier and type the tracking number. Save, and the buyer gets the “shipped” email with a button to the tracking page. When every parcel has shipped, the order status changes to “shipped” by itself.</p><div data-parcels></div></section>
   <section class="ad-card"><h2>Items</h2><div data-items></div></section>
-  <section class="ad-card"><h2>Parcels and tracking</h2><div data-parcels></div></section>
   <section class="ad-card"><h2>Emails sent</h2><div data-emails></div></section>
 </Admin>

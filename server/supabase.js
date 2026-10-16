@@ -35,12 +35,30 @@ export async function createUser({ email, password, key = KEY(), url = URL_() })
   return { ok: res.ok, status: res.status, data };
 }
 
+/** The admin behind an admin-page API call, or null. The page sends the signed-in user's access token
+    (Authorization: Bearer …); Supabase Auth says who it is, and the user must be in admin_users. */
+export async function adminFromRequest(request, { key = KEY(), url = URL_() } = {}) {
+  const h = request.headers.get('authorization') || '';
+  const token = h.startsWith('Bearer ') ? h.slice(7).trim() : '';
+  if (!token || !key) return null;
+  const res = await fetch(`${url}/auth/v1/user`, { headers: { apikey: key, Authorization: `Bearer ${token}` } });
+  if (!res.ok) return null;
+  let user = null; try { user = await res.json(); } catch { return null; }
+  if (!user?.id || !/^[0-9a-f-]{36}$/i.test(user.id)) return null;
+  const a = await select('admin_users', `user_id=eq.${user.id}&select=email,role`, { key, url });
+  return a.ok && a.data?.[0] ? { id: user.id, email: a.data[0].email, role: a.data[0].role } : null;
+}
+
 /** Write an order (customer, order, items, fulfilments) after a paid Stripe session. Idempotent on the session id. */
 export async function recordOrder(order, { logger = () => {} } = {}) {
   if (!hasDb()) return { skipped: true };
   const ev = await upsert('webhook_events', [{ source: 'stripe', event_id: order.id, type: 'checkout.session.completed', processed: false }], 'source,event_id', { prefer: 'resolution=ignore-duplicates,return=representation' });
   if (ev.ok && Array.isArray(ev.data) && ev.data.length === 0) return { duplicate: true };   // already recorded
-  const cust = await upsert('customers', [{ email: order.email.toLowerCase(), name: order.name || null, phone: order.phone || null, country: order.address?.country || null }], 'email');
+  const email = order.email.toLowerCase();
+  // the "Letters from Pim" box at checkout: a yes is saved (and lifts an earlier unsubscribe); no tick changes nothing
+  const consent = order.marketing ? { marketing_consent: true, consent_at: new Date().toISOString(), consent_source: 'checkout' } : {};
+  const cust = await upsert('customers', [{ email, name: order.name || null, phone: order.phone || null, country: order.address?.country || null, ...consent }], 'email');
+  if (order.marketing) await db('DELETE', `email_suppressions?email=eq.${encodeURIComponent(email)}`, undefined, { prefer: 'return=minimal' });
   const customerId = cust.ok && cust.data?.[0]?.id;
   const o = await upsert('orders', [{
     number: order.number, stripe_session_id: order.id, stripe_payment_intent: order.paymentIntent || null, customer_id: customerId || null,

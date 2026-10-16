@@ -690,6 +690,9 @@ html.tn-menu-open { overflow: hidden; }
 .tn-check { display: grid; grid-template-columns: 24px 1fr; gap: var(--s3); align-items: start; min-height: 44px; cursor: pointer; }
 .tn-check input { width: 24px; height: 24px; margin: 2px 0 0; accent-color: var(--ink); }
 .tn-check .tn-hint { display: block; }
+.tn-optin { min-height: 0; font-size: 14px; line-height: 1.45; color: var(--ink-soft); }
+.tn-optin input { width: 20px; height: 20px; }
+.tn-optin a { color: inherit; }
 .tn-error.tn-form__fail { display: none; } .tn-error.tn-form__fail.is-on { display: flex; }
 .tn-btn--light { background: var(--cream); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
 .tn-btn--light:hover { background: var(--forest); color: var(--cream); }

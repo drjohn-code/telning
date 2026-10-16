@@ -209,7 +209,8 @@
     btn.disabled = true; btn.setAttribute('aria-busy', 'true');
     var label = btn.textContent; btn.textContent = 'Opening secure payment…';
     if (msg) { msg.hidden = true; msg.textContent = ''; }
-    fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ currency: currency(), items: b }) })
+    var optin = root.querySelector('[data-optin]');   // "Letters from Pim" box: unticked unless the buyer ticks it
+    fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ currency: currency(), items: b, marketing: !!(optin && optin.checked) }) })
       .then(function (r) { return r.json().catch(function () { return { ok: false, error: 'error' }; }); })
       .then(function (j) {
         if (j && j.ok && j.url) { location.href = j.url; return; }

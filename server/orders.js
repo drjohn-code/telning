@@ -41,10 +41,10 @@ export function orderFrom(session, catalog) {
   }
   for (const it of items) delete it.product;
   return {
-    id: session.id, number: 'T-' + String(session.id || '').slice(-8).toUpperCase(), live: !!session.livemode,
+    id: session.id, number: 'T-' + String(session.id || '').slice(-8).toUpperCase(), live: !!session.livemode, created: session.created || null,
     currency, locale, total: session.amount_total, shipping: session.shipping_cost?.amount_total ?? null, tax: session.total_details?.amount_tax ?? null,
     email: cust.email || '', name: ship.name || cust.name || '', phone: cust.phone || '',
-    address: ship.address || cust.address || {}, region: session.metadata?.region || '',
+    address: ship.address || cust.address || {}, region: session.metadata?.region || '', marketing: session.metadata?.marketing === 'yes',
     items, parts,
   };
 }

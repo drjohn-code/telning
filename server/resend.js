@@ -27,3 +27,12 @@ export async function sendEmail({ to, from, replyTo, subject, text, html, attach
   if (r.status < 200 || r.status >= 300) throw new Error(`email ${r.status}`);
   return r.json && r.json.id;
 }
+
+/** Send up to 100 emails in one call (Resend batch). messages: [{ to, from, replyTo, subject, html, text, headers }].
+    Returns the ids in the same order. Throws when Resend refuses the batch (then none of them went). */
+export async function sendBatch(messages) {
+  if (!hasKey()) throw new Error('no email service');
+  const r = await resendApi('POST', '/emails/batch', messages.map((m) => ({ from: m.from, to: [m.to], ...(m.replyTo ? { reply_to: m.replyTo } : {}), subject: m.subject, html: m.html, text: m.text, ...(m.headers ? { headers: m.headers } : {}) })));
+  if (r.status < 200 || r.status >= 300) throw new Error(`email batch ${r.status}`);
+  return (r.json?.data || []).map((d) => d.id);
+}

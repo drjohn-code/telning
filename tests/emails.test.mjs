@@ -31,6 +31,19 @@ test('order emails use the order data: number, items, totals, address', () => {
   assert.equal(toText('<p>Hi <a href="https://x.y">there</a></p>'), 'Hi there (https://x.y)');
 });
 
+test('order confirmation: product photo and line, order date, VAT included, receipt button only with a receipt', () => {
+  const order = { number: 'T-ABC12345', name: 'Anna Berg', currency: 'EUR', locale: 'en-IE', created: 1792130400, subtotal: 3180, shipping: 1180, tax: 872, total: 4360, address: { country: 'SE' }, items: [{ sku: 'mug-cocoa-cat', qty: 2, name: 'Cocoa Cat mug', amount: 3180 }, { sku: 'no-such-sku', qty: 1, name: 'Old item', amount: 0 }], parts: { printful: [] } };
+  const r = render('order-confirmation', { order, contact: 'info@telning.com' });
+  assert.match(r.html, /src="https:\/\/telning\.com\/email\/products\/mug-cocoa-cat\.jpg"/);
+  assert.match(r.html, /Ceramic mug · 330 ml<br>Qty 2/);
+  assert.match(r.html, /16 October 2026/);
+  assert.match(r.html, /VAT \(included\)/);
+  assert.match(r.html, /You get an email with the tracking link when your parcel ships/);
+  assert.doesNotMatch(r.html, /Receipt and invoice/);
+  const withReceipt = render('order-confirmation', { order: { ...order, receipt: { url: 'https://invoice.stripe.com/i/x' } }, contact: 'info@telning.com' });
+  assert.match(withReceipt.html, /href="https:\/\/invoice\.stripe\.com\/i\/x"[^>]*>[\s\S]*?Receipt and invoice/);
+});
+
 test('newsletter double opt-in: confirm sets the time and sends the welcome; unsubscribe needs a token', async () => {
   const { startOptIn, confirm, unsubscribe } = await import('../server/newsletter.js');
   const rows = new Map(); const sent = [];

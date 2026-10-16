@@ -1,10 +1,13 @@
 ---
 import Admin from '../../layouts/Admin.astro';
 ---
-<Admin title="Customer" page="/admin/customers">
-  <h2 class="ad-h1" data-title style="margin-bottom:var(--s3)">Customer</h2>
-  <section class="ad-card"><div data-summary></div></section>
+<Admin title="Buyer" page="/admin/customers">
+  <p class="ad-small" style="margin:0 0 var(--s3)"><a class="ad-back" href="/admin/customers">← All buyers</a></p>
+  <div class="ad-grid2">
+    <section class="ad-card"><h2>Details</h2><div data-summary></div></section>
+    <section class="ad-card"><h2>Products bought</h2><div data-bought></div></section>
+  </div>
   <section class="ad-card"><h2>Orders</h2><div data-orders></div></section>
   <section class="ad-card"><h2>Notes</h2><div class="ad-form"><textarea class="ad-note" data-notes aria-label="Notes"></textarea><div class="ad-actions"><button class="tn-btn" type="button" data-save>Save</button></div></div></section>
-  <section class="ad-card"><h2>GDPR</h2><p>Export everything we hold about this customer as JSON, or delete their personal data. Orders stay for the accounting law, anonymised.</p><div class="ad-actions"><button class="tn-btn tn-btn--secondary" type="button" data-export>Export (JSON)</button><button class="tn-btn tn-btn--secondary" type="button" data-delete>Delete personal data</button></div></section>
+  <section class="ad-card"><h2>GDPR</h2><p>Export everything we hold about this buyer as JSON, or delete their personal data. Orders stay for the accounting law, anonymised.</p><div class="ad-actions"><button class="tn-btn tn-btn--secondary" type="button" data-export>Export (JSON)</button><button class="tn-btn tn-btn--secondary" type="button" data-delete>Delete personal data</button></div></section>
 </Admin>

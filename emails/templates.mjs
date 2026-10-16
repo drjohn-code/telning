@@ -1,7 +1,7 @@
 // Every Telning email, built from the brand layout. Variables are {{placeholders}} filled at send time
 // (server/emails.js). Loops are expanded there too: {{#items}}…{{/items}}. Tone: short, warm, concrete; Pim speaks
 // one line to the family. Words: keepsake, never reward or prize. No partner names, ever.
-import { layout, button, h1, h2, p, small, pim, product, rows, img, BRAND as B } from './layout.mjs';
+import { layout, button, button2, h1, h2, p, small, pim, product, rows, img, picture, eyebrow, facts, items, totals, steps, box, when, BRAND as B } from './layout.mjs';
 
 const host = B.host;
 const orderRows = `{{#items}}<tr><td style="padding:6px 0;border-bottom:1px solid #e9dfcf">{{qty}} × {{name}}</td><td align="right" style="padding:6px 0;border-bottom:1px solid #e9dfcf">{{amount}}</td></tr>{{/items}}<tr><td style="padding:8px 0 0">Shipping</td><td align="right" style="padding:8px 0 0">{{shipping}}</td></tr><tr><td style="padding:4px 0;font-weight:600">Total paid</td><td align="right" style="padding:4px 0;font-weight:600">{{total}}</td></tr>{{#receipt}}<tr><td colspan="2" style="padding:12px 0 0"><a href="{{receipt_url}}" style="color:#16140f;font-weight:600;text-decoration:underline;text-decoration-color:#ce4029">Your receipt and invoice</a></td></tr>{{/receipt}}`;
@@ -10,26 +10,41 @@ const keepGoing = `${h2('Keep the story going')}${product(host + '/shop/img/star
 export const TEMPLATES = {
   /* ---------- transactional ---------- */
   'order-confirmation': { subject: 'Your Telning order {{number}}', kind: 'transactional', build: () => layout({ title: 'Your Telning order', preheader: 'Thank you, {{first}}. Your order {{number}} is in and we are making it for you.', body: `
+${picture('gift', '')}
+${eyebrow('Order confirmed')}
 ${h1('Thank you, {{first}}.')}
-${p('Your order <strong>{{number}}</strong> is in. Everything is made for you after you order, so it takes a few working days: EU 3–10, US/UK/Canada 3–7. Items may arrive in separate parcels, each with its own tracking link.')}
-${rows(orderRows)}
-${p('<strong>Delivery to</strong><br>{{address}}')}
-${button(host + '/shipping-returns', 'Delivery and returns')}
+${p('Your order is in. Everything is made for you after you order, and we email you again when it ships.')}
+${facts([['Order', '{{number}}'], ['Date', '{{date}}']])}
+${h2('Your order')}
+${items()}
+${totals()}
+${when('receipt', button2('{{receipt_url}}', 'Receipt and invoice'))}
+${h2('What happens next')}
+${steps([['Made for you', 'We print and make each item after you order.'], ['On its way', '{{parcel_line}}'], ['At your door', 'EU 3–10 working days. UK, US and Canada 3–7 working days.']], 1)}
+${box('Delivery to', '{{address}}')}
 ${pim('When the story is finished, I’d love to see the ending.')}
-${small('Unused items can be returned within 14 days. If something arrives damaged or wrong, reply to this email with a photo and we replace it. Questions? Reply to this email or write to {{contact}}.')}` }) },
+${small('Unused items can be returned within 14 days (<a href="' + host + '/shipping-returns" style="color:#4a453d">delivery and returns</a>). If something arrives damaged or wrong, reply to this email with a photo and we replace it. Questions? Reply to this email or write to {{contact}}.')}` }) },
   'order-making': { subject: 'We are making your order {{number}}', kind: 'transactional', build: () => layout({ title: 'Your order is being made', preheader: 'Good news, {{first}}: your Telning order is on the press.', body: `
 ${h1('Your order is being made.')}
 ${p('Hello {{first}}, your order <strong>{{number}}</strong> is on its way through the workshop. We print and make every item after it is ordered, as close to you as we can. You get the tracking link as soon as a parcel ships.')}
 ${rows('{{#items}}<tr><td style="padding:6px 0;border-bottom:1px solid #e9dfcf">{{qty}} × {{name}}</td><td align="right" style="padding:6px 0;border-bottom:1px solid #e9dfcf">{{status}}</td></tr>{{/items}}')}
 ${pim('Crayons ready?')}` }) },
-  'order-shipped': { subject: 'A parcel from your order {{number}} is on its way', kind: 'transactional', build: () => layout({ title: 'Your parcel has shipped', preheader: 'Track it here: {{carrier}} {{tracking_number}}.', body: `
-${h1('A parcel is on its way.')}
-${p('Hello {{first}}, this parcel from your order <strong>{{number}}</strong> has left the workshop:')}
-${rows('{{#items}}<tr><td style="padding:6px 0;border-bottom:1px solid #e9dfcf">{{qty}} × {{name}}</td></tr>{{/items}}')}
-${p('Carrier: {{carrier}} · Tracking number: {{tracking_number}}')}
-${button('{{tracking_url}}', 'Track the parcel')}
+  'order-shipped': { subject: 'Your Telning parcel is on its way ({{number}})', kind: 'transactional', build: () => layout({ title: 'Your parcel is on its way', preheader: 'Track it with {{carrier}}: {{tracking_number}}.', body: `
+${picture('plane', '')}
+${eyebrow('Shipped')}
+${h1('Your parcel is on its way, {{first}}.')}
+${p('A parcel from your order <strong>{{number}}</strong> has left the workshop. You can follow it with the button below.')}
+${facts([['Carrier', '{{carrier}}'], ['Tracking number', '{{tracking_number}}']], { stack: true })}
+${button('{{tracking_url}}', '{{track_label}}', { colour: B.red })}
+${small('If the button does not work, copy this link into your browser:<br><a href="{{tracking_url}}" style="color:#4a453d;word-break:break-all">{{tracking_url}}</a>')}
+${h2('In this parcel')}
+${items(false)}
 ${small('{{parcel_note}}')}
-${pim('Almost there.')}` }) },
+${h2('Where it is now')}
+${steps([['Made for you', 'Printed and made for you.'], ['On its way', 'The carrier has your parcel. Tracking can take a day to show the first update.'], ['At your door', 'EU 3–10 working days. UK, US and Canada 3–7 working days.']], 2)}
+${box('Delivery to', '{{address}}')}
+${pim('Almost there. Crayons ready?')}
+${small('Something wrong with the parcel when it arrives? Reply to this email with a photo and we replace it. Questions? Reply to this email or write to {{contact}}.')}` }) },
   'order-delivered': { subject: 'Your Telning parcel has arrived', kind: 'transactional', build: () => layout({ title: 'Delivered', preheader: 'A few care tips, and one idea for after the last page.', body: `
 ${h1('It has arrived.')}
 ${p('Hello {{first}}, your parcel from order <strong>{{number}}</strong> was delivered. A few tips so it lasts:')}
@@ -88,6 +103,12 @@ ${h1('Sign in to the admin.')}
 ${button('{{ .ConfirmationURL }}', 'Sign in')}
 ${small('The link works once and expires in 60 minutes. If you did not ask for it, ignore this email.')}` }) },
   /* ---------- marketing ---------- */
+  // the one marketing email the admin writes (api/admin-campaign.js): optional picture, headline, text, optional button
+  'campaign': { subject: '{{subject}}', kind: 'marketing', build: () => layout({ marketing: true, title: '{{subject}}', preheader: '{{preheader}}', body: `
+${when('image', img('{{image_url}}', '{{image_alt}}', '{{image_link_url}}'))}
+${when('headline', h1('{{headline}}'))}
+${p('{{body_html}}')}
+${when('cta', button('{{cta_url}}', '{{cta_label}}', { colour: B.red }))}` }) },
   'letters-from-pim': { subject: '{{subject}}', kind: 'marketing', build: () => layout({ marketing: true, title: 'Letters from Pim', preheader: '{{preheader}}', body: `
 ${img('{{hero_image}}', '{{hero_alt}}')}
 ${h1('{{headline}}')}
