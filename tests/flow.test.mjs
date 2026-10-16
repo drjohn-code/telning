@@ -42,7 +42,7 @@ test('browse → basket → checkout → webhook → database → confirmation e
   };
   const co = await handleCheckout({ body: { currency: 'EUR', items }, origin: 'https://telning.com' }, { catalog: withBooks, stripe, open: true, tax: true, terms: true });
   assert.equal(co.status, 200);
-  assert.equal(session.amount_total, 1290 + 1990 + 2 * 1990 + 490 + 690 + 2 * 100);   // items + 2 parcels (+ 2 extra Story Walls)
+  assert.equal(session.amount_total, 1290 + 2890 + 2 * 2890 + 490 + 690 + 2 * 100);   // items + 2 parcels (+ 2 extra Story Walls)
 
   // 3. the database: a fake PostgREST behind fetch, remembering what the server writes
   const tables = {};

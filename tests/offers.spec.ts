@@ -27,7 +27,7 @@ test('campaign page: hidden, steppers, the 20% from 11 items, checkout with only
 
   await plus(page, 'mug-cocoa-cat', 3);
   await expect(row(page, 'mug-cocoa-cat').locator('.tn-qty__in')).toHaveValue('3');
-  await expect(row(page, 'mug-cocoa-cat').locator('[data-line-total]')).toHaveText('€50.70');
+  await expect(row(page, 'mug-cocoa-cat').locator('[data-line-total]')).toHaveText('€32.70');
   await row(page, 'mug-cocoa-cat').locator('[data-ostep="-1"]').click();
   await expect(page.locator('[data-offer-prog]')).toHaveText('Add 9 more items to get 20% off.');
   await expect(page.locator('.tn-sum__off')).toHaveCount(0);
@@ -40,9 +40,9 @@ test('campaign page: hidden, steppers, the 20% from 11 items, checkout with only
   await cards.fill('9');
   await cards.blur();
   await expect(page.locator('[data-offer-prog]')).toHaveText('You get 20% off every item.');
-  // 2 × 16.90 + 9 × 19.90 = 212.90; 20% = 42.58; shipping: mugs 5.90 + 1.00, cards 3.90 + 8 × 1.00 = 18.80
-  await expect(page.locator('[data-offer-totals] .tn-sum__off dd')).toHaveText('−€42.58');
-  await expect(page.locator('[data-offer-totals] .tn-sum__total dd')).toHaveText('€189.12');
+  // 2 × 10.90 + 9 × 19.90 = 200.90; 20% = 40.18; shipping: mugs 5.90 + 1.00, cards 3.90 + 8 × 1.00 = 18.80
+  await expect(page.locator('[data-offer-totals] .tn-sum__off dd')).toHaveText('−€40.18');
+  await expect(page.locator('[data-offer-totals] .tn-sum__total dd')).toHaveText('€179.52');
 
   // the choice stays after a reload
   await page.reload();
@@ -67,7 +67,7 @@ test('campaign page: a tote bag goes with its one colour; postcards switch off i
   await expect(row(page, 'postcards-moonlight-cat').locator('.tn-qty__in')).toHaveValue('0');
   await expect(row(page, 'postcards-moonlight-cat').locator('.tn-qty__in')).toBeDisabled();
   await expect(row(page, 'postcards-moonlight-cat').locator('[data-region-note]')).toBeVisible();
-  await expect(row(page, 'tote-broom-cat').locator('[data-line-total]')).toHaveText('$26.90');
+  await expect(row(page, 'tote-broom-cat').locator('[data-line-total]')).toHaveText('$23.90');
   let sent: any = null;
   await page.route('**/api/checkout', async (route) => { sent = route.request().postDataJSON(); await route.fulfill({ json: { ok: false, error: 'stripe' } }); });
   await page.locator('[data-offer-sum] [data-offer-checkout]').click();
@@ -118,8 +118,8 @@ test('Christmas & New Year page: every-day mugs and bags named as such, cards wi
   await expect(page.locator('[data-offer-prog]')).toHaveText('Add 1 more item to get 20% off.');
   await plus(page, 'poster-round-the-year-5-7');
   await expect(page.locator('[data-offer-prog]')).toHaveText('You get 20% off every item.');
-  // 6 × 12.90 + 4 × 19.90 + 19.90 = 176.90; 20% = 35.38
-  await expect(page.locator('[data-offer-totals] .tn-sum__off dd')).toHaveText('−€35.38');
+  // 6 × 10.90 + 4 × 19.90 + 28.90 = 173.90; 20% = 34.78
+  await expect(page.locator('[data-offer-totals] .tn-sum__off dd')).toHaveText('−€34.78');
 });
 
 test('/campaigns: two blocks open the two offer pages; not linked from the header or footer; an ended offer says so', async ({ page }) => {

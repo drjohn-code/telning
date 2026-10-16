@@ -80,7 +80,7 @@ test('checkout from the campaign page, 11 items: the 20% coupon, no promo-code b
   const p = stripe.calls[2].params;
   assert.deepEqual(p.discounts, [{ coupon: 'telning-offer-20' }]);
   assert.equal(p.allow_promotion_codes, undefined, 'Stripe takes a coupon or the promo-code box, never both');
-  assert.equal(p.line_items.find((l) => l.price_data.product_data.metadata.sku === 'mug-cocoa-cat').price_data.unit_amount, 1690, 'the unit price stays the catalogue price; Stripe shows the 20% as its own line');
+  assert.equal(p.line_items.find((l) => l.price_data.product_data.metadata.sku === 'mug-cocoa-cat').price_data.unit_amount, 1090, 'the unit price stays the catalogue price; Stripe shows the 20% as its own line');
   assert.equal(p.metadata.offer, 'halloween');
   assert.equal(p.metadata.discount, 'yes');
   assert.match(p.success_url, /\/order\/thanks\?session_id=\{CHECKOUT_SESSION_ID\}&offer=halloween$/);
