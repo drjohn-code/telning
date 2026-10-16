@@ -4,7 +4,8 @@
 export const BRAND = {
   paper: '#f6f1e8', paperDeep: '#e9dfcf', cream: '#fffdf8', ink: '#16140f', soft: '#4a453d', green: '#1e4a3b', red: '#ce4029', gold: '#e8b23a', sky: '#ddebf7',
   host: 'https://telning.com',
-  logo: 'https://telning.com/email/telning-logo-badge.png',   // on a paper badge, readable in dark mode pim: 'https://telning.com/art/pim-telning-portrait.png',
+  logo: 'https://telning.com/email/telning-logo-badge.png',   // on a paper block, readable in dark mode
+  pim: 'https://telning.com/art/pim-telning-portrait.png',
   address: 'WelloWork AB · Telning Publishing House · Dekangatan 4, Uppsala, Sweden · info@telning.com',
   instagram: 'https://www.instagram.com/telning.pub/',
 };

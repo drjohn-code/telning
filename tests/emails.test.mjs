@@ -16,6 +16,9 @@ test('every template renders: subject, html, text, footer, no partner names, uns
     const left = html.match(/\{\{(?!\s*\.)[^}]+\}\}/g) || [];
     assert.deepEqual(left, [], `${n}: unfilled placeholders ${left.join(' ')}`);
     if (kind === 'marketing') assert.match(html, /Unsubscribe/, `${n}: unsubscribe link`);
+    // every picture has a real https address (a missing one renders as src="undefined" or src="")
+    for (const [, src] of html.matchAll(/<img[^>]*\ssrc="([^"]*)"/g)) assert.match(src, /^https:\/\/[^\s]+\.(png|jpe?g|gif|webp)$|^\{\{|^https:\/\/telning\.com\/shop\//, `${n}: picture address "${src}"`);
+    assert.match(html, /art\/pim-telning-portrait\.png/, `${n}: Pim in the footer`);
     assert.match(html, /alt="/, `${n}: alt text`);
   }
 });
