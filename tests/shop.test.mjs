@@ -326,3 +326,11 @@ test('an order with more than 10 lines keeps every line (Stripe expands only the
   const one = []; await readSession(async (m, p) => { one.push(p); return { status: 200, json: small }; }, 'cs_live_eleven0000000001');
   assert.equal(one.length, 1);
 });
+
+test('Stripe line names: a Story Wall carries its age, so the two walls of a series differ on the receipt', async () => {
+  const { lineName } = await import('../server/checkout.js');
+  const line = (sku, variant) => ({ product: catalog.bySku.get(sku), variant, qty: 1 });
+  assert.equal(lineName(line('poster-star-hoppers-3-5'), catalog), 'Star Hoppers Story Wall, ages 3–7');
+  assert.equal(lineName(line('poster-star-hoppers-5-7'), catalog), 'Star Hoppers Story Wall, ages 7+');
+  assert.equal(lineName(line('tote-moon-cat', 'natural'), catalog), 'Moon Cat tote bag (Undyed)');   // gifts keep their names
+});

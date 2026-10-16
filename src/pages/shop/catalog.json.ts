@@ -1,12 +1,12 @@
 /* /shop/catalog.json: the compact catalogue the basket script needs (names, links, images, prices, parcels).
    Built at build time from the same data as the pages. */
-import { catalog, shop, site, gifts, ageLabel } from '../../lib/shop';
+import { catalog, shop, site, gifts, ageLabel, displayName } from '../../lib/shop';
 
 export function GET() {
   const products: Record<string, unknown> = {};
   for (const p of catalog.products as any[]) {
     products[p.sku] = {
-      n: p.name, u: p.url, t: p.type, pa: p.parcel, p: p.price, m: p.maxQty,
+      n: displayName(p), u: p.url, t: p.type, pa: p.parcel, p: p.price, m: p.maxQty,   // a Story Wall with its age, as on Stripe's receipt
       i: p.images[0].src,
       v: p.variants ? p.variants.map((v: any) => ({ k: v.key, n: v.name, p: v.price, i: (p.images.find((im: any) => im.view === v.key) || p.images[0]).src })) : null,
     };

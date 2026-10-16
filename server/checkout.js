@@ -1,7 +1,7 @@
 /* Checkout: turns a basket from the browser into a Stripe Checkout Session. Pure logic; api/checkout.js wires it.
    Prices, names and shipping always come from the catalogue on the server, never from the browser.
    The currency sets the delivery region (EUR → EU, GBP → UK, USD → US, CAD → CA), so the shipping fee matches. */
-import { resolveLines, unitPrice, shippingFor, ageLabel } from './catalog.js';
+import { resolveLines, unitPrice, shippingFor, ageLabel, displayName } from './catalog.js';
 import { offerCheck, ensureCoupon } from './offers.js';
 
 const seriesName = (catalog, key) => (catalog.series || []).find((s) => s.key === key)?.name || key;
@@ -16,8 +16,10 @@ export function lineName(l, catalog = {}) {
     const t = catalog.bySku && catalog.bySku.get(`tote-${design}`);
     return `${l.product.name}: ${names.join(', ')}; tote ${t ? t.title : design}, ${colour === 'natural' ? 'undyed' : colour}`;
   }
+  // a Story Wall carries its age ("Star Hoppers Story Wall, ages 3–7"): Stripe's receipt, the invoice, the order email and
+  // the database take this name, and a buyer of both walls of a series must tell them apart (16 Oct 2026)
   const v = l.variant && l.product.variants && l.product.variants.find((x) => x.key === l.variant);
-  return v ? `${l.product.name} (${v.name})` : l.product.name;
+  return v ? `${displayName(l.product)} (${v.name})` : displayName(l.product);
 }
 
 /** The basket in one short string for the session metadata (Stripe allows 500 characters per value). */
