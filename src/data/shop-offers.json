@@ -1,0 +1,44 @@
+{
+  "_draft": "DRAFT (16 Oct 2026, John OK'd the plan): the hidden campaign pages /campaigns/<key>. Not linked from the header, the footer or the sitemap (noindex). 11 or more items from one campaign page get 20% off the item prices; shipping stays full price. The server checks the items, the count and the end date (server/offers.js). All texts are drafts for John to check.",
+  "rule": {
+    "minItems": 11,
+    "percent": 20,
+    "coupon": "telning-offer-20",
+    "couponName": "20% off, 11 or more items"
+  },
+  "faq": [
+    { "q": "How does the 20% work?", "a": "Choose {min} items or more on this page, in any mix. Then {percent}% comes off the price of every item. Shipping stays the same. You see the discount on the payment page before you pay." },
+    { "q": "What counts as one item?", "a": "Each mug, tote bag and Story Wall is one item. A pack of 10 postcards or 10 greeting cards is also one item." },
+    { "q": "Can I add a promo code too?", "a": "No. The {percent}% offer cannot be used together with a promo code." },
+    { "q": "Is the rest of my basket included?", "a": "No. The checkout on this page pays only for the items you choose here. Anything already in your basket stays there for later." },
+    { "q": "When does it arrive?", "a": "Every item is made for you after you order, then sent. The summary shows the delivery dates for your region if you order today. We cannot promise a date." },
+    { "q": "Why can my order come in more than one parcel?", "a": "Story Walls, mugs, tote bags and cards are each made in their own workshop, so they can arrive in separate parcels. Shipping is counted per parcel." },
+    { "q": "Can I return something?", "a": "Unused items can be returned within 14 days. If an item arrives damaged or wrong, we replace it." },
+    { "q": "When does the offer end?", "a": "On {ends} at 23:59, Swedish time." }
+  ],
+  "offers": {
+    "halloween": {
+      "name": "Halloween",
+      "path": "/campaigns/halloween",
+      "ends": "2026-10-31T23:59:59+01:00",
+      "endsLabel": "31 October 2026",
+      "title": "Halloween offer: 20% off 11 or more items | Telning",
+      "description": "Telning Halloween offer: mugs, tote bags, postcards, greeting cards and a Story Wall with our cats and dogs. Choose 11 items or more and get 20% off every item.",
+      "kicker": "Halloween offer · until 31 October",
+      "h1": "Halloween with our cats and dogs",
+      "lead": "Mugs, tote bags, postcards and greeting cards with our Halloween cats and dogs, and a Story Wall with pumpkin lanterns to colour together. Choose 11 items or more and 20% comes off every item.",
+      "orderTitle": "Your Halloween order",
+      "hero": {
+        "main": "/shop/img/gift-set/gift-set-halloween-gift-set", "mainAlt": "A Telning Halloween mug, tote bag, postcard and greeting card with cats and dogs, among pumpkins and autumn leaves",
+        "small": ["poster-big-days-5-7", "progress"], "smallAlt": "The Big Days Story Wall being coloured on the floor, with pumpkin lanterns and a Christmas tree"
+      },
+      "sections": [
+        { "type": "poster", "skus": ["poster-big-days-3-5", "poster-big-days-5-7"], "intro": "Big Days puts every big day in one picture: a birthday cake, presents, an Easter basket, a Christmas tree and pumpkin lanterns. A few shapes are painted to start; your child colours the rest. Bigger shapes for ages 3–7, more details for ages 7 and up." },
+        { "type": "tote", "occasions": ["halloween"], "intro": "Organic cotton tote bags with our Halloween cats and dogs. Each design comes in one colour: undyed or black." },
+        { "type": "mug", "occasions": ["halloween"], "intro": "White ceramic mugs, 330 ml, with our Halloween cats and dogs. Dishwasher and microwave safe." },
+        { "type": "postcards", "occasions": ["halloween"], "intro": "Packs of 10 postcards, one design per pack. Delivered to Europe and the UK only." },
+        { "type": "cards", "occasions": ["halloween"], "intro": "Packs of 10 folded cards with envelopes, blank inside for your own words." }
+      ]
+    }
+  }
+}

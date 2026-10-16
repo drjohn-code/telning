@@ -5,7 +5,7 @@
    Without a key the shop answers "not open yet" and nothing is charged. Logs carry no personal data. */
 import { handleCheckout } from '../server/checkout.js';
 import { hasStripe, stripeApi } from '../server/stripe.js';
-import { catalog, shop } from '../server/catalog-data.js';
+import { catalog, shop, offers } from '../server/catalog-data.js';
 
 const headers = { 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex' };
 
@@ -26,7 +26,7 @@ export async function POST(request) {
   } catch { body = {}; }
   const origin = new URL(request.url).origin;
   const result = await handleCheckout({ body, origin }, {
-    catalog, open: shop.open !== false,
+    catalog, offers, open: shop.open !== false,
     stripe: hasStripe() ? stripeApi : null,
     tax: process.env.STRIPE_TAX === 'on', terms: process.env.STRIPE_TERMS === 'on',
     log: (o) => console.log('checkout', JSON.stringify(o)),

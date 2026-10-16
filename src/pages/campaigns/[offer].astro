@@ -1,0 +1,141 @@
+---
+/* /campaigns/<key> — a hidden campaign page (John, 16 Oct 2026): not linked from the header, the footer or the sitemap
+   (noindex), shared by email and social links. Every product of the campaign in one list with a − / number / + stepper,
+   a running total and the 20% line from 11 items; "Checkout" pays only the items chosen here (src/scripts/shop.js
+   initOffer). The server decides the discount (server/offers.js); the browser shows "ended" after the end date (a
+   build before then stays valid). Data and DRAFT texts: src/data/shop-offers.json. */
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CurrencySelect from '../../components/shop/CurrencySelect.astro';
+import TrustBar from '../../components/shop/TrustBar.astro';
+import Picture from '../../components/shop/Picture.astro';
+import Faq from '../../components/Faq.astro';
+import { offers, shop, view, priceAttrs, ageLabel, CURRENCIES } from '../../lib/shop';
+
+export function getStaticPaths() {
+  return offers.list.map((o: any) => ({ params: { offer: o.path.split('/')[2] }, props: { key: o.key } }));
+}
+const { key } = Astro.props as any;
+const o: any = offers.byKey.get(key);
+const PAGE = o.path;
+const rule: any = offers.rule;
+const fill = (s: string) => s.replace('{min}', String(rule.minItems)).replace('{percent}', String(rule.percent)).replace('{ends}', o.endsLabel);
+const faq = offers.faq.map((f: any) => ({ q: fill(f.q), a: fill(f.a) }));
+const T = shop.types as any;
+
+/* one row per product: the photo, the name (to its own page), a short line, the price, the stepper and the line total */
+const unit = (p: any) => Object.fromEntries(CURRENCIES.map((c: string) => [c, (p.variants ? p.variants[0].price : p.price)[c]]));
+const SUB: Record<string, (p: any) => string> = {
+  poster: (p) => `Ages ${ageLabel(p.age, 'poster')} · ${p.age === '3-5' ? 'bigger shapes' : 'more details'} · 100 × 70 cm`,
+  tote: (p) => `${p.colourName} organic cotton`,
+  mug: () => 'White ceramic · 330 ml',
+  postcards: () => 'Pack of 10 · A6',
+  cards: () => 'Pack of 10 with envelopes',
+};
+const sub = (p: any) => SUB[p.type](p);
+const photo = (p: any) => p.images[0].src;   // Story Walls: coloured on the floor; gifts: on the table
+const [smallSku, smallView] = o.hero.small;
+---
+<Base page={PAGE} preload={{ src: o.hero.main, sizes: '(min-width: 1024px) 520px, 100vw' }}>
+  <Header />
+  <main id="main" tabindex="-1">
+    <section class="tn-wrap tn-shophero tn-offerhero" aria-labelledby="page-h">
+      <Breadcrumbs page={PAGE} />
+      <div class="tn-shophero__in">
+        <div class="tn-shophero__text">
+          <p class="tn-kicker">{o.kicker}</p>
+          <h1 class="tn-h1" id="page-h" tabindex="-1">{o.h1}</h1>
+          <p class="tn-lead">{o.lead}</p>
+          <ul class="tn-shophero__pts">
+            <li>{rule.percent}% off {rule.minItems} items or more</li>
+            <li>Mix any items</li>
+            <li>Ends {o.endsLabel.replace(/ \d{4}$/, '')}</li>
+          </ul>
+          <p><a class="tn-btn tn-btn--secondary" href="#order">Choose your items</a></p>
+        </div>
+        <div class="tn-offerhero__art">
+          <Picture class="tn-offerhero__main" src={o.hero.main} alt={o.hero.mainAlt} eager sizes="(min-width: 1024px) 520px, 100vw" />
+          <Picture class="tn-offerhero__small" src={view(smallSku, smallView)} alt={o.hero.smallAlt} widths={[600]} sizes="(min-width: 1024px) 200px, 38vw" />
+        </div>
+      </div>
+    </section>
+
+    <section class="tn-wrap" aria-labelledby="how-h">
+      <h2 class="tn-sr" id="how-h">How the offer works</h2>
+      <ol class="tn-osteps">
+        <li><span class="tn-osteps__n" aria-hidden="true">1</span><span><strong>Choose</strong> Use − and + to set how many of each item you want. Mix any items on this page.</span></li>
+        <li><span class="tn-osteps__n" aria-hidden="true">2</span><span><strong>Get {rule.percent}% off</strong> With {rule.minItems} items or more, {rule.percent}% comes off the price of every item. Shipping stays the same.</span></li>
+        <li><span class="tn-osteps__n" aria-hidden="true">3</span><span><strong>Pay securely</strong> Check out with Stripe. Each item is made for you after you order, then sent.</span></li>
+      </ol>
+    </section>
+
+    <section class="tn-wrap tn-offer" id="order" aria-labelledby="order-h" data-offer={o.key} data-min={rule.minItems} data-percent={rule.percent} data-ends={o.ends}>
+      <h2 class="tn-sr" id="order-h">Choose your items</h2>
+      <p class="tn-basketmsg tn-offer__ended" data-offer-ended hidden>This offer ended on {o.endsLabel}. You can still buy each item on its own page.</p>
+      <div class="tn-offer__list">
+        {o.sections.map((s: any) => (
+          <section class="tn-osec" aria-labelledby={`sec-${s.type}`}>
+            <div class="tn-osec__head">
+              <h3 class="tn-h2 tn-h2--s" id={`sec-${s.type}`}>{T[s.type].plural}</h3>
+              <p class="tn-p">{s.intro}</p>
+            </div>
+            <ul class="tn-orows">
+              {s.products.map((p: any) => (
+                <li class="tn-orow" data-row data-sku={p.sku} data-variant={p.variants ? p.variants[0].key : ''} data-max={p.maxQty} data-p={JSON.stringify(unit(p))} data-regions={p.regions ? p.regions.join(' ') : undefined}>
+                  <a class="tn-orow__img" href={p.url} tabindex="-1" aria-hidden="true"><Picture src={photo(p)} alt="" widths={[600]} sizes="96px" /></a>
+                  <div class="tn-orow__body">
+                    <a class="tn-orow__name" href={p.url}>{p.name}</a>
+                    <span class="tn-orow__sub">{sub(p)}</span>
+                    <span class="tn-orow__unit"><span class="tn-price" {...priceAttrs(p)}>{priceAttrs(p)['data-eur']}</span> each</span>
+                    {p.regions && <span class="tn-orow__note" data-region-note hidden>Europe and the UK only. Choose € or £ to add it.</span>}
+                  </div>
+                  <div class="tn-qty tn-orow__qty" role="group" aria-label={`How many: ${p.name}`}>
+                    <button type="button" class="tn-qty__b" data-ostep="-1" aria-label={`One less: ${p.name}`} disabled>−</button>
+                    <input class="tn-qty__in" type="number" inputmode="numeric" min="0" max={p.maxQty} value="0" aria-label={`Number of ${p.name}`} />
+                    <button type="button" class="tn-qty__b" data-ostep="1" aria-label={`One more: ${p.name}`}>+</button>
+                  </div>
+                  <span class="tn-orow__total" data-line-total></span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+
+      <aside class="tn-osum" aria-labelledby="sum-h" data-offer-sum>
+        <h3 class="tn-osum__h" id="sum-h">{o.orderTitle}</h3>
+        <CurrencySelect id="cur-offer" class="tn-osum__cur" />
+        <div class="tn-oprog">
+          <div class="tn-oprog__bar" aria-hidden="true"><span data-offer-bar-fill></span></div>
+          <p class="tn-oprog__t" data-offer-prog aria-live="polite">Choose {rule.minItems} items or more and get {rule.percent}% off every item.</p>
+        </div>
+        <div data-offer-totals><p class="tn-sum__note">No items yet. Use + to add items.</p></div>
+        <p class="tn-basketmsg" data-offer-msg role="alert" hidden></p>
+        <label class="tn-check tn-optin"><input type="checkbox" data-optin /><span>Send me <strong>Letters from Pim</strong>: new Story Walls and gift ideas, a few times a year. Unsubscribe at any time. <a href="/privacy">Privacy</a></span></label>
+        <button class="tn-btn tn-btn--buy tn-btn--block" type="button" data-offer-checkout disabled>Checkout</button>
+        <p class="tn-secure"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Secure payment with Stripe. You enter your address on the next page.</p>
+        <p class="tn-sum__note">Only the items on this page go to checkout. Anything already in your basket stays there.</p>
+        <noscript><p class="tn-sum__note">Choosing items here needs JavaScript. Without it, open an item and buy it on its own page.</p></noscript>
+      </aside>
+    </section>
+
+    <section class="tn-section tn-section--tight" aria-labelledby="faq-h"><div class="tn-wrap tn-offerfaq">
+      <h2 class="tn-h2 tn-h2--s" id="faq-h">Good to know</h2>
+      <Faq items={faq} />
+    </div></section>
+
+    <section class="tn-section tn-section--tight" aria-labelledby="more-h"><div class="tn-wrap">
+      <h2 class="tn-h2 tn-h2--s" id="more-h">Looking for something else?</h2>
+      <p class="tn-p tn-offermore"><a class="tn-link tn-link--solo" href="/gifts">All gifts</a> <a class="tn-link tn-link--solo" href="/books">All Story Walls</a> <a class="tn-link tn-link--solo" href="/shipping-returns">Shipping &amp; returns</a></p>
+    </div></section>
+
+    <section class="tn-section tn-section--tight" aria-label="Our promises"><div class="tn-wrap"><TrustBar /></div></section>
+  </main>
+  <Footer />
+  <div class="tn-obar" data-offer-mbar aria-hidden="true">
+    <span class="tn-obar__info"><strong data-obar-count></strong> <span data-obar-total></span><small data-obar-prog></small></span>
+    <button class="tn-btn tn-btn--buy" type="button" data-offer-checkout tabindex="-1">Checkout</button>
+  </div>
+</Base>

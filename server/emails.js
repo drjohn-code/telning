@@ -2,7 +2,7 @@
    plain-text version made from the HTML. Templates: server/emails/compiled/<name>.html (built by scripts/emails/build.mjs).
    Sample data for previews and test sends: SAMPLES. Test sends go to john@telning.com only (scripts/emails/send-test.mjs). */
 import { money, countryName, DESCRIPTOR } from './catalog.js';
-import { catalog } from './catalog-data.js';
+import { catalog, offers } from './catalog-data.js';
 import { COMPILED } from './emails/compiled.js';
 import { THUMBS } from './emails/thumbs.js';
 import { carrierOf } from './carriers.js';
@@ -75,14 +75,16 @@ export function orderData(o, contact = 'info@telning.com') {
   const a = o.address || {};
   const subtotal = o.subtotal ?? o.items.reduce((s, it) => s + (it.amount || 0), 0);
   const parcels = Object.keys(o.parts || {}).length;
-  // Stripe Tax: prices in the EU include VAT (subtotal + shipping = total); elsewhere it can be added on top
-  const vatIncluded = o.tax ? subtotal + (o.shipping || 0) >= o.total : false;
+  const discount = o.discount || 0;   // a promo code or the 20% of a campaign page: Stripe's subtotal is before it
+  // Stripe Tax: prices in the EU include VAT (subtotal − discount + shipping = total); elsewhere it can be added on top
+  const vatIncluded = o.tax ? subtotal - discount + (o.shipping || 0) >= o.total : false;
   const created = o.created ? new Date(o.created * 1000) : new Date();
   return {
     number: o.number, first: (o.name || '').split(' ')[0] || 'there', contact,
     date: created.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Stockholm' }),
     items: o.items.map((it) => itemData(it, m)),
     subtotal: m(subtotal), shipping: m(o.shipping), total: m(o.total),
+    discount: discount > 0, discount_amount: `−${m(discount)}`, discount_label: o.offer ? `Discount (${offers.rule.percent}% for ${offers.rule.minItems} or more items)` : 'Discount',
     vat: !!o.tax, vat_label: vatIncluded ? 'VAT (included)' : 'VAT', vat_amount: m(o.tax),
     address: [o.name, a.line1, a.line2, `${a.postal_code || ''} ${a.city || ''}`.trim(), a.state, countryName(a.country)].filter(Boolean).map(esc).join('<br>'),
     parcels,

@@ -43,6 +43,7 @@ export function orderFrom(session, catalog) {
   return {
     id: session.id, number: 'T-' + String(session.id || '').slice(-8).toUpperCase(), live: !!session.livemode, created: session.created || null,
     currency, locale, total: session.amount_total, shipping: session.shipping_cost?.amount_total ?? null, tax: session.total_details?.amount_tax ?? null,
+    discount: session.total_details?.amount_discount || 0, offer: session.metadata?.offer || '',   // a promo code, or the 20% of a campaign page (server/offers.js)
     email: cust.email || '', name: ship.name || cust.name || '', phone: cust.phone || '',
     address: ship.address || cust.address || {}, region: session.metadata?.region || '', marketing: session.metadata?.marketing === 'yes',
     items, parts,
@@ -56,7 +57,7 @@ export function teamText(o) {
   const lines = [
     `${o.live ? 'NEW ORDER' : 'TEST ORDER (Stripe test mode, do not print)'} ${o.number}`,
     `Stripe: ${o.id}`,
-    `Total ${m(o.total)} · shipping ${m(o.shipping)} · tax ${m(o.tax)} · region ${o.region}`,
+    `Total ${m(o.total)} · shipping ${m(o.shipping)} · tax ${m(o.tax)}${o.discount ? ` · discount −${m(o.discount)}` : ''} · region ${o.region}${o.offer ? ` · campaign page: ${o.offer}` : ''}`,
     o.receipt ? `Invoice ${o.receipt.number || ''}: ${o.receipt.url}` : 'Invoice: not created by Stripe',
     '', 'Deliver to:', o.name, addr(o.address), o.phone ? `Phone: ${o.phone}` : '', o.email ? `Email: ${o.email}` : '',
   ];

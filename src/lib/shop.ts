@@ -4,11 +4,14 @@ import shop from '../data/shop.json';
 import books from '../data/shop-books.json';
 import gifts from '../data/shop-gifts.json';
 import seo from '../data/seo.json';
+import offersData from '../data/shop-offers.json';
 import { buildCatalog, money, ageLabel, ageRange, POSTER_AGES, ageGroupsOf, giftPath, GIFT_TYPES, AGES, CURRENCIES, shippingFor } from '../../server/catalog.js';
 import { shopSeo } from '../../server/shop-seo.js';
+import { buildOffers } from '../../server/offers.js';
 
 export const catalog = buildCatalog({ site, shop, books, gifts } as any);
-export const shopPages: Record<string, any> = shopSeo(catalog, site);
+export const offers = buildOffers(offersData as any, catalog);   // the hidden campaign pages /campaigns/<key>
+export const shopPages: Record<string, any> = shopSeo(catalog, site, offers);
 export const allPages: Record<string, any> = { ...shopPages, ...(seo.pages as Record<string, any>) };
 export { shop, books, gifts, site, money, ageLabel, ageRange, POSTER_AGES, ageGroupsOf, giftPath, GIFT_TYPES, AGES, CURRENCIES, shippingFor };
 export type Product = (typeof catalog.products)[number];

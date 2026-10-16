@@ -2,6 +2,7 @@
    Prices, names and shipping always come from the catalogue on the server, never from the browser.
    The currency sets the delivery region (EUR → EU, GBP → UK, USD → US, CAD → CA), so the shipping fee matches. */
 import { resolveLines, unitPrice, shippingFor, ageLabel } from './catalog.js';
+import { offerCheck, ensureCoupon } from './offers.js';
 
 const seriesName = (catalog, key) => (catalog.series || []).find((s) => s.key === key)?.name || key;
 
@@ -26,7 +27,9 @@ export function basketCode(lines) {
 
 /**
  * Stripe Checkout Session parameters.
- * opts: { origin, tax: bool (Stripe Tax on), terms: bool (terms consent on), imageBase, marketing: bool (the buyer ticked "Letters from Pim") }
+ * opts: { origin, tax: bool (Stripe Tax on), terms: bool (terms consent on), imageBase, marketing: bool (the buyer ticked "Letters from Pim"),
+ *         offer: { key, path, coupon } when the items come from a campaign page (coupon: the 20% coupon id, only with
+ *         enough items; Stripe takes either a coupon or the promo-code box, never both) }
  */
 export function sessionParams(catalog, lines, currency, opts) {
   const { shop } = catalog;
@@ -66,22 +69,23 @@ export function sessionParams(catalog, lines, currency, opts) {
     }],
     phone_number_collection: { enabled: true },
     billing_address_collection: 'auto',
-    allow_promotion_codes: true,
+    ...(opts.offer?.coupon ? { discounts: [{ coupon: opts.offer.coupon }] } : { allow_promotion_codes: true }),
     ...(opts.tax ? { automatic_tax: { enabled: true } } : {}),
     ...(opts.terms ? { consent_collection: { terms_of_service: 'required' } } : {}),
     custom_text: { submit: { message: 'Made for you after you order. Items may arrive in separate parcels. Unused items can be returned within 14 days.' } },
-    metadata: { basket: code.slice(0, 500), currency, region: cur.region, parcels: ship.parcels.map((p) => `${p.key}:${p.qty}`).join(','), ...(opts.marketing ? { marketing: 'yes' } : {}) },
+    metadata: { basket: code.slice(0, 500), currency, region: cur.region, parcels: ship.parcels.map((p) => `${p.key}:${p.qty}`).join(','), ...(opts.marketing ? { marketing: 'yes' } : {}), ...(opts.offer ? { offer: opts.offer.key, discount: opts.offer.coupon ? 'yes' : 'no' } : {}) },
     // a paid Stripe invoice for every order: Stripe emails it with the receipt (live mode) and we link it in our email
     invoice_creation: { enabled: true, invoice_data: { description: 'Telning order. Made for you after you order.', footer: 'WelloWork AB · Telning Publishing House · Dekangatan 4, Uppsala, Sweden · info@telning.com', metadata: { basket: code.slice(0, 500) } } },
     payment_intent_data: { description: `Telning order: ${lines.reduce((a, l) => a + l.qty, 0)} item(s)`, metadata: { basket: code.slice(0, 500) } },
-    success_url: `${opts.origin}/order/thanks?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${opts.origin}/basket`,
+    // from a campaign page: the thank-you page clears that page's choice (not the basket), and "back" returns to the page
+    success_url: `${opts.origin}/order/thanks?session_id={CHECKOUT_SESSION_ID}${opts.offer ? '&offer=' + opts.offer.key : ''}`,
+    cancel_url: `${opts.origin}${opts.offer ? opts.offer.path : '/basket'}`,
   };
 }
 
 /**
- * input: { body: { items: [{ sku, variant, qty }], currency }, origin }
- * deps:  { catalog, stripe(method, path, params) | null (no key), open: bool, tax, terms, log }
+ * input: { body: { items: [{ sku, variant, qty }], currency, offer?: '<campaign key>' }, origin }
+ * deps:  { catalog, offers (server/offers.js), stripe(method, path, params) | null (no key), open: bool, tax, terms, log, now? }
  * Returns { status, body: { ok, url } | { ok: false, error } }.
  */
 export async function handleCheckout({ body, origin }, deps) {
@@ -93,13 +97,24 @@ export async function handleCheckout({ body, origin }, deps) {
   try { lines = resolveLines(catalog, body.items); } catch (e) { return { status: 400, body: { ok: false, error: e.message } }; }
   const region = catalog.shop.currencies[currency].region;   // postcards go to Europe and the UK only
   if (lines.some((l) => l.product.regions && !l.product.regions.includes(region))) return { status: 400, body: { ok: false, error: 'region' } };
+  // a campaign page: every item must be on that page; 11 or more of them get the 20% coupon (decided here, never by the browser)
+  let offer = null;
+  if (body.offer !== undefined && body.offer !== null && body.offer !== '') {
+    try { offer = offerCheck(deps.offers, body.offer, lines, deps.now ? deps.now() : Date.now()); } catch (e) { return { status: 400, body: { ok: false, error: e.message } }; }
+  }
   if (!stripe) return { status: 503, body: { ok: false, error: 'notReady' } };
-  const params = sessionParams(catalog, lines, currency, { origin, tax: deps.tax, terms: deps.terms, imageBase: deps.imageBase, marketing: body.marketing === true });
+  let coupon = null;
+  if (offer && offer.discount) {
+    coupon = await ensureCoupon(stripe, deps.offers.rule);
+    if (!coupon) { log({ event: 'coupon-failed' }); return { status: 502, body: { ok: false, error: 'stripe' } }; }
+  }
+  const params = sessionParams(catalog, lines, currency, { origin, tax: deps.tax, terms: deps.terms, imageBase: deps.imageBase, marketing: body.marketing === true,
+    offer: offer ? { key: offer.offer.key, path: offer.offer.path, coupon } : null });
   const r = await stripe('POST', '/checkout/sessions', params);
   if (r.status < 200 || r.status >= 300 || !r.json?.url) {
     log({ event: 'checkout-failed', status: r.status, code: r.json?.error?.code || '', message: r.json?.error?.message || '' });
     return { status: 502, body: { ok: false, error: 'stripe' } };
   }
-  log({ event: 'checkout', items: lines.length, currency });
+  log({ event: 'checkout', items: lines.length, currency, ...(offer ? { offer: offer.offer.key, count: offer.count, discount: !!coupon } : {}) });
   return { status: 200, body: { ok: true, url: r.json.url } };
 }

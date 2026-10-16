@@ -20,7 +20,7 @@ const fit = (cands) => {
   return s.replace(/[,:;]$/, '') + '…';
 };
 
-export function shopSeo(catalog, site) {
+export function shopSeo(catalog, site, offers) {
   const pages = {};
   const add = (path, e) => { pages[path] = { type: 'WebPage', published: DATE, lastmod: DATE, og: e.og || '/og/books.jpg', ...e }; };
 
@@ -91,5 +91,7 @@ export function shopSeo(catalog, site) {
     }[type];
     add(giftPath(type), { name: t.plural, parent: '/gifts', title: d[0], description: fit([d[1]]), og: `/og/gifts-${type}.jpg` });
   }
+  // the hidden campaign pages (server/offers.js): shared by link only, so noindex and not in the sitemap
+  for (const o of offers?.list || []) add(o.path, { name: `${o.name} offer`, title: o.title, description: o.description, noindex: true, sitemap: false, og: o.og || '/og/gifts.jpg', lastmod: '2026-10-16', published: '2026-10-16' });
   return pages;
 }

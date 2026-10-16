@@ -200,6 +200,8 @@
     qty: 'Please check the quantities in your basket.',
     variant: 'Please choose the colour or type again.',
     error: 'Sorry, that did not work. Please try again.',
+    ended: 'This offer has ended. You can still buy each item on its own page.',
+    offer: 'This offer is not available. You can still buy each item on its own page.',
   };
   function checkout(btn) {
     var root = btn.closest('[data-basket]') || document;
@@ -220,6 +222,106 @@
         btn.disabled = false; btn.removeAttribute('aria-busy'); btn.textContent = label;
         if (msg) { msg.textContent = MSG[e.message] || MSG.error; msg.hidden = false; }
       });
+  }
+
+  /* ---------- campaign pages (/campaigns/<key>): a − / number / + stepper per product, the running total, the 20%
+     from 11 items and a checkout that pays only the items chosen on the page. The choice is kept on this device
+     (tn-offer-<key>). The browser only shows the discount: the server checks it again (server/offers.js). ---------- */
+  function initOffer(root) {
+    var box = root.querySelector('[data-offer]');
+    if (!box) return;
+    var key = box.getAttribute('data-offer'), SKEY = 'tn-offer-' + key;
+    var min = parseInt(box.getAttribute('data-min'), 10) || 11, pct = parseInt(box.getAttribute('data-percent'), 10) || 0;
+    var ended = Date.now() > Date.parse(box.getAttribute('data-ends'));
+    var rows = Array.prototype.slice.call(box.querySelectorAll('[data-row]'));
+    var bar = document.querySelector('[data-offer-mbar]'), sumBox = box.querySelector('[data-offer-sum]');
+    var saved = {}; try { saved = JSON.parse(store(SKEY) || '{}') || {}; } catch (x) { saved = {}; }
+    var REG = { EUR: 'EU', GBP: 'UK', USD: 'US', CAD: 'CA' };
+    function region() { return REG[currency()]; }
+    function sendable(r) { var g = r.getAttribute('data-regions'); return !g || (' ' + g + ' ').indexOf(' ' + region() + ' ') >= 0; }
+    function input(r) { return r.querySelector('.tn-qty__in'); }
+    function qty(r) { return parseInt(input(r).value, 10) || 0; }
+    function setQty(r, n) {
+      var max = parseInt(r.getAttribute('data-max'), 10) || 20, ok = !ended && sendable(r);
+      n = ok ? Math.max(0, Math.min(max, Math.floor(Number(n) || 0))) : 0;
+      var inp = input(r); inp.value = String(n); inp.disabled = !ok;
+      r.querySelector('[data-ostep="-1"]').disabled = !ok || n <= 0;
+      r.querySelector('[data-ostep="1"]').disabled = !ok || n >= max;
+      r.classList.toggle('is-on', n > 0);
+      var note = r.querySelector('[data-region-note]'); if (note) note.hidden = ended || sendable(r);
+    }
+    function chosen() { return rows.filter(function (r) { return qty(r) > 0; }).map(function (r) { return { sku: r.getAttribute('data-sku'), variant: r.getAttribute('data-variant') || '', qty: qty(r) }; }); }
+    function workdays(n) { var d = new Date(), k = 0; while (k < n) { d.setDate(d.getDate() + 1); if (d.getDay() !== 0 && d.getDay() !== 6) k++; } return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }); }
+    function update() {
+      var c = currency(), items = chosen(), save = {};
+      var count = items.reduce(function (a, l) { return a + l.qty; }, 0);
+      rows.forEach(function (r) {
+        setQty(r, qty(r));
+        var n = qty(r), unit = (JSON.parse(r.getAttribute('data-p')) || {})[c] || 0;
+        r.querySelector('[data-line-total]').textContent = n ? fmt(unit * n, c) : '';
+        if (n) save[r.getAttribute('data-sku')] = n;
+      });
+      store(SKEY, JSON.stringify(save));
+      items = chosen(); count = items.reduce(function (a, l) { return a + l.qty; }, 0);
+      var left = Math.max(0, min - count), on = count >= min;
+      var prog = ended ? 'This offer has ended.' : !count ? 'Choose ' + min + ' items or more and get ' + pct + '% off every item.'
+        : on ? 'You get ' + pct + '% off every item.' : 'Add ' + left + ' more item' + (left === 1 ? '' : 's') + ' to get ' + pct + '% off.';
+      box.querySelector('[data-offer-prog]').textContent = prog;
+      box.querySelector('[data-offer-bar-fill]').style.width = Math.min(100, Math.round(count / min * 100)) + '%';
+      box.querySelector('.tn-oprog').classList.toggle('is-on', on);
+      each(document, '[data-offer-checkout]', function (b) { if (!b.hasAttribute('aria-busy')) b.disabled = ended || !count; });
+      var out = box.querySelector('[data-offer-totals]');
+      if (!count) out.innerHTML = '<p class="tn-sum__note">No items yet. Use + to add items.</p>';
+      if (bar) { bar.classList.toggle('has-items', !!count && !ended); bar.querySelector('[data-obar-prog]').textContent = prog; }
+      if (!count) { if (bar) bar.querySelector('[data-obar-count]').textContent = ''; return; }
+      catalog().then(function () {
+        var t = totals(items, c), off = on ? Math.round(t.sub * pct / 100) : 0, total = t.sub - off + t.ship;
+        var cur = cat.currencies[c], reg = cat.regions[cur.region];
+        out.innerHTML = '<dl class="tn-sum">' +
+          '<div><dt>Items <span>(' + count + ')</span></dt><dd>' + fmt(t.sub, c) + '</dd></div>' +
+          (off ? '<div class="tn-sum__off"><dt>' + pct + '% off</dt><dd>−' + fmt(off, c) + '</dd></div>' : '') +
+          '<div class="tn-sum__parcel"><dt>Shipping <span>(' + t.parcels.length + ' parcel' + (t.parcels.length > 1 ? 's' : '') + ')</span></dt><dd>' + fmt(t.ship, c) + '</dd></div>' +
+          '<div class="tn-sum__total"><dt>Total</dt><dd>' + fmt(total, c) + '</dd></div></dl>' +
+          '<p class="tn-sum__note">' + esc(cur.taxNote) + ' Made for you after you order. Order today and it arrives ' + workdays(reg.delivery[0]) + ' – ' + workdays(reg.delivery[1]) + ' (' + esc(reg.name) + ').' +
+          (t.parcels.length > 1 ? ' Your order comes in ' + t.parcels.length + ' parcels (' + esc(t.parcels.map(function (p) { return p.name === 'Story Walls' ? p.name : p.name.toLowerCase(); }).join(', ')) + '): each kind of item is made in its own workshop.' : '') + '</p>';
+        if (bar) { bar.querySelector('[data-obar-count]').textContent = count + ' item' + (count === 1 ? '' : 's'); bar.querySelector('[data-obar-total]').textContent = fmt(total, c); }
+      }).catch(function () { out.innerHTML = '<p class="tn-sum__note">' + count + ' items. The total shows on the payment page.</p>'; });
+    }
+    rows.forEach(function (r) {
+      input(r).value = String(saved[r.getAttribute('data-sku')] || 0);
+      each(r, '[data-ostep]', function (b) { b.addEventListener('click', function () { setQty(r, qty(r) + parseInt(b.getAttribute('data-ostep'), 10)); update(); }); });
+      input(r).addEventListener('input', function () { if (input(r).value !== '') update(); });
+      input(r).addEventListener('change', update);
+      input(r).addEventListener('focus', function () { input(r).select(); });
+    });
+    if (ended) { box.classList.add('is-ended'); var em = box.querySelector('[data-offer-ended]'); if (em) em.hidden = false; }
+    each(document, 'select.tn-cur', function (s) { s.addEventListener('change', update); });
+    window.addEventListener('storage', function (e) { if (e.key === CUR) update(); });
+    /* phones: a small bar with the count, the total and the checkout button while the summary is out of view */
+    if (bar && 'IntersectionObserver' in window && sumBox) {
+      bar.removeAttribute('aria-hidden'); bar.querySelector('[data-offer-checkout]').removeAttribute('tabindex');
+      new IntersectionObserver(function (en) { bar.classList.toggle('is-away', !en[0].isIntersecting); document.documentElement.classList.toggle('tn-obar-on', !en[0].isIntersecting); }).observe(sumBox);
+    }
+    var msg = box.querySelector('[data-offer-msg]');
+    each(document, '[data-offer-checkout]', function (btn) {
+      btn.addEventListener('click', function () {
+        var items = chosen(); if (!items.length || ended) return;
+        var buttons = document.querySelectorAll('[data-offer-checkout]');
+        each(document, '[data-offer-checkout]', function (b) { b.disabled = true; b.setAttribute('aria-busy', 'true'); b.setAttribute('data-label', b.textContent); b.textContent = 'Opening secure payment…'; });
+        msg.hidden = true; msg.textContent = '';
+        var optin = box.querySelector('[data-optin]');
+        fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ currency: currency(), items: items, offer: key, marketing: !!(optin && optin.checked) }) })
+          .then(function (r) { return r.json().catch(function () { return { ok: false, error: 'error' }; }); })
+          .then(function (j) { if (j && j.ok && j.url) { location.href = j.url; return; } throw new Error((j && j.error) || 'error'); })
+          .catch(function (e) {
+            Array.prototype.forEach.call(buttons, function (b) { b.removeAttribute('aria-busy'); b.textContent = b.getAttribute('data-label') || 'Checkout'; });
+            msg.textContent = MSG[e.message] || MSG.error; msg.hidden = false;
+            update();
+            if (btn.closest('[data-offer-mbar]') && T.scrollToEl) T.scrollToEl(sumBox); else if (btn.closest('[data-offer-mbar]')) sumBox.scrollIntoView({ block: 'start' });
+          });
+      });
+    });
+    update();
   }
 
   /* ---------- product gallery: thumbnails, variant photos, zoom ---------- */
@@ -452,10 +554,15 @@
     var err = new URLSearchParams(location.search).get('error');
     var pm = document.querySelector('#tn-basketpage [data-basket-msg]');
     if (err && pm) { pm.textContent = MSG[err] || MSG.error; pm.hidden = false; }
-    if (document.body.hasAttribute('data-clear-basket')) store(KEY, '[]');
+    if (document.body.hasAttribute('data-clear-basket')) {
+      // paid from a campaign page: only that page's choice is cleared; the basket was not part of the order
+      var paidOffer = new URLSearchParams(location.search).get('offer');
+      if (paidOffer && /^[a-z0-9-]+$/.test(paidOffer)) store('tn-offer-' + paidOffer, '{}'); else store(KEY, '[]');
+    }
     initGallery(root);
     initFilters(root);
     initPacks(root);
+    initOffer(root);
     // homepage series: two rows, a fade, and "See all 12 series"
     each(root, '[data-fold-btn]', function (b) {
       var fold = document.querySelector('[data-fold]');
