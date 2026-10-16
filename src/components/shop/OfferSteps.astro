@@ -1,0 +1,10 @@
+---
+/* The three steps of a campaign offer (choose, 20% off from 11 items, pay), on /campaigns and on each offer page. */
+import { offers } from '../../lib/shop';
+const rule: any = offers.rule;
+---
+<ol class="tn-osteps">
+  <li><span class="tn-osteps__n" aria-hidden="true">1</span><span><strong>Choose</strong> Use − and + to set how many of each item you want. Mix any items on the offer page.</span></li>
+  <li><span class="tn-osteps__n" aria-hidden="true">2</span><span><strong>Get {rule.percent}% off</strong> With {rule.minItems} items or more, {rule.percent}% comes off the price of every item. Shipping stays the same.</span></li>
+  <li><span class="tn-osteps__n" aria-hidden="true">3</span><span><strong>Pay securely</strong> Check out with Stripe. Each item is made for you after you order, then sent.</span></li>
+</ol>

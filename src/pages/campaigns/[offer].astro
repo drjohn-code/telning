@@ -12,6 +12,7 @@ import CurrencySelect from '../../components/shop/CurrencySelect.astro';
 import TrustBar from '../../components/shop/TrustBar.astro';
 import Picture from '../../components/shop/Picture.astro';
 import Faq from '../../components/Faq.astro';
+import OfferSteps from '../../components/shop/OfferSteps.astro';
 import { offers, shop, gifts, view, priceAttrs, ageLabel, CURRENCIES } from '../../lib/shop';
 
 export function getStaticPaths() {
@@ -66,11 +67,7 @@ const pic = (x: any) => (Array.isArray(x) ? view(x[0], x[1]) : x);   // [sku, vi
 
     <section class="tn-wrap" aria-labelledby="how-h">
       <h2 class="tn-sr" id="how-h">How the offer works</h2>
-      <ol class="tn-osteps">
-        <li><span class="tn-osteps__n" aria-hidden="true">1</span><span><strong>Choose</strong> Use − and + to set how many of each item you want. Mix any items on this page.</span></li>
-        <li><span class="tn-osteps__n" aria-hidden="true">2</span><span><strong>Get {rule.percent}% off</strong> With {rule.minItems} items or more, {rule.percent}% comes off the price of every item. Shipping stays the same.</span></li>
-        <li><span class="tn-osteps__n" aria-hidden="true">3</span><span><strong>Pay securely</strong> Check out with Stripe. Each item is made for you after you order, then sent.</span></li>
-      </ol>
+      <OfferSteps />
     </section>
 
     <section class="tn-wrap tn-offer" id="order" aria-labelledby="order-h" data-offer={o.key} data-min={rule.minItems} data-percent={rule.percent} data-ends={o.ends}>

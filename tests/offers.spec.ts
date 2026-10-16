@@ -121,3 +121,21 @@ test('Christmas & New Year page: every-day mugs and bags named as such, cards wi
   // 6 × 12.90 + 4 × 19.90 + 19.90 = 176.90; 20% = 35.38
   await expect(page.locator('[data-offer-totals] .tn-sum__off dd')).toHaveText('−€35.38');
 });
+
+test('/campaigns: two blocks open the two offer pages; not linked from the header or footer; an ended offer says so', async ({ page }) => {
+  await page.goto('/campaigns');
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
+  await expect(page.locator('header a[href^="/campaigns"], footer a[href^="/campaigns"]')).toHaveCount(0);
+  const cards = page.locator('[data-offer-card]');
+  await expect(cards).toHaveCount(2);
+  await expect(cards.nth(0).locator('h2')).toHaveText('Halloween');
+  await expect(cards.nth(1).locator('h2')).toHaveText('Christmas & New Year');
+  await expect(cards.nth(0).locator('[data-offer-when]')).toHaveText('Until 31 October');
+  await cards.nth(1).locator('a').click();
+  await expect(page).toHaveURL(/\/campaigns\/new-year$/);
+  await expect(page.locator('.tn-crumbs a[href="/campaigns"]')).toHaveText('Offers');
+  await page.clock.setFixedTime(new Date('2026-11-01T09:00:00+01:00'));
+  await page.goto('/campaigns');
+  await expect(page.locator('[data-offer-card]').nth(0).locator('[data-offer-when]')).toHaveText('This offer has ended');
+  await expect(page.locator('[data-offer-card]').nth(1).locator('[data-offer-when]')).toHaveText('Until 31 December');
+});

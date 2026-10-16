@@ -91,7 +91,10 @@ export function shopSeo(catalog, site, offers) {
     }[type];
     add(giftPath(type), { name: t.plural, parent: '/gifts', title: d[0], description: fit([d[1]]), og: `/og/gifts-${type}.jpg` });
   }
-  // the hidden campaign pages (server/offers.js): shared by link only, so noindex and not in the sitemap
-  for (const o of offers?.list || []) add(o.path, { name: `${o.name} offer`, title: o.title, description: o.description, noindex: true, sitemap: false, og: o.og || '/og/gifts.jpg', lastmod: '2026-10-16', published: '2026-10-16' });
+  // the hidden campaign pages (server/offers.js): shared by link only, so noindex and not in the sitemap; /campaigns lists them
+  const hidden = { noindex: true, sitemap: false, lastmod: '2026-10-16', published: '2026-10-16' };
+  const ix = offers?.index;
+  if (ix) add(ix.path, { name: ix.name, title: ix.title, description: ix.description, og: '/og/gifts.jpg', ...hidden });
+  for (const o of offers?.list || []) add(o.path, { name: `${o.name} offer`, title: o.title, description: o.description, og: o.og || '/og/gifts.jpg', ...(ix ? { parent: ix.path } : {}), ...hidden });
   return pages;
 }

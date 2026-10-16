@@ -182,3 +182,13 @@ test('offers: each page counts only its own items: a Halloween mug is refused on
   const mixed = await run({ currency: 'EUR', items: [...ny, { sku: 'mug-cocoa-cat', qty: 1 }], offer: 'new-year' }, fakeStripe(), Date.parse('2026-12-01T12:00:00+01:00'));
   assert.equal(mixed.body.error, 'sku');
 });
+
+test('offers: /campaigns lists both offers; hidden too; the offer pages sit under it in the breadcrumbs', () => {
+  const e = shopPages['/campaigns'];
+  assert.equal(e.noindex, true);
+  assert.equal(e.sitemap, false);
+  assert.ok(e.title.length <= 60 && !e.title.includes('&'));
+  assert.ok(e.description.length >= 140 && e.description.length <= 160);
+  assert.deepEqual(offers.list.map((o) => o.key), ['halloween', 'new-year']);
+  for (const o of offers.list) assert.equal(shopPages[o.path].parent, '/campaigns');
+});

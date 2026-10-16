@@ -1,0 +1,77 @@
+---
+/* /campaigns — the hidden list of campaign offers (John, 16 Oct 2026): one block per offer (Halloween, Christmas & New
+   Year), each opening its own page. Not linked from the header, the footer or the sitemap (noindex). After an offer's
+   end date the browser marks its block as ended (src/scripts/shop.js). DRAFT texts: src/data/shop-offers.json. */
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustBar from '../../components/shop/TrustBar.astro';
+import Picture from '../../components/shop/Picture.astro';
+import Faq from '../../components/Faq.astro';
+import OfferSteps from '../../components/shop/OfferSteps.astro';
+import { offers, shop, view } from '../../lib/shop';
+
+const ix: any = offers.index;
+const PAGE = ix.path;
+const rule: any = offers.rule;
+const T = shop.types as any;
+const pic = (x: any) => (Array.isArray(x) ? view(x[0], x[1]) : x);
+const short = (label: string) => label.replace(/ \d{4}$/, '');
+/* the shared questions; the end date names every offer */
+const faq = offers.faq.map((f: any) => (f.a.includes('{ends}')
+  ? { q: 'When do the offers end?', a: `${offers.list.map((o: any) => `${o.name}: ${o.endsLabel}`).join('. ')}. Each one at 23:59, Swedish time.` }
+  : { q: f.q.replace('{percent}', rule.percent), a: f.a.replace('{min}', rule.minItems).replace(/\{percent\}/g, rule.percent).replace('on this page', 'on one offer page').replace('The checkout on this page pays only for the items you choose here', 'The checkout on an offer page pays only for the items you choose there') }));
+---
+<Base page={PAGE} preload={{ src: pic(offers.list[0].hero.main), sizes: '(min-width: 1024px) 560px, 100vw' }}>
+  <Header />
+  <main id="main" tabindex="-1">
+    <section class="tn-wrap tn-offersintro" aria-labelledby="page-h">
+      <Breadcrumbs page={PAGE} />
+      <p class="tn-kicker">{ix.kicker}</p>
+      <h1 class="tn-h1" id="page-h" tabindex="-1">{ix.h1}</h1>
+      <p class="tn-lead">{ix.lead}</p>
+    </section>
+
+    <section class="tn-wrap" aria-label="The offers">
+      <ul class="tn-offercards">
+        {offers.list.map((o: any, i: number) => (
+          <li class="tn-offercard" data-offer-card data-ends={o.ends}>
+            <a class="tn-offercard__a" href={o.path} aria-labelledby={`offer-${o.key}`}>
+              <div class="tn-offercard__art" aria-hidden="true">
+                <Picture class="tn-offercard__main" src={pic(o.hero.main)} alt="" eager={i === 0} widths={[600, 1200]} sizes="(min-width: 1024px) 560px, 100vw" />
+                <Picture class="tn-offercard__small" src={pic(o.hero.small)} alt="" widths={[600]} sizes="(min-width: 1024px) 200px, 34vw" />
+              </div>
+              <div class="tn-offercard__body">
+                <p class="tn-kicker" data-offer-when data-ended-text="This offer has ended">Until {short(o.endsLabel)}</p>
+                <h2 class="tn-h2" id={`offer-${o.key}`}>{o.name}</h2>
+                <p class="tn-p">{o.tile}</p>
+                <ul class="tn-shophero__pts">{o.sections.map((s: any) => <li>{s.title || T[s.type].plural}</li>)}</ul>
+                <p class="tn-offercard__meta">{o.skus.size} items to choose from · {rule.percent}% off {rule.minItems} items or more</p>
+                <span class="tn-btn tn-btn--buy tn-offercard__btn">See the {o.name} offer</span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="tn-section tn-section--tight" aria-labelledby="how-h"><div class="tn-wrap">
+      <h2 class="tn-h2 tn-h2--s tn-offershow" id="how-h">How the offers work</h2>
+      <OfferSteps />
+    </div></section>
+
+    <section class="tn-section tn-section--tight" aria-labelledby="faq-h"><div class="tn-wrap tn-offerfaq">
+      <h2 class="tn-h2 tn-h2--s" id="faq-h">Good to know</h2>
+      <Faq items={faq} />
+    </div></section>
+
+    <section class="tn-section tn-section--tight" aria-labelledby="more-h"><div class="tn-wrap">
+      <h2 class="tn-h2 tn-h2--s" id="more-h">Looking for something else?</h2>
+      <p class="tn-p tn-offermore"><a class="tn-link tn-link--solo" href="/gifts">All gifts</a> <a class="tn-link tn-link--solo" href="/books">All Story Walls</a> <a class="tn-link tn-link--solo" href="/shipping-returns">Shipping &amp; returns</a></p>
+    </div></section>
+
+    <section class="tn-section tn-section--tight" aria-label="Our promises"><div class="tn-wrap"><TrustBar /></div></section>
+  </main>
+  <Footer />
+</Base>

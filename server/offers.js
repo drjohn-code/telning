@@ -19,7 +19,7 @@ export function buildOffers(data, catalog) {
     const skus = new Set(sections.flatMap((s) => s.products.map((p) => p.sku)));
     return { ...o, key, sections, skus };
   });
-  return { rule: data.rule, faq: data.faq || [], list, byKey: new Map(list.map((o) => [o.key, o])) };
+  return { rule: data.rule, faq: data.faq || [], index: data.index || null, list, byKey: new Map(list.map((o) => [o.key, o])) };
 }
 
 /** True while the offer runs (until its `ends` time; a `starts` time is optional). */

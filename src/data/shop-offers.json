@@ -6,6 +6,15 @@
     "coupon": "telning-offer-20",
     "couponName": "20% off, 11 or more items"
   },
+  "index": {
+    "path": "/campaigns",
+    "name": "Offers",
+    "title": "Telning offers: 20% off 11 or more items | Telning",
+    "description": "Telning offers for Halloween, Christmas and New Year: Story Walls, tote bags, mugs, postcards and greeting cards. Choose 11 items or more for 20% off.",
+    "kicker": "Telning offers",
+    "h1": "Our offers",
+    "lead": "Pick an offer, then choose 11 items or more on its page, in any mix. 20% comes off the price of every item. Everything is made for you after you order."
+  },
   "faq": [
     { "q": "How does the 20% work?", "a": "Choose {min} items or more on this page, in any mix. Then {percent}% comes off the price of every item. Shipping stays the same. You see the discount on the payment page before you pay." },
     { "q": "What counts as one item?", "a": "Each mug, tote bag and Story Wall is one item. A pack of 10 postcards or 10 greeting cards is also one item." },
@@ -28,6 +37,7 @@
       "h1": "Halloween with our cats and dogs",
       "lead": "Mugs, tote bags, postcards and greeting cards with our Halloween cats and dogs, and a Story Wall with pumpkin lanterns to colour together. Choose 11 items or more and 20% comes off every item.",
       "orderTitle": "Your Halloween order",
+      "tile": "Our Halloween cats and dogs on mugs, tote bags, postcards and greeting cards, and the Big Days Story Wall with pumpkin lanterns to colour.",
       "hero": {
         "main": "/shop/img/gift-set/gift-set-halloween-gift-set", "mainAlt": "A Telning Halloween mug, tote bag, postcard and greeting card with cats and dogs, among pumpkins and autumn leaves",
         "small": ["poster-big-days-5-7", "progress"], "smallAlt": "The Big Days Story Wall being coloured on the floor, with pumpkin lanterns and a Christmas tree"
@@ -51,6 +61,7 @@
       "h1": "Christmas and New Year with our cats and dogs",
       "lead": "Christmas and New Year postcards and greeting cards with our cats and dogs, two Story Walls with a snowman and a Christmas tree to colour together, and mugs and tote bags for every day. Choose 11 items or more and 20% comes off every item.",
       "orderTitle": "Your Christmas & New Year order",
+      "tile": "Christmas and New Year postcards and greeting cards with our cats and dogs, Story Walls with a snowman and a Christmas tree, and mugs and tote bags for every day.",
       "hero": {
         "main": ["postcards-lantern-cat", "home"], "mainAlt": "Telning Lantern Cat postcards by a snowy window: a ginger cat in a red hat with a star lantern in a snowy fir forest",
         "small": ["poster-round-the-year-5-7", "progress"], "smallAlt": "The Round the Year Story Wall being coloured on the floor, with a penguin and a snowman in its winter corner",

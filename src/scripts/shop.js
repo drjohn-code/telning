@@ -563,6 +563,12 @@
     initFilters(root);
     initPacks(root);
     initOffer(root);
+    /* /campaigns: an offer block after its end date says so (a build from before the date stays valid) */
+    each(root, '[data-offer-card]', function (c) {
+      if (Date.now() <= Date.parse(c.getAttribute('data-ends'))) return;
+      c.classList.add('is-ended');
+      var w = c.querySelector('[data-offer-when]'); if (w) w.textContent = w.getAttribute('data-ended-text');
+    });
     // homepage series: two rows, a fade, and "See all 12 series"
     each(root, '[data-fold-btn]', function (b) {
       var fold = document.querySelector('[data-fold]');
