@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 130" width="110" height="130">
-<path d="M55 6l44 14v34c0 32-20 56-44 68C31 110 11 86 11 54V20z" fill="#CE4029"/>
-<path class="sh" d="M55 6l44 14v34c0 32-20 56-44 68z" fill="#A9321D"/>
-<path d="M62 24 36 70h18l-8 36 28-50H56z" fill="#E8B23A"/>
-<path d="M62 24 56 56h18l-28 50 8-36z" fill="#F6D27E" opacity=".0"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 130" width="110" height="130"><defs><filter id="tn-folk" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4" result="w"/><feDisplacementMap in="SourceGraphic" in2="w" scale="2.2" result="d"/><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="9" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 0.96 0 0 0 -2.4 0.86" result="s"/><feComposite in="s" in2="d" operator="in" result="sp"/><feMerge><feMergeNode in="d"/><feMergeNode in="sp"/></feMerge></filter></defs><g filter="url(#tn-folk)">
+<path d="M55 6l44 14-1 40c-1 33-20 53-43 64C32 113 13 93 12 60l-1-40z" fill="#CE4029" stroke="#16140F" stroke-width="4" stroke-linejoin="round"/>
+<path d="M55 18l32 10-1 31c-1 25-14 41-31 50-17-9-30-25-31-50l-1-31z" fill="none" stroke="#FFFDF8" stroke-width="2.6" stroke-dasharray="2 6" stroke-linecap="round"/>
+<path d="M55 86V54" stroke="#E8B23A" stroke-width="3.4" stroke-linecap="round"/><path d="M55 76c-10-1-15-8-16-16 9 1 15 7 16 16zM55 76c10-1 15-8 16-16-9 1-15 7-16 16z" fill="#E8B23A"/>
+<path d="M47 42l4 9h8l4-9-6 4-2-8-2 8z" fill="#FFFDF8" stroke="#16140F" stroke-width="2.4" stroke-linejoin="round"/></g></svg>

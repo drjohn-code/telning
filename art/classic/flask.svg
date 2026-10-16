@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 140" width="100" height="140">
+<g class="o-bubbles"><circle cx="46" cy="18" r="5" fill="#DDEBF7"/><circle cx="58" cy="8" r="3.5" fill="#DDEBF7"/><circle cx="52" cy="-2" r="2.5" fill="#DDEBF7"/></g>
+<path d="M38 30h24v26l26 58c4 9-2 18-12 18H24c-10 0-16-9-12-18l26-58z" fill="#FFFDF8" opacity=".92"/>
+<path d="M27 88h46l15 26c4 9-2 18-12 18H24c-10 0-16-9-12-18z" fill="#86A672"/>
+<path d="M62 88h11l15 26c4 9-2 18-12 18H66c8 0 12-9 8-18z" fill="#3D6E58"/>
+<circle cx="40" cy="108" r="5" fill="#FFFDF8" opacity=".7"/><circle cx="54" cy="98" r="3.5" fill="#FFFDF8" opacity=".7"/><circle cx="60" cy="116" r="2.5" fill="#FFFDF8" opacity=".7"/>
+<rect x="34" y="24" width="32" height="9" rx="4" fill="#E9DFCF"/>
+<path d="M42 40v18L22 104" stroke="#FFFDF8" stroke-width="4" fill="none" stroke-linecap="round" opacity=".8"/></svg>

@@ -39,40 +39,40 @@ const label = `Cover of the ${s.name} series: ${sc.alt}`;
       <div class="tn-cover__scene">
         {key === 'home-hearts' && (
           <>
-            <div class="tn-cover__o" style="top:0;right:4%;width:30%"><Obj name="sun" w="100%" class="tn-spin" /></div>
-            <div class="tn-cover__o" style="top:10%;left:6%;width:12%"><Obj name="heart" w="100%" class="tn-float" swap={{ red: 'gold-light', 'red-deep': 'gold' }} /></div>
-            <div class="tn-cover__o" style="top:28%;left:22%;width:9%"><Obj name="heart" w="100%" class="tn-float late" swap={{ red: 'gold-light', 'red-deep': 'gold' }} /></div>
-            <div class="tn-cover__o" style="top:2%;left:40%;width:8%"><Obj name="heart" w="100%" class="tn-float slow" swap={{ red: 'gold-light', 'red-deep': 'gold' }} /></div>
+            <div class="tn-cover__o" style="top:0;right:4%;width:30%"><Obj classic name="sun" w="100%" class="tn-spin" /></div>
+            <div class="tn-cover__o" style="top:10%;left:6%;width:12%"><Obj classic name="heart" w="100%" class="tn-float" swap={{ red: 'gold-light', 'red-deep': 'gold' }} /></div>
+            <div class="tn-cover__o" style="top:28%;left:22%;width:9%"><Obj classic name="heart" w="100%" class="tn-float late" swap={{ red: 'gold-light', 'red-deep': 'gold' }} /></div>
+            <div class="tn-cover__o" style="top:2%;left:40%;width:8%"><Obj classic name="heart" w="100%" class="tn-float slow" swap={{ red: 'gold-light', 'red-deep': 'gold' }} /></div>
             <svg class="tn-cover__hill" viewBox="0 0 300 120" preserveAspectRatio="none"><path d="M0 120V60C50 30 120 22 180 36s90 18 120 4v80z" fill="var(--hill)"/></svg>
-            <div class="tn-cover__o" style="bottom:12%;left:58%;width:22%"><Obj name="tree" w="100%" /></div>
-            <div class="tn-cover__o" style="bottom:9%;left:6%;width:54%"><Obj name="house" w="100%" swap={{ red: 'sea', 'red-deep': 'sea-deep', sky: 'gold-light', sea: 'sky' }} /></div>
-            <div class="tn-cover__o" style="bottom:7%;right:4%;width:33%"><Obj name="cat" w="100%" /></div>
+            <div class="tn-cover__o" style="bottom:12%;left:58%;width:22%"><Obj classic name="tree" w="100%" /></div>
+            <div class="tn-cover__o" style="bottom:9%;left:6%;width:54%"><Obj classic name="house" w="100%" swap={{ red: 'sea', 'red-deep': 'sea-deep', sky: 'gold-light', sea: 'sky' }} /></div>
+            <div class="tn-cover__o" style="bottom:7%;right:4%;width:33%"><Obj classic name="cat" w="100%" /></div>
             <span class="tn-cover__ground"></span>
           </>
         )}
         {key === 'star-hoppers' && (
           <>
-            <div class="tn-cover__o" style="top:4%;left:6%;width:20%"><Obj name="moon" w="100%" class="tn-float slow" /></div>
-            <div class="tn-cover__o" style="top:0;left:34%;width:7%"><Obj name="star" w="100%" class="tn-twinkle" /></div>
-            <div class="tn-cover__o" style="top:22%;left:30%;width:5%"><Obj name="star" w="100%" class="tn-twinkle late" /></div>
-            <div class="tn-cover__o" style="top:38%;left:8%;width:6%"><Obj name="star" w="100%" class="tn-twinkle slow" /></div>
-            <div class="tn-cover__o" style="top:30%;right:8%;width:5%"><Obj name="star" w="100%" class="tn-twinkle" /></div>
-            <div class="tn-cover__o" style="top:0;right:2%;width:50%"><Obj name="planet" w="100%" class="tn-float" /></div>
+            <div class="tn-cover__o" style="top:4%;left:6%;width:20%"><Obj classic name="moon" w="100%" class="tn-float slow" /></div>
+            <div class="tn-cover__o" style="top:0;left:34%;width:7%"><Obj classic name="star" w="100%" class="tn-twinkle" /></div>
+            <div class="tn-cover__o" style="top:22%;left:30%;width:5%"><Obj classic name="star" w="100%" class="tn-twinkle late" /></div>
+            <div class="tn-cover__o" style="top:38%;left:8%;width:6%"><Obj classic name="star" w="100%" class="tn-twinkle slow" /></div>
+            <div class="tn-cover__o" style="top:30%;right:8%;width:5%"><Obj classic name="star" w="100%" class="tn-twinkle" /></div>
+            <div class="tn-cover__o" style="top:0;right:2%;width:50%"><Obj classic name="planet" w="100%" class="tn-float" /></div>
             <svg class="tn-cover__hill" viewBox="0 0 300 120" preserveAspectRatio="none"><path d="M0 120V70C60 40 130 36 190 48s80 10 110-4v76z" fill="var(--hill)"/><ellipse cx="90" cy="92" rx="22" ry="7" fill="var(--sky)" opacity=".35"/><ellipse cx="220" cy="100" rx="14" ry="5" fill="var(--sky)" opacity=".35"/></svg>
-            <div class="tn-cover__o" style="bottom:12%;left:8%;width:30%"><Obj name="rocket" w="100%" class="tn-float tn-flicker" /></div>
-            <div class="tn-cover__o" style="bottom:7%;right:8%;width:36%"><Obj name="penguin" w="100%" /></div>
+            <div class="tn-cover__o" style="bottom:12%;left:8%;width:30%"><Obj classic name="rocket" w="100%" class="tn-float tn-flicker" /></div>
+            <div class="tn-cover__o" style="bottom:7%;right:8%;width:36%"><Obj classic name="penguin" w="100%" /></div>
             <span class="tn-cover__ground"></span>
           </>
         )}
         {key === 'on-the-move' && (
           <>
-            <div class="tn-cover__o" style="top:4%;left:0;width:100%"><div class="tn-drift" style="--drift:70s;width:30%"><Obj name="cloud" w="100%" /></div></div>
-            <div class="tn-cover__o" style="top:26%;left:0;width:100%"><div class="tn-drift" style="--drift:95s;animation-delay:-50s;width:22%"><Obj name="cloud" w="100%" /></div></div>
-            <div class="tn-cover__o" style="top:0;left:5%;width:26%"><Obj name="balloon" w="100%" class="tn-sway" /></div>
-            <div class="tn-cover__o" style="top:12%;right:4%;width:36%"><Obj name="plane" w="100%" class="tn-float" /></div>
+            <div class="tn-cover__o" style="top:4%;left:0;width:100%"><div class="tn-drift" style="--drift:70s;width:30%"><Obj classic name="cloud" w="100%" /></div></div>
+            <div class="tn-cover__o" style="top:26%;left:0;width:100%"><div class="tn-drift" style="--drift:95s;animation-delay:-50s;width:22%"><Obj classic name="cloud" w="100%" /></div></div>
+            <div class="tn-cover__o" style="top:0;left:5%;width:26%"><Obj classic name="balloon" w="100%" class="tn-sway" /></div>
+            <div class="tn-cover__o" style="top:12%;right:4%;width:36%"><Obj classic name="plane" w="100%" class="tn-float" /></div>
             <svg class="tn-cover__hill" viewBox="0 0 300 120" preserveAspectRatio="none"><path d="M0 120V64C60 30 140 24 200 40s70 18 100 6v74z" fill="var(--hill)"/></svg>
-            <div class="tn-cover__o" style="bottom:4%;left:0;width:100%"><Obj name="road" w="100%" flat /></div>
-            <div class="tn-cover__o" style="bottom:8%;left:8%;width:56%"><Obj name="car" w="100%" class="tn-wheels" /></div>
+            <div class="tn-cover__o" style="bottom:4%;left:0;width:100%"><Obj classic name="road" w="100%" flat /></div>
+            <div class="tn-cover__o" style="bottom:8%;left:8%;width:56%"><Obj classic name="car" w="100%" class="tn-wheels" /></div>
             <span class="tn-cover__ground"></span>
           </>
         )}

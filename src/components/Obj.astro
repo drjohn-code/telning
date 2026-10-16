@@ -3,18 +3,32 @@
    art/animals, art/science), inlined with colour tokens so it recolours with the system.
    <Obj name="house" w="40%" class="tn-float" /> → <svg class="tn-obj tn-float" style="--w:40%" aria-hidden>
    Decoration by default (aria-hidden). Give `label` to make it a real image. `swap={{ red: 'gold' }}` recolours
-   one token for this use (a heart on a red cover). Never Pim or a series character. */
+   one token for this use (a heart on a red cover). Never Pim or a series character.
+   Folk look (John, 16 Oct 2026): a name listed in src/data/folk-objects.json is drawn as its folk art picture (cut out,
+   public/art/folk) instead of the SVG, with the same class, width and animation; `swap` does not apply to a picture.
+   `classic` keeps the old drawing (the book covers: the SVG, or art/classic when a folk icon replaced it), `eager`
+   loads the picture at once (the home hero). The folk icons (vector, art/objects and art/science) get a grain filter. */
 import tokens from '../../design/tokens.json';
+import folk from '../data/folk-objects.json';
 
-const files = import.meta.glob('/art/{objects,animals,science}/*.svg', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+const files = import.meta.glob('/art/{objects,animals,science,classic}/*.svg', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
 const HEX: Record<string, string> = Object.fromEntries(tokens.color.tokens.map((c) => [c.value.toUpperCase(), c.name]));
 
-interface Props { name: string; w?: string; class?: string; style?: string; label?: string; flat?: boolean; swap?: Record<string, string> }
-const { name, w, class: cls = '', style = '', label, flat = false, swap } = Astro.props;
+interface Props { name: string; w?: string; class?: string; style?: string; label?: string; flat?: boolean; swap?: Record<string, string>; classic?: boolean; eager?: boolean }
+const { name, w, class: cls = '', style = '', label, flat = false, swap, classic = false, eager = false } = Astro.props;
+const pic = !classic ? (folk as Record<string, any>)[name] : null;
+const picCls = `tn-obj tn-obj--pic${flat ? ' tn-obj--flat' : ''}${cls ? ' ' + cls : ''}`;
 
-const entry = Object.entries(files).find(([p]) => p.endsWith(`/${name}.svg`));
+const src = (wd: number, ext: string) => `/art/folk/${name}-${wd}.${ext}`;
+
+/* `classic` (the book covers) takes the old drawing from art/classic when a folk icon replaced it */
+const all = Object.entries(files);
+const entry = (classic && all.find(([p]) => p === `/art/classic/${name}.svg`)) || all.find(([p]) => !p.startsWith('/art/classic/') && p.endsWith(`/${name}.svg`));
 if (!entry) throw new Error(`Obj: there is no art file named "${name}" in art/objects, art/animals or art/science`);
 
+/* a picture fills the same box as the old SVG (its viewBox shape) and sits at the bottom of it, so layouts stay as they were */
+const vbox = (entry[1].match(/viewBox="([^"]+)"/) || [, '0 0 1 1'])[1].split(/\s+/).map(Number);
+const picStyle = `${w ? `--w:${w};` : ''}aspect-ratio:${vbox[2]} / ${vbox[3]};${style}`;
 let svg = entry[1]
   .replace(/#[0-9a-fA-F]{6}\b/g, (m) => {
     const tok = HEX[m.toUpperCase()];
@@ -27,5 +41,12 @@ let svg = entry[1]
     const st = `${w ? `--w:${w};` : ''}${style}`;
     return `<svg ${vb} class="tn-obj${flat ? ' tn-obj--flat' : ''}${cls ? ' ' + cls : ''}"${st ? ` style="${st}"` : ''} ${a11y} focusable="false">`;
   });
+/* the folk icons carry a grain filter: give it an id of its own on every use, so a hidden copy never breaks a visible one */
+if (svg.includes('tn-folk')) { const g = globalThis as any; g.__tnFolk = (g.__tnFolk || 0) + 1; svg = svg.replace(/tn-folk\b/g, `tn-folk-${g.__tnFolk}`); }
 ---
-<Fragment set:html={svg} />
+{pic ? (
+  <picture>
+    <source type="image/avif" srcset={`${src(240, 'avif')} 240w, ${src(480, 'avif')} 480w`} sizes="(min-width: 1024px) 200px, 30vw" />
+    <img class={picCls} style={picStyle} src={src(240, 'webp')} srcset={`${src(240, 'webp')} 240w, ${src(480, 'webp')} 480w`} sizes="(min-width: 1024px) 200px, 30vw" width={pic.w} height={pic.h} alt={label || ''} aria-hidden={label ? undefined : 'true'} loading={eager ? 'eager' : 'lazy'} decoding="async" />
+  </picture>
+) : <Fragment set:html={svg} />}

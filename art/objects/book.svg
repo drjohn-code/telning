@@ -1,9 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 104" width="160" height="104">
-<path d="M80 36C60 24 28 22 4 28v62c24-6 56-4 76 8 20-12 52-14 76-8V28c-24-6-56-4-76 8z" fill="#A9321D"/>
-<path d="M80 32C60 20 30 18 8 24v60c22-6 52-4 72 8z" fill="#FFFDF8"/>
-<path d="M80 32c20-12 50-14 72-8v60c-22-6-52-4-72 8z" fill="#F6F1E8"/>
-<path d="M80 32v60" stroke="#E9DFCF" stroke-width="3"/>
-<circle cx="34" cy="46" r="8" fill="#E8B23A"/>
-<path d="M18 74c10-10 22-14 34-6s16 6 22 2v12c-20-8-38-8-56-4z" fill="#86A672"/>
-<path d="M92 72c8-14 18-22 28-18s16-2 22-8v24c-18-4-34-4-50 2z" fill="#B9D3EC"/>
-<path d="M118 40l8 14h-16z" fill="#CE4029"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 104" width="160" height="104"><defs><filter id="tn-folk" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4" result="w"/><feDisplacementMap in="SourceGraphic" in2="w" scale="2.2" result="d"/><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="9" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 0.96 0 0 0 -2.4 0.86" result="s"/><feComposite in="s" in2="d" operator="in" result="sp"/><feMerge><feMergeNode in="d"/><feMergeNode in="sp"/></feMerge></filter></defs><g filter="url(#tn-folk)">
+<path d="M80 30C61 19 31 17 5 24l1 66c25-6 53-4 74 9 21-13 49-15 74-9l1-66c-26-7-56-5-75 6z" fill="#A9321D"/>
+<path d="M80 26C62 15 33 14 10 20l1 61c23-5 49-3 69 9z" fill="#FFFDF8" stroke="#16140F" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M80 26c18-11 47-12 70-6l-1 61c-23-5-49-3-69 9z" fill="#FFFDF8" stroke="#16140F" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M80 27l-1 62" stroke="#16140F" stroke-width="3" stroke-linecap="round"/>
+<path d="M45 73V45" stroke="#1E4A3B" stroke-width="3.2" stroke-linecap="round"/>
+<path d="M45 64c-9-1-14-7-15-14 8 0 14 6 15 14z" fill="#1E4A3B"/><path d="M45 58c8-2 12-8 12-15-7 1-12 7-12 15z" fill="#3D6E58"/>
+<path d="M36 38l4 9h10l4-9-6 4-3-8-3 8z" fill="#B8841A" stroke="#16140F" stroke-width="2.4" stroke-linejoin="round"/>
+<circle cx="24" cy="74" r="2.6" fill="#16140F"/><circle cx="64" cy="70" r="2.6" fill="#16140F"/>
+<path d="M95 40c12-4 30-5 42-2M95 52c12-4 30-5 42-2M95 64c12-4 24-5 34-3" stroke="#16140F" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+<path d="M112 74l5 6 5-6-5-5z" fill="#CE4029"/></g></svg>

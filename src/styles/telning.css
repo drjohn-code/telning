@@ -79,6 +79,8 @@ img, svg { display: block; max-width: 100%; }
 /* ---------- the paper object system ---------- */
 .tn-obj { display: block; width: var(--w, 120px); height: auto; filter: drop-shadow(0 10px 14px rgb(22 20 15 / 0.16)) drop-shadow(0 2px 3px rgb(22 20 15 / 0.12)); }
 .tn-obj--flat { filter: none; }
+img.tn-obj--pic { object-fit: contain; object-position: center bottom; }   /* a folk picture keeps its own aspect in a fixed box */
+picture:has(> .tn-obj--pic) { display: contents; }
 .tn-float { animation: tn-bob 6s ease-in-out infinite alternate; }
 .tn-float.slow { animation-duration: 9s; }
 .tn-float.late { animation-delay: -3s; }

@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 110" width="130" height="110">
-<path d="M20 12h90c8 0 14 6 14 14v44c0 8-6 14-14 14H52L28 104l6-20H20c-8 0-14-6-14-14V26c0-8 6-14 14-14z" fill="#FFFDF8"/>
-<path class="sh" d="M124 50v20c0 8-6 14-14 14H52l-4 4h62c8 0 14-6 14-14z" fill="#E9DFCF"/>
-<circle cx="44" cy="48" r="8" fill="#CE4029"/><circle cx="66" cy="48" r="8" fill="#E8B23A"/><circle cx="88" cy="48" r="8" fill="#4F7FAE"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 110" width="130" height="110"><defs><filter id="tn-folk" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4" result="w"/><feDisplacementMap in="SourceGraphic" in2="w" scale="2.2" result="d"/><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="9" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 0.96 0 0 0 -2.4 0.86" result="s"/><feComposite in="s" in2="d" operator="in" result="sp"/><feMerge><feMergeNode in="d"/><feMergeNode in="sp"/></feMerge></filter></defs><g filter="url(#tn-folk)">
+<path d="M19 11l92 2c8 0 13 6 13 14l-1 43c0 8-6 13-14 13l-56 1-26 20 7-21-15 1c-8 0-14-6-14-14l1-45c0-8 6-14 13-14z" fill="#FFFDF8" stroke="#16140F" stroke-width="4" stroke-linejoin="round"/>
+<path d="M19 24h7M33 22h7M47 21h7M61 21h7M75 21h7M89 21h7M103 22h7" stroke="#B8841A" stroke-width="3" stroke-linecap="round"/>
+<path d="M44 40l7 9-7 9-7-9z" fill="#A9321D"/><path d="M65 40l7 9-7 9-7-9z" fill="#E8B23A"/><path d="M86 40l7 9-7 9-7-9z" fill="#1E4A3B"/>
+<path d="M30 70c18 2 50 2 72-1" stroke="#16140F" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="1 7" fill="none"/></g></svg>

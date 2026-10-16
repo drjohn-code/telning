@@ -1,0 +1,151 @@
+{
+  "_note": "Site objects in the folk art look (John, 16 Oct 2026): pictures cut out of their paper, served by Obj.astro instead of the SVG of the same name. Made with scripts/catalog/site-objects.json; files in public/art/folk/<name>-<240|480>.<avif|webp>. w/h: the picture size (its aspect).",
+  "apple": {
+    "w": 676,
+    "h": 776
+  },
+  "ball": {
+    "w": 816,
+    "h": 775
+  },
+  "balloon": {
+    "w": 532,
+    "h": 868
+  },
+  "bear": {
+    "w": 532,
+    "h": 756
+  },
+  "bee": {
+    "w": 684,
+    "h": 736
+  },
+  "blocks": {
+    "w": 724,
+    "h": 624
+  },
+  "bunny": {
+    "w": 300,
+    "h": 804
+  },
+  "car": {
+    "w": 836,
+    "h": 524
+  },
+  "cat": {
+    "w": 764,
+    "h": 716
+  },
+  "chair": {
+    "w": 604,
+    "h": 860
+  },
+  "cloud": {
+    "w": 836,
+    "h": 468
+  },
+  "cupcake": {
+    "w": 600,
+    "h": 812
+  },
+  "duck": {
+    "w": 600,
+    "h": 768
+  },
+  "elephant": {
+    "w": 864,
+    "h": 672
+  },
+  "fox": {
+    "w": 516,
+    "h": 920
+  },
+  "frog": {
+    "w": 808,
+    "h": 728
+  },
+  "gift": {
+    "w": 588,
+    "h": 636
+  },
+  "hedgehog": {
+    "w": 704,
+    "h": 500
+  },
+  "house": {
+    "w": 600,
+    "h": 660
+  },
+  "kite": {
+    "w": 588,
+    "h": 844
+  },
+  "mailbox": {
+    "w": 644,
+    "h": 900
+  },
+  "moon": {
+    "w": 716,
+    "h": 784
+  },
+  "owl": {
+    "w": 484,
+    "h": 728
+  },
+  "owl-prof": {
+    "w": 720,
+    "h": 912
+  },
+  "partyballoon": {
+    "w": 464,
+    "h": 836
+  },
+  "penguin": {
+    "w": 448,
+    "h": 636
+  },
+  "plane": {
+    "w": 868,
+    "h": 436
+  },
+  "planet": {
+    "w": 860,
+    "h": 612
+  },
+  "rocket": {
+    "w": 470,
+    "h": 872
+  },
+  "seesaw": {
+    "w": 908,
+    "h": 572
+  },
+  "signpost": {
+    "w": 524,
+    "h": 804
+  },
+  "snail": {
+    "w": 848,
+    "h": 772
+  },
+  "star": {
+    "w": 768,
+    "h": 740
+  },
+  "steps": {
+    "w": 563,
+    "h": 623
+  },
+  "sun": {
+    "w": 852,
+    "h": 848
+  },
+  "tree": {
+    "w": 500,
+    "h": 740
+  },
+  "tulip": {
+    "w": 588,
+    "h": 876
+  }
+}

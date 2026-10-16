@@ -1,0 +1,221 @@
+{
+  "_note": "Site objects in the house folk art look (John, 16 Oct 2026): characters and scene pieces for the pages, made as pictures and cut out of their white paper (no background). Run with generate_mockups.py --config scripts/catalog/site-objects.json --theme site --stage art. Small icons are vector files in art/, not made here.",
+  "style": "A single small character or object for a children's website, in the Telning house look: a flat 2D naive folk art children's book illustration in a mid-century Scandinavian style. Art style and technique: Scandinavian mid-century folk art style. Gouache painting texture, dry-brush acrylic strokes, and visible colored pencil grain. Simple, bold, geometric shapes with clear simple silhouettes and sharp pointed features, about 20% more curved than strict geometry; animals have wide perfectly round wide-open eyes with dark pupils; a few fine folk patterns (dots, dashes, tiny leaves) on the shapes; bold freehand brush lines, never thin, nothing drawn with a ruler. Colours: burnt orange, mustard yellow, deep teal, matte black and cream. It must read clearly when shown small (about 60 pixels): a few big shapes and strong contrast. Strictly avoid: soft vector clipart, 3D shading, gradients, rounded plush shapes, glossy textures.",
+  "no_text": "No text, no letters, no words, no numbers, no logo, no watermark, no border, no frame.",
+  "art_template": "{style}{extra} Subject: {subject}.{words} {layout} Flat 2D artwork. Cute, friendly and creative, not scary. {no_text}",
+  "styles": {},
+  "mockup_template": "{scene} {place} {mood}",
+  "themes": {
+    "site": {
+      "active": true,
+      "name": "Site objects",
+      "gift_set": false,
+      "mood": ""
+    }
+  },
+  "designs": {
+    "site": {
+      "object": {
+        "duck": {
+          "title": "Duck (ages 1-3)",
+          "subject": "a small duckling standing, in mustard yellow with a burnt orange beak and feet and a tiny cream folk pattern on its wing",
+          "words": ""
+        },
+        "bunny": {
+          "title": "Bunny (ages 3-7)",
+          "subject": "a tall cream bunny sitting upright with long straight ears, burnt orange inside the ears, black outlines and a small deep teal folk scarf",
+          "words": ""
+        },
+        "owl": {
+          "title": "Owl (ages 7+)",
+          "subject": "a small owl standing upright in deep teal, with a mustard belly with a folk feather pattern and big round eyes",
+          "words": ""
+        },
+        "fox": {
+          "title": "Fox (adults)",
+          "subject": "a tall fox sitting upright in burnt orange with a cream chest, black feet and a bushy tail curled around its feet",
+          "words": ""
+        },
+        "sun": {
+          "title": "Sun (hero, spins)",
+          "subject": "a round folk sun with no face: a mustard yellow disc with a cream folk flower pattern inside, and short pointed burnt orange rays all around, evenly spaced",
+          "words": ""
+        },
+        "cloud": {
+          "title": "Cloud (hero, drifts)",
+          "subject": "one soft folk cloud, wider than tall, in cream with a bold dark outline and a few small dashes and dots inside",
+          "words": ""
+        },
+        "plane": {
+          "title": "Paper plane (flies right)",
+          "subject": "a folded paper plane seen from the side, flying to the right, in cream with a burnt orange stripe and small folk dots",
+          "words": ""
+        },
+        "car": {
+          "title": "Car (drives right)",
+          "subject": "a small round folk toy car seen from the side, facing right, in burnt orange with a cream window, two black wheels with mustard centres and small folk dots",
+          "words": ""
+        },
+        "balloon": {
+          "title": "Hot-air balloon (floats)",
+          "subject": "a folk hot-air balloon with vertical stripes in burnt orange, mustard and deep teal, folk dots, and a small woven basket below",
+          "words": ""
+        },
+        "blocks": {
+          "title": "Toy blocks",
+          "subject": "three wooden toy blocks, two side by side and one on top, in mustard, burnt orange and deep teal, each with one simple folk symbol (a heart, a tulip, a star), no letters or numbers",
+          "words": ""
+        },
+        "signpost": {
+          "title": "Signpost",
+          "subject": "a wooden folk signpost: a mustard pole on a small tuft of grass with two pointed arrow boards, one burnt orange pointing left and one deep teal pointing right, small folk dots, no letters",
+          "words": ""
+        },
+        "tree": {
+          "title": "Tree",
+          "subject": "a round folk tree: a straight mustard-brown trunk and a big round deep green crown with folk leaf patterns and a few small burnt orange berries",
+          "words": ""
+        },
+        "bee": {
+          "title": "Bee (floats)",
+          "subject": "a small round folk bee seen from the side, facing right, with mustard and black stripes, two cream wings and a big round eye",
+          "words": ""
+        },
+        "tulip": {
+          "title": "Tulip (sways)",
+          "subject": "one folk tulip on a tall straight stem: a burnt orange flower with a cream folk pattern, and two deep green leaves on the stem",
+          "words": ""
+        },
+        "star": {
+          "title": "Star",
+          "subject": "one five-pointed folk star in mustard yellow with a burnt orange folk pattern of dots and dashes inside",
+          "words": ""
+        },
+        "chair": {
+          "title": "Chair",
+          "subject": "a small wooden folk chair seen from the side, in burnt orange with a mustard seat and a small cream folk flower painted on the back",
+          "words": ""
+        },
+        "mailbox": {
+          "title": "Mailbox",
+          "subject": "a rounded folk mailbox on a mustard wooden post, in deep teal with a burnt orange flag raised up and small cream folk dots, no letters",
+          "words": ""
+        },
+        "moon": {
+          "title": "Moon",
+          "subject": "a folk crescent moon in mustard yellow with a sleepy closed eye and small cream dots, opening to the right",
+          "words": ""
+        },
+        "hedgehog": {
+          "title": "Hedgehog",
+          "subject": "a small folk hedgehog walking to the right, with burnt orange and mustard spines in a zigzag folk pattern, a cream face, a big round eye and a black nose",
+          "words": ""
+        },
+        "apple": {
+          "title": "Apple",
+          "subject": "one round folk apple in burnt orange with a cream folk flower pattern, a short brown stem and one deep green leaf",
+          "words": ""
+        },
+        "snail": {
+          "title": "Snail (footer)",
+          "subject": "a small folk snail crawling to the right, with a mustard shell with a burnt orange spiral folk pattern, a soft deep green body and two eye stalks, big round eyes",
+          "words": ""
+        },
+        "bear": {
+          "title": "Teddy bear",
+          "subject": "a small folk teddy bear sitting, in burnt orange with a mustard tummy patch with folk stitches, round ears and big round eyes",
+          "words": ""
+        },
+        "partyballoon": {
+          "title": "Party balloon",
+          "subject": "one round party balloon in burnt orange with a cream folk flower pattern and a wavy dark string below",
+          "words": ""
+        },
+        "ball": {
+          "title": "Beach ball",
+          "subject": "a round folk beach ball with curved panels in burnt orange, mustard, deep teal and cream, with small folk dots",
+          "words": ""
+        },
+        "rocket": {
+          "title": "Rocket",
+          "subject": "a small folk toy rocket pointing up, cream with a burnt orange nose and fins, a deep teal round window and a mustard flame",
+          "words": ""
+        },
+        "planet": {
+          "title": "Planet",
+          "subject": "a round folk planet in deep teal with a mustard ring around it and small cream folk dots and stripes",
+          "words": ""
+        },
+        "penguin": {
+          "title": "Penguin",
+          "subject": "a small folk penguin standing, black back and cream front with a folk pattern, a mustard beak and feet, big round eyes",
+          "words": ""
+        },
+        "kite": {
+          "title": "Kite",
+          "subject": "a diamond folk kite in four panels of burnt orange, mustard, deep teal and cream, with a wavy tail with small bows",
+          "words": ""
+        },
+        "house": {
+          "title": "House",
+          "subject": "a small folk house: cream walls with a deep teal door, a burnt orange roof with a folk pattern, a small window and a chimney",
+          "words": ""
+        },
+        "gift": {
+          "title": "Gift",
+          "subject": "a wrapped folk gift box in burnt orange with a mustard ribbon and bow and small cream folk dots",
+          "words": ""
+        },
+        "frog": {
+          "title": "Frog",
+          "subject": "a small folk frog sitting, in deep green with a mustard belly with a folk pattern, big round eyes on top of its head and a wide smile",
+          "words": ""
+        },
+        "elephant": {
+          "title": "Elephant",
+          "subject": "a small folk elephant standing, facing right, in deep teal with big round ears, a burnt orange folk blanket with mustard dots on its back, a big round eye",
+          "words": ""
+        },
+        "cupcake": {
+          "title": "Cupcake",
+          "subject": "a folk cupcake: a mustard paper cup with stripes, cream frosting with burnt orange folk dots and one red cherry on top",
+          "words": ""
+        },
+        "cat": {
+          "title": "Cat",
+          "subject": "a small folk cat sitting, in matte black with a cream chest, mustard eyes that are big and round, long whiskers and a curled tail",
+          "words": ""
+        },
+        "steps": {
+          "title": "Steps",
+          "subject": "three wooden steps going up from left to right, in mustard, burnt orange and deep teal, with a small burnt orange flag on the top step, folk dots",
+          "words": ""
+        },
+        "seesaw": {
+          "title": "Seesaw",
+          "subject": "a folk seesaw: a long deep teal plank on a mustard triangle, with a burnt orange ball on the left end and a deep green ball on the right end",
+          "words": ""
+        },
+        "owl-prof": {
+          "title": "Owl professor",
+          "subject": "a small folk owl standing, in deep teal with a mustard belly with a folk pattern, round black glasses over big round eyes, a black graduation cap, and an open cream book at its feet",
+          "words": ""
+        }
+      }
+    }
+  },
+  "products": {
+    "object": {
+      "label": "Site object",
+      "art_ratio": "1:1",
+      "layout": "The subject alone, whole, centred, with a wide empty margin of {background} on all sides: no ground (unless the subject names one), no shadow, no plants, no frame, no background shape.",
+      "art_background": "plain pure white paper",
+      "views": {}
+    }
+  },
+  "gift_set": {
+    "ratio": "1:1",
+    "uses": {},
+    "scene": ""
+  }
+}

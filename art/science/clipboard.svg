@@ -1,6 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 124" width="100" height="124">
-<rect x="8" y="12" width="84" height="108" rx="8" fill="#B8841A"/>
-<rect x="16" y="22" width="68" height="90" rx="3" fill="#FFFDF8"/>
-<rect x="34" y="6" width="32" height="16" rx="5" fill="#4A453D"/>
-<g stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M24 44l5 5 9-10M24 68l5 5 9-10M24 92l5 5 9-10" stroke="#CE4029" stroke-width="4"/>
-<path d="M46 46h28M46 70h24M46 94h28" stroke="#E9DFCF" stroke-width="5"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 124" width="100" height="124"><defs><filter id="tn-folk" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4" result="w"/><feDisplacementMap in="SourceGraphic" in2="w" scale="2.2" result="d"/><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="9" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 0.96 0 0 0 -2.4 0.86" result="s"/><feComposite in="s" in2="d" operator="in" result="sp"/><feMerge><feMergeNode in="d"/><feMergeNode in="sp"/></feMerge></filter></defs><g filter="url(#tn-folk)">
+<path d="M12 14l76 1 1 103-78-1z" fill="#B8841A" stroke="#16140F" stroke-width="4" stroke-linejoin="round"/>
+<path d="M20 24l60 1-1 85-60-1z" fill="#FFFDF8" stroke="#16140F" stroke-width="3" stroke-linejoin="round"/>
+<path d="M34 6h32l2 14H32z" fill="#16140F"/><circle cx="50" cy="11" r="3" fill="#E8B23A"/>
+<path d="M30 44l5 6 9-11" stroke="#A9321D" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M50 45h20" stroke="#16140F" stroke-width="3" stroke-linecap="round"/>
+<path d="M30 66l5 6 9-11" stroke="#A9321D" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M50 67h20" stroke="#16140F" stroke-width="3" stroke-linecap="round"/>
+<path d="M32 88h4M42 88h4M52 88h4M62 88h4" stroke="#1E4A3B" stroke-width="3" stroke-linecap="round"/></g></svg>
