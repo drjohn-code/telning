@@ -39,6 +39,76 @@
       }
     ]
   },
+  "artStyle": {
+    "_note": "DRAFT (16 Oct 2026, John asked for this section). Facts about the folk art traditions are general history; check before launch. Never write hand-drawn or hand-painted: the pictures are made by a person with AI tools and the products are printed.",
+    "h2": "Art style and technique",
+    "lead": "Scandinavian folk art style: gouache painting texture, dry-brush acrylic strokes and visible coloured pencil grain.",
+    "intro": "Our pictures and our products share one design language. You see it on our Story Walls, mugs, tote bags, postcards and greeting cards: friendly cats and dogs with big round eyes, folk flowers, leaves and berries, and simple shapes in a few warm colours.",
+    "techH": "How it looks",
+    "tech": [
+      {
+        "h": "Gouache texture",
+        "t": "Flat, matte areas of colour that cover the paper, like opaque water-based paint."
+      },
+      {
+        "h": "Dry-brush strokes",
+        "t": "A brush with very little paint drags over the surface and leaves broken, scratchy edges."
+      },
+      {
+        "h": "Coloured pencil grain",
+        "t": "The fine tooth of the paper shows through, like a coloured pencil on rough paper."
+      },
+      {
+        "h": "Freehand lines",
+        "t": "Bold lines that bend gently and change a little in width. Nothing is drawn with a ruler."
+      }
+    ],
+    "rootsH": "Where the style comes from",
+    "roots": [
+      {
+        "h": "Dala painting, Sweden",
+        "t": "In Dalarna in the 1700s and 1800s, painters decorated wall hangings and furniture with the kurbits, a large stylised plant full of flowers."
+      },
+      {
+        "h": "Rosemaling, Norway",
+        "t": "“Rose painting” began in rural Norway in the 1700s: flowing flowers and scrolls on wooden bowls, chests and walls."
+      },
+      {
+        "h": "Hälsingland farmhouses",
+        "t": "Farmhouses in Hälsingland, Sweden, have rooms painted in the 1700s and 1800s. They are on the UNESCO World Heritage List since 2012."
+      },
+      {
+        "h": "Mid-century design",
+        "t": "In the 1950s and 1960s, Scandinavian designers brought simple shapes, flat colour and a playful line to textiles, ceramics and picture books."
+      }
+    ],
+    "paletteH": "Our colours",
+    "palette": [
+      {
+        "name": "Burnt orange",
+        "hex": "#b55928"
+      },
+      {
+        "name": "Mustard yellow",
+        "hex": "#c4932e"
+      },
+      {
+        "name": "Deep teal",
+        "hex": "#265c5d"
+      },
+      {
+        "name": "Matte black",
+        "hex": "#1d1a17"
+      },
+      {
+        "name": "Cream",
+        "hex": "#f3ead8"
+      }
+    ],
+    "paletteNote": "Some designs use one colour only: dark blue, Persian red, black or dark green.",
+    "honest": "Pictures are made by a person together with AI tools, in this style, and a person checks every picture. The textures are part of the printed picture: our products are printed to order, not painted by hand.",
+    "artAlt": "A tall mustard cat with black patches holds a small folk-patterned teacup, with folk flowers, leaves and berries around it: an example of our art style."
+  },
   "promises": {
     "h2": "Our promises",
     "items": [

@@ -1,5 +1,6 @@
 ---
-/* /about — About us: how a book is made (timeline with the seed-to-tree scroll story), our promises, the name,
+/* /about — About us: how a book is made (timeline with the seed-to-tree scroll story), our art style (with a cut-out
+   picture, public/art/about), our promises, the name,
    contact. Copy: src/data/pages/about.json (draft). */
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
@@ -59,6 +60,32 @@ const ORG_ID = `${HOST}/#organization`;
           {t.made.steps.map((s) => (<li class="tn-reveal"><span class="tn-card__ic" style={`--c:var(--${s.c})`} aria-hidden="true"><Obj name={s.icon} w="100%" flat /></span><div><h3 class="tn-h3">{s.h}</h3><p class="tn-p">{s.t}</p></div></li>))}
         </ol>
       </div>
+    </div></section>
+
+    <section class="tn-section tn-artstyle" id="art-style" aria-labelledby="art-style-h" style="padding-top:0"><div class="tn-wrap">
+      <div class="tn-artstyle__top">
+        <div class="tn-artstyle__text">
+          <h2 class="tn-h2 tn-reveal" id="art-style-h" tabindex="-1">{t.artStyle.h2}</h2>
+          <p class="tn-lead tn-reveal">{t.artStyle.lead}</p>
+          <p class="tn-p tn-reveal">{t.artStyle.intro}</p>
+          <h3 class="tn-h3 tn-reveal">{t.artStyle.techH}</h3>
+          <ul class="tn-artstyle__tech">{t.artStyle.tech.map((x) => (<li class="tn-reveal"><strong>{x.h}</strong> {x.t}</li>))}</ul>
+        </div>
+        <div class="tn-artstyle__art">
+          <picture>
+            <source type="image/avif" srcset="/art/about/telning-art-style-tea-cat-600.avif 600w, /art/about/telning-art-style-tea-cat-1200.avif 1200w" sizes="(min-width: 1024px) 460px, 80vw" />
+            <img class="tn-float slow" src="/art/about/telning-art-style-tea-cat-600.webp" srcset="/art/about/telning-art-style-tea-cat-600.webp 600w, /art/about/telning-art-style-tea-cat-1200.webp 1200w" sizes="(min-width: 1024px) 460px, 80vw" width="1200" height="1140" alt={t.artStyle.artAlt} loading="lazy" decoding="async" />
+          </picture>
+        </div>
+      </div>
+      <h3 class="tn-h3 tn-reveal tn-artstyle__sub">{t.artStyle.rootsH}</h3>
+      <ul class="tn-cards tn-cards--4">{t.artStyle.roots.map((x) => (<li class="tn-card tn-reveal"><h4 class="tn-h3">{x.h}</h4><p class="tn-p">{x.t}</p></li>))}</ul>
+      <div class="tn-artstyle__palette tn-reveal">
+        <h3 class="tn-h3">{t.artStyle.paletteH}</h3>
+        <ul class="tn-artstyle__swatches">{t.artStyle.palette.map((c) => (<li class="tn-artstyle__swatch"><i style={`--sw:${c.hex}`} aria-hidden="true"></i>{c.name}</li>))}</ul>
+        <p class="tn-p">{t.artStyle.paletteNote}</p>
+      </div>
+      <p class="tn-p tn-artstyle__honest tn-reveal">{t.artStyle.honest}</p>
     </div></section>
 
     <section class="tn-section" id="promises" aria-labelledby="promises-h" style="padding-top:0"><div class="tn-wrap">
