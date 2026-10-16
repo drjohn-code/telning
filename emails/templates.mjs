@@ -71,11 +71,11 @@ ${h1('One more step.')}
 ${p('Thank you for signing up for <strong>Letters from Pim</strong>. Please confirm that this is your email address, so we know it was you.')}
 ${button('{{confirm_url}}', 'Yes, send me Letters from Pim')}
 ${small('If you did not sign up, ignore this email and nothing happens. We write only when there is something new: a book, a Story Wall, a gift idea for a season.')}` }) },
-  'newsletter-welcome': { subject: 'Welcome to Letters from Pim', kind: 'marketing', build: () => layout({ marketing: true, title: 'Welcome', preheader: 'A free printable page to start, and what to expect from Pim.', body: `
+  'newsletter-welcome': { subject: 'Welcome to Letters from Pim', kind: 'marketing', build: () => layout({ marketing: true, title: 'Welcome', preheader: 'What to expect from Pim, and where to start.', body: `
 ${h1('Welcome. Pim is pleased.')}
 ${p('You are on the list. Pim writes a few times a year, when a new series comes out, when a Story Wall is ready, or when there is a gift idea for a season. Short letters, one story each, no noise.')}
-${p('To start: a printable page from a Telning book, with the conversation guide on it.')}
-${button(host + '/guide', 'Get the free page')}
+${p('To start: see our Story Walls, the whole world of a story on the wall, to colour together.')}
+${button(host + '/books', 'See the Story Walls')}
 ${pim('Hi, I’m Pim! In every story, you choose what happens next.')}` }) },
   'quote-received': { subject: 'We received your request, {{organisation}}', kind: 'transactional', build: () => layout({ title: 'Quote request received', preheader: 'We answer within two working days.', body: `
 ${h1('Thank you, we have your request.')}

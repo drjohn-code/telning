@@ -1,15 +1,24 @@
 ---
 import Admin from '../../layouts/Admin.astro';
-import { TEMPLATE_NAMES } from '../../../server/emails.js';
+// Which templates the code really sends, and when (SENT_BY_CODE; tests/emails.test.mjs keeps it honest). Everything
+// else is a ready design that nothing sends yet.
+import { TEMPLATE_NAMES, SENT_BY_CODE, SUPABASE_EMAILS } from '../../../server/emails.js';
+const auto = Object.keys(SENT_BY_CODE);
+const other = TEMPLATE_NAMES.filter((n) => !auto.includes(n) && !SUPABASE_EMAILS.includes(n));
 ---
 <Admin title="Emails" page="/admin/emails">
   <section class="ad-card"><h2>Template previews (sample data)</h2>
+    <p class="ad-small" style="margin:0 0 var(--s3)"><b>Sent automatically</b> emails go out by themselves at the moment shown. <b>Not connected yet</b> are ready designs: nothing sends them.</p>
     <div class="ad-top__tools" style="margin-bottom:var(--s3)">
-      <select data-tpl aria-label="Template">{TEMPLATE_NAMES.map((n) => <option value={n}>{n}</option>)}</select>
+      <select data-tpl aria-label="Template">
+        <optgroup label="Sent automatically">{auto.map((n) => <option value={n}>{n} · {SENT_BY_CODE[n]}</option>)}</optgroup>
+        <optgroup label="Not connected yet">{other.map((n) => <option value={n}>{n}</option>)}</optgroup>
+        <optgroup label="Supabase login emails (only if pasted into Supabase)">{SUPABASE_EMAILS.map((n) => <option value={n}>{n}</option>)}</optgroup>
+      </select>
       <div class="ad-widths"><span>Width:</span><button type="button" data-width="600" aria-pressed="true">Gmail 600</button><button type="button" data-width="640">Outlook 640</button><button type="button" data-width="700">Apple Mail 700</button><button type="button" data-width="375">Phone 375</button></div>
     </div>
     <div class="ad-preview"><iframe data-frame title="Email preview" style="width:600px" src="about:blank"></iframe></div>
-    <p class="ad-small" style="margin-top:var(--s3)">Test sends go to john@telning.com only: <code>npm run emails:test-send -- &lt;template&gt;</code> (needs RESEND_API_KEY).</p>
+    <p class="ad-small" style="margin-top:var(--s3)">Test sends go to john@telning.com only: <code>npm run emails:test-send -- &lt;template&gt;</code> (needs RESEND_API_KEY). Marketing emails: use “Send a test to me” on the Marketing email page.</p>
   </section>
   <section class="ad-card"><h2>Send log</h2><div data-log><div class="ad-empty">Loading…</div></div></section>
 </Admin>

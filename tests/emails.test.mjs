@@ -2,7 +2,8 @@
 // the WelloWork AB footer, no partner names, no banned words; marketing emails carry an unsubscribe link.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { render, TEMPLATE_NAMES, sampleFor, toText } from '../server/emails.js';
+import { render, TEMPLATE_NAMES, sampleFor, toText, SENT_BY_CODE, SUPABASE_EMAILS } from '../server/emails.js';
+import { readFileSync, readdirSync } from 'node:fs';
 
 test('every template renders: subject, html, text, footer, no partner names, unsubscribe on marketing emails', () => {
   assert.ok(TEMPLATE_NAMES.length >= 16, `templates: ${TEMPLATE_NAMES.length}`);
@@ -66,4 +67,12 @@ test('newsletter double opt-in: confirm sets the time and sends the welcome; uns
   assert.match(sent[1].subject, /Welcome/);
   assert.match(sent[1].html, /Unsubscribe/);
   assert.equal((await unsubscribe(token, deps)).ok, true);
+});
+
+test('the admin list "Sent automatically" matches the code: listed templates are sent, sent templates are listed', () => {
+  const dirs = ['api', 'server'];
+  const code = dirs.flatMap((d) => readdirSync(new URL(`../${d}/`, import.meta.url)).filter((f) => f.endsWith('.js') && f !== 'emails.js').map((f) => readFileSync(new URL(`../${d}/${f}`, import.meta.url), 'utf8'))).join('\n');
+  const sent = TEMPLATE_NAMES.filter((n) => new RegExp(`render\\(\\s*['"]${n}['"]`).test(code));
+  assert.deepEqual(sent.sort(), Object.keys(SENT_BY_CODE).sort());
+  for (const n of SUPABASE_EMAILS) assert.ok(TEMPLATE_NAMES.includes(n), n);
 });

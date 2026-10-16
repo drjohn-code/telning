@@ -7,6 +7,17 @@ import { COMPILED } from './emails/compiled.js';
 import { THUMBS } from './emails/thumbs.js';
 import { carrierOf } from './carriers.js';
 
+/** The templates the code really sends, with when (shown in /admin/emails). tests/emails.test.mjs checks this list
+    against the code, so a template is only listed here once something sends it. */
+export const SENT_BY_CODE = {
+  'order-confirmation': 'after a payment',
+  'order-shipped': 'when you save tracking on an order',
+  'newsletter-confirm': 'when someone signs up',
+  'newsletter-welcome': 'after they confirm their email',
+  campaign: 'when you send from Marketing email',
+};
+/** Supabase Auth sends these itself, only after they are pasted into Supabase → Authentication → Email templates. */
+export const SUPABASE_EMAILS = ['auth-reset', 'auth-magic'];
 const INDEX = COMPILED;
 export const TEMPLATE_NAMES = Object.keys(INDEX);
 const esc = (v) => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
