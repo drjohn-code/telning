@@ -46,7 +46,7 @@ const faq = offers.faq.map((f: any) => (f.a.includes('{ends}')
                 <h2 class="tn-h2" id={`offer-${o.key}`}>{o.name}</h2>
                 <p class="tn-p">{o.tile}</p>
                 <ul class="tn-shophero__pts">{o.sections.map((s: any) => <li>{T[s.type].plural}</li>)}</ul>
-                <p class="tn-offercard__meta">{o.skus.size} items to choose from · {rule.percent}% off {rule.minItems} items or more</p>
+                <p class="tn-offercard__deal"><span class="tn-offercard__pct">{rule.percent}% off</span><span class="tn-offercard__when">with {rule.minItems} items or more<small>{o.skus.size} items to choose from</small></span></p>
                 <span class="tn-btn tn-btn--buy tn-offercard__btn">See the {o.name} offer</span>
               </div>
             </a>

@@ -1481,9 +1481,13 @@ picture.tn-shophero__b img { border: 6px solid var(--paper); }
 .tn-offercard__main img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-m); background: var(--paper-deep); }
 .tn-offercard__body { display: flex; flex-direction: column; align-items: flex-start; gap: var(--s3); padding: 0 var(--s2) var(--s2); }
 .tn-offercard__body .tn-shophero__pts li { background: var(--paper); box-shadow: none; font-size: 13px; min-height: 28px; }
-.tn-offercard__meta { margin: 0 0 var(--s2); font-size: 14px; font-weight: 600; color: var(--ink-soft); }
+/* the deal in big title type (John, 16 Oct 2026): "20% off" in the display font, the rule and the count beside it */
+.tn-offercard__deal { margin: 0 0 var(--s2); display: flex; align-items: center; gap: var(--s3); }
+.tn-offercard__pct { font-family: var(--font-display); font-weight: 600; font-size: 48px; line-height: 0.95; letter-spacing: -0.02em; color: var(--red-deep); white-space: nowrap; }
+.tn-offercard__when { display: grid; font-size: 14px; line-height: 1.35; font-weight: 600; color: var(--ink); }
+.tn-offercard__when small { font-size: 13px; font-weight: 400; color: var(--ink-soft); }
+@media (max-width: 599px) { .tn-offercard__pct { font-size: 40px; } }
 .tn-offercard__btn { margin-top: auto; }
-.tn-offercard__a:hover .tn-offercard__btn { background: var(--red-deep); }
 .tn-offercard.is-ended .tn-offercard__art { opacity: 0.6; }
 .tn-offershow { margin-bottom: var(--s5); }
 @media (min-width: 900px) { .tn-offercards { grid-template-columns: 1fr 1fr; } }

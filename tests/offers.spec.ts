@@ -140,3 +140,15 @@ test('/campaigns: two blocks open the two offer pages; not linked from the heade
   await expect(page.locator('[data-offer-card]').nth(0).locator('[data-offer-when]')).toHaveText('This offer has ended');
   await expect(page.locator('[data-offer-card]').nth(1).locator('[data-offer-when]')).toHaveText('Until 31 December');
 });
+
+test('/campaigns: both offer buttons keep the same red when the mouse is on a block; "20% off" is big', async ({ page }) => {
+  await page.goto('/campaigns');
+  const cards = page.locator('[data-offer-card]');
+  const red = await cards.nth(0).locator('.tn-offercard__btn').evaluate((b) => getComputedStyle(b).backgroundColor);
+  await cards.nth(1).locator('h2').hover();   // on the block, not on the button
+  await page.waitForTimeout(300);
+  expect(await cards.nth(1).locator('.tn-offercard__btn').evaluate((b) => getComputedStyle(b).backgroundColor)).toBe(red);
+  await expect(cards.nth(1).locator('.tn-offercard__pct')).toHaveText('20% off');
+  const size = await cards.nth(1).locator('.tn-offercard__pct').evaluate((e) => parseFloat(getComputedStyle(e).fontSize));
+  expect(size).toBeGreaterThanOrEqual(40);
+});
