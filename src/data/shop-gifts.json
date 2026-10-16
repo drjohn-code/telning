@@ -144,6 +144,58 @@
       "line": "Three dogs asleep under a leafy tree.",
       "about": "Three dogs curled up asleep together under a small leafy folk tree, a few flowers in the grass.",
       "prompt": "everyday/mug/dogs-2"
+    },
+    {
+      "key": "blue-fern",
+      "name": "Blue Fern",
+      "words": "",
+      "animal": "plants",
+      "occasion": "everyday",
+      "story": null,
+      "placeholder": false,
+      "line": "A curled fern and small plants in dark blue.",
+      "about": "A curled folk fern with two heart-shaped leaves and small straight plants growing beside it, all in one dark blue.",
+      "prompt": "everyday/mug/plant-blue",
+      "artStyle": "Scandinavian mid-century folk art style. In one colour, with gouache painting texture, dry-brush acrylic strokes and visible coloured pencil grain."
+    },
+    {
+      "key": "red-tulips",
+      "name": "Red Tulips",
+      "words": "",
+      "animal": "plants",
+      "occasion": "everyday",
+      "story": null,
+      "placeholder": false,
+      "line": "Three folk tulips in Persian red.",
+      "about": "Three folk tulips on curved stems with patterned leaves and small straight plants beside them, all in one Persian red.",
+      "prompt": "everyday/mug/plant-red",
+      "artStyle": "Scandinavian mid-century folk art style. In one colour, with gouache painting texture, dry-brush acrylic strokes and visible coloured pencil grain."
+    },
+    {
+      "key": "black-meadow",
+      "name": "Black Meadow",
+      "words": "",
+      "animal": "plants",
+      "occasion": "everyday",
+      "story": null,
+      "placeholder": false,
+      "line": "Meadow grasses and seed heads in black.",
+      "about": "A low meadow of grasses, leaves and round seed heads with small straight plants on both sides, all in one matte black.",
+      "prompt": "everyday/mug/plant-black",
+      "artStyle": "Scandinavian mid-century folk art style. In one colour, with gouache painting texture, dry-brush acrylic strokes and visible coloured pencil grain."
+    },
+    {
+      "key": "green-branch",
+      "name": "Green Branch",
+      "words": "",
+      "animal": "plants",
+      "occasion": "everyday",
+      "story": null,
+      "placeholder": false,
+      "line": "A leafy branch with berries in dark green.",
+      "about": "A leafy branch with small round berries rising from a small base, with small straight plants beside it, all in one dark green.",
+      "prompt": "everyday/mug/plant-green",
+      "artStyle": "Scandinavian mid-century folk art style. In one colour, with gouache painting texture, dry-brush acrylic strokes and visible coloured pencil grain."
     }
   ],
   "tote": [
@@ -788,5 +840,5 @@
   "_halloween": "DRAFT (12 Oct 2026): the Halloween line of cats and dogs, four designs per product (one cat, one dog, many cats, many dogs). `placeholder: true` = no photos yet (a placeholder picture, cannot be ordered). `prompt` points to scripts/catalog/prompts.json; `about` is the picture brief, `line` the one-line card text. No printed words unless John writes them in `words`. Tote bags: 8 designs, each on one colour (4 undyed, 4 black). The older Pim designs were removed on 13 Oct 2026 (John); their URLs 301 to the category pages (vercel.json).",
   "_winter": "DRAFT (15 Oct 2026, John): Christmas and New Year cats and dogs, postcards and greeting cards only, four each (two Christmas, two New Year: one cat, one dog, many cats, many dogs), in one whimsical Nordic folk-art style. `prompt` points to the theme `winter` in scripts/catalog/prompts.json. No printed words.",
   "_birthday": "DRAFT (15 Oct 2026, John): birthday postcards and greeting cards, eight each: four for girls and four for boys (`child`), a child with a dog, a cat, cats or dogs, in John's own written style. `prompt` points to the theme `birthday` in scripts/catalog/prompts.json. No printed words.",
-  "_everyday": "DRAFT (16 Oct 2026, John): mugs and tote bags for every day, in the birthday look with no background colour, no people and no birthday items: 8 mugs, 4 undyed and 4 black tote bags. `prompt` points to the theme `everyday` in scripts/catalog/prompts.json. No printed words."
+  "_everyday": "DRAFT (16 Oct 2026, John): mugs and tote bags for every day, in the birthday look with no background colour, no people and no birthday items: 8 mugs, 4 undyed and 4 black tote bags. `prompt` points to the theme `everyday` in scripts/catalog/prompts.json. No printed words. Plant mugs (16 Oct 2026): Blue Fern, Red Tulips, Black Meadow, Green Branch, plants only, one colour each; `animal: \"plants\"` puts them under the Plants chip of the Characters filter."
 }

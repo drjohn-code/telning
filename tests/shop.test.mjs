@@ -13,11 +13,13 @@ import { verifySignature, formEncode } from '../server/stripe.js';
 // the books are hidden for now (BOOKS_HIDDEN, 15 Oct 2026): this catalogue has them on sale again, for the tests that put a book in the basket
 const withBooks = { ...catalog, bySku: new Map([...catalog.bySku].map(([k, p]) => [k, p.hidden ? { ...p, hidden: false } : p])) };
 
-test('catalogue: 12 series × 4 + 60 gifts (20 Halloween, 8 Christmas and New Year, 16 birthday postcards and cards, 16 everyday mugs and tote bags; 16 tote bags in two colours; three photos each), every product priced', () => {
+test('catalogue: 12 series × 4 + 60 gifts (20 Halloween, 8 Christmas and New Year, 16 birthday postcards and cards, 20 everyday mugs and tote bags; 16 tote bags in two colours; three photos each), every product priced', () => {
   assert.equal(catalog.products.filter((p) => p.category === 'books').length, 48);
-  assert.equal(catalog.products.filter((p) => p.category === 'gifts').length, 60);
+  assert.equal(catalog.products.filter((p) => p.category === 'gifts').length, 64);
   const everyday = catalog.products.filter((p) => p.occasion === 'everyday');
-  assert.equal(everyday.filter((p) => p.type === 'mug').length, 8);
+  assert.equal(everyday.filter((p) => p.type === 'mug').length, 12);
+  assert.deepEqual(everyday.filter((p) => p.animal === 'plants').map((p) => p.sku).sort(), ['mug-black-meadow', 'mug-blue-fern', 'mug-green-branch', 'mug-red-tulips'], 'four plant mugs');
+  assert.ok(everyday.filter((p) => p.animal === 'plants').every((p) => /in one colour/i.test(p.artStyle)), 'the plant mugs say they are in one colour');
   assert.deepEqual(everyday.filter((p) => p.type === 'tote').map((p) => p.colour).sort(), ['black', 'black', 'black', 'black', 'natural', 'natural', 'natural', 'natural']);
   assert.ok(everyday.every((p) => !p.soon && p.images.length === 3 && /^Scandinavian mid-century folk art style/.test(p.artStyle)), 'the everyday mugs and bags are orderable, with photos and art style');
   const winter = catalog.products.filter((p) => p.occasion === 'christmas' || p.occasion === 'new-year');

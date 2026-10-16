@@ -84,7 +84,7 @@ export function shopSeo(catalog, site) {
   for (const type of GIFT_TYPES) {
     const t = catalog.types[type];
     const d = {
-      mug: ['Mugs for the grown-up who reads every night | Telning', 'Mugs with our cats and dogs, for Halloween and for every day, for the grown-up who reads every night. White ceramic, 11 oz, dishwasher safe.'],
+      mug: ['Mugs for the grown-up who reads every night | Telning', 'Mugs with cats, dogs and folk plants, for Halloween and for every day, for the grown-up who reads every night. White ceramic, 11 oz, dishwasher safe.'],
       tote: ['Organic cotton tote bags, undyed or black | Telning', 'Telning tote bags in GOTS-certified organic cotton: cats and dogs for Halloween and every day, undyed or black, for the book and the crayons.'],
       postcards: ['Children’s postcards, packs of 10 | Telning', 'Telning postcards in packs of ten, one design per pack: cats, dogs and children for birthdays, Halloween, Christmas and New Year on matte 300 g card.'],
       cards: ['Children’s greeting cards with envelopes | Telning', 'Telning greeting cards in packs of ten with envelopes, blank inside: cats, dogs and children for birthdays, Halloween, Christmas and New Year.'],

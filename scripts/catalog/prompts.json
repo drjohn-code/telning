@@ -118,7 +118,7 @@
     "everyday": {
       "active": true,
       "name": "Every day",
-      "note": "15 Oct 2026 (John): 8 mugs and 8 tote bags (4 undyed, 4 black) in the birthday look and design language, with no background colour, no people and nothing for a birthday; occasion 'everyday'. Mugs have 8 designs (cat, dog, cats, dogs and a second of each, keys ending -2); the totes 4 each. On the black bags the black lines are cream.",
+      "note": "15 Oct 2026 (John): 8 mugs and 8 tote bags (4 undyed, 4 black) in the birthday look and design language, with no background colour, no people and nothing for a birthday; occasion 'everyday'. Mugs have 8 designs (cat, dog, cats, dogs and a second of each, keys ending -2); the totes 4 each. On the black bags the black lines are cream. 16 Oct 2026: four plant-only mugs (keys plant-blue, plant-red, plant-black, plant-green), one colour each, own `style`.",
       "gift_set": false,
       "mood": "Calm, bright everyday mood: fresh flowers, green plants, linen and daylight; no Halloween, Christmas or birthday items, no pumpkins, no autumn leaves, no snow.",
       "products": {
@@ -540,6 +540,38 @@
           "occasion": "everyday",
           "subject": "three dogs curled up asleep together under a small leafy folk tree, eyes closed, a few flowers in the grass",
           "words": ""
+        },
+        "plant-blue": {
+          "title": "Blue Fern",
+          "occasion": "everyday",
+          "subject": "one tall fern frond curving gently upward, with two small leaves at its base, with a few small, straight, upright plants (thin stems with tiny leaves, grass blades and small buds) growing from the same base as the main plant, beside it on both sides and lower than it, in the same Scandinavian mid-century folk art style, in the same single colour with the same gouache, dry-brush and coloured pencil texture",
+          "words": "",
+          "style": "A minimal flat 2D illustration of plants only: no animals, no birds, no insects, no people, no objects. Art style and technique: Scandinavian mid-century folk art style. Gouache painting texture, dry-brush acrylic strokes, and visible colored pencil grain. Printed in ONE colour only: dark blue (deep navy blue). Every shape and line is that single colour, with its dry-brush and pencil texture showing; no second colour, no grey, no shading, no gradient. Simple, calm and minimalist: a few clear shapes and a lot of empty space. Folk details inside the leaves and petals (simple veins, dots, small dashes) in the same colour. Lines are drawn freehand with a brush: bold, a little uneven in width, gently curved, never thin or hairline, nothing drawn with a ruler. Strictly avoid: soft vector clipart, 3D shading, smooth gradients, digital softness, glossy textures, more than one colour.",
+          "edit": "Keep the main plant exactly as it is. Add a few small, straight, upright plants (thin stems with tiny leaves, grass blades and small buds) growing from the same base as the main plant, beside it on both sides and lower than it, in the same Scandinavian mid-century folk art style, in the same single colour with the same gouache, dry-brush and coloured pencil texture. Keep plenty of empty white space around the drawing."
+        },
+        "plant-red": {
+          "title": "Red Tulips",
+          "occasion": "everyday",
+          "subject": "three folk tulips on gently curved stems rising from one small cluster of leaves, with a few small, straight, upright plants (thin stems with tiny leaves, grass blades and small buds) growing from the same base as the main plant, beside it on both sides and lower than it, in the same Scandinavian mid-century folk art style, in the same single colour with the same gouache, dry-brush and coloured pencil texture",
+          "words": "",
+          "style": "A minimal flat 2D illustration of plants only: no animals, no birds, no insects, no people, no objects. Art style and technique: Scandinavian mid-century folk art style. Gouache painting texture, dry-brush acrylic strokes, and visible colored pencil grain. Printed in ONE colour only: Persian red (a deep warm red). Every shape and line is that single colour, with its dry-brush and pencil texture showing; no second colour, no grey, no shading, no gradient. Simple, calm and minimalist: a few clear shapes and a lot of empty space. Folk details inside the leaves and petals (simple veins, dots, small dashes) in the same colour. Lines are drawn freehand with a brush: bold, a little uneven in width, gently curved, never thin or hairline, nothing drawn with a ruler. Strictly avoid: soft vector clipart, 3D shading, smooth gradients, digital softness, glossy textures, more than one colour.",
+          "edit": "Keep the main plant exactly as it is. Add a few small, straight, upright plants (thin stems with tiny leaves, grass blades and small buds) growing from the same base as the main plant, beside it on both sides and lower than it, in the same Scandinavian mid-century folk art style, in the same single colour with the same gouache, dry-brush and coloured pencil texture. Keep plenty of empty white space around the drawing."
+        },
+        "plant-black": {
+          "title": "Black Meadow",
+          "occasion": "everyday",
+          "subject": "a low row of meadow grasses and round seed heads, wider than tall, with a few small, straight, upright plants (thin stems with tiny leaves, grass blades and small buds) growing from the same base as the main plant, beside it on both sides and lower than it, in the same Scandinavian mid-century folk art style, in the same single colour with the same gouache, dry-brush and coloured pencil texture",
+          "words": "",
+          "style": "A minimal flat 2D illustration of plants only: no animals, no birds, no insects, no people, no objects. Art style and technique: Scandinavian mid-century folk art style. Gouache painting texture, dry-brush acrylic strokes, and visible colored pencil grain. Printed in ONE colour only: matte black. Every shape and line is that single colour, with its dry-brush and pencil texture showing; no second colour, no grey, no shading, no gradient. Simple, calm and minimalist: a few clear shapes and a lot of empty space. Folk details inside the leaves and petals (simple veins, dots, small dashes) in the same colour. Lines are drawn freehand with a brush: bold, a little uneven in width, gently curved, never thin or hairline, nothing drawn with a ruler. Strictly avoid: soft vector clipart, 3D shading, smooth gradients, digital softness, glossy textures, more than one colour.",
+          "edit": "Keep the main plant exactly as it is. Add a few small, straight, upright plants (thin stems with tiny leaves, grass blades and small buds) growing from the same base as the main plant, beside it on both sides and lower than it, in the same Scandinavian mid-century folk art style, in the same single colour with the same gouache, dry-brush and coloured pencil texture. Keep plenty of empty white space around the drawing."
+        },
+        "plant-green": {
+          "title": "Green Branch",
+          "occasion": "everyday",
+          "subject": "one leafy branch rising from a small base and arching gently to one side, with a few small round berries, with a few small, straight, upright plants (thin stems with tiny leaves, grass blades and small buds) growing from the same base as the main plant, beside it on both sides and lower than it, in the same Scandinavian mid-century folk art style, in the same single colour with the same gouache, dry-brush and coloured pencil texture",
+          "words": "",
+          "style": "A minimal flat 2D illustration of plants only: no animals, no birds, no insects, no people, no objects. Art style and technique: Scandinavian mid-century folk art style. Gouache painting texture, dry-brush acrylic strokes, and visible colored pencil grain. Printed in ONE colour only: dark green (deep forest green). Every shape and line is that single colour, with its dry-brush and pencil texture showing; no second colour, no grey, no shading, no gradient. Simple, calm and minimalist: a few clear shapes and a lot of empty space. Folk details inside the leaves and petals (simple veins, dots, small dashes) in the same colour. Lines are drawn freehand with a brush: bold, a little uneven in width, gently curved, never thin or hairline, nothing drawn with a ruler. Strictly avoid: soft vector clipart, 3D shading, smooth gradients, digital softness, glossy textures, more than one colour.",
+          "edit": "Keep the main plant exactly as it is. Add a few small, straight, upright plants (thin stems with tiny leaves, grass blades and small buds) growing from the same base as the main plant, beside it on both sides and lower than it, in the same Scandinavian mid-century folk art style, in the same single colour with the same gouache, dry-brush and coloured pencil texture. Keep plenty of empty white space around the drawing."
         }
       },
       "tote": {

@@ -23,7 +23,10 @@ test('gifts are the Halloween line, coming soon; a black tote is black only; a p
   await page.goto('/gifts/mugs');
   await page.evaluate(() => { localStorage.clear(); localStorage.setItem('tn-currency', 'EUR'); });
   await page.reload();
-  await expect(page.locator('#grid > li')).toHaveCount(12);   // 4 Halloween + 8 every day
+  await expect(page.locator('#grid > li')).toHaveCount(16);   // 4 Halloween + 12 every day (8 animals, 4 plants)
+  await page.locator('button.tn-chip[data-group="animal"][data-value="plant"]').first().click();
+  await expect(page.locator('#grid > li:visible')).toHaveCount(4);   // the Plants chip: the four plant mugs
+  await page.locator('button.tn-chip[data-group="animal"][data-value=""]').first().click();
   await expect(page.locator('a[href="/gifts/mugs/the-moon"]')).toHaveCount(0);
   await page.goto('/gifts/tote-bags');
   await expect(page.locator('#grid > li')).toHaveCount(16);   // 8 Halloween + 8 every day

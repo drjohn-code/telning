@@ -72,7 +72,7 @@ const GIFT_SCENE: Record<string, Record<string, string>> = {
     cards: 'A New Year card for the teacher, blank inside for your own words, and an envelope your child insists on licking shut.',
   },
   everyday: {
-    mug: 'Seven o’clock, the kettle on: the cat-and-dog mug comes out, and your child tells you which ending they chose last night.',
+    mug: 'Seven o’clock, the kettle on: your mug comes out, and your child tells you which ending they chose last night.',
     tote: 'Library day: the book, the crayons and a snack all go in the grown-up’s bag, and the story comes along.',
   },
   birthday: {

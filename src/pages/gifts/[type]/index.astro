@@ -24,6 +24,7 @@ const fromAttrs = Object.fromEntries(['EUR', 'GBP', 'USD', 'CAD'].map((c) => [`d
 /* The category photo is a Halloween design (John, 13 Oct 2026); the Christmas and New Year cards (15 Oct 2026) do not change it yet */
 const HERO: Record<string, string> = { mug: view('mug-cocoa-cat', 'table'), tote: view('tote-cat-parade', 'table'), postcards: view('postcards-pumpkin-patch-cats', 'table'), cards: view('cards-boo-cat', 'table') };
 const animals = products.some((p: any) => p.animal);
+const plants = products.some((p: any) => p.animal === 'plants');   // the plant mugs (John, 16 Oct 2026)
 const children = products.some((p: any) => p.child);   // the birthday cards, for girls or for boys (John, 15 Oct 2026)
 const others = GIFT_TYPES.filter((x: string) => x !== t);
 const COVER: Record<string, string> = HERO;
@@ -60,6 +61,7 @@ import FilterSheet from '../../../components/shop/FilterSheet.astro';
             <button type="button" class="tn-chip" data-group="animal" data-value="">All</button>
             <button type="button" class="tn-chip" data-group="animal" data-value="cat">Cats</button>
             <button type="button" class="tn-chip" data-group="animal" data-value="dog">Dogs</button>
+            {plants && <button type="button" class="tn-chip" data-group="animal" data-value="plant">Plants</button>}
           </div>)}
           {children && (<div class="tn-filters__g" role="group" aria-label="For"><span class="tn-filters__l">For</span>
             <button type="button" class="tn-chip" data-group="child" data-value="">All</button>

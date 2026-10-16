@@ -34,6 +34,9 @@ sits small in the middle) prints a WARNING, and that art must be made again. The
 it is after cutting (`trim_mm`: print file minus the 4 mm bleed), so the photo shows what the buyer gets.
 Fix old masters for free:  python3 scripts/catalog/generate_mockups.py --refit --products postcard [--dry-run]
 
+Changing a picture John likes (16 Oct 2026): a design's `edit` text + --stage art --edit sends the existing master
+and rewrites it (copy the old one to review/ first). Example: the small side plants on the plant mugs.
+
 Matching photos (John, 16 Oct 2026: the print must look the same size and in the same place in all three photos):
 --match table sends the table photo along with the art for the other views. Delete the views to redo, then e.g.
   python3 scripts/catalog/generate_mockups.py --theme everyday --stage mockups --products tote --designs dog --match table
@@ -101,7 +104,11 @@ MATCH_NOTE = (" The second attached image is another photo of this same product 
               "from the top and the bottom, the same margins. Only the scene and the camera change.")
 
 
-def build_jobs(cfg, theme, stages, designs, products, public_dir, masters_dir, style=None, match=None):
+EDIT_TEMPLATE = ("The attached image is the current artwork. {edit} Keep everything else exactly as it is: the same shapes, lines, "
+                 "colours, texture, size and place, and the same plain background. Flat 2D artwork for printing. {no_text}")
+
+
+def build_jobs(cfg, theme, stages, designs, products, public_dir, masters_dir, style=None, match=None, edit=False):
     look = cfg["styles"][style] if style else None   # --style: one older style for every product
     t = cfg["themes"].get(theme)
     if not t or not t.get("active"):
@@ -133,7 +140,15 @@ def build_jobs(cfg, theme, stages, designs, products, public_dir, masters_dir, s
                 continue
             design = spec[p][d]
             own = look or {**pr, **{k: design[k] for k in ("style", "layout", "art_background") if k in design}}   # product style, a design may override it
-            if "art" in stages:
+            if "art" in stages and edit:   # --edit: change the existing master with the design's `edit` instruction
+                if design.get("edit"):
+                    jobs.append({
+                        "stage": "art", "id": f"{theme}-{d}-{p}-art", "label": f"edit artwork, {pr['label']}: {design['title']}",
+                        "ratio": pr["art_ratio"], "inputs": [art_path(p, d)], "out": art_path(p, d), "print_mm": pr.get("print_mm"),
+                        "full_bleed": pr.get("full_bleed", False), "edit": True,
+                        "prompt": EDIT_TEMPLATE.format(edit=design["edit"], no_text=cfg["no_text"]),
+                    })
+            elif "art" in stages:
                 words = design.get("words", "").strip()
                 jobs.append({
                     "stage": "art", "id": f"{theme}-{d}-{p}-art", "label": f"artwork, {pr['label']}: {design['title']}",
@@ -382,8 +397,8 @@ def run(args):
     cfg = load_config(args.config)
     stages = ["art", "mockups", "gift-set"] if args.stage == "all" else [args.stage]
     jobs = build_jobs(cfg, args.theme, stages, args.designs, args.products,
-                      Path(args.public_dir), Path(args.masters_dir), args.style, getattr(args, 'match', None))
-    todo = [j for j in jobs if args.force or not j["out"].exists()]
+                      Path(args.public_dir), Path(args.masters_dir), args.style, getattr(args, 'match', None), args.edit)
+    todo = [j for j in jobs if args.force or j.get("edit") or not j["out"].exists()]   # an edit always runs (it rewrites the master)
     print(f"{len(jobs)} images in this plan, {len(jobs) - len(todo)} already exist, {len(todo)} to make "
           f"(model {args.model}, size {args.size}).")
     if args.dry_run:
@@ -455,6 +470,7 @@ def main(argv=None):
     ap.add_argument("--limit", type=int, help="make at most this many images in this run")
     ap.add_argument("--workers", type=int, default=3, help="images made at the same time (default 3)")
     ap.add_argument("--force", action="store_true", help="redo images that already exist")
+    ap.add_argument("--edit", action="store_true", help="art: change the existing art masters with each design's `edit` instruction (sends the art itself; copy the old file away first)")
     ap.add_argument("--match", choices=["table", "home", "hand"], help="photos: send this view's photo too, so the print has the same size and place in all three")
     ap.add_argument("--dry-run", action="store_true", help="show the plan; send nothing, no key needed")
     ap.add_argument("--list-models", action="store_true", help="check the key and list image models (free)")

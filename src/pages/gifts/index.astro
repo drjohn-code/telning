@@ -24,6 +24,7 @@ const products = GIFT_TYPES.flatMap((t: string) => catalog.products.filter((p: a
 const from = (t: string) => { const p: any = products.find((x: any) => x.type === t); const pr = p.variants ? p.variants[0].price : p.price; return Object.fromEntries(['EUR', 'GBP', 'USD', 'CAD'].map((c) => [`data-${c.toLowerCase()}`, money(pr[c], c, (shop.currencies as any)[c].locale)])); };
 const occasions = [...new Set(products.map((p: any) => p.occasion).filter(Boolean))] as string[];
 const animals = products.some((p: any) => p.animal);   // the cats and dogs (Halloween, Christmas, New Year, birthday)
+const plants = products.some((p: any) => p.animal === 'plants');   // the plant mugs (John, 16 Oct 2026)
 const children = products.some((p: any) => p.child);   // the birthday cards, for girls or for boys (John, 15 Oct 2026)
 import FilterSheet from '../../components/shop/FilterSheet.astro';
 ---
@@ -68,6 +69,7 @@ import FilterSheet from '../../components/shop/FilterSheet.astro';
           <button type="button" class="tn-chip" data-group="animal" data-value="">All</button>
           <button type="button" class="tn-chip" data-group="animal" data-value="cat">Cats</button>
           <button type="button" class="tn-chip" data-group="animal" data-value="dog">Dogs</button>
+          {plants && <button type="button" class="tn-chip" data-group="animal" data-value="plant">Plants</button>}
         </div>)}
         {children && (<div class="tn-filters__g" role="group" aria-label="For"><span class="tn-filters__l">For</span>
           <button type="button" class="tn-chip" data-group="child" data-value="">All</button>
