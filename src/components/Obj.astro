@@ -24,12 +24,13 @@ const src = (wd: number, ext: string) => `/art/folk/${name}-${wd}.${ext}`;
 /* `classic` (the book covers) takes the old drawing from art/classic when a folk icon replaced it */
 const all = Object.entries(files);
 const entry = (classic && all.find(([p]) => p === `/art/classic/${name}.svg`)) || all.find(([p]) => !p.startsWith('/art/classic/') && p.endsWith(`/${name}.svg`));
-if (!entry) throw new Error(`Obj: there is no art file named "${name}" in art/objects, art/animals or art/science`);
+if (!entry && !pic) throw new Error(`Obj: there is no art file named "${name}" in art/objects, art/animals or art/science, and no folk picture`);
 
-/* a picture fills the same box as the old SVG (its viewBox shape) and sits at the bottom of it, so layouts stay as they were */
-const vbox = (entry[1].match(/viewBox="([^"]+)"/) || [, '0 0 1 1'])[1].split(/\s+/).map(Number);
+/* a picture fills the same box as the old SVG (its viewBox shape) and sits at the bottom of it, so layouts stay as they were;
+   a picture with no old SVG (the new cats, 16 Oct 2026) keeps its own shape */
+const vbox = entry ? (entry[1].match(/viewBox="([^"]+)"/) || [, '0 0 1 1'])[1].split(/\s+/).map(Number) : [0, 0, pic.w, pic.h];
 const picStyle = `${w ? `--w:${w};` : ''}aspect-ratio:${vbox[2]} / ${vbox[3]};${style}`;
-let svg = entry[1]
+let svg = (entry ? entry[1] : '<svg viewBox="0 0 1 1"></svg>')
   .replace(/#[0-9a-fA-F]{6}\b/g, (m) => {
     const tok = HEX[m.toUpperCase()];
     if (!tok) return m;
