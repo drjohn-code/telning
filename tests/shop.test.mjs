@@ -46,7 +46,7 @@ test('catalogue: 12 series × 4 + 60 gifts (20 Halloween, 8 Christmas and New Ye
   }
   assert.equal(new Set(catalog.products.map((p) => p.sku)).size, catalog.products.length, 'skus are unique');
   assert.equal(catalog.bySku.get('book-star-hoppers-3-5').price.EUR, 1290);
-  assert.equal(catalog.bySku.get('poster-star-hoppers-5-7').price.EUR, 1990);
+  assert.equal(catalog.bySku.get('poster-star-hoppers-5-7').price.EUR, 2890);
 });
 
 const vercelRedirect = (src) => { const v = JSON.parse(readFileSync(new URL('../vercel.json', import.meta.url), 'utf8')); return v.redirects.find((r) => r.source === src && r.permanent); };
@@ -127,7 +127,7 @@ test('checkout: prices come from the server; region follows the currency; no key
   const r = await handleCheckout({ body, origin: 'https://telning.com' }, { catalog: withBooks, stripe, open: true });
   assert.equal(r.status, 200);
   const p = calls[0].params;
-  assert.equal(p.line_items[0].price_data.unit_amount, 1790);
+  assert.equal(p.line_items[0].price_data.unit_amount, 2590);
   assert.equal(p.line_items[0].price_data.currency, 'gbp');
   assert.deepEqual(p.shipping_address_collection.allowed_countries, ['GB']);
   assert.equal(p.shipping_options[0].shipping_rate_data.fixed_amount.amount, 590 + 390);

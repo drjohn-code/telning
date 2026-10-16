@@ -1,5 +1,5 @@
 {
-  "_draft": "Shop facts. Prices (except book €12.90 and Story Wall €19.90), shipping fees and texts are DRAFTS agreed on 12 Oct 2026; premium copy rewritten 12–13 Oct 2026. Change them here only: pages, the basket and Stripe Checkout all read this file. Amounts are in major units (12.90). Partner names never appear here: they live in server code.",
+  "_draft": "Shop facts. Prices (except book €12.90; John set Story Wall €28.90, mug €10.90, tote €21.90, postcards €10.90, greeting cards €19.90 on 16 Oct 2026; GBP/USD/CAD = EUR × 0.88 / 1.08 / 1.45, nearest .90), shipping fees and texts are DRAFTS agreed on 12 Oct 2026; premium copy rewritten 12–13 Oct 2026. Change them here only: pages, the basket and Stripe Checkout all read this file. Amounts are in major units (12.90). Partner names never appear here: they live in server code.",
   "open": true,
   "currencies": {
     "EUR": {
@@ -252,10 +252,10 @@
       "noun": "Story Wall",
       "plural": "Story Walls",
       "price": {
-        "EUR": 19.9,
-        "GBP": 17.9,
-        "USD": 21.9,
-        "CAD": 28.9
+        "EUR": 28.9,
+        "GBP": 25.9,
+        "USD": 30.9,
+        "CAD": 41.9
       },
       "scene": "A rainy Saturday, the Story Wall unrolled on the living-room floor: your child, a friend and Grandma each take a corner of the picture. A few animals are already painted to start them off; the rest is theirs. Then frame it and hang it.",
       "tag": "Premium matte paper",
@@ -315,10 +315,10 @@
       "plural": "Mugs",
       "tile": "Mugs",
       "price": {
-        "EUR": 16.9,
-        "GBP": 14.9,
-        "USD": 17.9,
-        "CAD": 23.9
+        "EUR": 10.9,
+        "GBP": 9.9,
+        "USD": 11.9,
+        "CAD": 15.9
       },
       "scene": "Seven o’clock, warm milk in your mug, while you ask which ending your child chose today. For the grown-up who reads the story every night.",
       "tag": "Dishwasher and microwave safe",
@@ -370,10 +370,10 @@
       "plural": "Tote bags",
       "tile": "Tote bags",
       "price": {
-        "EUR": 24.9,
-        "GBP": 21.9,
-        "USD": 26.9,
-        "CAD": 35.9
+        "EUR": 21.9,
+        "GBP": 18.9,
+        "USD": 23.9,
+        "CAD": 31.9
       },
       "variants": [
         {
@@ -448,10 +448,10 @@
       "plural": "Postcards",
       "tile": "Postcards",
       "price": {
-        "EUR": 12.9,
-        "GBP": 10.9,
-        "USD": 13.9,
-        "CAD": 18.9
+        "EUR": 10.9,
+        "GBP": 9.9,
+        "USD": 11.9,
+        "CAD": 15.9
       },
       "scene": "Sunday evening at the kitchen table: your child tells you what to write, you write it, and Grandma keeps the card on the fridge.",
       "tag": "FSC/PEFC-certified card",
@@ -621,7 +621,7 @@
     "_": "Partner product IDs per sku (or sku~variant), filled when each product is set up at the partner. They go into the order email and, later, the partner APIs. Server use only."
   },
   "packs": {
-    "_draft": "Pack prices: DRAFT (15 Oct 2026). Since John hid the books, a pack is Story Walls and tote bags only: 5 + 1, 10 + 2, 40 + 8. Each price is the full price of the Story Walls and tote bags inside, 10%, 12% or 18% off, rounded to a whole amount. `titles`: how many different Story Walls the buyer can pick; the Story Walls are shared evenly over them. Shipping uses the normal parcel fees for the Story Walls and the tote bags.",
+    "_draft": "Pack prices: DRAFT (15 Oct 2026; recalculated 16 Oct 2026 from the new Story Wall and tote prices). Since John hid the books, a pack is Story Walls and tote bags only: 5 + 1, 10 + 2, 40 + 8. Each price is the full price of the Story Walls and tote bags inside, 10%, 12% or 18% off, rounded to a whole amount. `titles`: how many different Story Walls the buyer can pick; the Story Walls are shared evenly over them. Shipping uses the normal parcel fees for the Story Walls and the tote bags.",
     "items": [
       {
         "key": "circle",
@@ -632,10 +632,10 @@
         "titles": 5,
         "saving": 10,
         "price": {
-          "EUR": 112,
-          "GBP": 100,
-          "USD": 123,
-          "CAD": 162
+          "EUR": 150,
+          "GBP": 134,
+          "USD": 161,
+          "CAD": 217
         }
       },
       {
@@ -647,10 +647,10 @@
         "titles": 10,
         "saving": 12,
         "price": {
-          "EUR": 219,
-          "GBP": 196,
-          "USD": 240,
-          "CAD": 318
+          "EUR": 293,
+          "GBP": 261,
+          "USD": 314,
+          "CAD": 425
         }
       },
       {
@@ -662,10 +662,10 @@
         "titles": 24,
         "saving": 18,
         "price": {
-          "EUR": 816,
-          "GBP": 731,
-          "USD": 895,
-          "CAD": 1183
+          "EUR": 1092,
+          "GBP": 974,
+          "USD": 1170,
+          "CAD": 1584
         }
       }
     ],

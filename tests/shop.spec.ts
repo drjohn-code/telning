@@ -6,14 +6,14 @@ test('add to basket, change the currency, remove the line', async ({ page }) => 
   await page.goto('/books/star-hoppers/story-wall-3-5');   // a Story Wall: the books are hidden for now (BOOKS_HIDDEN)
   await page.evaluate(() => { localStorage.clear(); localStorage.setItem('tn-currency', 'EUR'); });
   await page.reload();
-  await expect(page.locator('.tn-pdp__amount')).toHaveText('€19.90');
+  await expect(page.locator('.tn-pdp__amount')).toHaveText('€28.90');
   await page.locator('form.tn-buy button[type="submit"]').click();
   const drawer = page.locator('#tn-drawer');
   await expect(drawer).toBeVisible();
   await expect(drawer.locator('.tn-line')).toHaveCount(1);
-  await expect(drawer.locator('.tn-sum__total dd')).toHaveText('€26.80');           // 19.90 + 6.90 Story Walls parcel
+  await expect(drawer.locator('.tn-sum__total dd')).toHaveText('€35.80');           // 28.90 + 6.90 Story Walls parcel
   await drawer.locator('select.tn-cur').selectOption('GBP');
-  await expect(drawer.locator('.tn-sum__total dd')).toHaveText('£23.80');
+  await expect(drawer.locator('.tn-sum__total dd')).toHaveText('£31.80');
   await expect(page.locator('.tn-basket-count')).toHaveText('1');
   await drawer.locator('.tn-line__rm').click();
   await expect(drawer.locator('[data-basket-empty]')).toBeVisible();
