@@ -16,7 +16,7 @@ import TrustBar from './TrustBar.astro';
 import GiftPicks from './GiftPicks.astro';
 import CurrencySelect from './CurrencySelect.astro';
 import PimNote from '../PimNote.astro';
-import { catalog, shop, gifts, site, ageLabel, ageRange, ageGroupsOf, priceAttrs, giftPath, money, sceneLine, storyOf, deliveryWindow } from '../../lib/shop';
+import { catalog, shop, gifts, site, ageLabel, ageRange, displayName, ageGroupsOf, priceAttrs, giftPath, money, sceneLine, storyOf, deliveryWindow } from '../../lib/shop';
 
 interface Props { p: any }
 const { p } = Astro.props;
@@ -55,8 +55,8 @@ const ALT: Record<string, (p: any) => string> = {
   spread: (p) => `The book open: the conversation guide on the left page, a black-and-white drawing to colour on the right`,
   'last-page': () => `The empty last page, where your child draws the ending`,
   back: () => `Back cover with the story in six languages, the age and page badges and the QR code`,
-  wall: (p) => `The ${p.seriesBare} Story Wall coloured in and framed in light oak on a living-room wall`,
-  progress: (p) => `The ${p.seriesBare} Story Wall on the floor, seen from above: a grown-up and a child colouring it together`,
+  wall: (p) => `The ${p.seriesBare} Story Wall for ages ${al} coloured in and framed in light oak on a living-room wall`,
+  progress: (p) => `The ${p.seriesBare} Story Wall for ages ${al} on the floor, seen from above: a grown-up and a child colouring it together`,
   detail: (p) => p.type === 'poster' ? `Close-up of the ${p.seriesBare} Story Wall: the black lines and a painted animal, at full size` : p.type === 'tote' ? `Close-up of the print on the organic cotton weave` : p.type === 'mug' ? `Close-up of the print on the glazed ceramic` : `Close-up of the matte card and its texture`,
   scale: (p) => p.type === 'poster' ? `The Story Wall on a wall next to a child’s chair: 100 cm wide` : `The ${p.title} mug next to a Telning book, to show the size`,
   art: (p) => `The whole ${p.seriesName} Story Wall picture as printed: a few animals painted as a colour guide, the rest black lines to colour`,
@@ -88,32 +88,49 @@ else if (p.type === 'poster') more = [sibling('book', p.age), sibling('poster', 
 else more = [...catalog.products.filter((x: any) => x.type === p.type && x.sku !== p.sku).slice(0, 4), ...(keepBook ? [keepBook] : [])].slice(0, 4);
 more = more.filter((x) => x && !x.hidden);   // a hidden book has no page
 
-/* product structured data */
-const priceOf = (x: any) => ((x.variants ? x.variants[0].price : x.price).EUR / 100).toFixed(2);
+/* product structured data. One Offer per currency, because the currency sets the delivery region at checkout (EUR → EU,
+   GBP → UK, USD → US, CAD → CA; server/checkout.js): each Offer has that region's countries, its shipping fee for one item
+   and its delivery time (handling 1–4 days, the rest of the region's working-day window is transit). Postcards and cards
+   go to the EU and the UK only (p.regions). Returns: 14 days, the customer pays the return postage (/shipping-returns). */
+const priceOf = (x: any, cur = 'EUR') => ((x.variants ? x.variants[0].price : x.price)[cur] / 100).toFixed(2);
+const HANDLING = [1, 4];
+const offerFor = (cur: string) => {
+  const region = (shop.regions as any)[(shop.currencies as any)[cur].region];
+  const [d0, d1] = region.delivery;
+  const transit = [Math.max(1, d0 - HANDLING[0]), Math.max(1, d0 - HANDLING[0], d1 - HANDLING[1])];
+  const day = (min: number, max: number) => ({ '@type': 'QuantitativeValue', minValue: min, maxValue: max, unitCode: 'DAY' });
+  return {
+    '@type': 'Offer', url: `${HOST}${p.url}`, price: priceOf(p, cur), priceCurrency: cur, availability: 'https://schema.org/InStock', itemCondition: 'https://schema.org/NewCondition',
+    seller: { '@id': `${HOST}/#organization` },
+    shippingDetails: {
+      '@type': 'OfferShippingDetails',
+      shippingDestination: { '@type': 'DefinedRegion', addressCountry: region.countries },
+      shippingRate: { '@type': 'MonetaryAmount', value: (shop.parcels as any)[p.parcel].first[cur].toFixed(2), currency: cur },
+      deliveryTime: { '@type': 'ShippingDeliveryTime', handlingTime: day(HANDLING[0], HANDLING[1]), transitTime: day(transit[0], transit[1]) },
+    },
+    hasMerchantReturnPolicy: { '@type': 'MerchantReturnPolicy', applicableCountry: region.countries, returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow', merchantReturnDays: 14, returnMethod: 'https://schema.org/ReturnByMail', returnFees: 'https://schema.org/ReturnFeesCustomerResponsibility' },
+  };
+};
+const offerCurrencies = Object.keys(shop.currencies).filter((c) => !p.regions || p.regions.includes((shop.currencies as any)[c].region));
 const ld: Record<string, unknown> = {
   '@type': p.type === 'book' ? ['Product', 'Book'] : 'Product',
-  '@id': `${HOST}${p.url}#product`, name: p.name, sku: p.sku, url: `${HOST}${p.url}`,
+  '@id': `${HOST}${p.url}#product`, name: displayName(p), sku: p.sku, url: `${HOST}${p.url}`,
   image: p.images.map((im: any) => `${HOST}${im.src}-1200.webp`),
   description: p.type === 'book' ? `${p.book.hook} ${p.book.story}` : p.type === 'poster' ? `${p.seriesName} Story Wall: a large colouring picture for the wall, 100 × 70 cm. ${p.poster.scene}` : `${sceneLine(p)} ${p.design.about}`,
   brand: { '@type': 'Brand', name: 'Telning' }, manufacturer: { '@id': `${HOST}/#organization` },
   category: p.category === 'books' ? 'Books & posters' : 'Gifts',
   material: p.type === 'tote' ? 'GOTS-certified organic cotton' : p.type === 'mug' ? 'Glazed ceramic' : p.type === 'poster' ? 'Matte paper, 189 g/m²' : 'FSC-certified paper',
   ...(p.type === 'book' ? { bookFormat: 'https://schema.org/Paperback', numberOfPages: 32, author: { '@id': `${HOST}/#organization` }, publisher: { '@id': `${HOST}/#organization` }, typicalAgeRange: p.age, alternateName: `${p.seriesName} colouring book, ages ${al}` } : {}),
-  ...(p.type === 'poster' ? { alternateName: `${p.seriesName} Story Wall, ages ${al}`, size: '100 × 70 cm' } : {}),
+  ...(p.type === 'poster' ? { alternateName: p.name, size: '100 × 70 cm' } : {}),
   ...(p.age ? { audience: { '@type': 'PeopleAudience', suggestedMinAge: ageRange(p)[0], ...(ageRange(p)[1] ? { suggestedMaxAge: ageRange(p)[1] } : {}) } } : {}),
-  offers: {
-    '@type': 'Offer', url: `${HOST}${p.url}`, price: priceOf(p), priceCurrency: 'EUR', availability: 'https://schema.org/InStock', itemCondition: 'https://schema.org/NewCondition',
-    seller: { '@id': `${HOST}/#organization` },
-    shippingDetails: { '@type': 'OfferShippingDetails', shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'SE' }, deliveryTime: { '@type': 'ShippingDeliveryTime', handlingTime: { '@type': 'QuantitativeValue', minValue: 1, maxValue: 4, unitCode: 'DAY' }, transitTime: { '@type': 'QuantitativeValue', minValue: 2, maxValue: 6, unitCode: 'DAY' } } },
-    hasMerchantReturnPolicy: { '@type': 'MerchantReturnPolicy', applicableCountry: 'SE', returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow', merchantReturnDays: 14, returnMethod: 'https://schema.org/ReturnByMail', returnFees: 'https://schema.org/ReturnShippingFees' },
-  },
+  offers: offerCurrencies.map(offerFor),
 };
 const taxAttrs = Object.fromEntries(Object.entries(shop.currencies).map(([c, v]: [string, any]) => [`data-taxnote-${c.toLowerCase()}`, v.taxNote]));
 const firstShip = (shop.parcels as any)[p.parcel].first;
 const shipAttrs = Object.fromEntries(Object.entries(firstShip).map(([c, v]) => [`data-${c.toLowerCase()}`, money(Math.round((v as number) * 100), c, (shop.currencies as any)[c].locale)]));
 const windows = deliveryWindow();
 const winAttrs = Object.fromEntries(Object.entries(windows).map(([c, v]) => [`data-${c.toLowerCase()}`, v]));
-const h1 = p.name;
+const h1 = displayName(p);   // a Story Wall carries its age: the 3–7 and 7+ pages have different H1s
 const sub = p.descriptor;
 const story = storyOf(p);
 const pimLine = p.type === 'book' ? 'I can’t wait to see which ending you choose.' : p.type === 'poster' ? 'Can you find me on the wall?' : null;

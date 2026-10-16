@@ -35,10 +35,20 @@ const ORG_ID = `${HOST}/#organization`;
 const SITE_ID = `${HOST}/#website`;
 const social = site.social as Record<string, string>;
 const sameAs = ['instagram', 'tiktok', 'linkedin', 'amazonAuthor'].map((k) => social[k]).filter(Boolean);
+const legal = site.legal as { company: string; orgNumber: string; address: string };
+const addr = legal.address.split(',').map((s) => s.trim());   // "Dekangatan 4, Uppsala, Sweden"
 const org = {
   '@type': 'Organization', '@id': ORG_ID,
   name: site.publisher, alternateName: 'Telning', url: `${HOST}/`,
   logo: { '@type': 'ImageObject', url: `${HOST}/apple-touch-icon.png`, width: 180, height: 180 },
+  description: 'Telning Publishing House is a small publishing house in Uppsala, Sweden, run by a team of cognitive and behavioural scientists. It makes Story Walls, wordless colouring story books where the child chooses the ending, and gifts for families.',
+  slogan: site.taglineSite,
+  legalName: legal.company,
+  address: { '@type': 'PostalAddress', streetAddress: addr[0], addressLocality: addr[1], addressCountry: 'SE' },
+  identifier: { '@type': 'PropertyValue', propertyID: 'Swedish organisation number', value: legal.orgNumber },
+  email: site.contactEmail,
+  contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', email: site.contactEmail, availableLanguage: 'English' },
+  areaServed: ['EU', 'GB', 'US', 'CA'],
   sameAs,
   ...orgExtra,
 };
@@ -94,6 +104,7 @@ const verification = (site as { verification?: { google?: string; bing?: string 
   <meta name="twitter:title" content={entry.title}>
   <meta name="twitter:description" content={entry.description}>
   <meta name="twitter:image" content={ogImg}>
+  <meta name="twitter:image:alt" content={`${entry.title}. Telning Publishing House.`}>
   <script type="application/ld+json" set:html={ld} />
 </head>
 <body data-clear-basket={clearBasket ? '' : undefined}>

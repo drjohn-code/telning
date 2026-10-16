@@ -13,7 +13,7 @@ const sub = p.category === 'books' ? (p.type === 'book' ? p.book.hook : p.poster
 const tag = p.soon ? 'Coming soon' : p.age ? `Ages ${ageLabel(p.age, p.type)}` : t.tag;
 /* the age chips on /books a card answers to (the groups in site-data.json): a Story Wall with big shapes 3–7, the detailed one 7+ */
 const ageFilter = ageGroupsOf(p).join(' ');
-const alt = p.type === 'poster' ? `${p.name}, a large colouring picture for the wall, framed on a child’s bedroom wall` : p.type === 'book' ? `“${p.title}”, the ${p.seriesBare} colouring book, on a kitchen table with crayons` : `${p.name}: ${p.design.about}`;
+const alt = p.type === 'poster' ? `${p.name} for ages ${ageLabel(p.age, 'poster')}, a large colouring picture for the wall, framed on a child’s bedroom wall` : p.type === 'book' ? `“${p.title}”, the ${p.seriesBare} colouring book, on a kitchen table with crayons` : `${p.name}: ${p.design.about}`;
 ---
 <li class="tn-pcard" data-card data-series={p.series || ''} data-age={ageFilter} data-type={p.type} data-occasion={p.occasion || ''} data-animal={p.animal ? p.animal.replace(/s$/, '') : ''} data-child={p.child || ''}>
   <a class="tn-pcard__link" href={p.url}>

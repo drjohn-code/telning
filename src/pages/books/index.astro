@@ -11,13 +11,13 @@ import ProductCard from '../../components/shop/ProductCard.astro';
 import TrustBar from '../../components/shop/TrustBar.astro';
 import CurrencySelect from '../../components/shop/CurrencySelect.astro';
 import Picture from '../../components/shop/Picture.astro';
-import { catalog, site, view, ageGroupsOf } from '../../lib/shop';
+import { catalog, site, view, ageGroupsOf, displayName } from '../../lib/shop';
 
 const PAGE = '/books';
 const products = site.series.flatMap((s: any) => ['3-5', '5-7'].flatMap((a) => [`book-${s.key}-${a}`, `poster-${s.key}-${a}`])).map((k: string) => catalog.bySku.get(k)).filter((p: any) => p && !p.hidden);
 const hasBooks = products.some((p: any) => p.type === 'book');
 const groups = new Set(products.flatMap((p: any) => ageGroupsOf(p)));   // the age groups with a product on sale
-const ld = [{ '@type': 'CollectionPage', '@id': 'https://telning.com/books#collection', name: 'Books & Story Walls', url: 'https://telning.com/books', mainEntity: { '@type': 'ItemList', numberOfItems: products.length, itemListElement: products.map((p: any, i: number) => ({ '@type': 'ListItem', position: i + 1, url: `https://telning.com${p.url}`, name: p.name })) } }];
+const ld = [{ '@type': 'CollectionPage', '@id': 'https://telning.com/books#collection', name: 'Books & Story Walls', url: 'https://telning.com/books', mainEntity: { '@type': 'ItemList', numberOfItems: products.length, itemListElement: products.map((p: any, i: number) => ({ '@type': 'ListItem', position: i + 1, url: `https://telning.com${p.url}`, name: displayName(p) })) } }];
 const STEPS = [
   { h: 'Colour the story', t: 'Fourteen drawings, one on each right-hand page. The pictures tell the story without words.' },
   { h: 'Talk about it', t: 'Facing every drawing, one question or one good word for the grown-up: “How does the bunny feel here?”' },

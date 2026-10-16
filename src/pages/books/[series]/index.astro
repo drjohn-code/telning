@@ -9,7 +9,7 @@ import ProductCard from '../../../components/shop/ProductCard.astro';
 import Price from '../../../components/shop/Price.astro';
 import TrustBar from '../../../components/shop/TrustBar.astro';
 import Picture from '../../../components/shop/Picture.astro';
-import { catalog, site, books, shop, view, ageLabel, money } from '../../../lib/shop';
+import { catalog, site, books, shop, view, ageLabel, money, displayName } from '../../../lib/shop';
 
 export function getStaticPaths() {
   return site.series.filter((s: any) => (books.series as any)[s.key]).map((s: any) => ({ params: { series: s.key }, props: { s } }));
@@ -20,7 +20,7 @@ const b = (books.series as any)[s.key];
 const get = (k: string) => catalog.bySku.get(k) as any;
 const items = ['3-5', '5-7'].flatMap((a) => [get(`book-${s.key}-${a}`), get(`poster-${s.key}-${a}`)]).filter((p: any) => p && !p.hidden);
 const hasBooks = items.some((p: any) => p.type === 'book');
-const ld = [{ '@type': 'CollectionPage', '@id': `https://telning.com${PAGE}#collection`, name: s.name, url: `https://telning.com${PAGE}`, about: s.theme, mainEntity: { '@type': 'ItemList', itemListElement: items.map((p: any, i: number) => ({ '@type': 'ListItem', position: i + 1, url: `https://telning.com${p.url}`, name: p.name })) } }];
+const ld = [{ '@type': 'CollectionPage', '@id': `https://telning.com${PAGE}#collection`, name: s.name, url: `https://telning.com${PAGE}`, about: s.theme, mainEntity: { '@type': 'ItemList', itemListElement: items.map((p: any, i: number) => ({ '@type': 'ListItem', position: i + 1, url: `https://telning.com${p.url}`, name: displayName(p) })) } }];
 import SeriesWorlds from '../../../components/SeriesWorlds.astro';
 import GiftPicks from '../../../components/shop/GiftPicks.astro';
 ---

@@ -23,12 +23,16 @@ const COVER: Record<string, string> = { mug: view('mug-cocoa-cat', 'table'), tot
 const products = GIFT_TYPES.flatMap((t: string) => catalog.products.filter((p: any) => p.type === t));
 const from = (t: string) => { const p: any = products.find((x: any) => x.type === t); const pr = p.variants ? p.variants[0].price : p.price; return Object.fromEntries(['EUR', 'GBP', 'USD', 'CAD'].map((c) => [`data-${c.toLowerCase()}`, money(pr[c], c, (shop.currencies as any)[c].locale)])); };
 const occasions = [...new Set(products.map((p: any) => p.occasion).filter(Boolean))] as string[];
+/* structured data: the four gift categories, then every design (the same list the page shows) */
+const ld = [{ '@type': 'CollectionPage', '@id': 'https://telning.com/gifts#collection', name: 'Gifts', url: 'https://telning.com/gifts',
+  hasPart: GIFT_TYPES.map((t: string) => ({ '@type': 'CollectionPage', '@id': `https://telning.com${giftPath(t)}#collection`, url: `https://telning.com${giftPath(t)}`, name: (shop.types as any)[t].plural })),
+  mainEntity: { '@type': 'ItemList', numberOfItems: products.length, itemListElement: products.map((p: any, i: number) => ({ '@type': 'ListItem', position: i + 1, url: `https://telning.com${p.url}`, name: p.name })) } }];
 const animals = products.some((p: any) => p.animal);   // the cats and dogs (Halloween, Christmas, New Year, birthday)
 const plants = products.some((p: any) => p.animal === 'plants');   // the plant mugs (John, 16 Oct 2026)
 const children = products.some((p: any) => p.child);   // the birthday cards, for girls or for boys (John, 15 Oct 2026)
 import FilterSheet from '../../components/shop/FilterSheet.astro';
 ---
-<Base page={PAGE} preload={{ src: '/shop/img/gift-set/gift-set-halloween-gift-set', sizes: '(min-width: 1024px) 520px, 100vw' }}>
+<Base page={PAGE} jsonld={ld} preload={{ src: '/shop/img/gift-set/gift-set-halloween-gift-set', sizes: '(min-width: 1024px) 520px, 100vw' }}>
   <Header />
   <main id="main" tabindex="-1">
     <section class="tn-wrap tn-shophero" aria-labelledby="page-h">

@@ -28,9 +28,11 @@ const plants = products.some((p: any) => p.animal === 'plants');   // the plant 
 const children = products.some((p: any) => p.child);   // the birthday cards, for girls or for boys (John, 15 Oct 2026)
 const others = GIFT_TYPES.filter((x: string) => x !== t);
 const COVER: Record<string, string> = HERO;
+/* structured data: the category as a collection of its designs, like /books */
+const ld = [{ '@type': 'CollectionPage', '@id': `https://telning.com${PAGE}#collection`, name: ty.plural, url: `https://telning.com${PAGE}`, mainEntity: { '@type': 'ItemList', numberOfItems: products.length, itemListElement: products.map((p: any, i: number) => ({ '@type': 'ListItem', position: i + 1, url: `https://telning.com${p.url}`, name: p.name })) } }];
 import FilterSheet from '../../../components/shop/FilterSheet.astro';
 ---
-<Base page={PAGE} preload={{ src: HERO[t], sizes: '(min-width: 1024px) 520px, 100vw' }}>
+<Base page={PAGE} jsonld={ld} preload={{ src: HERO[t], sizes: '(min-width: 1024px) 520px, 100vw' }}>
   <Header />
   <main id="main" tabindex="-1">
     <section class="tn-wrap tn-shophero" aria-labelledby="page-h">

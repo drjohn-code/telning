@@ -5,10 +5,10 @@
     "/": {
       "name": "Home",
       "title": "Telning: picture books where your child chooses the ending",
-      "description": "Wordless picture books for children aged 0–7 from Telning Publishing House. Your child colours the story, chooses the ending and talks about feelings with you.",
+      "description": "Telning Story Walls and wordless picture books for children aged 3 and up. Your child colours the story, chooses the ending and talks about feelings with you.",
       "type": "WebPage",
       "published": "2026-10-07",
-      "lastmod": "2026-10-12",
+      "lastmod": "2026-10-16",
       "og": "/og/home.png"
     },
     "/tada": {
@@ -18,7 +18,7 @@
       "type": "WebPage",
       "article": true,
       "published": "2026-10-08",
-      "lastmod": "2026-10-12",
+      "lastmod": "2026-10-16",
       "og": "/og/tada.png"
     },
     "/guide": {
@@ -28,7 +28,7 @@
       "type": "WebPage",
       "article": true,
       "published": "2026-10-08",
-      "lastmod": "2026-10-08",
+      "lastmod": "2026-10-16",
       "og": "/og/guide.png"
     },
     "/send": {
@@ -37,7 +37,7 @@
       "description": "Tell Pim about the ending your child chose in a short form. Pim sends back a story card and ideas for your next talk. First name and age only, no photos.",
       "type": "WebPage",
       "published": "2026-10-08",
-      "lastmod": "2026-10-13",
+      "lastmod": "2026-10-16",
       "og": "/og/send.png"
     },
     "/about": {
@@ -46,7 +46,7 @@
       "description": "Telning Publishing House is a small team of cognitive and behavioural scientists in Uppsala, Sweden. See how a book is made, our promises, and how to reach us.",
       "type": "AboutPage",
       "published": "2026-10-08",
-      "lastmod": "2026-10-12",
+      "lastmod": "2026-10-16",
       "og": "/og/about.png"
     },
     "/pim": {
@@ -55,7 +55,7 @@
       "description": "Pim is a small hedgehog with three stars on its head. Pim listens, wonders and chooses, and writes the letters and story cards that come from Telning.",
       "type": "WebPage",
       "published": "2026-10-08",
-      "lastmod": "2026-10-08",
+      "lastmod": "2026-10-16",
       "og": "/og/pim.png"
     },
     "/teachers": {
@@ -64,7 +64,7 @@
       "description": "How teachers use Telning's wordless picture books: every child can join, whatever language they speak at home. TADA for the whole class, groups or one-to-one.",
       "type": "WebPage",
       "published": "2026-10-08",
-      "lastmod": "2026-10-12",
+      "lastmod": "2026-10-16",
       "og": "/og/teachers.png"
     },
     "/privacy": {
@@ -73,7 +73,7 @@
       "description": "How Telning Publishing House handles data on this website, on the email list and in the emails you send us. Plain words, no cookies, no trackers.",
       "type": "WebPage",
       "published": "2026-10-08",
-      "lastmod": "2026-10-12",
+      "lastmod": "2026-10-13",
       "og": "/og/privacy.png"
     },
     "/childrens-privacy": {

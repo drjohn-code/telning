@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createHmac } from 'node:crypto';
 import { catalog, shopPages, site } from '../server/catalog-data.js';
-import { shippingFor, resolveLines, CURRENCIES, viewsOf, countryName, ageLabel, ageRange, ageGroupsOf } from '../server/catalog.js';
+import { shippingFor, resolveLines, CURRENCIES, viewsOf, countryName, ageLabel, ageRange, ageGroupsOf, displayName } from '../server/catalog.js';
 import { handleCheckout, sessionParams } from '../server/checkout.js';
 import { handleWebhook, orderFrom, teamText, customerText, handleOrderLookup } from '../server/orders.js';
 import { verifySignature, formEncode } from '../server/stripe.js';
@@ -80,16 +80,28 @@ test('names and links: Story Wall, no partner names in customer-facing text, 301
   assert.deepEqual(ageGroupsOf(catalog.bySku.get('poster-star-hoppers-5-7')), ['7+']);
   assert.deepEqual(ageRange(wall), [3, 7]);
   assert.deepEqual(ageRange(catalog.bySku.get('poster-star-hoppers-5-7')), [7, null]);
-  assert.match(shopPages['/books/star-hoppers/story-wall-5-7'].title, /ages 7\+/);
+  assert.match(shopPages['/books/star-hoppers/story-wall-7-plus'].title, /ages 7\+/);
   assert.match(shopPages['/books/star-hoppers'].description, /3–7 and 7\+/);
-  assert.equal(wall.url, '/books/star-hoppers/story-wall-3-5');
-  assert.equal(wall.oldUrl, '/books/star-hoppers/giant-poster-3-5');
+  // the URL and the image folder carry the age as the customer reads it; the SKU keeps the key (Stripe, old orders)
+  assert.equal(wall.url, '/books/star-hoppers/story-wall-3-7');
+  // the page name (H1, schema, lists) carries the age, so the two walls of a series differ; the short name stays for the basket and Stripe
+  assert.equal(displayName(wall), 'Star Hoppers Story Wall, ages 3–7');
+  assert.equal(displayName(catalog.bySku.get('poster-star-hoppers-5-7')), 'Star Hoppers Story Wall, ages 7+');
+  assert.equal(displayName(catalog.bySku.get('mug-cocoa-cat')), 'Cocoa Cat mug');
+  assert.equal(catalog.bySku.get('poster-star-hoppers-5-7').url, '/books/star-hoppers/story-wall-7-plus');
+  assert.equal(wall.images[0].src, '/shop/img/star-hoppers-story-wall-colouring-poster-ages-3-7/star-hoppers-story-wall-colouring-poster-ages-3-7-progress');
+  assert.deepEqual(wall.oldUrls, ['/books/star-hoppers/giant-poster-3-5', '/books/star-hoppers/story-wall-3-5']);
   assert.equal(catalog.bySku.get('mug-cocoa-cat').name, 'Cocoa Cat mug');
   assert.ok(vercelRedirect('/gifts/mugs/the-moon'), 'old gift URLs 301 to their category');
   assert.equal(vercelRedirect('/gifts/postcards/dog-parade')?.destination, '/gifts/postcards/present-parade', 'the renamed birthday postcard keeps its old link');
   const { readFileSync } = await import('node:fs');
-  const vercel = JSON.parse(readFileSync(new URL('../vercel.json', import.meta.url), 'utf8'));
-  assert.ok(vercel.redirects.some((r) => r.source === '/books/:series/giant-poster-:age' && r.permanent));
+  for (const p of catalog.products.filter((x) => x.type === 'poster')) for (const old of p.oldUrls) {   // giant-poster-* and story-wall-3-5 / -5-7
+    const pattern = (u) => u.replace(`/${p.series}/`, '/:series/');
+    assert.equal(vercelRedirect(pattern(old))?.destination, pattern(p.url), `${old} 301s to ${p.url}`);
+  }
+  // the old photo URLs are in sent emails and Google Images: they 301 to the new file names
+  assert.equal(vercelRedirect('/shop/img/:series-story-wall-colouring-poster-ages-3-5/:stem-story-wall-colouring-poster-ages-3-5-:file')?.destination, '/shop/img/:series-story-wall-colouring-poster-ages-3-7/:stem-story-wall-colouring-poster-ages-3-7-:file');
+  assert.equal(vercelRedirect('/shop/img/:series-story-wall-colouring-poster-ages-5-7/:stem-story-wall-colouring-poster-ages-5-7-:file')?.destination, '/shop/img/:series-story-wall-colouring-poster-ages-7-plus/:stem-story-wall-colouring-poster-ages-7-plus-:file');
   const shopJson = readFileSync(new URL('../src/data/shop.json', import.meta.url), 'utf8');
   const customerText = JSON.stringify({ ...JSON.parse(shopJson), parcels: undefined, types: Object.fromEntries(Object.entries(JSON.parse(shopJson).types).map(([k, v]) => [k, { ...v, partner: undefined }])), partnerRefs: undefined });
   assert.doesNotMatch(customerText, /lulu|gelato|printful|printify|prodigi|giant poster|print on demand|France, the UK/i);

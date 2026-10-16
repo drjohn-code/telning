@@ -2,7 +2,10 @@
    Used by src/layouts/Base.astro (through src/lib/shop.ts), scripts/seo-check.mjs and scripts/sitemap.mjs. */
 import { ageLabel, GIFT_TYPES, giftPath } from './catalog.js';
 
-const DATE = '2026-10-12';
+const DATE = '2026-10-12';   // first published
+/** The last real change to the shop pages, for <lastmod> in the sitemap: 16 Oct 2026 (Story Wall URLs and H1s with the age,
+    product schema per currency, the everyday mugs and totes). Move it forward when the shop pages change. */
+const LASTMOD = '2026-10-16';
 // lengths as the HTML attribute holds them (& is &amp;), which is what search engines and seo-check read
 const len = (s) => s.replace(/&/g, '&amp;').length;
 const fit = (cands) => {
@@ -22,7 +25,7 @@ const fit = (cands) => {
 
 export function shopSeo(catalog, site, offers) {
   const pages = {};
-  const add = (path, e) => { pages[path] = { type: 'WebPage', published: DATE, lastmod: DATE, og: e.og || '/og/books.jpg', ...e }; };
+  const add = (path, e) => { pages[path] = { type: 'WebPage', published: DATE, lastmod: LASTMOD, og: e.og || '/og/books.jpg', ...e }; };
 
   add('/books', { name: 'Books & Story Walls', title: 'Colouring books and Story Walls, ages 3 and up | Telning',
     description: 'Telning colouring story books and Story Walls, large 100 × 70 cm colouring pictures for the wall, sorted by series and age. Your child chooses the ending.', og: '/og/books.jpg' });

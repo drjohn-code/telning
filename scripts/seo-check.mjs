@@ -3,6 +3,9 @@
 // - Open Graph tags and image; JSON-LD parses and has Organization, WebSite and WebPage
 // - no noindex in production, noindex on preview (Vercel VERCEL_ENV); in sitemap.xml with a lastmod
 // - at least two internal links out and two in; alt text on every <img>
+// - no <img> with an empty src; across the indexable pages no two share a title, a description or an H1
+//   (16 Oct 2026: the two Story Walls of a series had one H1); every internal link lands on a built page or file,
+//   never on a URL that vercel.json redirects
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -34,6 +37,10 @@ const attr = (html, re) => { const m = html.match(re); return m ? m[1] : ''; };
 const text = (html) => html.replace(/<script[\s\S]*?<\/script>/gi, ' ').replace(/<style[\s\S]*?<\/style>/gi, ' ').replace(/<svg[\s\S]*?<\/svg>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 
 const pages = [...htmlFiles(DIST)].map((file) => ({ file, path: pagePath(file), html: readFileSync(file, 'utf8') })).filter((p) => !p.path.startsWith('/admin'));   // the admin is noindex and private
+const built = new Set([...htmlFiles(DIST)].map(pagePath));   // every built page, the admin included
+const vercel = JSON.parse(readFileSync(join(ROOT, 'vercel.json'), 'utf8'));
+const redirected = (vercel.redirects || []).map((r) => ({ re: new RegExp('^' + r.source.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/:[a-z]+\*?/gi, '[^/]+') + '$'), to: r.destination }));
+const seen = { title: {}, description: {}, h1: {} };   // indexable pages only: no two may share one
 const inbound = {};
 for (const p of pages) for (const m of p.html.matchAll(/<a [^>]*href="(\/[^"#?]*)/g)) {
   const to = m[1].replace(/\/$/, '') || '/';
@@ -80,7 +87,20 @@ for (const { path, html } of pages) {
   if (outbound.size < 2) fail(path, `only ${outbound.size} internal link(s) out`);
   if (path !== '/404' && !entry.noindex && (inbound[path] || 0) < 2) fail(path, `only ${inbound[path] || 0} internal link(s) in`);
   for (const img of imgs) if (!/\balt(=|[\s>\/])/.test(img)) fail(path, `<img> without alt: ${img.slice(0, 80)}`);   // alt="" renders as a bare `alt` (decorative)
+  for (const img of imgs) if (/\ssrc=""/.test(img)) fail(path, `<img> with an empty src: ${img.slice(0, 80)}`);
+  if (!mustNoindex && path !== '/404') {
+    const h1 = (html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/) || [])[1];
+    for (const [k, v] of [['title', title], ['description', desc], ['h1', h1 ? text(h1) : '']]) if (v) (seen[k][v] ||= []).push(path);
+  }
+  for (const m of html.matchAll(/<a [^>]*href="(\/[^"#?]*)/g)) {
+    const to = m[1].replace(/\/$/, '') || '/';
+    if (to.startsWith('/api/')) continue;
+    const hop = redirected.find((r) => r.re.test(to));
+    if (hop) fail(path, `links to ${to}, which vercel.json redirects to ${hop.to}: link to the new URL`);
+    else if (!built.has(to) && !existsSync(join(DIST, to))) fail(path, `links to ${to}, which is not a page or a file`);
+  }
   if (main.length < (path === '/404' ? 60 : 300)) fail(path, `main text is only ${main.length} characters in the HTML`);
 }
+for (const [k, byValue] of Object.entries(seen)) for (const [v, paths] of Object.entries(byValue)) if (paths.length > 1) fail(paths.join(', '), `share one ${k}: "${v.slice(0, 70)}"`);
 if (fails) { console.error(`seo-check: ${fails} problem(s)`); process.exit(1); }
 console.log(`seo-check: ${pages.length} page(s) pass (${isPreview ? 'preview: noindex' : 'production: indexable'})`);

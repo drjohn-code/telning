@@ -9,9 +9,16 @@ export const CURRENCIES = ['EUR', 'GBP', 'USD', 'CAD'];
 export const AGES = ['3-5', '5-7'];
 /** The site's age groups (John, 15 Oct 2026): 1–3 Toddler, 3–7 Preschool, 7+ School and Adults (key young-adults). The list itself is `ages` in site-data.json;
     the home page cards and the age chips on /books and the product pages come from it. Story Walls: the sheet with the
-    bigger shapes is sold for ages 3–7, the detailed sheet for ages 7 and up. The keys '3-5' and '5-7' stay in SKUs, URLs
-    and image file names; only what the customer reads changes. `groups`: the age groups a Story Wall answers to. */
-export const POSTER_AGES = { '3-5': { label: '3–7', min: 3, max: 7, groups: ['3-7'] }, '5-7': { label: '7+', min: 7, max: null, groups: ['7+'] } };
+    bigger shapes is sold for ages 3–7, the detailed sheet for ages 7 and up. The keys '3-5' and '5-7' stay in the SKUs
+    (Stripe and the old orders know them) and in the print files; since 16 Oct 2026 the page URL and the image folder
+    carry `slug` instead (/books/<series>/story-wall-3-7 and …/story-wall-7-plus), and vercel.json 301s the old
+    story-wall-3-5 / story-wall-5-7 and giant-poster-* URLs. `groups`: the age groups a Story Wall answers to. */
+export const POSTER_AGES = {
+  '3-5': { label: '3–7', slug: '3-7', min: 3, max: 7, groups: ['3-7'] },
+  '5-7': { label: '7+', slug: '7-plus', min: 7, max: null, groups: ['7+'] },
+};
+/** The age as it reads in a Story Wall's URL and image file names: '3-7' or '7-plus'. The SKU keeps the key. */
+export const posterSlug = (age) => POSTER_AGES[age].slug;
 /** The age groups (site-data.json keys) a product answers to on the /books filter and the home page age cards. A book
     keeps its own key for now (the books are hidden; give them their groups here when they come back). */
 export const ageGroupsOf = (p) => (p.type === 'poster' ? POSTER_AGES[p.age].groups : p.age ? [p.age] : []);
@@ -22,6 +29,10 @@ export const BOOKS_HIDDEN = true;
 const cents = (m) => Object.fromEntries(Object.entries(m).map(([k, v]) => [k, Math.round(v * 100)]));
 /** The age as the customer reads it: '3–5' for a book, '3–7' or '7+' for a Story Wall (pass the product type). */
 export const ageLabel = (a, type) => (type === 'poster' ? POSTER_AGES[a].label : a.replace('-', '–'));
+/** The name a page shows and search engines read (H1, schema, lists, photo text): a Story Wall carries its age, so the two
+    walls of a series are two different names ("Star Hoppers Story Wall, ages 3–7"). `p.name` stays short for the basket,
+    Stripe and emails. */
+export const displayName = (p) => (p.type === 'poster' ? `${p.name}, ages ${ageLabel(p.age, 'poster')}` : p.name);
 /** [min, max] for the JSON-LD audience; max is null for "7+". */
 export const ageRange = (p) => (p.type === 'poster' ? [POSTER_AGES[p.age].min, POSTER_AGES[p.age].max] : p.age.split('-').map(Number));
 
@@ -44,13 +55,15 @@ export const VIEWS = {
     and imported with scripts/shop/import-mockups.mjs: on the table first, then at home, then in a hand. */
 export const GIFT_PHOTO_VIEWS = ['table', 'home', 'hand'];
 export const viewsOf = (p) => (p.animal ? GIFT_PHOTO_VIEWS : VIEWS[p.type]);
-/** Descriptive image folder and file stem per product (search engines read file names). */
-export const imageSlug = (p) => ({
-  book: `${p.series}-colouring-book-ages-${p.age}`,
-  poster: `${p.series}-story-wall-colouring-poster-ages-${p.age}`,
-  mug: p.pim === false ? `${p.key}-mug` : `${p.key}-pim-mug`, tote: `${p.key}-tote-bag`, postcards: `${p.key}-postcards`, cards: `${p.key}-greeting-cards`,
-  pack: `story-${p.key}-pack`,
-})[p.type];
+/** Descriptive image folder and file stem per product (search engines read file names). One function per type, so
+    a gift never evaluates the Story Wall line (it has no age). */
+const IMAGE_SLUG = {
+  book: (p) => `${p.series}-colouring-book-ages-${p.age}`,
+  poster: (p) => `${p.series}-story-wall-colouring-poster-ages-${posterSlug(p.age)}`,
+  mug: (p) => (p.pim === false ? `${p.key}-mug` : `${p.key}-pim-mug`), tote: (p) => `${p.key}-tote-bag`, postcards: (p) => `${p.key}-postcards`, cards: (p) => `${p.key}-greeting-cards`,
+  pack: (p) => `story-${p.key}-pack`,
+};
+export const imageSlug = (p) => IMAGE_SLUG[p.type](p);
 const imagesFor = (p) => {
   const slug = imageSlug(p);
   if (p.placeholder) return [{ view: 'placeholder', src: `/shop/img/${slug}/${slug}-placeholder` }];   // no photos yet (scripts/shop/placeholders.mjs)
@@ -108,7 +121,8 @@ export function buildCatalog({ site, shop, books, gifts }) {
       products.push({
         sku: `poster-${s.key}-${age}`, type: 'poster', category: 'books', parcel: T.poster.parcel, partner: T.poster.partner,
         series: s.key, seriesName: s.name, seriesBare: s.name.replace(/^The /, ''), age,
-        url: `/books/${s.key}/story-wall-${age}`, oldUrl: `/books/${s.key}/giant-poster-${age}`,
+        url: `/books/${s.key}/story-wall-${posterSlug(age)}`,
+        oldUrls: [`/books/${s.key}/giant-poster-${age}`, `/books/${s.key}/story-wall-${age}`],   // 301 in vercel.json
         name: `${s.name} Story Wall`, short: 'Story Wall', title: `${s.name} Story Wall`, descriptor: 'Story Wall · 70 × 100 cm',
         price: cents(T.poster.price), maxQty: T.poster.maxQty,
         poster: b.posters[age], book, theme: s.theme, colour: s.colour, print: `assets/telning-products/_story-walls/${s.key}/${s.key}-${age}-print.png`,

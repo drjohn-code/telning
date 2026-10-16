@@ -3,7 +3,7 @@
 import { test, expect } from '@playwright/test';
 
 test('add to basket, change the currency, remove the line', async ({ page }) => {
-  await page.goto('/books/star-hoppers/story-wall-3-5');   // a Story Wall: the books are hidden for now (BOOKS_HIDDEN)
+  await page.goto('/books/star-hoppers/story-wall-3-7');   // a Story Wall: the books are hidden for now (BOOKS_HIDDEN)
   await page.evaluate(() => { localStorage.clear(); localStorage.setItem('tn-currency', 'EUR'); });
   await page.reload();
   await expect(page.locator('.tn-pdp__amount')).toHaveText('€19.90');
@@ -53,7 +53,7 @@ test('gifts filter: Girls / Boys picks the birthday cards for girls or for boys'
   await page.locator('button.tn-chip[data-group="child"][data-value="boy"]').first().click();
   await expect(shown()).toHaveCount(2);
   // every product page starts its details with the art style; the technique follows the product
-  for (const [url, technique] of [['/gifts/postcards/present-parade', 'coloured pencil'], ['/gifts/postcards/lantern-cat', 'Gouache'], ['/gifts/mugs/cocoa-cat', 'Embroidery'], ['/books/big-days/story-wall-3-5', 'line art']]) {
+  for (const [url, technique] of [['/gifts/postcards/present-parade', 'coloured pencil'], ['/gifts/postcards/lantern-cat', 'Gouache'], ['/gifts/mugs/cocoa-cat', 'Embroidery'], ['/books/big-days/story-wall-3-7', 'line art']]) {
     await page.goto(url);
     await expect(page.locator('.tn-pdp__spec dt').first()).toHaveText('Art style');
     await expect(page.locator('.tn-pdp__spec dd').first()).toContainText(technique);
@@ -93,8 +93,8 @@ test('filters on /books hide the cards that do not match', async ({ page }) => {
 });
 
 test('a Story Wall page: name, descriptor, trust row, delivery estimate, two pictures, no partner names', async ({ page }) => {
-  await page.goto('/books/star-hoppers/story-wall-3-5');
-  await expect(page.locator('h1')).toHaveText('Star Hoppers Story Wall');
+  await page.goto('/books/star-hoppers/story-wall-3-7');
+  await expect(page.locator('h1')).toHaveText('Star Hoppers Story Wall, ages 3–7');   // the age is in the H1: the 3–7 and 7+ pages differ
   await expect(page.locator('.tn-pdp__sub')).toContainText('Story Wall · 70 × 100 cm');
   await expect(page.locator('.tn-trustrow li')).toHaveCount(3);
   await expect(page.locator('.tn-pdp__delivery')).toContainText('arrives');

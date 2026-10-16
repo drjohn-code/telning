@@ -36,6 +36,7 @@ A Story Wall is a 100 × 70 cm colouring poster.
 - Families unroll it on the floor and colour it together, then frame it.
 - There are 12 series with 2 products each (ages 3-5 and 5-7), so 24 products. Since 15 Oct 2026 the site's age groups are 1–3 Toddler, 3–7 Preschool, 7+ School and Adults (key `young-adults`) (`ages` in `src/data/site-data.json`); the shop shows the Story Walls as ages 3–7 (the 3-5 sheet) and 7+ (the 5-7 sheet); the keys 3-5 and 5-7 stay in SKUs, URLs and file names (`POSTER_AGES` in `server/catalog.js`).
 - Both ages use the same picture. For 3-5, every shape is 20% bigger.
+- Since 16 Oct 2026 the page URL and the image folder carry the age as the customer reads it: `/books/<series>/story-wall-3-7` and `…/story-wall-7-plus`, `public/shop/img/<series>-story-wall-colouring-poster-ages-3-7/` and `…-ages-7-plus/` (`POSTER_AGES[age].slug` and `posterSlug()` in `server/catalog.js`). The SKUs (`poster-<series>-3-5` / `-5-7`), the print files and the share images (`public/og/p/<sku>.jpg`) keep the keys. `vercel.json` 301s the old `story-wall-3-5` / `-5-7` and `giant-poster-*` pages and the old photo URLs (they are in sent emails).
 - Since 15 Oct 2026 the colouring books are hidden (`BOOKS_HIDDEN` in `server/catalog.js`): /books and the series pages show only the Story Walls, the book pages are not built, and the checkout refuses a book. The organisation packs still include books. Set it to false when the books are ready.
 
 **Style (John chose "J" after 10 tests):**
@@ -96,7 +97,7 @@ npm run test:privacy
 npx playwright test
 ```
 
-- Take screenshots of a few Story Wall pages (for example `/books/paws-claws/story-wall-3-5`), `/books` and a series page, at 375 and 1280 px. Show John.
+- Take screenshots of a few Story Wall pages (for example `/books/paws-claws/story-wall-3-7`), `/books` and a series page, at 375 and 1280 px. Show John.
 - After John's OK: merge `story-walls-v2` into `main` and push.
 
 ## Open items (not urgent)

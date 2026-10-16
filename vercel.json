@@ -72,8 +72,33 @@
   },
   "redirects": [
     {
-      "source": "/books/:series/giant-poster-:age",
-      "destination": "/books/:series/story-wall-:age",
+      "source": "/books/:series/giant-poster-3-5",
+      "destination": "/books/:series/story-wall-3-7",
+      "permanent": true
+    },
+    {
+      "source": "/books/:series/giant-poster-5-7",
+      "destination": "/books/:series/story-wall-7-plus",
+      "permanent": true
+    },
+    {
+      "source": "/books/:series/story-wall-3-5",
+      "destination": "/books/:series/story-wall-3-7",
+      "permanent": true
+    },
+    {
+      "source": "/books/:series/story-wall-5-7",
+      "destination": "/books/:series/story-wall-7-plus",
+      "permanent": true
+    },
+    {
+      "source": "/shop/img/:series-story-wall-colouring-poster-ages-3-5/:stem-story-wall-colouring-poster-ages-3-5-:file",
+      "destination": "/shop/img/:series-story-wall-colouring-poster-ages-3-7/:stem-story-wall-colouring-poster-ages-3-7-:file",
+      "permanent": true
+    },
+    {
+      "source": "/shop/img/:series-story-wall-colouring-poster-ages-5-7/:stem-story-wall-colouring-poster-ages-5-7-:file",
+      "destination": "/shop/img/:series-story-wall-colouring-poster-ages-7-plus/:stem-story-wall-colouring-poster-ages-7-plus-:file",
       "permanent": true
     },
     {

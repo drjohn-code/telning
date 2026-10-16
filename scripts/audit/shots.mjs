@@ -12,7 +12,7 @@ const HEIGHT = { 375: 812, 768: 1024, 1280: 800, 1440: 900, 1920: 1080 };
 const { catalog } = await import('../../server/catalog-data.js');
 const STATIC = ['/', '/books', '/gifts', '/basket', '/organisations', '/materials', '/shipping-returns', '/about', '/tada', '/guide', '/send', '/pim', '/teachers', '/privacy', '/childrens-privacy', '/terms', '/404', '/order/thanks',
   '/books/star-hoppers', '/gifts/mugs', '/gifts/tote-bags', '/gifts/postcards', '/gifts/greeting-cards'];
-const TEMPLATES = ['/books/star-hoppers/colouring-book-3-5', '/books/star-hoppers/story-wall-3-5', '/gifts/mugs/cocoa-cat', '/gifts/tote-bags/ghost-pup', '/gifts/postcards/pumpkin-pup', '/gifts/greeting-cards/pumpkin-puppies'];
+const TEMPLATES = ['/books/star-hoppers/colouring-book-3-5', '/books/star-hoppers/story-wall-3-7', '/gifts/mugs/cocoa-cat', '/gifts/tote-bags/ghost-pup', '/gifts/postcards/pumpkin-pup', '/gifts/greeting-cards/pumpkin-puppies'];
 const ALL = mode === 'all' ? [...STATIC, ...catalog.products.map((p) => p.url)] : [...STATIC, ...TEMPLATES];
 
 mkdirSync(outDir, { recursive: true });
