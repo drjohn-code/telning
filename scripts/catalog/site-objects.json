@@ -22,8 +22,8 @@
           "words": ""
         },
         "bunny": {
-          "title": "Bunny (ages 3-7)",
-          "subject": "a tall cream bunny sitting upright with long straight ears, burnt orange inside the ears, black outlines and a small deep teal folk scarf",
+          "title": "Bunny (sitting)",
+          "subject": "a rabbit sitting on its haunches, seen a little from the side, plump and round-backed, in cream with burnt orange inside its long ears, a small deep teal folk scarf, a fluffy round tail and big round eyes",
           "words": ""
         },
         "owl": {
@@ -199,6 +199,21 @@
         "owl-prof": {
           "title": "Owl professor",
           "subject": "a small folk owl standing, in deep teal with a mustard belly with a folk pattern, round black glasses over big round eyes, a black graduation cap, and an open cream book at its feet",
+          "words": ""
+        },
+        "cat-yarn": {
+          "title": "Kitten with yarn",
+          "subject": "a playful ginger kitten crouching low, batting a round mustard ball of yarn with a loose wavy thread, big round eyes, cream paws and chest",
+          "words": ""
+        },
+        "cat-sleep": {
+          "title": "Sleeping cat",
+          "subject": "a grey-teal tabby cat curled up asleep in a round shape, tail wrapped around its nose, eyes closed, folk stripes on its back",
+          "words": ""
+        },
+        "cat-watch": {
+          "title": "Cat looking up",
+          "subject": "a cream cat with burnt orange patches sitting upright and looking up and to the right, big round eyes, long whiskers, tail curled around its paws",
           "words": ""
         }
       }

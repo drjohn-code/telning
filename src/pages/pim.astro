@@ -20,15 +20,20 @@ const handDrawn = !!site.pim?.handDrawn && !!site.illustratorName;
   <main id="main" tabindex="-1">
     <PageHero page={PAGE} h1={t.h1} lead={t.lead} colour="sky-light">
       <Fragment slot="after"><p class="tn-p">{t.intro}</p></Fragment>
-      <div class="tn-layer" style="--d:4;top:8%;left:8%;width:9%"><Obj name="star" w="100%" class="tn-twinkle" /></div>
-      <div class="tn-layer" style="--d:6;top:20%;right:10%;width:7%"><Obj name="star" w="100%" class="tn-twinkle late" /></div>
-      <div class="tn-layer" style="--d:5;top:6%;right:28%;width:5%"><Obj name="star" w="100%" class="tn-twinkle slow" /></div>
+      <div class="tn-layer" style="--d:4;top:8%;left:8%;width:14%"><Obj name="star" w="100%" class="tn-twinkle" /></div>
+      <div class="tn-layer" style="--d:6;top:18%;right:8%;width:13%"><Obj name="star" w="100%" class="tn-twinkle late" /></div>
+      <div class="tn-layer" style="--d:5;top:6%;right:30%;width:10%"><Obj name="star" w="100%" class="tn-twinkle slow" /></div>
       <div class="tn-layer" style="--d:8;top:10%;left:0;width:100%"><div class="tn-drift" style="--drift:80s;width:20%"><Obj name="cloud" w="100%" /></div></div>
       <div class="tn-layer" style="--d:12;top:52%;bottom:-10%;left:0;width:100%"><svg class="tn-hill" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true"><path d="M0 300V56C60 32 130 26 200 38s130 18 200-6v268z" fill="var(--moss)"/></svg></div>
       <div class="tn-layer" style="--d:22;top:72%;bottom:-10%;left:0;width:100%"><svg class="tn-hill" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true"><path d="M0 300V50C50 30 110 22 170 34s110 20 160 6 60-20 70-18v228z" fill="var(--forest-light)"/></svg></div>
-      <div class="tn-layer tn-hide-sm" style="--d:20;bottom:16%;left:10%;width:12%"><Obj name="tulip" w="100%" class="tn-sway" swap={{ red: 'moss', 'red-light': 'gold-light', 'red-deep': 'forest-light' }} /></div>
+      <div class="tn-layer tn-hide-sm" style="--d:20;bottom:12%;left:2%;width:18%"><Obj name="tulip" w="100%" class="tn-sway" swap={{ red: 'moss', 'red-light': 'gold-light', 'red-deep': 'forest-light' }} /></div>
       <div class="tn-layer" style="--d:30;bottom:6%;left:34%;width:32%"><Pim pose="full" shadow alt={t.pimAlt} /></div>
-      <div class="tn-layer tn-hide-sm" style="--d:26;bottom:12%;right:10%;width:11%"><div class="tn-float"><Obj name="heart" w="100%" /></div></div>
+      <div class="tn-layer tn-hide-sm" style="--d:26;bottom:34%;right:3%;width:16%"><div class="tn-float"><Obj name="heart" w="100%" /></div></div>
+      {/* more folk pictures in the scene (John, 16 Oct 2026) */}
+      <div class="tn-layer tn-hide-sm" style="--d:16;bottom:46%;right:22%;width:14%"><Obj name="tree" w="100%" class="tn-sway" /></div>
+      <div class="tn-layer tn-hide-sm" style="--d:10;top:30%;left:24%;width:10%"><div class="tn-float"><Obj name="bee" w="100%" /></div></div>
+      <div class="tn-layer" style="--d:28;bottom:4%;left:67%;width:18%"><Obj name="cat" w="100%" /></div>
+      <div class="tn-layer tn-hide-sm" style="--d:28;bottom:3%;left:19%;width:15%"><Obj name="snail" w="100%" /></div>
     </PageHero>
 
     <section class="tn-section" id="who" aria-labelledby="who-h" style="padding-top:0"><div class="tn-wrap">

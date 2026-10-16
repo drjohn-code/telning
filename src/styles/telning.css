@@ -200,6 +200,8 @@ html.tn-menu-open { overflow: hidden; }
 .tn-drive { animation: tn-drive 16s linear infinite; }
 @keyframes tn-drive { from { transform: translateX(-160px); } to { transform: translateX(640px); } }
 .tn-hide-sm { display: none; }
+.tn-only-sm { display: block; }   /* the opposite of tn-hide-sm: phones only */
+@media (min-width: 600px) { .tn-only-sm { display: none; } }
 @media (min-width: 600px) { .tn-stage { height: min(44svh, 460px); } .tn-books3 .tn-book { width: 120px; } .tn-hide-sm { display: block; } .tn-hero__text .tn-lead { font-size: 17px; } }
 @media (min-width: 1024px) {
   .tn-hero { grid-template-columns: 1fr 1.05fr; gap: var(--s7); padding-block: var(--s6) var(--s7); }
