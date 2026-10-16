@@ -17,6 +17,16 @@ const svg = header.match(/<svg class="tn-lockup"[\s\S]*?<\/svg>/)[0]
   .replace(' class="tn-lockup"', ' xmlns="http://www.w3.org/2000/svg"').replace(/ aria-hidden="true"| focusable="false"/g, '')
   .replace(/var\(--red\)/g, '#ce4029').replace(/var\(--cream\)/g, '#fffdf8').replace(/var\(--ink\)/g, '#16140f');
 await sharp(Buffer.from(svg), { density: 300 }).resize({ width: 510 }).png({ compressionLevel: 9 }).toFile(fileURLToPath(new URL('telning-logo.png', out)));
+// the header band of every email: the logo on a paper-coloured block (24 px left padding, square corners, shown at 1/3
+// of these pixels) plus paper.png, stretched over the rest of the width, so the band is as wide as the cream card
+// below. Both are pictures: dark-mode email apps darken the page but never pictures, so the black words stay
+// readable; in light mode the band melts into the paper background. (A new file name: Gmail's image proxy keeps
+// old pictures under the same address.)
+const lw = 510, lh = Math.round((130 / 471.2) * lw), padX = 72, padY = 42;
+const block = `<svg xmlns="http://www.w3.org/2000/svg" width="${lw + 2 * padX}" height="${lh + 2 * padY}"><rect width="100%" height="100%" fill="#f6f1e8"/></svg>`;
+const logoPng = await sharp(Buffer.from(svg), { density: 300 }).resize({ width: lw }).png().toBuffer();
+await sharp(Buffer.from(block)).composite([{ input: logoPng, left: padX, top: padY }]).flatten({ background: PAPER }).png({ compressionLevel: 9 }).toFile(fileURLToPath(new URL('telning-logo-badge.png', out)));
+await sharp({ create: { width: 8, height: 8, channels: 3, background: PAPER } }).png().toFile(fileURLToPath(new URL('paper.png', out)));
 
 // 2. folk pictures (the site's cut-outs), 2× their email size
 for (const name of ['gift', 'plane', 'mailbox']) {

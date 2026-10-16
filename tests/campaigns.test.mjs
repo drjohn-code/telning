@@ -82,7 +82,7 @@ test('send: batches of 100, one unsubscribe link per person, headers, log and ca
   assert.ok(m.html.includes(link.replace(/&/g, '&amp;')), 'own unsubscribe link in the html');
   assert.ok(m.text.includes(link), 'own unsubscribe link in the text');
   assert.ok(!m.html.includes('__unsubscribe__') && !batches[1][5].html.includes(link.replace(/&/g, '&amp;')));
-  assert.match(m.html, /email\/telning-logo\.png/);
+  assert.match(m.html, /email\/telning-logo-badge\.png/);
   assert.match(m.html, /email-images\/w\.jpg/);
   assert.match(m.html, /<strong>before 10 December<\/strong>/);
   assert.match(m.html, /See them/);

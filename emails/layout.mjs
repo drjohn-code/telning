@@ -4,7 +4,7 @@
 export const BRAND = {
   paper: '#f6f1e8', paperDeep: '#e9dfcf', cream: '#fffdf8', ink: '#16140f', soft: '#4a453d', green: '#1e4a3b', red: '#ce4029', gold: '#e8b23a', sky: '#ddebf7',
   host: 'https://telning.com',
-  logo: 'https://telning.com/email/telning-logo.png', pim: 'https://telning.com/art/pim-telning-portrait.png',
+  logo: 'https://telning.com/email/telning-logo-badge.png',   // on a paper badge, readable in dark mode pim: 'https://telning.com/art/pim-telning-portrait.png',
   address: 'WelloWork AB · Telning Publishing House · Dekangatan 4, Uppsala, Sweden · info@telning.com',
   instagram: 'https://www.instagram.com/telning.pub/',
 };
@@ -70,13 +70,20 @@ export function layout({ title, preheader, body, marketing = false }) {
   <mj-raw><meta name="color-scheme" content="light only"><meta name="supported-color-schemes" content="light only"></mj-raw>
 </mj-head>
 <mj-body background-color="${B.paper}" width="600px" css-class="frame">
-  <mj-section padding="28px 24px 16px"><mj-column><mj-image src="${B.logo}" alt="Telning Publishing House" width="170px" align="left" padding="0" href="${B.host}/" /></mj-column></mj-section>
+  <mj-section padding="16px 0 10px"><mj-column padding="0"><mj-text padding="0" line-height="0" font-size="0">${header()}</mj-text></mj-column></mj-section>
   <mj-wrapper background-color="${B.cream}" border-radius="20px" padding="24px 28px 16px" css-class="card">
 ${body}
   </mj-wrapper>
 ${footer(marketing)}
 </mj-body>
 </mjml>`;
+}
+
+/** The header band: the logo block (a picture) and paper.png stretched over the rest, as wide as the card below.
+    Pictures, not a background colour, so dark-mode apps cannot darken it and the black logo words stay readable. */
+export function header() {
+  const td = 'padding:0;line-height:0;font-size:0;mso-line-height-rule:exactly';
+  return `<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="width:100%;border-collapse:collapse"><tr><td width="218" style="${td};width:218px"><a href="${B.host}/"><img src="${B.logo}" alt="Telning Publishing House" width="218" height="75" style="display:block;border:0;width:218px;height:75px"></a></td><td bgcolor="${B.paper}" style="${td};background:${B.paper}"><img src="${B.host}/email/paper.png" alt="" width="100%" height="75" style="display:block;border:0;width:100%;height:75px"></td></tr></table>`;
 }
 
 /** The standard footer of every email: menu links, Pim, the company line, legal links and why you get this email. */
