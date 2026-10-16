@@ -5,7 +5,7 @@
    SUPABASE_SERVICE_ROLE_KEY (server only): writes customers, orders, items and fulfilments; without it the emails still go.
    Events to send: checkout.session.completed, checkout.session.async_payment_succeeded. */
 import { handleWebhook } from '../server/orders.js';
-import { stripeApi } from '../server/stripe.js';
+import { stripeApi, cleanSecret } from '../server/stripe.js';
 import { hasKey, sendEmail } from '../server/resend.js';
 import { catalog, site } from '../server/catalog-data.js';
 import { hasDb, recordOrder, logEmail } from '../server/supabase.js';
@@ -14,7 +14,7 @@ import { render } from '../server/emails.js';
 export async function POST(request) {
   const raw = await request.text();
   const result = await handleWebhook({ raw, signature: request.headers.get('stripe-signature') }, {
-    secret: process.env.STRIPE_WEBHOOK_SECRET || '',
+    secret: cleanSecret(process.env.STRIPE_WEBHOOK_SECRET),
     catalog, stripe: stripeApi,
     sendEmail: hasKey() ? sendEmail : async () => { throw new Error('no email service'); },
     inbox: process.env.ORDER_INBOX || process.env.STORY_CARD_INBOX || site.contactEmail,

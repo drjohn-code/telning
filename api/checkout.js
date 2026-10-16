@@ -4,7 +4,7 @@
    (Stripe Tax, needs the tax settings in Stripe) and STRIPE_TERMS=on (terms consent, needs the terms URL in Stripe).
    Without a key the shop answers "not open yet" and nothing is charged. Logs carry no personal data. */
 import { handleCheckout } from '../server/checkout.js';
-import { hasStripe, stripeApi } from '../server/stripe.js';
+import { hasStripe, stripeApi, stripeKeyKind } from '../server/stripe.js';
 import { catalog, shop, offers } from '../server/catalog-data.js';
 
 const headers = { 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex' };
@@ -25,6 +25,8 @@ export async function POST(request) {
     }
   } catch { body = {}; }
   const origin = new URL(request.url).origin;
+  // a key that is set but cannot be used: say what kind it is in the Vercel logs (never the key), so "notReady" has a reason
+  if (!hasStripe()) console.log('checkout', JSON.stringify({ event: 'stripe-key-unusable', kind: stripeKeyKind() }));
   const result = await handleCheckout({ body, origin }, {
     catalog, offers, open: shop.open !== false,
     stripe: hasStripe() ? stripeApi : null,

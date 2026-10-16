@@ -1,10 +1,16 @@
 /* Small Stripe helpers with fetch (no SDK): form encoding, one API call, and webhook signature checks.
-   Key: STRIPE_SECRET_KEY (sk_test_… or sk_live_…). Webhook secret: STRIPE_WEBHOOK_SECRET (whsec_…). */
+   Key: STRIPE_SECRET_KEY: a secret key (sk_test_… / sk_live_…) or a restricted key (rk_test_… / rk_live_…, needs write
+   access to Checkout Sessions and Coupons). Webhook secret: STRIPE_WEBHOOK_SECRET (whsec_…). Both are cleaned: a space, a
+   line break or the quotes of an .env line pasted into Vercel must not switch the shop off. */
+export const cleanSecret = (v) => String(v || '').trim().replace(/^(['"])(.*)\1$/, '$2').trim();
 import { createHmac, timingSafeEqual } from 'node:crypto';
 
 const API = 'https://api.stripe.com/v1';
-export const hasStripe = () => /^sk_(test|live)_/.test(process.env.STRIPE_SECRET_KEY || '');
-export const stripeMode = () => (String(process.env.STRIPE_SECRET_KEY || '').startsWith('sk_live_') ? 'live' : 'test');
+export const stripeKey = () => cleanSecret(process.env.STRIPE_SECRET_KEY);
+export const hasStripe = () => /^(sk|rk)_(test|live)_/.test(stripeKey());
+export const stripeMode = () => (/^(sk|rk)_live_/.test(stripeKey()) ? 'live' : 'test');
+/** Only the kind of key, for the logs when it cannot be used (e.g. "pk_live_" = the publishable key by mistake). Never the key. */
+export const stripeKeyKind = () => (stripeKey().match(/^[a-z]+_(?:live_|test_)?/) || [stripeKey() ? 'other' : 'none'])[0];
 
 /** { a: { b: [1, 2] } } → a[b][0]=1&a[b][1]=2 (Stripe's form encoding). */
 export function formEncode(obj, prefix = '', out = new URLSearchParams()) {
@@ -19,7 +25,7 @@ export function formEncode(obj, prefix = '', out = new URLSearchParams()) {
 }
 
 /** One Stripe API call. Returns { status, json }; never throws on HTTP errors. */
-export async function stripeApi(method, path, params, { key = process.env.STRIPE_SECRET_KEY, idempotencyKey } = {}) {
+export async function stripeApi(method, path, params, { key = stripeKey(), idempotencyKey } = {}) {
   const body = params && method !== 'GET' ? formEncode(params).toString() : undefined;
   const qs = params && method === 'GET' ? '?' + formEncode(params).toString() : '';
   const res = await fetch(API + path + qs, {

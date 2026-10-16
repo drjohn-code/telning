@@ -287,3 +287,20 @@ test('quote form: needs organisation, wish and a good email; honeypot; emails th
   assert.equal(sent[0].replyTo, 'rektor@example.se');
   assert.match(sent[0].text, /Pay by invoice: yes/);
 });
+
+test('Stripe keys: secret or restricted, test or live, spaces trimmed; anything else keeps the shop closed', async () => {
+  const { hasStripe, stripeMode, stripeKeyKind } = await import('../server/stripe.js');
+  const before = process.env.STRIPE_SECRET_KEY;
+  const as = (v) => { process.env.STRIPE_SECRET_KEY = v; return [hasStripe(), stripeMode(), stripeKeyKind()]; };
+  try {
+    assert.deepEqual(as('sk_live_abc'), [true, 'live', 'sk_live_']);
+    assert.deepEqual(as('rk_live_abc'), [true, 'live', 'rk_live_']);   // a restricted key works too
+    assert.deepEqual(as(' sk_test_abc\n'), [true, 'test', 'sk_test_']); // pasted with a space and a line break
+    assert.deepEqual(as('pk_live_abc'), [false, 'test', 'pk_live_']);  // the publishable key by mistake: closed, and the log says why
+    assert.deepEqual(as('"sk_live_abc"'), [true, 'live', 'sk_live_']);   // with the quotes of an .env line
+    assert.deepEqual(as('whsec_abc'), [false, 'test', 'whsec_']);      // the webhook secret in the wrong box
+    assert.deepEqual(as(''), [false, 'test', 'none']);
+  } finally {
+    if (before === undefined) delete process.env.STRIPE_SECRET_KEY; else process.env.STRIPE_SECRET_KEY = before;
+  }
+});
