@@ -39,6 +39,30 @@
         { "type": "postcards", "occasions": ["halloween"], "intro": "Packs of 10 postcards, one design per pack. Delivered to Europe and the UK only." },
         { "type": "cards", "occasions": ["halloween"], "intro": "Packs of 10 folded cards with envelopes, blank inside for your own words." }
       ]
+    },
+    "new-year": {
+      "name": "Christmas & New Year",
+      "path": "/campaigns/new-year",
+      "ends": "2026-12-31T23:59:59+01:00",
+      "endsLabel": "31 December 2026",
+      "title": "Christmas and New Year offer: 20% off 11+ items | Telning",
+      "description": "Telning Christmas and New Year offer: postcards and greeting cards with our cats and dogs, Story Walls, mugs and tote bags. Choose 11 items or more for 20% off.",
+      "kicker": "Christmas & New Year offer · until 31 December",
+      "h1": "Christmas and New Year with our cats and dogs",
+      "lead": "Christmas and New Year postcards and greeting cards with our cats and dogs, two Story Walls with a snowman and a Christmas tree to colour together, and mugs and tote bags for every day. Choose 11 items or more and 20% comes off every item.",
+      "orderTitle": "Your Christmas & New Year order",
+      "hero": {
+        "main": ["postcards-lantern-cat", "home"], "mainAlt": "Telning Lantern Cat postcards by a snowy window: a ginger cat in a red hat with a star lantern in a snowy fir forest",
+        "small": ["poster-round-the-year-5-7", "progress"], "smallAlt": "The Round the Year Story Wall being coloured on the floor, with a penguin and a snowman in its winter corner",
+        "small2": ["cards-scarf-cat", "table"], "small2Alt": "The Scarf Cat Christmas card: a black cat in a red scarf in the snow"
+      },
+      "sections": [
+        { "type": "poster", "skus": ["poster-round-the-year-3-5", "poster-round-the-year-5-7", "poster-big-days-3-5", "poster-big-days-5-7"], "intro": "Round the Year has a winter corner with a penguin and a snowman. Big Days puts every big day in one picture, with a Christmas tree among them. A few shapes are painted to start; your child colours the rest. Bigger shapes for ages 3–7, more details for ages 7 and up." },
+        { "type": "tote", "occasions": ["everyday"], "title": "Tote bags for every day", "intro": "Our every-day cats and dogs among flowers and plants, on organic cotton tote bags. They are not Christmas designs, so they work all year. Each design comes in one colour: undyed or black." },
+        { "type": "mug", "occasions": ["everyday"], "title": "Mugs for every day", "intro": "White ceramic mugs, 330 ml, with our every-day cats, dogs and folk plants. They are not Christmas designs, so they work all year. Dishwasher and microwave safe." },
+        { "type": "postcards", "occasions": ["christmas", "new-year"], "intro": "Packs of 10 postcards, one design per pack: two for Christmas and two for New Year. Delivered to Europe and the UK only." },
+        { "type": "cards", "occasions": ["christmas", "new-year"], "intro": "Packs of 10 folded cards with envelopes, blank inside for your own words: two for Christmas and two for New Year." }
+      ]
     }
   }
 }

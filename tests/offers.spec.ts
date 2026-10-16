@@ -101,3 +101,23 @@ test('thank-you page after a campaign order: clears that page\'s choice, keeps t
   expect(await page.evaluate(() => localStorage.getItem('tn-offer-halloween'))).toBe('{}');
   expect(await page.evaluate(() => localStorage.getItem('tn-basket'))).toContain('mug-tea-cat');
 });
+
+test('Christmas & New Year page: every-day mugs and bags named as such, cards with their occasion, 20% from 11 items', async ({ page }) => {
+  await page.clock.setFixedTime(new Date('2026-12-01T12:00:00+01:00'));
+  await page.goto('/campaigns/new-year');
+  await page.evaluate(() => { localStorage.clear(); localStorage.setItem('tn-currency', 'EUR'); });
+  await page.reload();
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
+  await expect(page.locator('[data-row]')).toHaveCount(32);   // 4 Story Walls, 8 tote bags, 12 mugs, 4 postcards, 4 cards
+  await expect(page.locator('#sec-tote')).toHaveText('Tote bags for every day');
+  await expect(page.locator('#sec-mug')).toHaveText('Mugs for every day');
+  await expect(row(page, 'postcards-lantern-cat').locator('.tn-orow__sub')).toHaveText('Christmas · Pack of 10 · A6');
+  await expect(row(page, 'cards-pom-pom-puppies').locator('.tn-orow__sub')).toHaveText('New Year · Pack of 10 with envelopes');
+  await row(page, 'postcards-midnight-cats').locator('.tn-qty__in').fill('6');
+  await plus(page, 'cards-scarf-cat', 4);
+  await expect(page.locator('[data-offer-prog]')).toHaveText('Add 1 more item to get 20% off.');
+  await plus(page, 'poster-round-the-year-3-5');
+  await expect(page.locator('[data-offer-prog]')).toHaveText('You get 20% off every item.');
+  // 6 × 12.90 + 4 × 19.90 + 19.90 = 176.90; 20% = 35.38
+  await expect(page.locator('[data-offer-totals] .tn-sum__off dd')).toHaveText('−€35.38');
+});

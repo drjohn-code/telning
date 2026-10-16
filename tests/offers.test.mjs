@@ -154,3 +154,31 @@ test('order emails: the discount has its own line, and the EU VAT still reads "i
   assert.equal(plain.discount, false);
   assert.doesNotMatch(render('order-confirmation', plain).html, /Discount/);
 });
+
+test('offers: the Christmas & New Year page: two winter Story Walls (two ages each), every-day tote bags and mugs, Christmas and New Year cards', () => {
+  const o = offers.byKey.get('new-year');
+  assert.equal(o.path, '/campaigns/new-year');
+  assert.deepEqual(o.sections.map((s) => [s.type, s.products.length]), [['poster', 4], ['tote', 8], ['mug', 12], ['postcards', 4], ['cards', 4]]);
+  assert.deepEqual(o.sections[0].products.map((p) => p.series), ['round-the-year', 'round-the-year', 'big-days', 'big-days']);
+  assert.ok(o.sections[1].products.every((p) => p.occasion === 'everyday') && o.sections[2].products.every((p) => p.occasion === 'everyday'));
+  assert.deepEqual(o.sections.slice(1, 3).map((s) => s.title), ['Tote bags for every day', 'Mugs for every day'], 'the every-day designs are named as every day, not as Christmas');
+  assert.deepEqual([...new Set(o.sections.slice(3).flatMap((s) => s.products.map((p) => p.occasion)))].sort(), ['christmas', 'new-year']);
+  assert.equal(offerOpen(o, Date.parse('2026-12-31T23:59:00+01:00')), true);
+  assert.equal(offerOpen(o, Date.parse('2027-01-01T00:00:00+01:00')), false);
+  const e = shopPages['/campaigns/new-year'];
+  assert.equal(e.noindex, true);
+  assert.equal(e.sitemap, false);
+  assert.ok(e.title.length <= 60 && !e.title.includes('&'), 'the title fits (an & would count as &amp;)');
+  assert.ok(e.description.length >= 140 && e.description.length <= 160);
+});
+
+test('offers: each page counts only its own items: a Halloween mug is refused on the New Year page', async () => {
+  const ny = [{ sku: 'postcards-lantern-cat', qty: 4 }, { sku: 'cards-scarf-cat', qty: 4 }, { sku: 'mug-tea-cat', qty: 2 }, { sku: 'poster-round-the-year-3-5', qty: 1 }];
+  const stripe = fakeStripe();
+  const r = await run({ currency: 'EUR', items: ny, offer: 'new-year' }, stripe, Date.parse('2026-12-01T12:00:00+01:00'));
+  assert.equal(r.status, 200);
+  assert.deepEqual(stripe.calls.at(-1).params.discounts, [{ coupon: 'telning-offer-20' }]);
+  assert.equal(stripe.calls.at(-1).params.cancel_url, 'https://telning.com/campaigns/new-year');
+  const mixed = await run({ currency: 'EUR', items: [...ny, { sku: 'mug-cocoa-cat', qty: 1 }], offer: 'new-year' }, fakeStripe(), Date.parse('2026-12-01T12:00:00+01:00'));
+  assert.equal(mixed.body.error, 'sku');
+});

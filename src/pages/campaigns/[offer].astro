@@ -12,7 +12,7 @@ import CurrencySelect from '../../components/shop/CurrencySelect.astro';
 import TrustBar from '../../components/shop/TrustBar.astro';
 import Picture from '../../components/shop/Picture.astro';
 import Faq from '../../components/Faq.astro';
-import { offers, shop, view, priceAttrs, ageLabel, CURRENCIES } from '../../lib/shop';
+import { offers, shop, gifts, view, priceAttrs, ageLabel, CURRENCIES } from '../../lib/shop';
 
 export function getStaticPaths() {
   return offers.list.map((o: any) => ({ params: { offer: o.path.split('/')[2] }, props: { key: o.key } }));
@@ -34,11 +34,12 @@ const SUB: Record<string, (p: any) => string> = {
   postcards: () => 'Pack of 10 · A6',
   cards: () => 'Pack of 10 with envelopes',
 };
-const sub = (p: any) => SUB[p.type](p);
+/* a section with more than one occasion (Christmas and New Year cards) names the occasion first */
+const sub = (p: any, s: any) => ((s.occasions || []).length > 1 ? `${(gifts.occasions as any)[p.occasion]} · ` : '') + SUB[p.type](p);
 const photo = (p: any) => p.images[0].src;   // Story Walls: coloured on the floor; gifts: on the table
-const [smallSku, smallView] = o.hero.small;
+const pic = (x: any) => (Array.isArray(x) ? view(x[0], x[1]) : x);   // [sku, view] or an image path
 ---
-<Base page={PAGE} preload={{ src: o.hero.main, sizes: '(min-width: 1024px) 520px, 100vw' }}>
+<Base page={PAGE} preload={{ src: pic(o.hero.main), sizes: '(min-width: 1024px) 520px, 100vw' }}>
   <Header />
   <main id="main" tabindex="-1">
     <section class="tn-wrap tn-shophero tn-offerhero" aria-labelledby="page-h">
@@ -56,8 +57,9 @@ const [smallSku, smallView] = o.hero.small;
           <p><a class="tn-btn tn-btn--secondary" href="#order">Choose your items</a></p>
         </div>
         <div class="tn-offerhero__art">
-          <Picture class="tn-offerhero__main" src={o.hero.main} alt={o.hero.mainAlt} eager sizes="(min-width: 1024px) 520px, 100vw" />
-          <Picture class="tn-offerhero__small" src={view(smallSku, smallView)} alt={o.hero.smallAlt} widths={[600]} sizes="(min-width: 1024px) 200px, 38vw" />
+          <Picture class="tn-offerhero__main" src={pic(o.hero.main)} alt={o.hero.mainAlt} eager sizes="(min-width: 1024px) 520px, 100vw" />
+          <Picture class="tn-offerhero__small" src={pic(o.hero.small)} alt={o.hero.smallAlt} widths={[600]} sizes="(min-width: 1024px) 200px, 38vw" />
+          {o.hero.small2 && <Picture class="tn-offerhero__small tn-offerhero__small--2" src={pic(o.hero.small2)} alt={o.hero.small2Alt} widths={[600]} sizes="(min-width: 1024px) 170px, 32vw" />}
         </div>
       </div>
     </section>
@@ -78,7 +80,7 @@ const [smallSku, smallView] = o.hero.small;
         {o.sections.map((s: any) => (
           <section class="tn-osec" aria-labelledby={`sec-${s.type}`}>
             <div class="tn-osec__head">
-              <h3 class="tn-h2 tn-h2--s" id={`sec-${s.type}`}>{T[s.type].plural}</h3>
+              <h3 class="tn-h2 tn-h2--s" id={`sec-${s.type}`}>{s.title || T[s.type].plural}</h3>
               <p class="tn-p">{s.intro}</p>
             </div>
             <ul class="tn-orows">
@@ -87,7 +89,7 @@ const [smallSku, smallView] = o.hero.small;
                   <a class="tn-orow__img" href={p.url} tabindex="-1" aria-hidden="true"><Picture src={photo(p)} alt="" widths={[600]} sizes="96px" /></a>
                   <div class="tn-orow__body">
                     <a class="tn-orow__name" href={p.url}>{p.name}</a>
-                    <span class="tn-orow__sub">{sub(p)}</span>
+                    <span class="tn-orow__sub">{sub(p, s)}</span>
                     <span class="tn-orow__unit"><span class="tn-price" {...priceAttrs(p)}>{priceAttrs(p)['data-eur']}</span> each</span>
                     {p.regions && <span class="tn-orow__note" data-region-note hidden>Europe and the UK only. Choose € or £ to add it.</span>}
                   </div>
