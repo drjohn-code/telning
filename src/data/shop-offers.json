@@ -32,18 +32,18 @@
       "ends": "2026-10-31T23:59:59+01:00",
       "endsLabel": "31 October 2026",
       "title": "Halloween offer: 20% off 11 or more items | Telning",
-      "description": "Telning Halloween offer: mugs, tote bags, postcards, greeting cards and a Story Wall with our cats and dogs. Choose 11 items or more and get 20% off every item.",
+      "description": "Telning Halloween offer: our cats and dogs on mugs, tote bags, postcards and greeting cards, and four Story Walls. Choose 11 items or more for 20% off.",
       "kicker": "Halloween offer · until 31 October",
       "h1": "Halloween with our cats and dogs",
-      "lead": "Mugs, tote bags, postcards and greeting cards with our Halloween cats and dogs, and a Story Wall with pumpkin lanterns to colour together. Choose 11 items or more and 20% comes off every item.",
+      "lead": "Mugs, tote bags, postcards and greeting cards with our Halloween cats and dogs, and four Story Walls to colour together, one with pumpkin lanterns. Choose 11 items or more and 20% comes off every item.",
       "orderTitle": "Your Halloween order",
-      "tile": "Our Halloween cats and dogs on mugs, tote bags, postcards and greeting cards, and the Big Days Story Wall with pumpkin lanterns to colour.",
+      "tile": "Our Halloween cats and dogs on mugs, tote bags, postcards and greeting cards, and four Story Walls to colour, one with pumpkin lanterns.",
       "hero": {
         "main": "/shop/img/gift-set/gift-set-halloween-gift-set", "mainAlt": "A Telning Halloween mug, tote bag, postcard and greeting card with cats and dogs, among pumpkins and autumn leaves",
         "small": ["poster-big-days-5-7", "progress"], "smallAlt": "The Big Days Story Wall being coloured on the floor, with pumpkin lanterns and a Christmas tree"
       },
       "sections": [
-        { "type": "poster", "skus": ["poster-big-days-3-5", "poster-big-days-5-7"], "intro": "Big Days puts every big day in one picture: a birthday cake, presents, an Easter basket, a Christmas tree and pumpkin lanterns. A few shapes are painted to start; your child colours the rest. Bigger shapes for ages 3–7, more details for ages 7 and up." },
+        { "type": "poster", "skus": ["poster-big-days-5-7", "poster-paws-claws-5-7", "poster-round-the-year-5-7", "poster-star-hoppers-5-7"], "intro": "Four Story Walls for ages 7 and up, with small shapes and many details. Big Days has pumpkin lanterns among every big day of the year. Paws & Claws has a puppy and a cat, owls and a fox among ferns and mushrooms. Round the Year has an autumn corner with rain, umbrellas and a kite. Star Hoppers has a big moon and shooting stars. A few shapes are painted to start; your child colours the rest." },
         { "type": "tote", "occasions": ["halloween"], "intro": "Organic cotton tote bags with our Halloween cats and dogs. Each design comes in one colour: undyed or black." },
         { "type": "mug", "occasions": ["halloween"], "intro": "White ceramic mugs, 330 ml, with our Halloween cats and dogs. Dishwasher and microwave safe." },
         { "type": "postcards", "occasions": ["halloween"], "intro": "Packs of 10 postcards, one design per pack. Delivered to Europe and the UK only." },
@@ -59,16 +59,16 @@
       "description": "Telning Christmas and New Year offer: postcards and greeting cards with our cats and dogs, Story Walls, mugs and tote bags. Choose 11 items or more for 20% off.",
       "kicker": "Christmas & New Year offer · until 31 December",
       "h1": "Christmas and New Year with our cats and dogs",
-      "lead": "Christmas and New Year postcards and greeting cards with our cats and dogs, two Story Walls with a snowman and a Christmas tree to colour together, and mugs and tote bags for every day. Choose 11 items or more and 20% comes off every item.",
+      "lead": "Christmas and New Year postcards and greeting cards with our cats and dogs, four Story Walls to colour together, with a snowman and a Christmas tree among them, and mugs and tote bags for every day. Choose 11 items or more and 20% comes off every item.",
       "orderTitle": "Your Christmas & New Year order",
-      "tile": "Christmas and New Year postcards and greeting cards with our cats and dogs, Story Walls with a snowman and a Christmas tree, and mugs and tote bags for every day.",
+      "tile": "Christmas and New Year postcards and greeting cards with our cats and dogs, four Story Walls with a snowman and a Christmas tree among them, and mugs and tote bags for every day.",
       "hero": {
         "main": ["postcards-lantern-cat", "home"], "mainAlt": "Telning Lantern Cat postcards by a snowy window: a ginger cat in a red hat with a star lantern in a snowy fir forest",
         "small": ["poster-round-the-year-5-7", "progress"], "smallAlt": "The Round the Year Story Wall being coloured on the floor, with a penguin and a snowman in its winter corner",
         "small2": ["cards-scarf-cat", "table"], "small2Alt": "The Scarf Cat Christmas card: a black cat in a red scarf in the snow"
       },
       "sections": [
-        { "type": "poster", "skus": ["poster-round-the-year-3-5", "poster-round-the-year-5-7", "poster-big-days-3-5", "poster-big-days-5-7"], "intro": "Round the Year has a winter corner with a penguin and a snowman. Big Days puts every big day in one picture, with a Christmas tree among them. A few shapes are painted to start; your child colours the rest. Bigger shapes for ages 3–7, more details for ages 7 and up." },
+        { "type": "poster", "skus": ["poster-round-the-year-5-7", "poster-big-days-5-7", "poster-toy-box-5-7", "poster-home-hearts-5-7"], "intro": "Four Story Walls for ages 7 and up, with small shapes and many details. Round the Year has a winter corner with a penguin and a snowman. Big Days has a Christmas tree and presents among every big day of the year. The Toy Box is a toy room come to life, with teddy bears, a rocking horse and a toy train. Home & Hearts is a street of houses with neighbours at every door. A few shapes are painted to start; your child colours the rest." },
         { "type": "tote", "occasions": ["everyday"], "title": "Tote bags for every day", "intro": "Our every-day cats and dogs among flowers and plants, on organic cotton tote bags. They are not Christmas designs, so they work all year. Each design comes in one colour: undyed or black." },
         { "type": "mug", "occasions": ["everyday"], "title": "Mugs for every day", "intro": "White ceramic mugs, 330 ml, with our every-day cats, dogs and folk plants. They are not Christmas designs, so they work all year. Dishwasher and microwave safe." },
         { "type": "postcards", "occasions": ["christmas", "new-year"], "intro": "Packs of 10 postcards, one design per pack: two for Christmas and two for New Year. Delivered to Europe and the UK only." },

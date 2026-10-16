@@ -16,7 +16,7 @@ const AFTER = Date.parse('2026-11-01T00:00:01+01:00');
 const halloween = offers.byKey.get('halloween');
 // eleven items from the Halloween page: 2 Story Walls, 3 tote bags (with their one colour), 3 mugs, 2 postcards, 1 pack of cards
 const ELEVEN = [
-  { sku: 'poster-big-days-3-5', qty: 1 }, { sku: 'poster-big-days-5-7', qty: 1 },
+  { sku: 'poster-big-days-5-7', qty: 1 }, { sku: 'poster-paws-claws-5-7', qty: 1 },
   { sku: 'tote-moon-cat', variant: 'natural', qty: 2 }, { sku: 'tote-broom-cat', variant: 'black', qty: 1 },
   { sku: 'mug-cocoa-cat', qty: 3 }, { sku: 'postcards-moonlight-cat', qty: 2 }, { sku: 'cards-boo-cat', qty: 1 },
 ];
@@ -36,13 +36,13 @@ function fakeStripe({ coupon = null, createStatus = 200 } = {}) {
 }
 const run = (body, stripe, now = BEFORE) => handleCheckout({ body, origin: 'https://telning.com' }, { catalog, offers, stripe, open: true, now: () => now });
 
-test('offers: the Halloween page lists the Big Days Story Walls and every Halloween tote bag, mug, postcard and card', () => {
+test('offers: the Halloween page lists four Story Walls (ages 7+) and every Halloween tote bag, mug, postcard and card', () => {
   assert.equal(halloween.path, '/campaigns/halloween');
   assert.deepEqual(halloween.sections.map((s) => s.type), ['poster', 'tote', 'mug', 'postcards', 'cards']);
-  assert.deepEqual(halloween.sections.map((s) => s.products.length), [2, 8, 4, 4, 4]);
-  assert.deepEqual(halloween.sections[0].products.map((p) => p.sku), ['poster-big-days-3-5', 'poster-big-days-5-7']);
+  assert.deepEqual(halloween.sections.map((s) => s.products.length), [4, 8, 4, 4, 4]);
+  assert.deepEqual(halloween.sections[0].products.map((p) => p.sku), ['poster-big-days-5-7', 'poster-paws-claws-5-7', 'poster-round-the-year-5-7', 'poster-star-hoppers-5-7']);
   assert.ok(halloween.sections.slice(1).every((s) => s.products.every((p) => p.occasion === 'halloween' && !p.soon && !p.retired)));
-  assert.equal(halloween.skus.size, 22);
+  assert.equal(halloween.skus.size, 24);
   assert.equal(offers.rule.minItems, 11);
   assert.equal(offers.rule.percent, 20);
 });
@@ -155,11 +155,11 @@ test('order emails: the discount has its own line, and the EU VAT still reads "i
   assert.doesNotMatch(render('order-confirmation', plain).html, /Discount/);
 });
 
-test('offers: the Christmas & New Year page: two winter Story Walls (two ages each), every-day tote bags and mugs, Christmas and New Year cards', () => {
+test('offers: the Christmas & New Year page: four Story Walls (ages 7+), every-day tote bags and mugs, Christmas and New Year cards', () => {
   const o = offers.byKey.get('new-year');
   assert.equal(o.path, '/campaigns/new-year');
   assert.deepEqual(o.sections.map((s) => [s.type, s.products.length]), [['poster', 4], ['tote', 8], ['mug', 12], ['postcards', 4], ['cards', 4]]);
-  assert.deepEqual(o.sections[0].products.map((p) => p.series), ['round-the-year', 'round-the-year', 'big-days', 'big-days']);
+  assert.deepEqual(o.sections[0].products.map((p) => p.series), ['round-the-year', 'big-days', 'toy-box', 'home-hearts']);
   assert.ok(o.sections[1].products.every((p) => p.occasion === 'everyday') && o.sections[2].products.every((p) => p.occasion === 'everyday'));
   assert.deepEqual(o.sections.slice(1, 3).map((s) => s.title), ['Tote bags for every day', 'Mugs for every day'], 'the every-day designs are named as every day, not as Christmas');
   assert.deepEqual([...new Set(o.sections.slice(3).flatMap((s) => s.products.map((p) => p.occasion)))].sort(), ['christmas', 'new-year']);
@@ -173,7 +173,7 @@ test('offers: the Christmas & New Year page: two winter Story Walls (two ages ea
 });
 
 test('offers: each page counts only its own items: a Halloween mug is refused on the New Year page', async () => {
-  const ny = [{ sku: 'postcards-lantern-cat', qty: 4 }, { sku: 'cards-scarf-cat', qty: 4 }, { sku: 'mug-tea-cat', qty: 2 }, { sku: 'poster-round-the-year-3-5', qty: 1 }];
+  const ny = [{ sku: 'postcards-lantern-cat', qty: 4 }, { sku: 'cards-scarf-cat', qty: 4 }, { sku: 'mug-tea-cat', qty: 2 }, { sku: 'poster-round-the-year-5-7', qty: 1 }];
   const stripe = fakeStripe();
   const r = await run({ currency: 'EUR', items: ny, offer: 'new-year' }, stripe, Date.parse('2026-12-01T12:00:00+01:00'));
   assert.equal(r.status, 200);
@@ -191,4 +191,13 @@ test('offers: /campaigns lists both offers; hidden too; the offer pages sit unde
   assert.ok(e.description.length >= 140 && e.description.length <= 160);
   assert.deepEqual(offers.list.map((o) => o.key), ['halloween', 'new-year']);
   for (const o of offers.list) assert.equal(shopPages[o.path].parent, '/campaigns');
+});
+
+test('offers: every Story Wall on a campaign page is the 7+ sheet, four different ones per page (John, 16 Oct 2026)', () => {
+  for (const o of offers.list) {
+    const walls = o.sections.find((s) => s.type === 'poster').products;
+    assert.equal(walls.length, 4, o.key);
+    assert.equal(new Set(walls.map((p) => p.series)).size, 4, `${o.key}: four different series`);
+    assert.ok(walls.every((p) => p.age === '5-7'), `${o.key}: ages 7+ only`);
+  }
 });

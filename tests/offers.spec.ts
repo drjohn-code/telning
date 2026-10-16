@@ -22,7 +22,7 @@ const plus = async (page, sku: string, n = 1) => { for (let i = 0; i < n; i++) a
 test('campaign page: hidden, steppers, the 20% from 11 items, checkout with only these items', async ({ page }) => {
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
   await expect(page.locator('header a[href^="/campaigns"], footer a[href^="/campaigns"]')).toHaveCount(0);
-  await expect(page.locator('[data-row]')).toHaveCount(22);   // 2 Story Walls, 8 tote bags, 4 mugs, 4 postcards, 4 cards
+  await expect(page.locator('[data-row]')).toHaveCount(24);   // 4 Story Walls (7+), 8 tote bags, 4 mugs, 4 postcards, 4 cards
   await expect(page.locator('[data-offer-sum] [data-offer-checkout]')).toBeDisabled();
 
   await plus(page, 'mug-cocoa-cat', 3);
@@ -78,7 +78,7 @@ test('campaign page: a tote bag goes with its one colour; postcards switch off i
 
 test('campaign page: the phone bar shows the count and total while the summary is out of view', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
-  await plus(page, 'poster-big-days-3-5', 2);
+  await plus(page, 'poster-big-days-5-7', 2);
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior }));
   const bar = page.locator('[data-offer-mbar]');
   await expect(bar).toBeVisible();
@@ -108,7 +108,7 @@ test('Christmas & New Year page: every-day mugs and bags named as such, cards wi
   await page.evaluate(() => { localStorage.clear(); localStorage.setItem('tn-currency', 'EUR'); });
   await page.reload();
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
-  await expect(page.locator('[data-row]')).toHaveCount(32);   // 4 Story Walls, 8 tote bags, 12 mugs, 4 postcards, 4 cards
+  await expect(page.locator('[data-row]')).toHaveCount(32);   // 4 Story Walls (7+), 8 tote bags, 12 mugs, 4 postcards, 4 cards
   await expect(page.locator('#sec-tote')).toHaveText('Tote bags for every day');
   await expect(page.locator('#sec-mug')).toHaveText('Mugs for every day');
   await expect(row(page, 'postcards-lantern-cat').locator('.tn-orow__sub')).toHaveText('Christmas · Pack of 10 · A6');
@@ -116,7 +116,7 @@ test('Christmas & New Year page: every-day mugs and bags named as such, cards wi
   await row(page, 'postcards-midnight-cats').locator('.tn-qty__in').fill('6');
   await plus(page, 'cards-scarf-cat', 4);
   await expect(page.locator('[data-offer-prog]')).toHaveText('Add 1 more item to get 20% off.');
-  await plus(page, 'poster-round-the-year-3-5');
+  await plus(page, 'poster-round-the-year-5-7');
   await expect(page.locator('[data-offer-prog]')).toHaveText('You get 20% off every item.');
   // 6 × 12.90 + 4 × 19.90 + 19.90 = 176.90; 20% = 35.38
   await expect(page.locator('[data-offer-totals] .tn-sum__off dd')).toHaveText('−€35.38');
@@ -131,6 +131,7 @@ test('/campaigns: two blocks open the two offer pages; not linked from the heade
   await expect(cards.nth(0).locator('h2')).toHaveText('Halloween');
   await expect(cards.nth(1).locator('h2')).toHaveText('Christmas & New Year');
   await expect(cards.nth(0).locator('[data-offer-when]')).toHaveText('Until 31 October');
+  await expect(cards.nth(1).locator('.tn-shophero__pts li')).toHaveText(['Story Walls', 'Tote bags', 'Mugs', 'Postcards', 'Greeting cards']);   // no "for every day" on the badges (John)
   await cards.nth(1).locator('a').click();
   await expect(page).toHaveURL(/\/campaigns\/new-year$/);
   await expect(page.locator('.tn-crumbs a[href="/campaigns"]')).toHaveText('Offers');
