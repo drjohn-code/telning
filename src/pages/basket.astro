@@ -23,8 +23,9 @@ const PAGE = '/basket';
           <p class="tn-empty__h">Nothing in here yet.</p>
           <p class="tn-p">Your basket lives on this device until you pay. Start with a book, or find something for the grown-up who reads it.</p>
           <ul class="tn-empty__tiles">
-            <li><a href="/books"><Picture src={view('book-star-hoppers-3-5', 'table')} alt="" widths={[600]} sizes="160px" />Books &amp; Story Walls<small>12 series, ages 3 and up</small></a></li>
-            <li><a href="/gifts"><Picture src={view('mug-cocoa-cat', 'table')} alt="" widths={[600]} sizes="160px" />Gifts<small>Mugs, totes, cards</small></a></li>
+            {/* the books are hidden, so the first tile shows a Story Wall being coloured on the floor (John, 16 Oct 2026) */}
+            <li><a href="/books"><Picture src={view('poster-star-hoppers-3-5', 'progress')} alt="" widths={[600]} sizes="160px" /><span class="tn-empty__t">Books &amp; Story Walls</span><small>12 series, ages 3 and up</small></a></li>
+            <li><a href="/gifts"><Picture src={view('mug-cocoa-cat', 'table')} alt="" widths={[600]} sizes="160px" /><span class="tn-empty__t">Gifts</span><small>Mugs, totes, cards</small></a></li>
           </ul>
         </div>
         <noscript><p class="tn-p">The basket needs JavaScript. Without it, use “Add to basket” on a product page to pay for that one item straight away.</p></noscript>
